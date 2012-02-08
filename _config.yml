@@ -3,11 +3,11 @@
 # ----------------------- #
 
 url: http://ghdawn.github.com
-title: My Octopress Blog
+title: 我的笔记本 
 subtitle: A blogging framework for hackers.
-author: 清风未明
+author:  清风未明
 simple_search: http://google.com/search
-description:
+description: 一个菜鸟的笔记本
 
 # Default date format is "ordinal" (resulting in "July 22nd 2007")
 # You can customize the format as defined in
