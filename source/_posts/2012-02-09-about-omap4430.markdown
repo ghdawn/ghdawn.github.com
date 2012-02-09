@@ -1,0 +1,49 @@
+---
+layout: post
+title: "OMAP4430 开发环境配置手记"
+date: 2012-02-09 15:25
+comments: true
+categories: Codes
+---
+
+由于毕设的内容与嵌入式开发有关，所以在这里记录一下相关的学习内容。这次为开箱后的开发环境配置
+
+我这块OMAP4430开发板配双核Cortex-A9处理器，运行系统为Ubuntu，具体信息见[官网PandaBoard](http://pandaboard.org/)。
+
+我的计算机环境：Linux Mint 12
+
+#安装GCC交叉编译环境
+
+打开新立得包管理器，搜索_binutils-arm-linux-gnueabi_，选中以下软件包：
++ binutils-arm-linux-gnueabi
++ g++-arm-linux-gnueabi
++ gcc-arm-linux-gnueabi
++ cpp-arm-linux-gnueabi
+安装完成以后，在终端里运行：
+        
+        arm-linux-gnueabi-g++ -mcpu=cortex-a9 -mfpu=neon test.cpp -o test
+	 
+编译成功说明环境已经安装好了，得到*test*文件
+###一些指令
+[这里](http://gcc.gnu.org/onlinedocs/gcc/ARM-Options.html)有GCC关于ARM的全部指令
+
+- *-mcpu=* 指定目标机的类型，可以选择类似cortex-a9,arm7tdmi等各种型号，只要确定你的GCC支持。我的是corte-a9
+- *-mfpu=* 选择浮点运算设备，我的开发板有neon
+- *-o* 指定编译结果名称
+
+#运行测试程序
+1. 插好鼠标键盘，接电开机。以前使用的开发板需要用串口和PC机相连，板子通过PC终端来控制，并输出信息，所以需要配置*minicom*来访问串口。但是这块板子在解压缩Linux内核后就不再向串口输出信息，也无法通过串口输入指令，所以接不接串口都无所谓。
+2. 在开发板中运行测试程序，可以通过配置TFTP或NFS的方式，也可以用可移动设备拷进去。我用的是后者，将test文件拷入U盘。但是板上的Ubuntu不能自动挂载U盘。所以：
+3. 打开开发板的终端，输入如下指令：
+
+{% codeblock lang:bash %}
+ls /dev | grep sda  #察看是否已经识别U盘，如果结果里没有类似sda1的字样，请检查U盘是否连接好了
+sudo mkdir /media/usb
+sudo mount -t vfat -o rw /dev/sda /media/usb
+{% endcodeblock %}
+4. 这时U盘应该已经挂载到*/media/usb*，进入该目录，运行测试程序
+
+###mount指令的一些参数
+- *mount*的字面解释为：用某方式把某设备或文件挂载到某目录下
+- _-t_ 选择要挂载的文件系统，如ntfs(NTFS),vfat(FAT32),iso9660(光盘)
+- *-o* 选择设备的挂载方式，如rw(可读可写),ro(只读),loop(挂载的是文件)

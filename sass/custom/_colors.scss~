@@ -20,14 +20,19 @@
 
 /* If you want to tweak the Solarized colors you can do that here */
 //$base03:          #002b36; //darkest blue
+$base03: #A88F8F;
+$base02: #F6F3F3;
 //$base02:          #073642; //dark blue
 //$base01:          #586e75; //darkest gray
 //$base00:          #657b83; //dark gray
+//$base01: #2A6679;
+//$base0: #327A8F;
+//$base1: #6496A6;
 //$base0:           #839496; //medium gray
 //$base1:           #93a1a1; //medium light gray
 //$base2:           #eee8d5; //cream
 //$base3:           #fdf6e3; //white
-//$solar-yellow:    #b58900;
+$solar-yellow:    #b58900;
 //$solar-orange:    #cb4b16;
 //$solar-red:       #dc322f;
 //$solar-magenta:   #d33682;
