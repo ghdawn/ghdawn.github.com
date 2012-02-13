@@ -6,7 +6,7 @@ comments: true
 categories: [Codes,嵌入式,Linux]
 ---
 
-由于学习的内容与嵌入式开发有关，所以在这里记录一下学习过程。这次为开箱后的开发环境配置
+由于学习的内容与嵌入式开发有关，所以在这里记录一下学习过程。这次为开箱后的开发环境配置。
 
 我这块OMAP4430开发板配双核Cortex-A9处理器，运行系统为Ubuntu，具体信息见[官网PandaBoard](http://pandaboard.org/)。
 
