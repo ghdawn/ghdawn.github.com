@@ -25,18 +25,24 @@ categories: [Codes,嵌入式,Linux]
 1. 在[这里](http://blog.chinaunix.net/link.php?url=http://www.codesourcery.com%2Fsgpp%2Flite%2Farm%2Fportal%2Frelease1293)下载最新的*ARM-GCC交叉编译器*
 2. 将压缩包解压到某个位置（可以改个名字，这个文件名太长了。如我这里放在~/develop/arm-linux-gnueabi）
 
-        tar xvf arm-2010q1-202-arm-none-linux-gnueabi-i686-pc-linux-gnu.tar.bz2
+{% codeblock lang:bash %}
+tar xvf arm-2010q1-202-arm-none-linux-gnueabi-i686-pc-linux-gnu.tar.bz2
+{% endcodeblock %}
 
 3. 将其中的*bin*文件夹加入环境变量
+        
+{% codeblock lang:bash %}
+vim .bashrc #打开配置文件，加入如下内容
+PATH+=:~/develop/arm-linux-gnueabi/bin #切记加上：以和其他路径分开
+{% endcodeblock %}
 
-        vim .bashrc #打开配置文件，加入如下内容
-        PATH+=:~/develop/arm-linux-gnueabi/bin #切记加上：以和其他路径分开
 4. 保存重启
         
 安装完成以后，在终端里运行：
-        
-        arm-linux-gnueabi-g++ -mcpu=cortex-a9 -mfpu=neon test.cpp -o test
-	 
+{% codeblock lang:bash %}
+arm-linux-gnueabi-g++ -mcpu=cortex-a9 -mfpu=neon test.cpp -o test
+{% endcodeblock %}
+
 编译成功说明环境已经安装好了，可得到*test*文件
 ###一些指令
 [这里](http://gcc.gnu.org/onlinedocs/gcc/ARM-Options.html)有GCC关于ARM的全部指令
@@ -55,6 +61,7 @@ ls /dev | grep sda  #察看是否已经识别U盘，如果结果里没有类似s
 sudo mkdir /media/usb
 sudo mount -t vfat -o rw /dev/sda /media/usb
 {% endcodeblock %}
+
 4. 这时U盘应该已经挂载到*/media/usb*，进入该目录，运行测试程序
 
 ###mount指令的一些参数
