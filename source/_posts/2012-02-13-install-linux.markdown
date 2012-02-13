@@ -24,9 +24,7 @@ none                  1.5G  472K  1.5G   1% /run/shm
        
 2. 如果已挂载，就卸载它(我的sd卡,设备为/dev/mmcblk0,分区为/dev/mmcblk0p1,挂载在/media/KINGSTON下了）
 
-{% codeblock lang:bash %}
-sudo umount /media/KINGSTON
-{%endcodeblock%}
+`sudo umount /media/KINGSTON`
 
 ##将sd卡格式化成双分区
 
@@ -75,7 +73,7 @@ sudo umount /media/KINGSTON
 5. 这样设置完后，会提示是否写入，输入y即可完成设置，得到两个分区mmcblk0p1,mmcblk0p2。如果用USB口的读卡器，则可能是sdb1,sdb2。
 6. 输入以下命令，将两个分区格式化。*mkfs.vfat*用于格式化fat系列分区，*-F 32*指定分区表为32位。*-n* 给分区起名字为boot。*mkfs.ext3*用于格式化ext3分区，*-L* 也是起名字(我叫它 linux_fs）
         
-`sudo mkfs.vfat -F 32 -n boot /dev/mmcblk0p1`
+`sudo mkfs.vfat -F 32 -n boot /dev/mmcblk0p1`  
 `sudo mkfs.ext3 -L linux_fs /dev/mmcblk0p2`
 
 至此，最令人头疼的部分就解决了。

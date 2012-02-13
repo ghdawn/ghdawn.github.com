@@ -22,11 +22,9 @@ none                  1.5G  472K  1.5G   1% /run/shm
 /dev/mmcblk0p1        1.8G   35M  1.7G   3% /media/KINGSTON
 {% endcodeblock %}
        
-2. 如果已挂载，就卸载它(我的sd卡挂载在media下了）
+2. 如果已挂载，就卸载它(我的sd卡,设备为/dev/mmcblk0,分区为/dev/mmcblk0p1,挂载在/media/KINGSTON下了）
 
-{% codeblock lang:bash %}
-sudo umount /media/KINGSTON
-{%endcodeblock%}
+`sudo umount /media/KINGSTON`
 
 ##将sd卡格式化成双分区
 
