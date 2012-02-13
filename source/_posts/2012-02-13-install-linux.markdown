@@ -24,7 +24,7 @@ none                  1.5G  472K  1.5G   1% /run/shm
        
 2. 如果已挂载，就卸载它(我的sd卡,设备为/dev/mmcblk0,分区为/dev/mmcblk0p1,挂载在/media/KINGSTON下了）
 
-`sudo umount /media/KINGSTON`
+        sudo umount /media/KINGSTON
 
 ##将sd卡格式化成双分区
 
@@ -35,7 +35,7 @@ none                  1.5G  472K  1.5G   1% /run/shm
     #cylinders = FLOOR (the number of Bytes on the SD Card (from above) / 255 / 63 / 512 )
     总的字节数，即运行如下命令，看到的bytes
           
-`sudo fdisk /dev/mmcblk0 #换成你的设备，切记是设备不是分区，如mmcblk0p1,或sdb1等为分区，mmcblk0,sdb为设备`
+        sudo fdisk /dev/mmcblk0 #换成你的设备，切记是设备不是分区，如mmcblk0p1,或sdb1等为分区，mmcblk0,sdb为设备
          
    这样即可获得这h,s,c这三个参数
 
@@ -55,26 +55,26 @@ none                  1.5G  472K  1.5G   1% /run/shm
 
 1. 在命令行内执行如下命令，清除sd卡开头的1024个字节（这里似乎存放的分区表，fdisk和sfdisk都不会清除那块信息，但是如果不清空，还是有问题）
          
-`sudo dd if=/dev/zero of=/dev/mmcblk0 bs=1024 count=1024 #of后换成你的设备`
+        sudo dd if=/dev/zero of=/dev/mmcblk0 bs=1024 count=1024 #of后换成你的设备
 
 2. 执行命令，其中h，s，c为上一步说的信息，请提前算好。-D表示支持dos方式。因为要格式的双分区，第一个分区是fat格式的。
         
-` sudo sfdisk -D -H 255 -S 63 -C 243 /dev/mmcblk0`
+         sudo sfdisk -D -H 255 -S 63 -C 243 /dev/mmcblk0
 
 3. 这时应该会提示找不到分区（第一步已经清除了），并让你输入分区信息。这里会需要设定四个分区。我们只要前两个分区把空间填满，后两个设置为empty就好了。输入如下
         
-`0 9 c * 回车`   
-`9 (你的c数-9） L 回车`  
-`回车`   
-`回车`   
+        0 9 c * 回车      
+        9 (你的c数-9） L 回车          
+        回车           
+        回车           
 
 4. 解释：此处输入格式为起始柱面，柱面数，系统类型，是否可启动。第一个分区用于引导启动，大小不用太大，于是给了9个柱面的空间，c表示fat32（见上一块），*表示可引导启动。第二个分区使用剩下所有空间，系统类型为Linux。其余的均为空
 
 5. 这样设置完后，会提示是否写入，输入y即可完成设置，得到两个分区mmcblk0p1,mmcblk0p2。如果用USB口的读卡器，则可能是sdb1,sdb2。
 6. 输入以下命令，将两个分区格式化。*mkfs.vfat*用于格式化fat系列分区，*-F 32*指定分区表为32位。*-n* 给分区起名字为boot。*mkfs.ext3*用于格式化ext3分区，*-L* 也是起名字(我叫它 linux_fs）
         
-`sudo mkfs.vfat -F 32 -n boot /dev/mmcblk0p1`  
-`sudo mkfs.ext3 -L linux_fs /dev/mmcblk0p2`
+        sudo mkfs.vfat -F 32 -n boot /dev/mmcblk0p1          
+        sudo mkfs.ext3 -L linux_fs /dev/mmcblk0p2        
 
 至此，最令人头疼的部分就解决了。
 
@@ -87,15 +87,15 @@ none                  1.5G  472K  1.5G   1% /run/shm
 2. 在[这里](https://gforge.ti.com/gf/download/frsrelease/387/4170/L24.9-PandaBoard_minimal-fs.tar.gz)下载linux最小系统，并解压缩（可能需要sudo）。
 3. 把其中的*boot*文件夹下的*MLO*，*u-boot.bin*,*uImage*复制进boot分区
         
-`sudo cp boot/* /media/boot/`
+        sudo cp boot/* /media/boot/        
         
 4. 把*angstrom_minimal-fs*内的文件和文件夹复制进第二个分区 *linux_fs* （可能需要sudo）
         
-`sudo cp -rf angstrom/* /media/linux_fs`
+        sudo cp -rf angstrom/* /media/linux_fs        
         
 5. 刷新文件缓冲，确认文件都已经复制进去（如果不执行这句，有可能文件没拷进分区内）
         
-`sync`
+        sync        
 
 6. 把卡插进开发板，开机实验吧！
 
