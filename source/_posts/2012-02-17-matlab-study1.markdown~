@@ -1,0 +1,140 @@
+---
+layout: post
+title: "学习在自动控制中应用MATLAB-1"
+date: 2012-02-17 17:20
+comments: true
+categories: [matlab,automatic]
+---
+##建立系统传递函数
+
+设系统的传递函数为：<a href="http://www.codecogs.com/eqnedit.php?latex=\fn_jvn G(s)=\frac{s@plus;1}{2s^3@plus;3s^2@plus;4s@plus;5}" target="_blank"><img src="http://latex.codecogs.com/png.latex?\fn_jvn G(s)=\frac{s+1}{2s^3+3s^2+4s+5}" title="\fn_jvn G(s)=\frac{s+1}{2s^3+3s^2+4s+5}" /></a>   
+则在matlab中输入如下命令，可得到其传递函数：   
+{%codeblock lang:matlab %}
+num=[1 2];den=[2 3 4 5];G=tf(num,den)
+ 
+Transfer function:
+         s + 2
+-----------------------
+2 s^3 + 3 s^2 + 4 s + 5
+{% endcodeblock %}
+
+令：
+{%codeblock lang:matlab %}
+>> G1=tf([1 2],[1 2 3])
+ 
+Transfer function:
+    s + 2
+-------------
+s^2 + 2 s + 3
+ 
+>> G2=tf([1],[1 0])
+ 
+Transfer function:
+1
+-
+s
+{% endcodeblock %}
+
+- 如果需要串联两个模块G1，G2，则用命令：   
+{%codeblock lang:matlab %}
+>>G1*G2
+ 
+Transfer function:
+      s + 2
+-----------------
+s^3 + 2 s^2 + 3 s
+{% endcodeblock %}
+
+- 需要并联两个模块G1，G2，则用命令：
+{%codeblock lang:matlab %}
+>>G1+G2
+ 
+Transfer function:
+ 2 s^2 + 4 s + 3
+-----------------
+s^3 + 2 s^2 + 3 s
+{% endcodeblock %}       
+- 需要反馈链接，则用：
+{%codeblock lang:matlab %}
+>> G=feedback(G1,G2,-1)
+ 
+Transfer function:
+      s^2 + 2 s
+---------------------
+s^3 + 2 s^2 + 4 s + 2
+{% endcodeblock %}
+其中-1表示单位负反馈
+
+##判断系统稳定性
+
+设系统传递函数为：<a href="http://www.codecogs.com/eqnedit.php?latex=\fn_jvn G(s)=\frac{s^3@plus;7s^2@plus;24s@plus;24}{s^8@plus;2s^7@plus;3s^6@plus;4^s5@plus;6s^3@plus;7s^2@plus;8s@plus;9}" target="_blank"><img src="http://latex.codecogs.com/png.latex?\fn_jvn G(s)=\frac{s^3+7s^2+24s+24}{s^8+2s^7+3s^6+4^s5+6s^3+7s^2+8s+9}" title="\fn_jvn G(s)=\frac{s^3+7s^2+24s+24}{s^8+2s^7+3s^6+4^s5+6s^3+7s^2+8s+9}" /></a>   
+
+在matlab中输入如下命令：
+
+{%codeblock lang:matlab %}
+den=[1:9]; %建立特征多项式
+roots(den) %求根，通过根的正负判定系统是否稳定
+
+ans =
+
+  -1.2888 + 0.4477i
+  -1.2888 - 0.4477i
+  -0.7244 + 1.1370i
+  -0.7244 - 1.1370i
+   0.1364 + 1.3050i
+   0.1364 - 1.3050i
+   0.8767 + 0.8814i
+   0.8767 - 0.8814i
+{% endcodeblock %}
+
+由4个极点有正实部可知，系统不稳定。
+
+##求系统响应
+设系统传递函数为：<a href="http://www.codecogs.com/eqnedit.php?latex=\fn_jvn G(s)=\frac{s@plus;24}{s^2@plus;4s@plus;9}" target="_blank"><img src="http://latex.codecogs.com/png.latex?\fn_jvn G(s)=\frac{s+24}{s^2+4s+9}" title="\fn_jvn G(s)=\frac{s+24}{s^2+4s+9}" /></a>
+
+新建.m文件，在编辑器里输入：
+{%codeblock lang:matlab %}
+num=[1 24];
+den=[1 4 9];
+G=tf(num,den);
+t=0:0.1:10;
+y=step(G,t);
+plot(t,y)
+Y=dcgain(G)
+{% endcodeblock %}
+运行可得结果：
+
+![阶跃响应](/images/image/2jiestep.png)
+
+###指令解释
+- _step_ 给出了系统的阶跃响应，y保存了每个t时刻的响应
+- 如果用_impulse()_代替_step_则可求得系统的脉冲响应
+- _plot_ 以t为自变量，y为函数值画出图像
+- _dcgain_得出系统的稳态值
+
+##绘制跟轨迹
+设系统闭环传递函数为：   
+<a href="http://www.codecogs.com/eqnedit.php?latex=\fn_jvn \Phi (s)=\frac{K(s@plus;1)(s@plus;3)}{s(s@plus;2)(s@plus;3)@plus;K(s@plus;1)}" target="_blank"><img src="http://latex.codecogs.com/png.latex?\fn_jvn \Phi (s)=\frac{K(s+1)(s+3)}{s(s+2)(s+3)+K(s+1)}" title="\fn_jvn \Phi (s)=\frac{K(s+1)(s+3)}{s(s+2)(s+3)+K(s+1)}" /></a>
+特征方程可写为   
+<a href="http://www.codecogs.com/eqnedit.php?latex=\fn_jvn 1@plus;K\frac{s@plus;1}{s(s@plus;2)(s@plus;3)}=1@plus;K\frac{s@plus;1}{s^3@plus;5s^2@plus;6s}=0" target="_blank"><img src="http://latex.codecogs.com/png.latex?\fn_jvn 1+K\frac{s+1}{s(s+2)(s+3)}=1+K\frac{s+1}{s^3+5s^2+6s}=0" title="\fn_jvn 1+K\frac{s+1}{s(s+2)(s+3)}=1+K\frac{s+1}{s^3+5s^2+6s}=0" /></a>
+
+新建.m文件，输入如下语句：
+
+{%codeblock lang:matlab %}
+num=[1 1];
+den=[1 5 6 0];
+G=tf(num,den);
+hold on;
+rlocus(G);
+[K,P]=rlocfind(G)
+{% endcodeblock %}
+运行可得结果：
+
+![根轨迹](/images/image/rootlocus.png)
+
+###指令解释
+- *hold on* 使得多次次绘图可以在一个Figure窗口中叠加展出
+- *rlocus* 绘制给定系统的根轨迹
+- *rlocufind* 函数允许用户求取根轨迹上指定点处的开环增益，K为选定点对应的开环增益，P为该增益下的闭环极点位置。
+
+感谢参考书：[《自动控制原理》](http://book.douban.com/subject/1655949/)
