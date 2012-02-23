@@ -10,4 +10,4 @@
     {% endfor %}
   </ul>
 </section>
-
+<script type="text/javascript" src="http://9.douban.com/js/button_widget.js"></script>
