@@ -1,0 +1,26 @@
+---
+layout: post
+title: "关于在64位机上编译安装OpenCV的问题"
+date: 2012-02-25 15:04
+comments: true
+categories: [Codes,Linux,OpenCV]
+---
+
+出于某些需要，我想装个OpenCV做一下图像相关的试验，于是我在[SourceForge](http://sourceforge.net/projects/opencvlibrary/)中下载了最新的OpenCV2.3.1，并编译安装。第一个问题就是OpenCV2.3.1要求ffmpeg0.8以上的版本，OpenCV2.3和以前的则需要低一点，而系统的版本是低版本，需要重新编译安装x264和ffmpeg。网上总是有很多坑爹的完全一样的安装指导，可惜都不能用。  
+第二个问题是64位的问题，我的计算机是Linux Mint12 64bit，如果有人用64位系统，可能也会出问题。  
+我找到了一个足够详细的[安装教程](http://www.ozbotz.org/opencv-installation/)，并按照它做。似乎大家都是这么装的，但是我做的时候依然编译不通过，各种编译错误。错误提示大概就是我是x86_64的平台，链接库的时候会出问题。不过还好，在教程底下大家的讨论里我找到了解决方案：
+
+其他的不变，按照教程输入命令即可，只是在安装x264和ffmpeg的时候，第一步*configure*中加入**--enable-pic**和**--enable-shared**，然后重新编译OpenCV，这就可以编译通过了。
+
+安装好以后，我也不能用这个命令来编译，会出现找不到引用的错误。
+
+        g++ `pkg-config opencv --cflags` `pkg-config opencv --libs` my_code.cpp  -o my_code
+
+这里需要把源代码文件放在第一个参数，即
+
+        g++ my_code.cpp `pkg-config opencv --cflags` `pkg-config opencv --libs`  -o my_code
+        
+然后编译就正常了。
+
+希望大家出了类似问题的能安然度过~~~另外如果有人能告诉我为什么，感激不尽！
+
