@@ -7,19 +7,36 @@ categories: [Codes,Linux,OpenCV]
 ---
 
 出于某些需要，我想装个OpenCV做一下图像相关的试验，于是我在[SourceForge](http://sourceforge.net/projects/opencvlibrary/)中下载了最新的OpenCV2.3.1，并找到这个非常详细的[安装教程](http://www.ozbotz.org/opencv-installation/)编译安装。但是这里出了两个问题。
-第一个问题就是OpenCV2.3.1要求ffmpeg0.8以上的版本，OpenCV2.3和以前的则需要低一点，而系统自带的版本是低版本，需要卸载老版本，重新编译安装x264和ffmpeg。网上总是有很多坑爹的完全一样的安装指导，可惜都不能用。  
-第二个问题是64位的问题（我的计算机是Linux Mint12 64bit，如果有人用64位系统，可能也会出类似问题）。大家的安装方法都一样，但是我做的时候在很多地方编译不通过，各种编译错误。错误提示大概就是我是x86_64的平台，链接库的时候会出问题。不过还好，在刚才教程底下大家的讨论里我找到了解决方案：
+###第一个问题###
+OpenCV2.3.1要求ffmpeg0.8以上的版本，OpenCV2.3和以前的则需要低一点，而系统自带的版本是低版本，需要卸载老版本，重新编译安装x264和ffmpeg。网上总是有很多坑爹的完全一样的安装指导，可惜都不能用。  
+###第二个问题###
+这个是64位的问题（我的计算机是Linux Mint12 64bit，如果有人用64位系统，可能也会出类似问题）。我的方法和大家的安装方法都一样，但是我做的时候在很多地方编译不通过，各种编译错误。错误提示大概就是我是x86_64的平台，链接库的时候会出问题。不过还好，在刚才教程底下大家的讨论里我找到了解决方案：
 
-其他的不变，按照教程输入命令即可，只是在安装x264和ffmpeg的时候，第一步*configure*中加入**--enable-pic**和**--enable-shared**，然后重新编译OpenCV，这就可以编译通过了。
+其他的不变，按照教程输入命令即可，只是在安装x264和ffmpeg的时候，第一步*configure*中加入**--enable-pic**和**--enable-shared**,然后编译安装x264和ffmpeg。在前两个都安装好之后，再重新编译OpenCV，这就可以编译通过了。
 
-安装好以后，我也不能用这个命令来编译，会出现找不到引用的错误。
+###第三个问题###
+即使cmake的时候选择了支持*python*，安装完成后，*python*里也找不到相关的库。在官网上找到，在cmake之前，需要先安装*python-dev*。
+        
+        sudo apt-get install python-dev
+        
+然后*cmake*时，可以选择*Python-OpenCV*的安装位置，然后再编译安装OpenCV。安装时可以看到输出信息中出现了正在安装*python*的库。装好以后，修改.bashrc，增加环境变量*PYTHONPATH*,并把值设置为刚才选择的安装位置。这样就可以完成安装了。
+
+安装好以后，我不能用如下这个命令来编译，会出现找不到引用的错误。
 
         g++ `pkg-config opencv --cflags` `pkg-config opencv --libs` my_code.cpp  -o my_code
 
-这里需要把源代码文件放在第一个参数，即
+要想顺利编译通过，这里需要把源代码文件放在第一个参数，即
 
         g++ my_code.cpp `pkg-config opencv --cflags` `pkg-config opencv --libs`  -o my_code
         
 然后编译就正常了。
+
+###在Code Blocks里配置OpenCV环境###
+1. 新建一个工程
+2. 在左侧的Projects区里，右键点击工程，选择**Build Option**
+3. 在**Compiler settings** 的 **Other options**中，加入 *`pkg-config opencv  --cflags`*
+4. 在**Linker setting** 的**Other Linker options**中，加入*`pkg-config opencv --libs `*
+
+这时候编译运行就应该没问题了
 
 希望大家出了类似问题的能安然度过~~~另外如果有人能告诉我为什么，感激不尽！

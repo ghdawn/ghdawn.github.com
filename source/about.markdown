@@ -10,7 +10,8 @@ title: "about"
 - 星 座： 水平座
 - 家 乡： 甘肃省兰州市
 - 学 校： 帝都仰望星空大学
+- 本科专业：飞行器制造工程 && 应用数学第二学位
 - 地 址： 北京市海淀区学院路37号
-- Gtalk：dream29831@gmail.com
+- Gtalk：ghdawn31@gmail.com
 
 
