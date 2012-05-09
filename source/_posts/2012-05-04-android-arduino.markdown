@@ -55,8 +55,8 @@ void loop()
                   msg[0]=Serial.read();
                   acc.write(msg,1);
                 }
-		int len = acc.read(msg, sizeof(msg), 1);
-		if (len > 0) 
+                int len = acc.read(msg, sizeof(msg), 1);
+                if (len > 0) 
                 {
                   Serial.write(msg,len);
                 }
@@ -118,7 +118,7 @@ void loop()
 </manifest>
 {%endcodeblock%}
 #####一些说明
-- *API 10*使用的是*Addon library8,需要注明：**<uses-library android:name="com.android.future.usb.accessory" />**  
+- *API 10*使用的是*Addon library*,需要注明：*<uses-library android:name="com.android.future.usb.accessory" />*  
 - 要说明支持*USB_ACCESSORY_ATTACHED*模式，所以加上
 
         <intent-filter>
@@ -300,6 +300,24 @@ private final BroadcastReceiver mUsbReceiver = new BroadcastReceiver()
 	}
 {%endcodeblock%}
 
+如果需要发送数据，就这样：
+{%codeblock lang:java%}
+    public void send(byte[] data)
+    {
+	    if(canIO)
+	    {
+	    	try
+            {
+	            mOutputStream.write(data);
+            }
+            catch (IOException e)
+            {	
+	            // TODO Auto-generated catch block
+	            e.printStackTrace();
+            }
+	    }
+    }
+    {%endcodeblock%}  
 用到的对象如下：
 {%codeblock lang:java%}
 private static final String TAG = "DemoKit";
