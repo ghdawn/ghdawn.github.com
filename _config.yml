@@ -4,7 +4,7 @@
 
 url: http://ghdawn.github.com
 title: 我的笔记本 
-subtitle:  一个菜鸟的笔记本
+subtitle:  一点电子，一些控制，一些计算机
 author:  清风未明
 simple_search: http://google.com/search
 description: 一个菜鸟的笔记本
@@ -34,7 +34,7 @@ plugins: plugins
 code_dir: downloads/code
 category_dir: blog/categories
 markdown: rdiscount
-pygments: false # default python pygments have been replaced by pygments.rb
+pygments: true # false # default python pygments have been replaced by pygments.rb
 
 paginate: 10          # Posts per page on the blog index
 pagination_dir: blog  # Directory base for pagination URLs eg. /blog/page/2/
@@ -64,8 +64,8 @@ category_list: true
 # use counter after categories
 category_counter: true
 # category title
-category_title: 分类
-# create an include categories list in @source/_includes/asides/categories_sidebar.html
+category_title: 标签
+# create an include categories list in @source/_in6cludes/asides/categories_sidebar.html
 # and don't forget to add 'asides/categories_sidebar.html' into @default_asides if you want to enable it.
 category_sidebar: true
 # create an include categories tag cloud page in @source/_includes/asides/categories_tag.html
