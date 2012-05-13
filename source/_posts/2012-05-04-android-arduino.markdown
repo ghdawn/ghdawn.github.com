@@ -77,7 +77,7 @@ void loop()
 
 ###Android部分
 首先声明，这里我是参考了Google的官方文档，同时在Google给的示例代码中改成的，代码已经十分精简，可以直接修改以完成所需的任务。如果有时间，完全可以读Google的代码，从那一大堆代码里修改。  
-操作USB的时候，SDK版本为*2.3.3，即API 10*时是一种操作，版本为那之上的是另一种操作。*API 10*需要装[add-on library](http://code.google.com/android/add-ons/google-apis/installing.html)，我用的是*API 10*。
+操作USB的时候，SDK版本为*2.3.3，即API 10*时是一种操作，版本为那之上的是另一种操作。*API 10*需要装[add-on library](http://code.google.com/android/add-ons/google-apis/installing.html)，我用的是*API 10*。装好之后，在项目属性中，点选*Android*，把*Build Target*改为*Google APIs*。
 
 
 要想使*Accessory*工作，需要在*AndroidManifest.xml*中声明支持*UsbManager.ACTION_USB_ACCESSORY_DETACHED*，并添加一个过滤器，来过滤设备。如下：
