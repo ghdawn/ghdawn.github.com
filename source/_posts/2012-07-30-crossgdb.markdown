@@ -1,0 +1,55 @@
+---
+layout: post
+title: "为ARM平台交叉编译GDB"
+date: 2012-07-30 20:53
+comments: true
+categories: [嵌入式,Linux]
+---
+
+为了方便调试嵌入式程序，需要移植一份*GDB*到ARM平台。
+
+
+##GDB之前需要先准备的一个库##
+
+编译ＧＤＢ时首先会提示一个错误，就是缺少一个库:[ncurses](http://en.wikipedia.org/wiki/Ncurses)。编译的时候会需要它的一些头文件和库。所以还需要在[这里](http://www.gnu.org/software/ncurses/)下载一份它的源码。下载好后，解压到需要的路径。为了便于区分，可以在源代码文件夹中，新建一个文件夹*release*来放编译完成后的文件。进入源码文件夹，执行以下命令，即可完成编译工作：
+
+{%codeblock lang:bash%}
+./configure --host=arm-none-linux-gnueabi  --prefix="$PWD/release" --without-ada --enable-termcap --with-shared
+make
+make install
+{%endcodeblock%}
+
+####解释####
+
+1. *--host* 指定了这份源码将要编译到哪个平台上，*configure*会按照这个参数来寻找编译器，比如我的编译器是*arm-none-linux-gnueabi-gcc*，所以我就写*arm-none-linux-gnueabi*
+
+2. *--prefix* 指定了编译好的文件将要存放的地方
+
+3. 编译GDB的时候提示缺少的库就是*termcap*，所以需要*--enable-termcap* 。 
+
+4. 其余的选项可以通过*./configure --help*命令来查找，按需分配。
+
+##编译GDB##
+
+在[这里](http://sources.redhat.com/gdb/download/)下载一份GDB的源码准备交叉编译。虽然最新版本是7.4.1，但是我这里一直没有成功编译过去，于是选择了低一点的版本7.3.1。下载后解压到需要的路径。同样为了方便起见我在源代码目录里新建了*release*文件夹来存放结果。之后使用如下命令来进行编译：
+
+{%codeblock lang:bash%}
+/configure --host=arm-none-linux-gnueabi --enable-shared --prefix="$PWD/release" --without-x --disable-gdbtk --without-included-regex --without-included-gettext --disable-tui LDFLAGS="-L/home/ghdawn/develop/ncurses-5.9/release/lib" CPPFLAGS="-I/home/ghdawn/develop/ncurses-5.9/release/include"
+make
+make install
+{%endcodeblock%}
+
+####解释####
+
+1. 前三个参数和上面是一样的。
+
+2. 在编译的过程中，会出现好多好多的编译错误，无非就是缺少这个缺少那个。而正好我所需要的功能就是最简单的调试，所以其他的我就都不要了。之后的所有*without*和*disable*就是每次编译错误后，我关掉的功能。可以察看*./configure --help*命令中的解释
+
+3. 最后两个指定了*ncurses*的库和头文件存放的位置，指定给GCC
+
+
+经过这几步以后，就会在*release/bin*文件夹下生成所需要的*gdb*文件，把这个文件复制到开发板上就可以运行了。
+
+###注意###
+
+交叉编译的时候会出现这样一个问题：交叉编译器使用的*GLIBC*版本高于嵌入式Linux里的版本，这会导致可执行文件在开发板里无法运行。而给开发板里更新*GLIBC*是一个十分困难的事情，目前我没有找到相关的资料，所以最好还是选择和开发板匹配的交叉编译器。
