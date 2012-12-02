@@ -1,0 +1,23 @@
+<div class="highlight"><pre><span class="k">private</span> <span class="n">InputStream</span> <span class="n">_svgFile</span><span class="p">;</span>
+<span class="n">Document</span> <span class="n">doc</span><span class="p">;</span>
+<span class="n">NodeList</span> <span class="n">nList</span><span class="p">;</span>
+<span class="k">public</span> <span class="nf">SVGParase</span><span class="p">(</span><span class="n">InputStream</span> <span class="n">svgFile</span><span class="p">)</span> <span class="n">throws</span> <span class="n">SAXException</span><span class="p">,</span> <span class="n">IOException</span>
+<span class="p">{</span>
+	<span class="n">_svgFile</span><span class="p">=</span><span class="n">svgFile</span><span class="p">;</span>
+	<span class="n">DocumentBuilderFactory</span> <span class="n">dbFactory</span> <span class="p">=</span> <span class="n">DocumentBuilderFactory</span>
+	        <span class="p">.</span><span class="n">newInstance</span><span class="p">();</span>
+	<span class="n">DocumentBuilder</span> <span class="n">dBuilder</span><span class="p">;</span>
+       <span class="k">try</span>
+       <span class="p">{</span>
+        <span class="n">dBuilder</span> <span class="p">=</span> <span class="n">dbFactory</span><span class="p">.</span><span class="n">newDocumentBuilder</span><span class="p">();</span>
+        <span class="n">doc</span> <span class="p">=</span> <span class="n">dBuilder</span><span class="p">.</span><span class="n">parse</span><span class="p">(</span><span class="n">_svgFile</span><span class="p">);</span>        
+	<span class="n">doc</span><span class="p">.</span><span class="n">getDocumentElement</span><span class="p">().</span><span class="n">normalize</span><span class="p">();</span>
+       <span class="p">}</span>
+       <span class="k">catch</span> <span class="p">(</span><span class="n">ParserConfigurationException</span> <span class="n">e</span><span class="p">)</span>
+       <span class="p">{</span>
+        <span class="c1">// TODO Auto-generated catch block</span>
+        <span class="n">e</span><span class="p">.</span><span class="n">printStackTrace</span><span class="p">();</span>
+       <span class="p">}</span>
+<span class="p">}</span>
+</pre>
+</div>

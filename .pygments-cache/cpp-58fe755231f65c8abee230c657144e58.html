@@ -1,0 +1,19 @@
+<div class="highlight"><pre><span class="kt">int</span> <span class="n">main</span><span class="p">(</span><span class="kt">int</span><span class="p">,</span> <span class="kt">char</span><span class="o">**</span><span class="p">)</span>
+<span class="p">{</span>
+    <span class="n">VideoCapture</span> <span class="n">cap</span><span class="p">(</span><span class="mi">0</span><span class="p">);</span> 
+    <span class="k">if</span><span class="p">(</span><span class="o">!</span><span class="n">cap</span><span class="p">.</span><span class="n">isOpened</span><span class="p">())</span> 
+        <span class="k">return</span> <span class="o">-</span><span class="mi">1</span><span class="p">;</span><span class="o">&lt;/</span><span class="n">p</span><span class="o">&gt;</span>
+
+<span class="o">&lt;</span><span class="n">pre</span><span class="o">&gt;&lt;</span><span class="n">code</span><span class="o">&gt;</span><span class="n">Mat</span> <span class="n">frame</span><span class="p">;</span>
+<span class="n">namedWindow</span><span class="p">(</span><span class="s">&quot;frame&quot;</span><span class="p">,</span><span class="mi">1</span><span class="p">);</span>
+
+<span class="k">while</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+<span class="p">{</span>
+    <span class="n">cap</span> <span class="o">&amp;</span><span class="n">gt</span><span class="p">;</span><span class="o">&amp;</span><span class="n">gt</span><span class="p">;</span> <span class="n">frame</span><span class="p">;</span> <span class="c1">// get a new frame from camera</span>
+    <span class="n">imshow</span><span class="p">(</span><span class="s">&quot;frame&quot;</span><span class="p">,</span><span class="n">frame</span><span class="p">);</span>
+    <span class="k">if</span><span class="p">(</span><span class="n">waitKey</span><span class="p">(</span><span class="mi">30</span><span class="p">)</span> <span class="o">&amp;</span><span class="n">gt</span><span class="p">;</span><span class="o">=</span> <span class="mi">0</span><span class="p">)</span> <span class="k">break</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="k">return</span> <span class="mi">0</span><span class="p">;</span> <span class="p">}</span> 
+</pre>
+</div>

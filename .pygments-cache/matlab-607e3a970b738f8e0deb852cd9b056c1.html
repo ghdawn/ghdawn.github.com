@@ -1,0 +1,9 @@
+<div class="highlight"><pre><span class="n">num</span><span class="p">=[</span>1 24<span class="p">];</span>
+<span class="n">den</span><span class="p">=[</span>1 4 9<span class="p">];</span>
+<span class="n">G</span><span class="p">=</span><span class="n">tf</span><span class="p">(</span><span class="n">num</span><span class="p">,</span><span class="n">den</span><span class="p">);</span>
+<span class="n">t</span><span class="p">=</span>0<span class="p">:</span>0<span class="p">.</span>1<span class="p">:</span>10<span class="p">;</span>
+<span class="n">y</span><span class="p">=</span><span class="n">step</span><span class="p">(</span><span class="n">G</span><span class="p">,</span><span class="n">t</span><span class="p">);</span>
+<span class="n">plot</span><span class="p">(</span><span class="n">t</span><span class="p">,</span><span class="n">y</span><span class="p">)</span>
+<span class="n">Y</span><span class="p">=</span><span class="n">dcgain</span><span class="p">(</span><span class="n">G</span><span class="p">)</span>
+</pre>
+</div>

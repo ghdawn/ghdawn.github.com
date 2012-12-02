@@ -1,0 +1,44 @@
+<div class="highlight"><pre><span class="o">&lt;/</span><span class="n">p</span><span class="o">&gt;</span>
+
+<span class="o">&lt;</span><span class="n">h1</span> <span class="n">id</span><span class="o">=</span><span class="s">&quot;include-usbh&quot;</span><span class="o">&gt;</span><span class="n">include</span> <span class="o">&lt;</span><span class="n">Usb</span><span class="p">.</span><span class="n">h</span> <span class="o">/&gt;&lt;/</span><span class="n">h1</span><span class="o">&gt;</span>
+<span class="o">&lt;</span><span class="n">p</span><span class="o">&gt;</span><span class="err">#</span><span class="n">include</span> <span class="o">&lt;</span><span class="n">AndroidAccessory</span><span class="p">.</span><span class="n">h</span> <span class="o">/&gt;&lt;/</span><span class="n">p</span><span class="o">&gt;</span>
+
+<span class="o">&lt;</span><span class="n">p</span><span class="o">&gt;</span><span class="n">AndroidAccessory</span> <span class="n">acc</span><span class="p">(</span><span class="err">“</span><span class="n">BuaaITR</span><span class="err">”</span><span class="p">,</span>
+		     <span class="err">“</span><span class="n">Demo</span><span class="err">”</span><span class="p">,</span>
+		     <span class="err">“</span><span class="n">DemoKit</span> <span class="n">Arduino</span> <span class="n">Board</span><span class="err">”</span><span class="p">,</span>
+		     <span class="err">“</span><span class="mf">1.0</span><span class="err">”</span><span class="p">,</span>
+		     <span class="err">“</span><span class="nl">http:</span><span class="c1">//www.android.com”,</span>
+		     <span class="err">“</span><span class="mo">000000001234567</span><span class="mi">8</span><span class="err">”</span><span class="p">);</span><span class="o">&lt;/</span><span class="n">p</span><span class="o">&gt;</span>
+
+<span class="o">&lt;</span><span class="n">p</span><span class="o">&gt;</span><span class="kt">void</span> <span class="n">setup</span><span class="p">()</span>
+<span class="p">{</span>
+	<span class="n">Serial</span><span class="p">.</span><span class="n">begin</span><span class="p">(</span><span class="mi">115200</span><span class="p">);</span>
+	<span class="n">Serial</span><span class="p">.</span><span class="n">print</span><span class="p">(</span><span class="err">“\</span><span class="n">r</span><span class="err">\</span><span class="n">nStart</span><span class="err">”</span><span class="p">);</span><span class="o">&lt;/</span><span class="n">p</span><span class="o">&gt;</span>
+
+<span class="o">&lt;</span><span class="n">pre</span><span class="o">&gt;&lt;</span><span class="n">code</span><span class="o">&gt;</span><span class="n">acc</span><span class="p">.</span><span class="n">powerOn</span><span class="p">();</span> <span class="p">}</span>
+<span class="o">&lt;/</span><span class="n">code</span><span class="o">&gt;&lt;/</span><span class="n">pre</span><span class="o">&gt;</span>
+
+<span class="o">&lt;</span><span class="n">p</span><span class="o">&gt;</span><span class="kt">void</span> <span class="n">loop</span><span class="p">()</span>
+<span class="p">{</span><span class="o">&lt;/</span><span class="n">p</span><span class="o">&gt;</span>
+
+<span class="o">&lt;</span><span class="n">pre</span><span class="o">&gt;&lt;</span><span class="n">code</span><span class="o">&gt;</span><span class="n">byte</span> <span class="n">msg</span><span class="p">[</span><span class="mi">1024</span><span class="p">];</span>
+
+<span class="k">if</span> <span class="p">(</span><span class="n">acc</span><span class="p">.</span><span class="n">isConnected</span><span class="p">())</span> 
+    <span class="p">{</span>
+            <span class="k">while</span><span class="p">(</span><span class="n">Serial</span><span class="p">.</span><span class="n">available</span><span class="p">()</span><span class="o">&amp;</span><span class="n">gt</span><span class="p">;</span><span class="mi">0</span><span class="p">)</span>
+            <span class="p">{</span>
+              <span class="n">msg</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">=</span><span class="n">Serial</span><span class="p">.</span><span class="n">read</span><span class="p">();</span>
+              <span class="n">acc</span><span class="p">.</span><span class="n">write</span><span class="p">(</span><span class="n">msg</span><span class="p">,</span><span class="mi">1</span><span class="p">);</span>
+            <span class="p">}</span>
+            <span class="kt">int</span> <span class="n">len</span> <span class="o">=</span> <span class="n">acc</span><span class="p">.</span><span class="n">read</span><span class="p">(</span><span class="n">msg</span><span class="p">,</span> <span class="k">sizeof</span><span class="p">(</span><span class="n">msg</span><span class="p">),</span> <span class="mi">1</span><span class="p">);</span>
+            <span class="k">if</span> <span class="p">(</span><span class="n">len</span> <span class="o">&amp;</span><span class="n">gt</span><span class="p">;</span> <span class="mi">0</span><span class="p">)</span> 
+            <span class="p">{</span>
+              <span class="n">Serial</span><span class="p">.</span><span class="n">write</span><span class="p">(</span><span class="n">msg</span><span class="p">,</span><span class="n">len</span><span class="p">);</span>
+            <span class="p">}</span>
+    <span class="p">}</span>
+<span class="n">delay</span><span class="p">(</span><span class="mi">200</span><span class="p">);</span> <span class="p">}</span>
+<span class="o">&lt;/</span><span class="n">code</span><span class="o">&gt;&lt;/</span><span class="n">pre</span><span class="o">&gt;</span>
+
+<span class="o">&lt;</span><span class="n">p</span><span class="o">&gt;</span>
+</pre>
+</div>

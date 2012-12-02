@@ -1,0 +1,5 @@
+<div class="highlight"><pre>ls /dev | grep sda  <span class="c">#察看是否已经识别U盘，如果结果里没有类似sda1的字样，请检查U盘是否连接好了</span>
+sudo mkdir /media/usb
+sudo mount -t vfat -o rw /dev/sda /media/usb
+</pre>
+</div>

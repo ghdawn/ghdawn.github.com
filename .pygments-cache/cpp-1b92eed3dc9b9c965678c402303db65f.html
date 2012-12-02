@@ -1,0 +1,39 @@
+<div class="highlight"><pre><span class="kt">void</span> <span class="n">output</span><span class="p">(</span><span class="n">Mat</span> <span class="o">&amp;</span><span class="n">amp</span><span class="p">;</span> <span class="n">img_bin</span><span class="p">,</span><span class="kt">int</span> <span class="n">room</span><span class="p">)</span>
+<span class="p">{</span><span class="o">&lt;/</span><span class="n">p</span><span class="o">&gt;</span>
+
+<span class="o">&lt;</span><span class="n">pre</span><span class="o">&gt;&lt;</span><span class="n">code</span><span class="o">&gt;</span><span class="k">const</span> <span class="kt">int</span> <span class="n">min_pixel</span><span class="o">=</span><span class="mi">250</span><span class="p">;</span>
+<span class="k">const</span> <span class="kt">float</span> <span class="n">eps</span><span class="o">=</span><span class="mf">0.05</span><span class="p">;</span>
+<span class="n">printf</span><span class="p">(</span><span class="s">&quot;Number=%d</span><span class="se">\n</span><span class="s">&quot;</span><span class="p">,</span><span class="n">room</span><span class="p">);</span>
+<span class="k">for</span><span class="p">(</span><span class="kt">int</span> <span class="n">k</span><span class="o">=</span><span class="mi">1</span><span class="p">;</span> <span class="n">k</span><span class="o">&amp;</span><span class="n">lt</span><span class="p">;</span><span class="o">=</span><span class="n">room</span><span class="p">;</span> <span class="n">k</span><span class="o">++</span><span class="p">)</span>
+<span class="p">{</span>
+    <span class="n">Linevec</span> <span class="n">x</span><span class="p">,</span><span class="n">y</span><span class="p">;</span>
+    <span class="kt">int</span> <span class="n">num</span><span class="o">=</span><span class="mi">0</span><span class="p">;</span>
+    <span class="k">for</span><span class="p">(</span><span class="kt">int</span> <span class="n">i</span><span class="o">=</span><span class="mi">1</span><span class="p">;</span> <span class="n">i</span><span class="o">&amp;</span><span class="n">lt</span><span class="p">;</span><span class="n">m</span><span class="p">;</span> <span class="n">i</span><span class="o">++</span><span class="p">)</span>
+        <span class="k">for</span><span class="p">(</span><span class="kt">int</span> <span class="n">j</span><span class="o">=</span><span class="mi">1</span><span class="p">;</span> <span class="n">j</span><span class="o">&amp;</span><span class="n">lt</span><span class="p">;</span><span class="n">n</span><span class="p">;</span> <span class="n">j</span><span class="o">++</span><span class="p">)</span>
+        <span class="p">{</span>
+            <span class="k">if</span><span class="p">(</span> <span class="n">f</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="n">j</span><span class="p">]</span><span class="o">==</span><span class="n">k</span><span class="p">)</span>
+            <span class="p">{</span>
+                <span class="n">x</span><span class="p">.</span><span class="n">add</span><span class="p">(</span><span class="n">i</span><span class="p">),</span><span class="n">y</span><span class="p">.</span><span class="n">add</span><span class="p">(</span><span class="n">j</span><span class="p">),</span><span class="o">++</span><span class="n">num</span><span class="p">;</span>
+
+            <span class="p">}</span>
+        <span class="p">}</span>
+    <span class="k">if</span><span class="p">(</span><span class="n">num</span><span class="o">&amp;</span><span class="n">lt</span><span class="p">;</span><span class="n">min_pixel</span><span class="p">)</span>
+    <span class="p">{</span>
+        <span class="n">clean</span><span class="p">(</span><span class="n">img_bin</span><span class="p">,</span><span class="n">x</span><span class="p">,</span><span class="n">y</span><span class="p">);</span>
+        <span class="k">continue</span><span class="p">;</span>
+    <span class="p">}</span>
+
+
+    <span class="k">if</span><span class="p">(</span> <span class="n">fabs</span><span class="p">(</span><span class="n">Factor</span><span class="o">::</span><span class="n">Corr</span><span class="p">(</span><span class="n">x</span><span class="p">,</span><span class="n">y</span><span class="p">))</span><span class="o">&amp;</span><span class="n">gt</span><span class="p">;</span><span class="n">eps</span><span class="p">)</span>
+    <span class="p">{</span>
+        <span class="n">clean</span><span class="p">(</span><span class="n">img_bin</span><span class="p">,</span><span class="n">x</span><span class="p">,</span><span class="n">y</span><span class="p">);</span>
+        <span class="k">continue</span><span class="p">;</span>
+    <span class="p">}</span>
+
+    <span class="n">printf</span><span class="p">(</span><span class="s">&quot;No.%d:x=%f,y=%f</span><span class="se">\n</span><span class="s">&quot;</span><span class="p">,</span><span class="n">k</span><span class="p">,</span><span class="n">x</span><span class="p">.</span><span class="n">getAverage</span><span class="p">(),</span><span class="n">y</span><span class="p">.</span><span class="n">getAverage</span><span class="p">());</span>
+    <span class="n">printf</span><span class="p">(</span><span class="s">&quot;Corr=%f,Cov=%f</span><span class="se">\n</span><span class="s">&quot;</span><span class="p">,</span><span class="n">Factor</span><span class="o">::</span><span class="n">Corr</span><span class="p">(</span><span class="n">x</span><span class="p">,</span><span class="n">y</span><span class="p">),</span><span class="n">Factor</span><span class="o">::</span><span class="n">Cov</span><span class="p">(</span><span class="n">x</span><span class="p">,</span><span class="n">y</span><span class="p">));</span>
+    <span class="n">DrawTarget</span><span class="p">(</span><span class="n">img_bin</span><span class="p">,</span><span class="n">y</span><span class="p">.</span><span class="n">getAverage</span><span class="p">(),</span><span class="n">x</span><span class="p">.</span><span class="n">getAverage</span><span class="p">());</span>
+<span class="p">}</span>
+<span class="c1">//cin.get(); } </span>
+</pre>
+</div>
