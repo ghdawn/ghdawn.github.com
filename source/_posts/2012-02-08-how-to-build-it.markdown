@@ -20,3 +20,27 @@ categories: sth
 3. 官网上说使用*rake*，但是在依赖安装完之后我并没有rake可以使用，linux提示使用apt-get，但是这里如果用了就会出问题。原因见1. 网上有人说可以gem install rake，于是我就这么做了。结果是，依然错误。*gem install* 装的rake 版本为0.9.2，它需要0.9。解决方法是，卸载掉它们，进.rvm/bin发现，有一个*rake-ruby-1.9.2-p290* ,是ruby-1.9.2带的。用这个当rake，就可以继续进行了。
 
 4. 删掉*/source/_includes/custom/head.html*中引用Google字体的部分，否则会因为GFW的问题导致博客访问速度极低
+
+继续更新：
+如果碰到了这个问题：
+
+ERROR:  Loading command: install (LoadError)
+      cannot load such file -- zlib
+  
+ERROR:  While executing gem ... (NameError)
+      uninitialized constant Gem::Commands::InstallCommand
+  
+就这样：
+{%codeblock lang:bash %}
+udo apt-get install zlib1g-dev
+sudo apt-get install openssl
+sudo apt-get install libssl-dev
+sudo apt-get install libssl0.9.8
+cd /ext/openssl/
+ruby extconf.rb
+cd ../..
+make
+make install
+{% endcodeblock %}
+
+应该就好了吧

@@ -115,6 +115,7 @@ Y=dcgain(G)
 ##绘制跟轨迹
 设系统闭环传递函数为：   
 <a href="http://www.codecogs.com/eqnedit.php?latex=\fn_jvn \Phi (s)=\frac{K(s@plus;1)(s@plus;3)}{s(s@plus;2)(s@plus;3)@plus;K(s@plus;1)}" target="_blank"><img src="http://latex.codecogs.com/png.latex?\fn_jvn \Phi (s)=\frac{K(s+1)(s+3)}{s(s+2)(s+3)+K(s+1)}" title="\fn_jvn \Phi (s)=\frac{K(s+1)(s+3)}{s(s+2)(s+3)+K(s+1)}" /></a>
+
 特征方程可写为   
 <a href="http://www.codecogs.com/eqnedit.php?latex=\fn_jvn 1@plus;K\frac{s@plus;1}{s(s@plus;2)(s@plus;3)}=1@plus;K\frac{s@plus;1}{s^3@plus;5s^2@plus;6s}=0" target="_blank"><img src="http://latex.codecogs.com/png.latex?\fn_jvn 1+K\frac{s+1}{s(s+2)(s+3)}=1+K\frac{s+1}{s^3+5s^2+6s}=0" title="\fn_jvn 1+K\frac{s+1}{s(s+2)(s+3)}=1+K\frac{s+1}{s^3+5s^2+6s}=0" /></a>
 
