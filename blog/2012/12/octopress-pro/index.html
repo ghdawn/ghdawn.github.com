@@ -5,11 +5,13 @@
 <!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
 <head>
   <meta charset="utf-8">
-  <title>学习Android开发-用canvas绘图 - 成长日志</title>
+  <title>又是octopress博客的问题 - 成长日志</title>
   <meta name="author" content="清风未明">
 
   
-  <meta name="description" content="接着上一篇所说，我们已经从SVG文件中得到了基本图形的定义信息，如圆的圆心坐标与半径，直线段的端点坐标，所以可以开始绘图了。我的想法是，一张SVG图片解析完成后，把所有图片画进一个Bitmap里，这样以后所有的对图片的操作都可以用Android自带的方法操作，应该会简单一些。 &hellip;">
+  <meta name="description" content="假期换了电脑，在新电脑上写了博客，但是怎么也提交不上去，一直提示： ## Pushing generated _deploy website
+Everything up-to-date 在这里找到了解决方法： 运行 rake setup_github_pages 输入博客的git地址，即可更新
+">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -18,7 +20,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
   
-  <link rel="canonical" href="http://ghdawn.github.com/blog/2012/04/study-android-2">
+  <link rel="canonical" href="http://ghdawn.github.com/blog/2012/12/octopress-pro">
   <link href="/favicon.png" rel="icon">
   <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
   <script src="/javascripts/modernizr-2.0.js"></script>
@@ -108,7 +110,7 @@
   
   <header>
     
-      <h1 class="entry-title">学习Android开发-用canvas绘图</h1>
+      <h1 class="entry-title">又是octopress博客的问题</h1>
     
     
       <p class="meta">
@@ -124,7 +126,7 @@
   
 
 
-<time datetime="2012-04-06T15:32:00+08:00" pubdate data-updated="true">Apr 6<span>th</span>, 2012</time>
+<time datetime="2012-12-02T21:57:00+08:00" pubdate data-updated="true">Dec 2<span>nd</span>, 2012</time>
         
          | <a href="#disqus_thread">Comments</a>
         
@@ -133,54 +135,19 @@
   </header>
 
 
-<div class="entry-content"><p>接着<a href="/blog/2012/03/15/study-android-1/">上一篇</a>所说，我们已经从SVG文件中得到了基本图形的定义信息，如圆的圆心坐标与半径，直线段的端点坐标，所以可以开始绘图了。我的想法是，一张SVG图片解析完成后，把所有图片画进一个<em>Bitmap</em>里，这样以后所有的对图片的操作都可以用<em>Android</em>自带的方法操作，应该会简单一些。<em>Bitmap</em>对象需要用工厂方法来创建。创建好空的bitmap后，将它传给一个<em>Canvas</em>对象，即可以通过<em>canvas</em>的方法，在该bitmap上绘制图形。如下：</p>
+<div class="entry-content"><p>假期换了电脑，在新电脑上写了博客，但是怎么也提交不上去，一直提示：</p>
 
-<pre><code>    bitmap = Bitmap.createBitmap(1024, 768, Config.ALPHA_8);
-    Canvas canvas = new Canvas(bitmap);
+<pre><code>## Pushing generated _deploy website
+Everything up-to-date
 </code></pre>
 
-<h4 id="section">画直线和圆</h4>
+<p>在<a href="https://github.com/imathis/octopress/issues/336">这里</a>找到了解决方法：</p>
 
-<p><em>canvas</em>绘制直线的方法调用方法如下：</p>
+<p>运行</p>
 
-<pre><code>    canvas.drawLine(x1, y1, x2, y2, paint);
-</code></pre>
+<p><code>rake setup_github_pages</code></p>
 
-<p>其中<code>(x1,y1)</code>,<code>(x2,y2)</code>为直线的起始，终止点坐标，<em>paint</em>为画笔类型<em>Paint</em>的对象，画出来图形的样式由它的参数来决定。这里我只在其中设置了颜色为蓝色。</p>
-
-<pre><code>    paint.setColor(Color.BLUE);
-</code></pre>
-
-<p>绘制圆的方法如下：</p>
-
-<pre><code>    canvas.drawCircle(cx, cy, r, paint);
-</code></pre>
-
-<p>其中<code>(cx,cy)</code>为圆心坐标，<code>r</code>为半径。这样画出来的圆是实心的，如果想要空心圆，则需要设置<em>paint</em>的类型：</p>
-
-<pre><code>    paint.setStyle(Style.STROKE); 写全一个就是如下：
-</code></pre>
-
-<div class="bogus-wrapper"><notextile><figure class="code"> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
-<span class="line-number">2</span>
-<span class="line-number">3</span>
-<span class="line-number">4</span>
-<span class="line-number">5</span>
-<span class="line-number">6</span>
-<span class="line-number">7</span>
-<span class="line-number">8</span>
-<span class="line-number">9</span>
-</pre></td><td class="code"><pre><code class="java"><span class="line">	<span class="kd">public</span> <span class="kt">void</span> <span class="nf">draw</span><span class="o">(</span><span class="n">Canvas</span> <span class="n">canvas</span><span class="o">)</span>
-</span><span class="line">	<span class="o">{</span>
-</span><span class="line">		<span class="c1">// TODO Auto-generated method stub</span>
-</span><span class="line">		<span class="n">Paint</span> <span class="n">paint</span> <span class="o">=</span> <span class="k">new</span> <span class="n">Paint</span><span class="o">();</span>
-</span><span class="line">		<span class="n">paint</span><span class="o">.</span><span class="na">setStyle</span><span class="o">(</span><span class="n">Style</span><span class="o">.</span><span class="na">STROKE</span><span class="o">);</span>
-</span><span class="line">		<span class="n">paint</span><span class="o">.</span><span class="na">setColor</span><span class="o">(</span><span class="n">Color</span><span class="o">.</span><span class="na">BLACK</span><span class="o">);</span>
-</span><span class="line">		<span class="n">canvas</span><span class="o">.</span><span class="na">drawCircle</span><span class="o">(</span><span class="n">_cx</span><span class="o">,</span> <span class="n">_cy</span><span class="o">,</span> <span class="n">_r</span><span class="o">,</span> <span class="n">paint</span><span class="o">);</span>
-</span><span class="line">		
-</span><span class="line">	<span class="o">}</span>
-</span></code></pre></td></tr></table></div></figure></notextile></div>
-
+<p>输入博客的git地址，即可更新</p>
 </div>
 
 
@@ -203,12 +170,12 @@
   
 
 
-<time datetime="2012-04-06T15:32:00+08:00" pubdate data-updated="true">Apr 6<span>th</span>, 2012</time>
+<time datetime="2012-12-02T21:57:00+08:00" pubdate data-updated="true">Dec 2<span>nd</span>, 2012</time>
       
 
 <span class="categories">
   
-    <a class='category' href='/blog/categories/android/'>Android</a>, <a class='category' href='/blog/categories/codes/'>Codes</a>, <a class='category' href='/blog/categories/linux/'>Linux</a>
+    <a class='category' href='/blog/categories/sth/'>Sth</a>
   
 </span>
 
@@ -222,10 +189,8 @@
     
     <p class="meta">
       
-        <a class="basic-alignment left" href="/blog/2012/03/study-cv-1/" title="Previous Post: 学习机器视觉1--检测圆心">&laquo; 学习机器视觉1--检测圆心</a>
+        <a class="basic-alignment left" href="/blog/2012/12/ml-pca/" title="Previous Post: 机器学习作业1--基于PCA方法的人脸识别">&laquo; 机器学习作业1--基于PCA方法的人脸识别</a>
       
-      
-        <a class="basic-alignment right" href="/blog/2012/05/android-arduino/" title="next Post: 使用单片机Arduino(AVR)与Android设备通讯">使用单片机Arduino(AVR)与Android设备通讯 &raquo;</a>
       
     </p>
   </footer>
@@ -363,8 +328,8 @@
       
         
         // var disqus_developer = 1;
-        var disqus_identifier = 'http://ghdawn.github.com/blog/2012/04/study-android-2/';
-        var disqus_url = 'http://ghdawn.github.com/blog/2012/04/study-android-2/';
+        var disqus_identifier = 'http://ghdawn.github.com/blog/2012/12/octopress-pro/';
+        var disqus_url = 'http://ghdawn.github.com/blog/2012/12/octopress-pro/';
         var disqus_script = 'embed.js';
       
     (function () {

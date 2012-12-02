@@ -4,7 +4,7 @@
   <title><![CDATA[成长日志]]></title>
   <link href="http://ghdawn.github.com/atom.xml" rel="self"/>
   <link href="http://ghdawn.github.com/"/>
-  <updated>2012-12-02T21:51:18+08:00</updated>
+  <updated>2012-12-02T22:00:05+08:00</updated>
   <id>http://ghdawn.github.com/</id>
   <author>
     <name><![CDATA[清风未明]]></name>
@@ -12,6 +12,27 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[又是octopress博客的问题]]></title>
+    <link href="http://ghdawn.github.com/blog/2012/12/octopress-pro/"/>
+    <updated>2012-12-02T21:57:00+08:00</updated>
+    <id>http://ghdawn.github.com/blog/2012/12/octopress-pro</id>
+    <content type="html"><![CDATA[<p>假期换了电脑，在新电脑上写了博客，但是怎么也提交不上去，一直提示：</p>
+
+<pre><code>## Pushing generated _deploy website
+Everything up-to-date
+</code></pre>
+
+<p>在<a href="https://github.com/imathis/octopress/issues/336">这里</a>找到了解决方法：</p>
+
+<p>运行</p>
+
+<p><code>rake setup_github_pages</code></p>
+
+<p>输入博客的git地址，即可更新</p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[机器学习作业1--基于PCA方法的人脸识别]]></title>
