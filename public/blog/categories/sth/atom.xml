@@ -4,7 +4,7 @@
   <title><![CDATA[Category: sth | 成长日志]]></title>
   <link href="http://ghdawn.github.com/blog/categories/sth/atom.xml" rel="self"/>
   <link href="http://ghdawn.github.com/"/>
-  <updated>2012-12-02T21:44:20+08:00</updated>
+  <updated>2012-12-02T21:48:10+08:00</updated>
   <id>http://ghdawn.github.com/</id>
   <author>
     <name><![CDATA[清风未明]]></name>
@@ -170,25 +170,17 @@
       uninitialized constant Gem::Commands::InstallCommand</p>
 
 <p>就这样：
-<div class='bogus-wrapper'><notextile><figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-</pre></td><td class='code'><pre><code class='bash'><span class='line'>udo apt-get install zlib1g-dev
-</span><span class='line'>sudo apt-get install openssl
-</span><span class='line'>sudo apt-get install libssl-dev
-</span><span class='line'>sudo apt-get install libssl0.9.8
-</span><span class='line'><span class="nb">cd</span> /ext/openssl/
-</span><span class='line'>ruby extconf.rb
-</span><span class='line'><span class="nb">cd</span> ../..
-</span><span class='line'>make
-</span><span class='line'>make install
-</span></code></pre></td></tr></table></div></figure></notextile></div></p>
+{%codeblock lang:bash %}
+udo apt-get install zlib1g-dev
+sudo apt-get install openssl
+sudo apt-get install libssl-dev
+sudo apt-get install libssl0.9.8
+cd /ext/openssl/
+ruby extconf.rb
+cd ../..
+make
+make install
+{% endcodeblock %}</p>
 
 <p>应该就好了吧</p>
 ]]></content>
@@ -202,21 +194,15 @@
     <content type="html"><![CDATA[<p>费了好大的劲，重装了无数次ruby环境，还重装了一次系统，终于把这个博客给弄好了，真是不容易啊！我要养成写博客的好习惯，记录下该记住的一些事情，方便我的学习。</p>
 
 <p>这个系统真是不错，代码块高亮自动就有了
-<div class='bogus-wrapper'><notextile><figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-</pre></td><td class='code'><pre><code class='cpp'><span class='line'><span class="cp">#include&lt;iostream&gt;</span>
-</span><span class='line'><span class="k">using</span> <span class="k">namespace</span> <span class="n">std</span><span class="p">;</span>
-</span><span class='line'><span class="kt">int</span> <span class="n">main</span><span class="p">()</span>
-</span><span class='line'><span class="p">{</span>
-</span><span class='line'>    <span class="n">cout</span><span class="o">&amp;</span><span class="n">lt</span><span class="p">;</span><span class="o">&amp;</span><span class="n">lt</span><span class="p">;</span><span class="s">&quot;Hello&quot;</span><span class="o">&amp;</span><span class="n">lt</span><span class="p">;</span><span class="o">&amp;</span><span class="n">lt</span><span class="p">;</span><span class="n">endl</span><span class="p">;</span>
-</span><span class='line'>    <span class="k">return</span> <span class="mi">0</span><span class="p">;</span>
-</span><span class='line'><span class="p">}</span>
-</span></code></pre></td></tr></table></div></figure></notextile></div></iostream></p>
+{%codeblock lang:cpp %}
+#include<iostream>
+using namespace std;
+int main()
+{
+    cout&lt;&lt;"Hello"&lt;&lt;endl;
+    return 0;
+}
+{% endcodeblock %}</iostream></p>
 ]]></content>
   </entry>
   

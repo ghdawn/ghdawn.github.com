@@ -4,7 +4,7 @@
   <title><![CDATA[Category: 嵌入式 | 成长日志]]></title>
   <link href="http://ghdawn.github.com/blog/categories/嵌入式/atom.xml" rel="self"/>
   <link href="http://ghdawn.github.com/"/>
-  <updated>2012-12-02T21:44:20+08:00</updated>
+  <updated>2012-12-02T21:48:10+08:00</updated>
   <id>http://ghdawn.github.com/</id>
   <author>
     <name><![CDATA[清风未明]]></name>
@@ -24,13 +24,11 @@
 
 <p>编译ＧＤＢ时首先会提示一个错误，就是缺少一个库:<a href="http://en.wikipedia.org/wiki/Ncurses">ncurses</a>。编译的时候会需要它的一些头文件和库。所以还需要在<a href="http://www.gnu.org/software/ncurses/">这里</a>下载一份它的源码。下载好后，解压到需要的路径。为了便于区分，可以在源代码文件夹中，新建一个文件夹<em>release</em>来放编译完成后的文件。进入源码文件夹，执行以下命令，即可完成编译工作：</p>
 
-<p><div class='bogus-wrapper'><notextile><figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-</pre></td><td class='code'><pre><code class='bash'><span class='line'>./configure –host<span class="o">=</span>arm-none-linux-gnueabi  –prefix<span class="o">=</span>”<span class="nv">$PWD</span>/release” –without-ada –enable-termcap –with-shared
-</span><span class='line'>make
-</span><span class='line'>make install
-</span></code></pre></td></tr></table></div></figure></notextile></div></p>
+<p>{%codeblock lang:bash%}
+./configure –host=arm-none-linux-gnueabi  –prefix=”$PWD/release” –without-ada –enable-termcap –with-shared
+make
+make install
+{%endcodeblock%}</p>
 
 <h4 id="section">解释</h4>
 
@@ -53,13 +51,11 @@
 
 <p>在<a href="http://sources.redhat.com/gdb/download/">这里</a>下载一份GDB的源码准备交叉编译。虽然最新版本是7.4.1，但是我这里一直没有成功编译过去，于是选择了低一点的版本7.3.1。下载后解压到需要的路径。同样为了方便起见我在源代码目录里新建了<em>release</em>文件夹来存放结果。之后使用如下命令来进行编译：</p>
 
-<p><div class='bogus-wrapper'><notextile><figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-</pre></td><td class='code'><pre><code class='bash'><span class='line'>/configure –host<span class="o">=</span>arm-none-linux-gnueabi –enable-shared –prefix<span class="o">=</span>”<span class="nv">$PWD</span>/release” –without-x –disable-gdbtk –without-included-regex –without-included-gettext –disable-tui <span class="nv">LDFLAGS</span><span class="o">=</span>”-L/home/ghdawn/develop/ncurses-5.9/release/lib” <span class="nv">CPPFLAGS</span><span class="o">=</span>”-I/home/ghdawn/develop/ncurses-5.9/release/include”
-</span><span class='line'>make
-</span><span class='line'>make install
-</span></code></pre></td></tr></table></div></figure></notextile></div></p>
+<p>{%codeblock lang:bash%}
+/configure –host=arm-none-linux-gnueabi –enable-shared –prefix=”$PWD/release” –without-x –disable-gdbtk –without-included-regex –without-included-gettext –disable-tui LDFLAGS=”-L/home/ghdawn/develop/ncurses-5.9/release/lib” CPPFLAGS=”-I/home/ghdawn/develop/ncurses-5.9/release/include”
+make
+make install
+{%endcodeblock%}</p>
 
 <h4 id="section-1">解释</h4>
 
@@ -104,91 +100,48 @@
   <li>在我的应用中，我需要做的是把Android设备中计算的结果以串口的形式发给飞控模块，所以我只需要不断的把Android设备发送来的数据发给串口，再把串口接受到的数据发给Android设备。于是，代码如下：</li>
 </ol>
 
-<p><div class='bogus-wrapper'><notextile><figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-<span class='line-number'>15</span>
-<span class='line-number'>16</span>
-<span class='line-number'>17</span>
-<span class='line-number'>18</span>
-<span class='line-number'>19</span>
-<span class='line-number'>20</span>
-<span class='line-number'>21</span>
-<span class='line-number'>22</span>
-<span class='line-number'>23</span>
-<span class='line-number'>24</span>
-<span class='line-number'>25</span>
-<span class='line-number'>26</span>
-<span class='line-number'>27</span>
-<span class='line-number'>28</span>
-<span class='line-number'>29</span>
-<span class='line-number'>30</span>
-<span class='line-number'>31</span>
-<span class='line-number'>32</span>
-<span class='line-number'>33</span>
-<span class='line-number'>34</span>
-<span class='line-number'>35</span>
-<span class='line-number'>36</span>
-<span class='line-number'>37</span>
-<span class='line-number'>38</span>
-<span class='line-number'>39</span>
-<span class='line-number'>40</span>
-<span class='line-number'>41</span>
-<span class='line-number'>42</span>
-</pre></td><td class='code'><pre><code class='cpp'><span class='line'><span class="o">&lt;/</span><span class="n">p</span><span class="o">&gt;</span>
-</span><span class='line'>
-</span><span class='line'><span class="o">&lt;</span><span class="n">h1</span> <span class="n">id</span><span class="o">=</span><span class="s">&quot;include-usbh&quot;</span><span class="o">&gt;</span><span class="n">include</span> <span class="o">&lt;</span><span class="n">Usb</span><span class="p">.</span><span class="n">h</span> <span class="o">/&gt;&lt;/</span><span class="n">h1</span><span class="o">&gt;</span>
-</span><span class='line'><span class="o">&lt;</span><span class="n">p</span><span class="o">&gt;</span><span class="err">#</span><span class="n">include</span> <span class="o">&lt;</span><span class="n">AndroidAccessory</span><span class="p">.</span><span class="n">h</span> <span class="o">/&gt;&lt;/</span><span class="n">p</span><span class="o">&gt;</span>
-</span><span class='line'>
-</span><span class='line'><span class="o">&lt;</span><span class="n">p</span><span class="o">&gt;</span><span class="n">AndroidAccessory</span> <span class="n">acc</span><span class="p">(</span><span class="err">“</span><span class="n">BuaaITR</span><span class="err">”</span><span class="p">,</span>
-</span><span class='line'>		     <span class="err">“</span><span class="n">Demo</span><span class="err">”</span><span class="p">,</span>
-</span><span class='line'>		     <span class="err">“</span><span class="n">DemoKit</span> <span class="n">Arduino</span> <span class="n">Board</span><span class="err">”</span><span class="p">,</span>
-</span><span class='line'>		     <span class="err">“</span><span class="mf">1.0</span><span class="err">”</span><span class="p">,</span>
-</span><span class='line'>		     <span class="err">“</span><span class="nl">http:</span><span class="c1">//www.android.com”,</span>
-</span><span class='line'>		     <span class="err">“</span><span class="mo">000000001234567</span><span class="mi">8</span><span class="err">”</span><span class="p">);</span><span class="o">&lt;/</span><span class="n">p</span><span class="o">&gt;</span>
-</span><span class='line'>
-</span><span class='line'><span class="o">&lt;</span><span class="n">p</span><span class="o">&gt;</span><span class="kt">void</span> <span class="n">setup</span><span class="p">()</span>
-</span><span class='line'><span class="p">{</span>
-</span><span class='line'>	<span class="n">Serial</span><span class="p">.</span><span class="n">begin</span><span class="p">(</span><span class="mi">115200</span><span class="p">);</span>
-</span><span class='line'>	<span class="n">Serial</span><span class="p">.</span><span class="n">print</span><span class="p">(</span><span class="err">“\</span><span class="n">r</span><span class="err">\</span><span class="n">nStart</span><span class="err">”</span><span class="p">);</span><span class="o">&lt;/</span><span class="n">p</span><span class="o">&gt;</span>
-</span><span class='line'>
-</span><span class='line'><span class="o">&lt;</span><span class="n">pre</span><span class="o">&gt;&lt;</span><span class="n">code</span><span class="o">&gt;</span><span class="n">acc</span><span class="p">.</span><span class="n">powerOn</span><span class="p">();</span> <span class="p">}</span>
-</span><span class='line'><span class="o">&lt;/</span><span class="n">code</span><span class="o">&gt;&lt;/</span><span class="n">pre</span><span class="o">&gt;</span>
-</span><span class='line'>
-</span><span class='line'><span class="o">&lt;</span><span class="n">p</span><span class="o">&gt;</span><span class="kt">void</span> <span class="n">loop</span><span class="p">()</span>
-</span><span class='line'><span class="p">{</span><span class="o">&lt;/</span><span class="n">p</span><span class="o">&gt;</span>
-</span><span class='line'>
-</span><span class='line'><span class="o">&lt;</span><span class="n">pre</span><span class="o">&gt;&lt;</span><span class="n">code</span><span class="o">&gt;</span><span class="n">byte</span> <span class="n">msg</span><span class="p">[</span><span class="mi">1024</span><span class="p">];</span>
-</span><span class='line'>
-</span><span class='line'><span class="k">if</span> <span class="p">(</span><span class="n">acc</span><span class="p">.</span><span class="n">isConnected</span><span class="p">())</span>
-</span><span class='line'>    <span class="p">{</span>
-</span><span class='line'>            <span class="k">while</span><span class="p">(</span><span class="n">Serial</span><span class="p">.</span><span class="n">available</span><span class="p">()</span><span class="o">&amp;</span><span class="n">gt</span><span class="p">;</span><span class="mi">0</span><span class="p">)</span>
-</span><span class='line'>            <span class="p">{</span>
-</span><span class='line'>              <span class="n">msg</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">=</span><span class="n">Serial</span><span class="p">.</span><span class="n">read</span><span class="p">();</span>
-</span><span class='line'>              <span class="n">acc</span><span class="p">.</span><span class="n">write</span><span class="p">(</span><span class="n">msg</span><span class="p">,</span><span class="mi">1</span><span class="p">);</span>
-</span><span class='line'>            <span class="p">}</span>
-</span><span class='line'>            <span class="kt">int</span> <span class="n">len</span> <span class="o">=</span> <span class="n">acc</span><span class="p">.</span><span class="n">read</span><span class="p">(</span><span class="n">msg</span><span class="p">,</span> <span class="k">sizeof</span><span class="p">(</span><span class="n">msg</span><span class="p">),</span> <span class="mi">1</span><span class="p">);</span>
-</span><span class='line'>            <span class="k">if</span> <span class="p">(</span><span class="n">len</span> <span class="o">&amp;</span><span class="n">gt</span><span class="p">;</span> <span class="mi">0</span><span class="p">)</span>
-</span><span class='line'>            <span class="p">{</span>
-</span><span class='line'>              <span class="n">Serial</span><span class="p">.</span><span class="n">write</span><span class="p">(</span><span class="n">msg</span><span class="p">,</span><span class="n">len</span><span class="p">);</span>
-</span><span class='line'>            <span class="p">}</span>
-</span><span class='line'>    <span class="p">}</span>
-</span><span class='line'><span class="n">delay</span><span class="p">(</span><span class="mi">200</span><span class="p">);</span> <span class="p">}</span>
-</span><span class='line'><span class="o">&lt;/</span><span class="n">code</span><span class="o">&gt;&lt;/</span><span class="n">pre</span><span class="o">&gt;</span>
-</span><span class='line'>
-</span><span class='line'><span class="o">&lt;</span><span class="n">p</span><span class="o">&gt;</span>
-</span></code></pre></td></tr></table></div></figure></notextile></div></p>
+<p>{% codeblock lang:cpp %}</p>
+
+<h1 id="include-usbh">include <Usb.h /></h1>
+<p>#include <AndroidAccessory.h /></p>
+
+<p>AndroidAccessory acc(“BuaaITR”,
+		     “Demo”,
+		     “DemoKit Arduino Board”,
+		     “1.0”,
+		     “http://www.android.com”,
+		     “0000000012345678”);</p>
+
+<p>void setup()
+{
+	Serial.begin(115200);
+	Serial.print(“\r\nStart”);</p>
+
+<pre><code>acc.powerOn(); }
+</code></pre>
+
+<p>void loop()
+{</p>
+
+<pre><code>byte msg[1024];
+
+if (acc.isConnected()) 
+    {
+            while(Serial.available()&gt;0)
+            {
+              msg[0]=Serial.read();
+              acc.write(msg,1);
+            }
+            int len = acc.read(msg, sizeof(msg), 1);
+            if (len &gt; 0) 
+            {
+              Serial.write(msg,len);
+            }
+    }
+delay(200); }
+</code></pre>
+
+<p>{% endcodeblock%}</p>
 
 <h5 id="section-1">一些解释</h5>
 <p>按照这样的方法，单片机这部分就很容易能搞定了，只要Android程序写好了，两个就能匹配工作了。</p>
@@ -206,71 +159,40 @@
 操作USB的时候，SDK版本为<em>2.3.3，即API 10</em>时是一种操作，版本为那之上的是另一种操作。<em>API 10</em>需要装<a href="http://code.google.com/android/add-ons/google-apis/installing.html">add-on library</a>，我用的是<em>API 10</em>。装好之后，在项目属性中，点选<em>Android</em>，把<em>Build Target</em>改为<em>Google APIs</em>。</p>
 
 <p>要想使<em>Accessory</em>工作，需要在<em>AndroidManifest.xml</em>中声明支持<em>UsbManager.ACTION_USB_ACCESSORY_DETACHED</em>，并添加一个过滤器，来过滤设备。如下：
-<div class='bogus-wrapper'><notextile><figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-<span class='line-number'>15</span>
-<span class='line-number'>16</span>
-<span class='line-number'>17</span>
-<span class='line-number'>18</span>
-<span class='line-number'>19</span>
-<span class='line-number'>20</span>
-<span class='line-number'>21</span>
-<span class='line-number'>22</span>
-<span class='line-number'>23</span>
-<span class='line-number'>24</span>
-<span class='line-number'>25</span>
-<span class='line-number'>26</span>
-<span class='line-number'>27</span>
-<span class='line-number'>28</span>
-<span class='line-number'>29</span>
-<span class='line-number'>30</span>
-<span class='line-number'>31</span>
-<span class='line-number'>32</span>
-</pre></td><td class='code'><pre><code class='xml'><span class='line'><span class="cp">&lt;?xml version=&quot;1.0&quot; encoding=&quot;utf-8&quot;?&gt;</span>
-</span><span class='line'><span class="nt">&lt;manifest</span> <span class="na">xmlns:android=</span><span class="s">&quot;http://schemas.android.com/apk/res/android&quot;</span> <span class="na">package=</span><span class="s">&quot;me.ghdawn&quot;</span> <span class="na">android:versionCode=</span><span class="s">&quot;1&quot;</span> <span class="na">android:versionName=</span><span class="s">&quot;1.0&quot;</span> <span class="nt">/&gt;&lt;/p&gt;</span>
-</span><span class='line'>
-</span><span class='line'><span class="nt">&lt;pre&gt;&lt;code&gt;</span><span class="ni">&amp;lt;</span>uses-feature android:name=&quot;android.hardware.usb.accessory&quot; /<span class="ni">&amp;gt;</span>
-</span><span class='line'>
-</span><span class='line'><span class="ni">&amp;lt;</span>uses-sdk android:minSdkVersion=&quot;10&quot; /<span class="ni">&amp;gt;</span>
-</span><span class='line'>
-</span><span class='line'><span class="ni">&amp;lt;</span>application
-</span><span class='line'>    android:icon=&quot;@drawable/ic_launcher&quot;
-</span><span class='line'>    android:label=&quot;@string/app_name&quot; <span class="ni">&amp;gt;</span>
-</span><span class='line'>    <span class="ni">&amp;lt;</span>uses-library android:name=&quot;com.android.future.usb.accessory&quot; /<span class="ni">&amp;gt;</span>
-</span><span class='line'>
-</span><span class='line'>    <span class="ni">&amp;lt;</span>activity
-</span><span class='line'>        android:name=&quot;.UsbAccActivity&quot;
-</span><span class='line'>        android:label=&quot;@string/app_name&quot; <span class="ni">&amp;gt;</span>
-</span><span class='line'>        <span class="ni">&amp;lt;</span>intent-filter<span class="ni">&amp;gt;</span>
-</span><span class='line'>            <span class="ni">&amp;lt;</span>action android:name=&quot;android.intent.action.MAIN&quot; /<span class="ni">&amp;gt;</span>
-</span><span class='line'>
-</span><span class='line'>            <span class="ni">&amp;lt;</span>category android:name=&quot;android.intent.category.LAUNCHER&quot; /<span class="ni">&amp;gt;</span>
-</span><span class='line'>        <span class="ni">&amp;lt;</span>/intent-filter<span class="ni">&amp;gt;</span>
-</span><span class='line'>        <span class="ni">&amp;lt;</span>intent-filter<span class="ni">&amp;gt;</span>
-</span><span class='line'>            <span class="ni">&amp;lt;</span>action android:name=&quot;android.hardware.usb.action.USB_ACCESSORY_ATTACHED&quot; /<span class="ni">&amp;gt;</span>
-</span><span class='line'>        <span class="ni">&amp;lt;</span>/intent-filter<span class="ni">&amp;gt;</span>
-</span><span class='line'>
-</span><span class='line'>        <span class="ni">&amp;lt;</span>meta-data
-</span><span class='line'>            android:name=&quot;android.hardware.usb.action.USB_ACCESSORY_ATTACHED&quot;
-</span><span class='line'>            android:resource=&quot;@xml/accessory_filter&quot; /<span class="ni">&amp;gt;</span>
-</span><span class='line'>    <span class="ni">&amp;lt;</span>/activity<span class="ni">&amp;gt;</span>
-</span><span class='line'><span class="ni">&amp;lt;</span>/application<span class="ni">&amp;gt;</span>
-</span><span class='line'><span class="nt">&lt;/code&gt;&lt;/pre&gt;</span>
-</span><span class='line'>
-</span><span class='line'><span class="nt">&lt;p&gt;</span><span class="ni">&amp;lt;</span>/manifest<span class="ni">&amp;gt;</span>
-</span></code></pre></td></tr></table></div></figure></notextile></div>
+{%codeblock lang:xml%}
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android" package="me.ghdawn" android:versionCode="1" android:versionName="1.0" /></p>
+
+<pre><code>&lt;uses-feature android:name="android.hardware.usb.accessory" /&gt;
+
+&lt;uses-sdk android:minSdkVersion="10" /&gt;
+
+&lt;application
+    android:icon="@drawable/ic_launcher"
+    android:label="@string/app_name" &gt;
+    &lt;uses-library android:name="com.android.future.usb.accessory" /&gt;
+
+    &lt;activity
+        android:name=".UsbAccActivity"
+        android:label="@string/app_name" &gt;
+        &lt;intent-filter&gt;
+            &lt;action android:name="android.intent.action.MAIN" /&gt;
+
+            &lt;category android:name="android.intent.category.LAUNCHER" /&gt;
+        &lt;/intent-filter&gt;
+        &lt;intent-filter&gt;
+            &lt;action android:name="android.hardware.usb.action.USB_ACCESSORY_ATTACHED" /&gt;
+        &lt;/intent-filter&gt;
+
+        &lt;meta-data
+            android:name="android.hardware.usb.action.USB_ACCESSORY_ATTACHED"
+            android:resource="@xml/accessory_filter" /&gt;
+    &lt;/activity&gt;
+&lt;/application&gt;
+</code></pre>
+
+<p>&lt;/manifest&gt;
+{%endcodeblock%}
 #####一些说明
 - <em>API 10</em>使用的是<em>Addon library</em>,需要注明：<em><uses-library android:name="com.android.future.usb.accessory" /></em><br />
 - 要说明支持<em>USB_ACCESSORY_ATTACHED</em>模式，所以加上</p>
@@ -293,386 +215,207 @@
 
 <p>上面这段代码就是注册这个筛选器的。下面这段就是筛选器的内容。还记得上面的<em>Arduino</em>部分中，新建的<em>AndroidAccessory</em>对象吗？那里的第1，2，4个参数正是这里筛选的参数。只有这几个参数匹配的设备才能建立连接。当然，这里筛选条件是可以选的，那几个参数都可以作为筛选条件，只要加在下面就可以。</p>
 
-<p><div class='bogus-wrapper'><notextile><figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-</pre></td><td class='code'><pre><code class='xml'><span class='line'><span class="cp">&lt;?xml version=&quot;1.0&quot; encoding=&quot;utf-8&quot;?&gt;</span><span class="nt">&lt;/p&gt;</span>
-</span><span class='line'>
-</span><span class='line'><span class="nt">&lt;resources&gt;</span>
-</span><span class='line'>    <span class="nt">&lt;usb-accessory</span> <span class="na">manufacturer=</span><span class="s">&quot;BuaaITR&quot;</span> <span class="na">model=</span><span class="s">&quot;Demo&quot;</span> <span class="na">version=</span><span class="s">&quot;1.0&quot;</span> <span class="nt">/&gt;</span>
-</span><span class='line'><span class="nt">&lt;/resources&gt;</span>
-</span><span class='line'>
-</span><span class='line'><span class="nt">&lt;p&gt;</span>
-</span></code></pre></td></tr></table></div></figure></notextile></div></p>
+<p>{%codeblock lang:xml%}
+<?xml version="1.0" encoding="utf-8"?></p>
+
+<resources>
+    <usb-accessory manufacturer="BuaaITR" model="Demo" version="1.0" />
+</resources>
+
+<p>{%endcodeblock%}</p>
 
 <p>注：下文的所有<em>设备</em>一词，均指代<em>Arduino设备</em>，程序则代表<em>Android设备</em>。<br />
 这样，就可以开始写代码了。首先需要一个<em>UsbManager</em>对象来管理USB设备，需要一个广播接收器，当系统有广播时，来判断是否为USB附件，并询问是否提供权限。广播的过滤器使用<em>UsbManager.ACTION_USB_ACCESSORY_DETACHED</em>作为<em>action</em>。当接受到一个满足过滤条件的广播时，并且获得了访问的权限，就可以获得该设备的信息，并进行读写了。</p>
 
 <p>广播接收器的代码：
-<div class='bogus-wrapper'><notextile><figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-<span class='line-number'>15</span>
-<span class='line-number'>16</span>
-<span class='line-number'>17</span>
-<span class='line-number'>18</span>
-<span class='line-number'>19</span>
-<span class='line-number'>20</span>
-<span class='line-number'>21</span>
-<span class='line-number'>22</span>
-<span class='line-number'>23</span>
-<span class='line-number'>24</span>
-<span class='line-number'>25</span>
-<span class='line-number'>26</span>
-<span class='line-number'>27</span>
-<span class='line-number'>28</span>
-<span class='line-number'>29</span>
-<span class='line-number'>30</span>
-<span class='line-number'>31</span>
-<span class='line-number'>32</span>
-<span class='line-number'>33</span>
-<span class='line-number'>34</span>
-</pre></td><td class='code'><pre><code class='java'><span class='line'><span class="kd">private</span> <span class="kd">final</span> <span class="n">BroadcastReceiver</span> <span class="n">mUsbReceiver</span> <span class="o">=</span> <span class="k">new</span> <span class="n">BroadcastReceiver</span><span class="o">()</span>
-</span><span class='line'>	<span class="o">{</span>
-</span><span class='line'>		<span class="nd">@Override</span>
-</span><span class='line'>		<span class="kd">public</span> <span class="kt">void</span> <span class="nf">onReceive</span><span class="o">(</span><span class="n">Context</span> <span class="n">context</span><span class="o">,</span> <span class="n">Intent</span> <span class="n">intent</span><span class="o">)</span>
-</span><span class='line'>		<span class="o">{</span>
-</span><span class='line'>			<span class="n">String</span> <span class="n">action</span> <span class="o">=</span> <span class="n">intent</span><span class="o">.</span><span class="na">getAction</span><span class="o">();</span>
-</span><span class='line'>			<span class="k">if</span> <span class="o">(</span><span class="n">ACTION_USB_PERMISSION</span><span class="o">.</span><span class="na">equals</span><span class="o">(</span><span class="n">action</span><span class="o">))</span>
-</span><span class='line'>			<span class="o">{</span>
-</span><span class='line'>				<span class="kd">synchronized</span> <span class="o">(</span><span class="k">this</span><span class="o">)</span>
-</span><span class='line'>				<span class="o">{</span>
-</span><span class='line'>					<span class="n">UsbAccessory</span> <span class="n">accessory</span> <span class="o">=</span> <span class="n">UsbManager</span><span class="o">.</span><span class="na">getAccessory</span><span class="o">(</span><span class="n">intent</span><span class="o">);</span>
-</span><span class='line'>					<span class="k">if</span> <span class="o">(</span><span class="n">intent</span><span class="o">.</span><span class="na">getBooleanExtra</span><span class="o">(</span>
-</span><span class='line'>					        <span class="n">UsbManager</span><span class="o">.</span><span class="na">EXTRA_PERMISSION_GRANTED</span><span class="o">,</span> <span class="kc">false</span><span class="o">))</span>
-</span><span class='line'>					<span class="o">{</span>
-</span><span class='line'>						<span class="n">openAccessory</span><span class="o">(</span><span class="n">accessory</span><span class="o">);</span>
-</span><span class='line'>					<span class="o">}</span>
-</span><span class='line'>					<span class="k">else</span>
-</span><span class='line'>					<span class="o">{</span>
-</span><span class='line'>						<span class="n">Log</span><span class="o">.</span><span class="na">d</span><span class="o">(</span><span class="n">TAG</span><span class="o">,</span> <span class="err">“</span><span class="n">permission</span> <span class="n">denied</span> <span class="k">for</span> <span class="n">accessory</span> <span class="err">“</span>
-</span><span class='line'>						        <span class="o">+</span> <span class="n">accessory</span><span class="o">);</span>
-</span><span class='line'>					<span class="o">}</span>
-</span><span class='line'>					<span class="n">mPermissionRequestPending</span> <span class="o">=</span> <span class="kc">false</span><span class="o">;</span>
-</span><span class='line'>				<span class="o">}</span>
-</span><span class='line'>			<span class="o">}</span>
-</span><span class='line'>			<span class="k">else</span> <span class="nf">if</span> <span class="o">(</span><span class="n">UsbManager</span><span class="o">.</span><span class="na">ACTION_USB_ACCESSORY_DETACHED</span><span class="o">.</span><span class="na">equals</span><span class="o">(</span><span class="n">action</span><span class="o">))</span>
-</span><span class='line'>			<span class="o">{</span>
-</span><span class='line'>				<span class="n">UsbAccessory</span> <span class="n">accessory</span> <span class="o">=</span> <span class="n">UsbManager</span><span class="o">.</span><span class="na">getAccessory</span><span class="o">(</span><span class="n">intent</span><span class="o">);</span>
-</span><span class='line'>				<span class="k">if</span> <span class="o">(</span><span class="n">accessory</span> <span class="o">!=</span> <span class="kc">null</span> <span class="o">&amp;</span><span class="n">amp</span><span class="o">;&amp;</span><span class="n">amp</span><span class="o">;</span> <span class="n">accessory</span><span class="o">.</span><span class="na">equals</span><span class="o">(</span><span class="n">mAccessory</span><span class="o">))</span>
-</span><span class='line'>				<span class="o">{</span>
-</span><span class='line'>					<span class="n">closeAccessory</span><span class="o">();</span>
-</span><span class='line'>				<span class="o">}</span>
-</span><span class='line'>			<span class="o">}</span>
-</span><span class='line'>		<span class="o">}</span>
-</span><span class='line'>	<span class="o">};</span>
-</span></code></pre></td></tr></table></div></figure></notextile></div></p>
+{%codeblock lang:java%}
+private final BroadcastReceiver mUsbReceiver = new BroadcastReceiver()
+	{
+		@Override
+		public void onReceive(Context context, Intent intent)
+		{
+			String action = intent.getAction();
+			if (ACTION_USB_PERMISSION.equals(action))
+			{
+				synchronized (this)
+				{
+					UsbAccessory accessory = UsbManager.getAccessory(intent);
+					if (intent.getBooleanExtra(
+					        UsbManager.EXTRA_PERMISSION_GRANTED, false))
+					{
+						openAccessory(accessory);
+					}
+					else
+					{
+						Log.d(TAG, “permission denied for accessory “
+						        + accessory);
+					}
+					mPermissionRequestPending = false;
+				}
+			}
+			else if (UsbManager.ACTION_USB_ACCESSORY_DETACHED.equals(action))
+			{
+				UsbAccessory accessory = UsbManager.getAccessory(intent);
+				if (accessory != null &amp;&amp; accessory.equals(mAccessory))
+				{
+					closeAccessory();
+				}
+			}
+		}
+	};
+{%endcodeblock%}</p>
 
 <p>建立连接：</p>
 
-<p><div class='bogus-wrapper'><notextile><figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-<span class='line-number'>15</span>
-<span class='line-number'>16</span>
-<span class='line-number'>17</span>
-<span class='line-number'>18</span>
-<span class='line-number'>19</span>
-<span class='line-number'>20</span>
-<span class='line-number'>21</span>
-<span class='line-number'>22</span>
-<span class='line-number'>23</span>
-<span class='line-number'>24</span>
-<span class='line-number'>25</span>
-<span class='line-number'>26</span>
-<span class='line-number'>27</span>
-<span class='line-number'>28</span>
-<span class='line-number'>29</span>
-<span class='line-number'>30</span>
-<span class='line-number'>31</span>
-<span class='line-number'>32</span>
-<span class='line-number'>33</span>
-<span class='line-number'>34</span>
-<span class='line-number'>35</span>
-<span class='line-number'>36</span>
-<span class='line-number'>37</span>
-<span class='line-number'>38</span>
-<span class='line-number'>39</span>
-<span class='line-number'>40</span>
-<span class='line-number'>41</span>
-<span class='line-number'>42</span>
-<span class='line-number'>43</span>
-<span class='line-number'>44</span>
-<span class='line-number'>45</span>
-<span class='line-number'>46</span>
-<span class='line-number'>47</span>
-<span class='line-number'>48</span>
-<span class='line-number'>49</span>
-</pre></td><td class='code'><pre><code class='java'><span class='line'>	<span class="kd">private</span> <span class="kt">void</span> <span class="nf">openAccessory</span><span class="o">(</span><span class="n">UsbAccessory</span> <span class="n">accessory</span><span class="o">)</span>
-</span><span class='line'>	<span class="o">{</span>
-</span><span class='line'>		<span class="n">mFileDescriptor</span> <span class="o">=</span> <span class="n">mUsbManager</span><span class="o">.</span><span class="na">openAccessory</span><span class="o">(</span><span class="n">accessory</span><span class="o">);</span>
-</span><span class='line'>		<span class="k">if</span> <span class="o">(</span><span class="n">mFileDescriptor</span> <span class="o">!=</span> <span class="kc">null</span><span class="o">)</span>
-</span><span class='line'>		<span class="o">{</span>
-</span><span class='line'>			<span class="n">mAccessory</span> <span class="o">=</span> <span class="n">accessory</span><span class="o">;</span>
-</span><span class='line'>			<span class="c1">//获得该设备的输入输出流</span>
-</span><span class='line'>			<span class="n">FileDescriptor</span> <span class="n">fd</span> <span class="o">=</span> <span class="n">mFileDescriptor</span><span class="o">.</span><span class="na">getFileDescriptor</span><span class="o">();</span>
-</span><span class='line'>			<span class="n">mInputStream</span> <span class="o">=</span> <span class="k">new</span> <span class="n">FileInputStream</span><span class="o">(</span><span class="n">fd</span><span class="o">);</span>
-</span><span class='line'>			<span class="n">mOutputStream</span> <span class="o">=</span> <span class="k">new</span> <span class="n">FileOutputStream</span><span class="o">(</span><span class="n">fd</span><span class="o">);</span>
-</span><span class='line'>			<span class="c1">//是否能对设备进行读写操作</span>
-</span><span class='line'>			<span class="n">canIO</span> <span class="o">=</span> <span class="kc">true</span><span class="o">;</span>
-</span><span class='line'>			<span class="c1">//定时查询是否有数据可以接收</span>
-</span><span class='line'>			<span class="n">timer</span><span class="o">.</span><span class="na">scheduleAtFixedRate</span><span class="o">(</span><span class="k">new</span> <span class="n">TimerTask</span><span class="o">()</span>
-</span><span class='line'>			<span class="o">{</span>
-</span><span class='line'>				<span class="nd">@Override</span>
-</span><span class='line'>				<span class="kd">public</span> <span class="kt">void</span> <span class="nf">run</span><span class="o">()</span>
-</span><span class='line'>				<span class="o">{</span>
-</span><span class='line'>					<span class="c1">// TODO Auto-generated method stub</span>
-</span><span class='line'>					<span class="kt">int</span> <span class="n">length</span> <span class="o">=</span> <span class="mi">0</span><span class="o">;</span>
-</span><span class='line'>					<span class="kt">byte</span><span class="o">[]</span> <span class="n">buffer</span> <span class="o">=</span> <span class="k">new</span> <span class="kt">byte</span><span class="o">[</span><span class="n">maxBuffer</span><span class="o">];</span>
-</span><span class='line'>					<span class="k">try</span>
-</span><span class='line'>					<span class="o">{</span>
-</span><span class='line'>						<span class="c1">//如果有数据来，则接受数据。</span>
-</span><span class='line'>						<span class="k">if</span><span class="o">(</span><span class="n">mInputStream</span><span class="o">.</span><span class="na">available</span><span class="o">()&amp;</span><span class="n">gt</span><span class="o">;</span><span class="mi">0</span><span class="o">)</span>
-</span><span class='line'>						<span class="o">{</span>
-</span><span class='line'>							<span class="n">length</span><span class="o">=</span><span class="n">mInputStream</span><span class="o">.</span><span class="na">read</span><span class="o">(</span><span class="n">buffer</span><span class="o">);</span>
-</span><span class='line'>							<span class="c1">//处理接收到的数据，按需要自己改。</span>
-</span><span class='line'>							<span class="n">usbuart</span><span class="o">.</span><span class="na">onReceive</span><span class="o">(</span><span class="n">buffer</span><span class="o">);</span>
-</span><span class='line'>						<span class="o">}&lt;/</span><span class="n">p</span><span class="o">&gt;</span>
-</span><span class='line'>
-</span><span class='line'><span class="o">&lt;</span><span class="n">pre</span><span class="o">&gt;&lt;</span><span class="n">code</span><span class="o">&gt;</span>				<span class="o">}</span>
-</span><span class='line'>				<span class="k">catch</span> <span class="o">(</span><span class="n">IOException</span> <span class="n">e</span><span class="o">)</span>
-</span><span class='line'>				<span class="o">{</span>
-</span><span class='line'>					<span class="c1">// tbhello.setText(&quot;IO error\n&quot; + e.getMessage());</span>
-</span><span class='line'>
-</span><span class='line'>				<span class="o">}</span>
-</span><span class='line'>
-</span><span class='line'>			<span class="o">}</span>
-</span><span class='line'>			
-</span><span class='line'>		<span class="o">},</span> <span class="mi">0</span><span class="o">,</span> <span class="n">delaytime</span><span class="o">);</span>
-</span><span class='line'>		<span class="n">Log</span><span class="o">.</span><span class="na">d</span><span class="o">(</span><span class="n">TAG</span><span class="o">,</span> <span class="s">&quot;accessory opened&quot;</span><span class="o">);</span>
-</span><span class='line'>
-</span><span class='line'>	<span class="o">}</span>
-</span><span class='line'>	<span class="k">else</span>
-</span><span class='line'>	<span class="o">{</span>
-</span><span class='line'>		<span class="n">Log</span><span class="o">.</span><span class="na">d</span><span class="o">(</span><span class="n">TAG</span><span class="o">,</span> <span class="s">&quot;accessory open fail&quot;</span><span class="o">);</span>
-</span><span class='line'>	<span class="o">}</span>
-</span><span class='line'><span class="o">}</span>
-</span></code></pre></td></tr></table></div></figure></notextile></div> 这样，大部分功能就实现完了，现在需要注册广播接收器，并让程序监视USB设备。
+<p>{%codeblock lang:java%}
+	private void openAccessory(UsbAccessory accessory)
+	{
+		mFileDescriptor = mUsbManager.openAccessory(accessory);
+		if (mFileDescriptor != null)
+		{
+			mAccessory = accessory;
+			//获得该设备的输入输出流
+			FileDescriptor fd = mFileDescriptor.getFileDescriptor();
+			mInputStream = new FileInputStream(fd);
+			mOutputStream = new FileOutputStream(fd);
+			//是否能对设备进行读写操作
+			canIO = true;
+			//定时查询是否有数据可以接收
+			timer.scheduleAtFixedRate(new TimerTask()
+			{
+				@Override
+				public void run()
+				{
+					// TODO Auto-generated method stub
+					int length = 0;
+					byte[] buffer = new byte[maxBuffer];
+					try
+					{
+						//如果有数据来，则接受数据。
+						if(mInputStream.available()&gt;0)
+						{
+							length=mInputStream.read(buffer);
+							//处理接收到的数据，按需要自己改。
+							usbuart.onReceive(buffer);
+						}</p>
+
+<pre><code>				}
+				catch (IOException e)
+				{
+					// tbhello.setText("IO error\n" + e.getMessage());
+
+				}
+
+			}
+			
+		}, 0, delaytime);
+		Log.d(TAG, "accessory opened");
+
+	}
+	else
+	{
+		Log.d(TAG, "accessory open fail");
+	}
+} {%endcodeblock%} 这样，大部分功能就实现完了，现在需要注册广播接收器，并让程序监视USB设备。
 </code></pre>
 
-<p><div class='bogus-wrapper'><notextile><figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-<span class='line-number'>15</span>
-<span class='line-number'>16</span>
-<span class='line-number'>17</span>
-<span class='line-number'>18</span>
-<span class='line-number'>19</span>
-<span class='line-number'>20</span>
-<span class='line-number'>21</span>
-<span class='line-number'>22</span>
-<span class='line-number'>23</span>
-<span class='line-number'>24</span>
-<span class='line-number'>25</span>
-<span class='line-number'>26</span>
-<span class='line-number'>27</span>
-<span class='line-number'>28</span>
-<span class='line-number'>29</span>
-<span class='line-number'>30</span>
-<span class='line-number'>31</span>
-<span class='line-number'>32</span>
-<span class='line-number'>33</span>
-<span class='line-number'>34</span>
-<span class='line-number'>35</span>
-<span class='line-number'>36</span>
-<span class='line-number'>37</span>
-<span class='line-number'>38</span>
-<span class='line-number'>39</span>
-<span class='line-number'>40</span>
-<span class='line-number'>41</span>
-<span class='line-number'>42</span>
-<span class='line-number'>43</span>
-<span class='line-number'>44</span>
-<span class='line-number'>45</span>
-<span class='line-number'>46</span>
-<span class='line-number'>47</span>
-<span class='line-number'>48</span>
-<span class='line-number'>49</span>
-<span class='line-number'>50</span>
-<span class='line-number'>51</span>
-<span class='line-number'>52</span>
-<span class='line-number'>53</span>
-<span class='line-number'>54</span>
-<span class='line-number'>55</span>
-<span class='line-number'>56</span>
-<span class='line-number'>57</span>
-<span class='line-number'>58</span>
-</pre></td><td class='code'><pre><code class='java'><span class='line'>	<span class="nd">@Override</span>
-</span><span class='line'>	<span class="kd">public</span> <span class="kt">void</span> <span class="nf">onCreate</span><span class="o">(</span><span class="n">Bundle</span> <span class="n">savedInstanceState</span><span class="o">)</span>
-</span><span class='line'>	<span class="o">{</span>
-</span><span class='line'>		<span class="kd">super</span><span class="o">.</span><span class="na">onCreate</span><span class="o">(</span><span class="n">savedInstanceState</span><span class="o">);</span>
-</span><span class='line'>		<span class="c1">//使用add-on library时，必须这样定义usbmanager对象</span>
-</span><span class='line'>		<span class="n">mUsbManager</span> <span class="o">=</span> <span class="n">UsbManager</span><span class="o">.</span><span class="na">getInstance</span><span class="o">(</span><span class="k">this</span><span class="o">);</span>
-</span><span class='line'>		<span class="n">mPermissionIntent</span> <span class="o">=</span> <span class="n">PendingIntent</span><span class="o">.</span><span class="na">getBroadcast</span><span class="o">(</span><span class="k">this</span><span class="o">,</span> <span class="mi">0</span><span class="o">,</span> <span class="k">new</span> <span class="n">Intent</span><span class="o">(</span>
-</span><span class='line'>		        <span class="n">ACTION_USB_PERMISSION</span><span class="o">),</span> <span class="mi">0</span><span class="o">);</span>
-</span><span class='line'>		<span class="c1">//注册接收器和过滤器</span>
-</span><span class='line'>		<span class="n">IntentFilter</span> <span class="n">filter</span> <span class="o">=</span> <span class="k">new</span> <span class="n">IntentFilter</span><span class="o">(</span><span class="n">ACTION_USB_PERMISSION</span><span class="o">);</span>
-</span><span class='line'>		<span class="n">filter</span><span class="o">.</span><span class="na">addAction</span><span class="o">(</span><span class="n">UsbManager</span><span class="o">.</span><span class="na">ACTION_USB_ACCESSORY_DETACHED</span><span class="o">);</span>
-</span><span class='line'>		<span class="n">registerReceiver</span><span class="o">(</span><span class="n">mUsbReceiver</span><span class="o">,</span> <span class="n">filter</span><span class="o">);&lt;/</span><span class="n">p</span><span class="o">&gt;</span>
-</span><span class='line'>
-</span><span class='line'><span class="o">&lt;</span><span class="n">pre</span><span class="o">&gt;&lt;</span><span class="n">code</span><span class="o">&gt;</span>	<span class="n">setContentView</span><span class="o">(</span><span class="n">R</span><span class="o">.</span><span class="na">layout</span><span class="o">.</span><span class="na">main</span><span class="o">);</span>
-</span><span class='line'>
-</span><span class='line'><span class="o">}</span>
-</span><span class='line'>
-</span><span class='line'><span class="nd">@Override</span>
-</span><span class='line'><span class="kd">public</span> <span class="kt">void</span> <span class="nf">onResume</span><span class="o">()</span>
-</span><span class='line'><span class="o">{</span>
-</span><span class='line'>	<span class="kd">super</span><span class="o">.</span><span class="na">onResume</span><span class="o">();</span>
-</span><span class='line'>
-</span><span class='line'>	<span class="n">Intent</span> <span class="n">intent</span> <span class="o">=</span> <span class="n">getIntent</span><span class="o">();</span>
-</span><span class='line'>	<span class="c1">//如果已经打开了一个设备，就不再查询</span>
-</span><span class='line'>	<span class="k">if</span> <span class="o">(</span><span class="n">mInputStream</span> <span class="o">!=</span> <span class="kc">null</span> <span class="o">&amp;</span><span class="n">amp</span><span class="o">;&amp;</span><span class="n">amp</span><span class="o">;</span> <span class="n">mOutputStream</span> <span class="o">!=</span> <span class="kc">null</span><span class="o">)</span>
-</span><span class='line'>	<span class="o">{</span>
-</span><span class='line'>		<span class="k">return</span><span class="o">;</span>
-</span><span class='line'>	<span class="o">}</span>
-</span><span class='line'>	<span class="c1">//只能支持一个设备，如果发现了一个USB设备并且有权限访问，就打开</span>
-</span><span class='line'>	<span class="n">UsbAccessory</span><span class="o">[]</span> <span class="n">accessories</span> <span class="o">=</span> <span class="n">mUsbManager</span><span class="o">.</span><span class="na">getAccessoryList</span><span class="o">();</span>
-</span><span class='line'>	<span class="n">UsbAccessory</span> <span class="n">accessory</span> <span class="o">=</span> <span class="o">(</span><span class="n">accessories</span> <span class="o">==</span> <span class="kc">null</span> <span class="o">?</span> <span class="kc">null</span> <span class="o">:</span> <span class="n">accessories</span><span class="o">[</span><span class="mi">0</span><span class="o">]);</span>
-</span><span class='line'>	<span class="k">if</span> <span class="o">(</span><span class="n">accessory</span> <span class="o">!=</span> <span class="kc">null</span><span class="o">)</span>
-</span><span class='line'>	<span class="o">{</span>
-</span><span class='line'>		<span class="k">if</span> <span class="o">(</span><span class="n">mUsbManager</span><span class="o">.</span><span class="na">hasPermission</span><span class="o">(</span><span class="n">accessory</span><span class="o">))</span>
-</span><span class='line'>		<span class="o">{</span>
-</span><span class='line'>			<span class="n">openAccessory</span><span class="o">(</span><span class="n">accessory</span><span class="o">);</span>
-</span><span class='line'>		<span class="o">}</span>
-</span><span class='line'>		
-</span><span class='line'>	<span class="o">}</span>
-</span><span class='line'>	<span class="k">else</span>
-</span><span class='line'>	<span class="o">{</span>
-</span><span class='line'>		<span class="n">Log</span><span class="o">.</span><span class="na">d</span><span class="o">(</span><span class="n">TAG</span><span class="o">,</span> <span class="s">&quot;mAccessory is null&quot;</span><span class="o">);</span>
-</span><span class='line'>	<span class="o">}</span>
-</span><span class='line'><span class="o">}</span>
-</span><span class='line'>
-</span><span class='line'><span class="nd">@Override</span>
-</span><span class='line'><span class="kd">public</span> <span class="kt">void</span> <span class="nf">onPause</span><span class="o">()</span>
-</span><span class='line'><span class="o">{</span>
-</span><span class='line'>	<span class="kd">super</span><span class="o">.</span><span class="na">onPause</span><span class="o">();</span>
-</span><span class='line'>	<span class="n">closeAccessory</span><span class="o">();</span>
-</span><span class='line'><span class="o">}</span>
-</span><span class='line'>
-</span><span class='line'><span class="nd">@Override</span>
-</span><span class='line'><span class="kd">public</span> <span class="kt">void</span> <span class="nf">onDestroy</span><span class="o">()</span>
-</span><span class='line'><span class="o">{</span>
-</span><span class='line'>	<span class="n">unregisterReceiver</span><span class="o">(</span><span class="n">mUsbReceiver</span><span class="o">);</span>
-</span><span class='line'>	<span class="kd">super</span><span class="o">.</span><span class="na">onDestroy</span><span class="o">();</span>
-</span><span class='line'><span class="o">}</span>
-</span></code></pre></td></tr></table></div></figure></notextile></div>
+<p>{%codeblock lang:java%}
+	@Override
+	public void onCreate(Bundle savedInstanceState)
+	{
+		super.onCreate(savedInstanceState);
+		//使用add-on library时，必须这样定义usbmanager对象
+		mUsbManager = UsbManager.getInstance(this);
+		mPermissionIntent = PendingIntent.getBroadcast(this, 0, new Intent(
+		        ACTION_USB_PERMISSION), 0);
+		//注册接收器和过滤器
+		IntentFilter filter = new IntentFilter(ACTION_USB_PERMISSION);
+		filter.addAction(UsbManager.ACTION_USB_ACCESSORY_DETACHED);
+		registerReceiver(mUsbReceiver, filter);</p>
+
+<pre><code>	setContentView(R.layout.main);
+
+}
+
+@Override
+public void onResume()
+{
+	super.onResume();
+
+	Intent intent = getIntent();
+	//如果已经打开了一个设备，就不再查询
+	if (mInputStream != null &amp;&amp; mOutputStream != null)
+	{
+		return;
+	}
+	//只能支持一个设备，如果发现了一个USB设备并且有权限访问，就打开
+	UsbAccessory[] accessories = mUsbManager.getAccessoryList();
+	UsbAccessory accessory = (accessories == null ? null : accessories[0]);
+	if (accessory != null)
+	{
+		if (mUsbManager.hasPermission(accessory))
+		{
+			openAccessory(accessory);
+		}
+		
+	}
+	else
+	{
+		Log.d(TAG, "mAccessory is null");
+	}
+}
+
+@Override
+public void onPause()
+{
+	super.onPause();
+	closeAccessory();
+}
+
+@Override
+public void onDestroy()
+{
+	unregisterReceiver(mUsbReceiver);
+	super.onDestroy();
+} {%endcodeblock%}
 </code></pre>
 
 <p>如果需要发送数据，就这样：
-<div class='bogus-wrapper'><notextile><figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-<span class='line-number'>15</span>
-<span class='line-number'>16</span>
-</pre></td><td class='code'><pre><code class='java'><span class='line'>    <span class="kd">public</span> <span class="kt">void</span> <span class="nf">send</span><span class="o">(</span><span class="kt">byte</span><span class="o">[]</span> <span class="n">data</span><span class="o">)</span>
-</span><span class='line'>    <span class="o">{</span>
-</span><span class='line'>	    <span class="k">if</span><span class="o">(</span><span class="n">canIO</span><span class="o">)</span>
-</span><span class='line'>	    <span class="o">{</span>
-</span><span class='line'>	    	<span class="k">try</span>
-</span><span class='line'>            <span class="o">{</span>
-</span><span class='line'>	            <span class="n">mOutputStream</span><span class="o">.</span><span class="na">write</span><span class="o">(</span><span class="n">data</span><span class="o">);</span>
-</span><span class='line'>            <span class="o">}</span>
-</span><span class='line'>            <span class="k">catch</span> <span class="o">(</span><span class="n">IOException</span> <span class="n">e</span><span class="o">)</span>
-</span><span class='line'>            <span class="o">{</span>	
-</span><span class='line'>	            <span class="c1">// TODO Auto-generated catch block</span>
-</span><span class='line'>	            <span class="n">e</span><span class="o">.</span><span class="na">printStackTrace</span><span class="o">();</span>
-</span><span class='line'>            <span class="o">}</span>
-</span><span class='line'>	    <span class="o">}</span>
-</span><span class='line'>    <span class="o">}</span>
-</span><span class='line'>
-</span></code></pre></td></tr></table></div></figure></notextile></div><br />
+{%codeblock lang:java%}
+    public void send(byte[] data)
+    {
+	    if(canIO)
+	    {
+	    	try
+            {
+	            mOutputStream.write(data);
+            }
+            catch (IOException e)
+            {	
+	            // TODO Auto-generated catch block
+	            e.printStackTrace();
+            }
+	    }
+    }
+    {%endcodeblock%}<br />
 用到的对象如下：
-<div class='bogus-wrapper'><notextile><figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-<span class='line-number'>15</span>
-<span class='line-number'>16</span>
-</pre></td><td class='code'><pre><code class='java'><span class='line'><span class="kd">private</span> <span class="kd">static</span> <span class="kd">final</span> <span class="n">String</span> <span class="n">TAG</span> <span class="o">=</span> <span class="err">“</span><span class="n">DemoKit</span><span class="err">”</span><span class="o">;&lt;/</span><span class="n">p</span><span class="o">&gt;</span>
-</span><span class='line'>
-</span><span class='line'><span class="o">&lt;</span><span class="n">pre</span><span class="o">&gt;&lt;</span><span class="n">code</span><span class="o">&gt;</span><span class="kd">private</span> <span class="kd">static</span> <span class="kd">final</span> <span class="n">String</span> <span class="n">ACTION_USB_PERMISSION</span> <span class="o">=</span> <span class="s">&quot;com.google.android.DemoKit.action.USB_PERMISSION&quot;</span><span class="o">;</span>
-</span><span class='line'>
-</span><span class='line'><span class="kd">private</span> <span class="n">UsbManager</span> <span class="n">mUsbManager</span><span class="o">;</span>
-</span><span class='line'><span class="kd">private</span> <span class="n">PendingIntent</span> <span class="n">mPermissionIntent</span><span class="o">;</span>
-</span><span class='line'>
-</span><span class='line'>
-</span><span class='line'><span class="kd">private</span> <span class="kt">int</span> <span class="n">maxBuffer</span><span class="o">=</span><span class="mi">1024</span><span class="o">;</span>
-</span><span class='line'><span class="kd">private</span> <span class="kt">boolean</span> <span class="n">canIO</span> <span class="o">=</span> <span class="kc">false</span><span class="o">;</span>
-</span><span class='line'><span class="n">UsbAccessory</span> <span class="n">mAccessory</span><span class="o">;</span>
-</span><span class='line'><span class="n">ParcelFileDescriptor</span> <span class="n">mFileDescriptor</span><span class="o">;</span>
-</span><span class='line'><span class="n">FileInputStream</span> <span class="n">mInputStream</span><span class="o">;</span>
-</span><span class='line'><span class="n">FileOutputStream</span> <span class="n">mOutputStream</span><span class="o">;</span>
-</span><span class='line'>
-</span><span class='line'><span class="n">Timer</span> <span class="n">timer</span> <span class="o">=</span> <span class="k">new</span> <span class="n">Timer</span><span class="o">();</span>
-</span></code></pre></td></tr></table></div></figure></notextile></div>  
+{%codeblock lang:java%}
+private static final String TAG = “DemoKit”;</p>
+
+<pre><code>private static final String ACTION_USB_PERMISSION = "com.google.android.DemoKit.action.USB_PERMISSION";
+
+private UsbManager mUsbManager;
+private PendingIntent mPermissionIntent;
+
+
+private int maxBuffer=1024;
+private boolean canIO = false;
+UsbAccessory mAccessory;
+ParcelFileDescriptor mFileDescriptor;
+FileInputStream mInputStream;
+FileOutputStream mOutputStream;
+
+Timer timer = new Timer(); {%endcodeblock%}  
 </code></pre>
 
 <p>如果步骤没出错的话，至此，把Arduino开发板插到Android设备上，应该就能互相传数据了。</p>
@@ -691,23 +434,16 @@
   <li>插入sd卡，运行如下命令察看sd卡是否已经挂载</li>
 </ol>
 
-<p><div class='bogus-wrapper'><notextile><figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-</pre></td><td class='code'><pre><code class='bash'><span class='line'>df -h
-</span><span class='line'>文件系统            容量  已用  可用 已用%% 挂载点
-</span><span class='line'>/dev/sda7              30G   15G   14G  52% /
-</span><span class='line'>udev                  1.5G  4.0K  1.5G   1% /dev
-</span><span class='line'>tmpfs                 602M  1.1M  601M   1% /run
-</span><span class='line'>none                  5.0M     0  5.0M   0% /run/lock
-</span><span class='line'>none                  1.5G  472K  1.5G   1% /run/shm
-</span><span class='line'>/dev/mmcblk0p1        1.8G   35M  1.7G   3% /media/KINGSTON
-</span></code></pre></td></tr></table></div></figure></notextile></div></p>
+<p>{% codeblock lang:bash %}
+df -h
+文件系统            容量  已用  可用 已用%% 挂载点
+/dev/sda7              30G   15G   14G  52% /
+udev                  1.5G  4.0K  1.5G   1% /dev
+tmpfs                 602M  1.1M  601M   1% /run
+none                  5.0M     0  5.0M   0% /run/lock
+none                  1.5G  472K  1.5G   1% /run/shm
+/dev/mmcblk0p1        1.8G   35M  1.7G   3% /media/KINGSTON
+{% endcodeblock %}</p>
 
 <ol>
   <li>
@@ -856,32 +592,27 @@
   <li>将压缩包解压到某个位置（可以改个名字，这个文件名太长了。如我这里放在~/develop/arm-linux-gnueabi）</li>
 </ul>
 
-<p><div class='bogus-wrapper'><notextile><figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-</pre></td><td class='code'><pre><code class='bash'><span class='line'> tar xvf arm-2010q1-202-arm-none-linux-gnueabi-i686-pc-linux-gnu.tar.bz2
-</span><span class='line'>
-</span></code></pre></td></tr></table></div></figure></notextile></div></p>
+<p>{% codeblock lang:bash %}
+ tar xvf arm-2010q1-202-arm-none-linux-gnueabi-i686-pc-linux-gnu.tar.bz2
+ {% endcodeblock %}</p>
 
 <ul>
   <li>将其中的<em>bin</em>文件夹加入环境变量</li>
 </ul>
 
-<p><div class='bogus-wrapper'><notextile><figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-</pre></td><td class='code'><pre><code class='bash'><span class='line'> vim .bashrc <span class="c">#打开配置文件，加入如下内容</span>
-</span><span class='line'> PATH+<span class="o">=</span>:~/develop/arm-linux-gnueabi/bin <span class="c">#切记加上：以和其他路径分开</span>
-</span><span class='line'>
-</span></code></pre></td></tr></table></div></figure></notextile></div></p>
+<p>{% codeblock lang:bash %}
+ vim .bashrc #打开配置文件，加入如下内容
+ PATH+=:~/develop/arm-linux-gnueabi/bin #切记加上：以和其他路径分开
+ {% endcodeblock %}</p>
 
 <ul>
   <li>保存重启</li>
 </ul>
 
 <p>安装完成以后，在终端里运行：
-<div class='bogus-wrapper'><notextile><figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class='bash'><span class='line'>arm-linux-gnueabi-g++ -mcpu<span class="o">=</span>cortex-a9 -mfpu<span class="o">=</span>neon test.cpp -o <span class="nb">test</span>
-</span></code></pre></td></tr></table></div></figure></notextile></div></p>
+{% codeblock lang:bash %}
+arm-linux-gnueabi-g++ -mcpu=cortex-a9 -mfpu=neon test.cpp -o test
+{% endcodeblock %}</p>
 
 <p>编译成功说明环境已经安装好了，可得到<em>test</em>文件
 ###一些指令
@@ -900,13 +631,11 @@
   <li>打开开发板的终端，输入如下指令：</li>
 </ul>
 
-<p><div class='bogus-wrapper'><notextile><figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-</pre></td><td class='code'><pre><code class='bash'><span class='line'>ls /dev | grep sda  <span class="c">#察看是否已经识别U盘，如果结果里没有类似sda1的字样，请检查U盘是否连接好了</span>
-</span><span class='line'>sudo mkdir /media/usb
-</span><span class='line'>sudo mount -t vfat -o rw /dev/sda /media/usb
-</span></code></pre></td></tr></table></div></figure></notextile></div></p>
+<p>{% codeblock lang:bash %}
+ls /dev | grep sda  #察看是否已经识别U盘，如果结果里没有类似sda1的字样，请检查U盘是否连接好了
+sudo mkdir /media/usb
+sudo mount -t vfat -o rw /dev/sda /media/usb
+{% endcodeblock %}</p>
 
 <ul>
   <li>这时U盘应该已经挂载到<em>/media/usb</em>，进入该目录，运行测试程序</li>
