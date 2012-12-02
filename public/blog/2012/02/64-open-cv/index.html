@@ -1,0 +1,383 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>关于在64位Linux上编译安装OpenCV的问题 - 成长日志</title>
+  <meta name="author" content="清风未明">
+
+  
+  <meta name="description" content="出于某些需要，我想装个OpenCV做一下图像相关的试验，于是我在SourceForge中下载了最新的OpenCV2.3.1，并找到这个非常详细的安装教程编译安装。但是这里出了两个问题。 第一个问题 OpenCV2.3.1要求ffmpeg0.8的版本，这个版本高了或者低了我都出现了编译错误。 &hellip;">
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://ghdawn.github.com/blog/2012/02/64-open-cv">
+  <link href="/favicon.png" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <script src="/javascripts/modernizr-2.0.js"></script>
+  <script src="/javascripts/ender.js"></script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  <link href="/atom.xml" rel="alternate" title="成长日志" type="application/atom+xml">
+  <!-- mathjax config similar to math.stackexchange -->
+
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({
+    tex2jax: {
+      inlineMath: [ ['$','$'], ["\\(","\\)"] ],
+      processEscapes: true
+    }
+  });
+</script>
+
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+      tex2jax: {
+        skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+      }
+    });
+</script>
+
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax(), i;
+        for(i=0; i < all.length; i += 1) {
+            all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+    });
+</script>
+
+<script type="text/javascript"
+   src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+</script>
+
+  
+  <script type="text/javascript">
+    var _gaq = _gaq || [];
+    _gaq.push(['_setAccount', 'UA-29027763-1']);
+    _gaq.push(['_trackPageview']);
+
+    (function() {
+      var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+      ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+      var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+    })();
+  </script>
+
+
+</head>
+
+<body   >
+  <header role="banner"><hgroup>
+  <h1><a href="/">成长日志</a></h1>
+  
+    <h2>一个机器人研究所的计算机爱好者</h2>
+  
+</hgroup>
+
+</header>
+  <nav role="navigation"><ul class="subscription" data-subscription="rss">
+  <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+  
+<form action="http://google.com/search" method="get">
+  <fieldset role="search">
+    <input type="hidden" name="q" value="site:ghdawn.github.com" />
+    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
+  </fieldset>
+</form>
+  
+<ul class="main-navigation">
+  <li><a href="/">Blog</a></li>
+  <li><a href="/blog/archives">Archives</a></li>
+  <li><a href="/about.html">About</a></li>
+</ul>
+
+</nav>
+  <div id="main">
+    <div id="content">
+      <div>
+<article class="hentry" role="article">
+  
+  <header>
+    
+      <h1 class="entry-title">关于在64位Linux上编译安装OpenCV的问题</h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2012-02-25T15:04:00+08:00" pubdate data-updated="true">Feb 25<span>th</span>, 2012</time>
+        
+         | <a href="#disqus_thread">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+<div class="entry-content"><p>出于某些需要，我想装个OpenCV做一下图像相关的试验，于是我在<a href="http://sourceforge.net/projects/opencvlibrary/">SourceForge</a>中下载了最新的OpenCV2.3.1，并找到这个非常详细的<a href="http://www.ozbotz.org/opencv-installation/">安装教程</a>编译安装。但是这里出了两个问题。</p>
+
+<h3 id="section">第一个问题</h3>
+
+<p>OpenCV2.3.1要求ffmpeg0.8的版本，这个版本高了或者低了我都出现了编译错误。OpenCV2.3和以前的则需要低一点，系统自带的版本是低版本，需要卸载老版本，重新编译安装x264和ffmpeg。网上总是有很多坑爹的完全一样的安装指导，可惜都不能用。  </p>
+
+<h3 id="section-1">第二个问题</h3>
+
+<p>这个是64位的问题（我的计算机是Linux Mint12 64bit，如果有人用64位系统，可能也会出类似问题）。我的方法和大家的安装方法都一样，但是我做的时候在很多地方编译不通过，各种编译错误。错误提示大概就是我是x86_64的平台，链接库的时候会出问题。不过还好，在刚才教程底下大家的讨论里我找到了解决方案：</p>
+
+<p>其他的不变，按照教程输入命令即可，只是在安装x264和ffmpeg的时候，第一步<em>configure</em>中加入<strong>–enable-pic</strong>和<strong>–enable-shared</strong>（两个减号）,然后编译安装x264和ffmpeg。在前两个都安装好之后，再重新编译OpenCV，这就可以编译通过了。</p>
+
+<h3 id="section-2">第三个问题</h3>
+<p>即使cmake的时候选择了支持<em>python</em>，安装完成后，<em>python</em>里也找不到相关的库。在官网上找到，在cmake之前，需要先安装<em>python-dev</em>。</p>
+
+<pre><code>    sudo apt-get install python-dev
+</code></pre>
+
+<p>然后<em>cmake</em>时，可以选择<em>Python-OpenCV</em>的安装位置，然后再编译安装OpenCV。安装时可以看到输出信息中出现了正在安装<em>python</em>的库。装好以后，修改.bashrc，增加环境变量<em>PYTHONPATH</em>,并把值设置为刚才选择的安装位置。这样就可以完成安装了。</p>
+
+<p>安装好以后，我不能用如下这个命令来编译，会出现找不到引用的错误。</p>
+
+<pre><code>    g++ `pkg-config opencv --cflags` `pkg-config opencv --libs` my_code.cpp  -o my_code
+</code></pre>
+
+<p>要想顺利编译通过，这里需要把源代码文件放在第一个参数，即</p>
+
+<pre><code>    g++ my_code.cpp `pkg-config opencv --cflags` `pkg-config opencv --libs`  -o my_code
+</code></pre>
+
+<p>然后编译就正常了。</p>
+
+<h3 id="code-blocksopencv">在Code Blocks里配置OpenCV环境</h3>
+<ol>
+  <li>新建一个工程</li>
+  <li>在左侧的Projects区里，右键点击工程，选择<strong>Build Option</strong></li>
+  <li>在<strong>Compiler settings</strong> 的 <strong>Other options</strong>中，加入 <strong><code>pkg-config opencv  --cflags</code></strong></li>
+  <li>在<strong>Linker setting</strong> 的<strong>Other Linker options</strong>中，加入<strong><code>pkg-config opencv --libs </code></strong></li>
+</ol>
+
+<p>这时候编译运行就应该没问题了</p>
+
+<p>希望大家出了类似问题的能安然度过~~~另外如果有人能告诉我为什么，感激不尽！</p>
+</div>
+
+
+  <footer>
+    <p class="meta">
+      
+  
+
+<span class="byline author vcard">Posted by <span class="fn">清风未明</span></span>
+
+      
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2012-02-25T15:04:00+08:00" pubdate data-updated="true">Feb 25<span>th</span>, 2012</time>
+      
+
+<span class="categories">
+  
+    <a class='category' href='/blog/categories/codes/'>Codes</a>, <a class='category' href='/blog/categories/linux/'>Linux</a>, <a class='category' href='/blog/categories/opencv/'>OpenCV</a>
+  
+</span>
+
+
+    </p>
+    
+      <div class="sharing">
+  
+</div>
+
+    
+    <p class="meta">
+      
+        <a class="basic-alignment left" href="/blog/2012/02/doubantest/" title="Previous Post: doubantest">&laquo; doubantest</a>
+      
+      
+        <a class="basic-alignment right" href="/blog/2012/02/kao-yan-gan-xiang/" title="next Post: 考研一学期的感想">考研一学期的感想 &raquo;</a>
+      
+    </p>
+  </footer>
+</article>
+
+  <section>
+    <h1>Comments</h1>
+    <div id="disqus_thread" aria-live="polite"><noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+</div>
+  </section>
+
+</div>
+
+<aside class="sidebar">
+  
+    <section>
+<a href="http://9.douban.com/reader/subscribe?url=http://ghdawn.me" target="_blank"><img src="http://www.douban.com/pics/newnine/feedbutton1.gif"/></a>
+
+  <h1>Recent Posts</h1>
+  <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/blog/2012/12/ml-pca/">机器学习作业1--基于PCA方法的人脸识别</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2012/07/crossgdb/">为ARM平台交叉编译GDB</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2012/06/drawing/">我的木碗中的宇宙</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2012/05/android-arduino/">使用单片机Arduino(AVR)与Android设备通讯</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2012/04/study-android-2/">学习Android开发-用canvas绘图</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2012/03/study-cv-1/">学习机器视觉1--检测圆心</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2012/03/study-android-1/">学习Android开发-SVG文件解析</a>
+      </li>
+    
+  </ul>
+</section>
+
+
+<section>
+<h1>标签</h1>
+<span class='categories_tag'> <a href='/blog/categories/android' style='font-size: 122.5%'>Android(3)</a>  <a href='/blog/categories/automatic' style='font-size: 107.5%'>Automatic(1)</a>  <a href='/blog/categories/codes' style='font-size: 160.0%'>Codes(8)</a>  <a href='/blog/categories/linux' style='font-size: 160.0%'>Linux(8)</a>  <a href='/blog/categories/matlab' style='font-size: 107.5%'>Matlab(1)</a>  <a href='/blog/categories/opencv' style='font-size: 115.0%'>Opencv(2)</a>  <a href='/blog/categories/sth' style='font-size: 137.5%'>Sth(5)</a>  <a href='/blog/categories/嵌入式' style='font-size: 130.0%'>嵌入式(4)</a>  <a href='/blog/categories/机器学习' style='font-size: 107.5%'>机器学习(1)</a>  <a href='/blog/categories/考研' style='font-size: 115.0%'>考研(2)</a> </span>
+</section>
+
+<section id="douban_sidebar">
+<h1>豆瓣</h1>
+
+<script type="text/javascript" src="http://www.douban.com/service/badge/dream29831/?show=collection&amp;n=8&amp;columns=2&amp;picsize=medium&amp;hideself=yes" ></script>
+</section>
+<section id="comment_sidebar">
+<h1>近期评论</h1>
+
+<script type="text/javascript" src="http://ghdawn.disqus.com/recent_comments_widget.js?num_items=5&hide_avatars=0&avatar_size=32&excerpt_length=20"></script><a href="http://disqus.com/">Powered by Disqus</a>
+
+</section>
+
+<section>
+  <h1>Github Repos</h1>
+  <ul id="gh_repos">
+    <li class="loading">Status updating...</li>
+  </ul>
+  
+  <a href="https://github.com/ghdawn">@ghdawn</a> on Github
+  
+  <script type="text/javascript">
+    $.domReady(function(){
+        if (!window.jXHR){
+            var jxhr = document.createElement('script');
+            jxhr.type = 'text/javascript';
+            jxhr.src = '/javascripts/libs/jXHR.js';
+            var s = document.getElementsByTagName('script')[0];
+            s.parentNode.insertBefore(jxhr, s);
+        }
+
+        github.showRepos({
+            user: 'ghdawn',
+            count: 0,
+            skip_forks: true,
+            target: '#gh_repos'
+        });
+    });
+  </script>
+  <script src="/javascripts/github.js" type="text/javascript"> </script>
+</section>
+
+<section id="ga_sidebar">
+<h1>GoogleAnalytics</h1>
+
+<script type="text/javascript">
+
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-29027763-1']);
+  _gaq.push(['_trackPageview']);
+
+  (function() {
+    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  })();
+
+</script>
+</section>
+
+  
+</aside>
+
+
+    </div>
+  </div>
+  <footer role="contentinfo"><p>
+  Copyright &copy; 2012 - 清风未明 -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
+ 
+</p>
+
+</footer>
+  
+
+<script type="text/javascript">
+      var disqus_shortname = 'ghdawn';
+      
+        
+        // var disqus_developer = 1;
+        var disqus_identifier = 'http://ghdawn.github.com/blog/2012/02/64-open-cv/';
+        var disqus_url = 'http://ghdawn.github.com/blog/2012/02/64-open-cv/';
+        var disqus_script = 'embed.js';
+      
+    (function () {
+      var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+      dsq.src = 'http://' + disqus_shortname + '.disqus.com/' + disqus_script;
+      (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    }());
+</script>
+
+
+
+
+
+
+
+
+
+
+
+</body>
+</html>
