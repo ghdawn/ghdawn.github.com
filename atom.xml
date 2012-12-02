@@ -1,142 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
 
-<!DOCTYPE html>
-<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
-<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
-<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
-<head>
-  <meta charset="utf-8">
-  <title>成长日志</title>
-  <meta name="author" content="清风未明">
-
-  
-  <meta name="description" content="实验目的 学习主成分分析（PCA）的基础知识 了解PCA在人脸识别与重建方面的应用 认识数据降维在数据处理中的重要作用 学习使用matlab实现PCA算法 实验原理 随着人们处理的问题越来越复杂，待处理的数据变得越来越庞大。在数据分析和处理的过程中，时间的消耗量是十分巨大的。 &hellip;">
-  
-
-  <!-- http://t.co/dKP3o1e -->
-  <meta name="HandheldFriendly" content="True">
-  <meta name="MobileOptimized" content="320">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-
-  
-  <link rel="canonical" href="http://ghdawn.github.com">
-  <link href="/favicon.png" rel="icon">
-  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
-  <script src="/javascripts/modernizr-2.0.js"></script>
-  <script src="/javascripts/ender.js"></script>
-  <script src="/javascripts/octopress.js" type="text/javascript"></script>
-  <link href="/atom.xml" rel="alternate" title="成长日志" type="application/atom+xml">
-  <!-- mathjax config similar to math.stackexchange -->
-
-<script type="text/x-mathjax-config">
-  MathJax.Hub.Config({
-    tex2jax: {
-      inlineMath: [ ['$','$'], ["\\(","\\)"] ],
-      processEscapes: true
-    }
-  });
-</script>
-
-<script type="text/x-mathjax-config">
-    MathJax.Hub.Config({
-      tex2jax: {
-        skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
-      }
-    });
-</script>
-
-<script type="text/x-mathjax-config">
-    MathJax.Hub.Queue(function() {
-        var all = MathJax.Hub.getAllJax(), i;
-        for(i=0; i < all.length; i += 1) {
-            all[i].SourceElement().parentNode.className += ' has-jax';
-        }
-    });
-</script>
-
-<script type="text/javascript"
-   src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
-</script>
-
-  
-  <script type="text/javascript">
-    var _gaq = _gaq || [];
-    _gaq.push(['_setAccount', 'UA-29027763-1']);
-    _gaq.push(['_trackPageview']);
-
-    (function() {
-      var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
-      ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
-      var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
-    })();
-  </script>
-
-
-</head>
-
-<body   >
-  <header role="banner"><hgroup>
-  <h1><a href="/">成长日志</a></h1>
-  
-    <h2>一个机器人研究所的计算机爱好者</h2>
-  
-</hgroup>
-
-</header>
-  <nav role="navigation"><ul class="subscription" data-subscription="rss">
-  <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
-  
-</ul>
-  
-<form action="http://google.com/search" method="get">
-  <fieldset role="search">
-    <input type="hidden" name="q" value="site:ghdawn.github.com" />
-    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
-  </fieldset>
-</form>
-  
-<ul class="main-navigation">
-  <li><a href="/">Blog</a></li>
-  <li><a href="/blog/archives">Archives</a></li>
-  <li><a href="/about.html">About</a></li>
-</ul>
-
-</nav>
-  <div id="main">
-    <div id="content">
-      <div class="blog-index">
-  
-  
-  
-    <article>
-      
-  <header>
+  <title><![CDATA[成长日志]]></title>
+  <link href="http://ghdawn.github.com/atom.xml" rel="self"/>
+  <link href="http://ghdawn.github.com/"/>
+  <updated>2012-12-02T21:51:18+08:00</updated>
+  <id>http://ghdawn.github.com/</id>
+  <author>
+    <name><![CDATA[清风未明]]></name>
     
-      <h1 class="entry-title"><a href="/blog/2012/12/ml-pca/">机器学习作业1&#8211;基于PCA方法的人脸识别</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
 
   
-
-
-<time datetime="2012-12-02T20:22:00+08:00" pubdate data-updated="true">Dec 2<span>nd</span>, 2012</time>
-        
-         | <a href="/blog/2012/12/ml-pca/#disqus_thread">Comments</a>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><h3 id="section">实验目的</h3>
+  <entry>
+    <title type="html"><![CDATA[机器学习作业1--基于PCA方法的人脸识别]]></title>
+    <link href="http://ghdawn.github.com/blog/2012/12/ml-pca/"/>
+    <updated>2012-12-02T20:22:00+08:00</updated>
+    <id>http://ghdawn.github.com/blog/2012/12/ml-pca</id>
+    <content type="html"><![CDATA[<h3 id="section">实验目的</h3>
 
 <ol>
   <li>学习主成分分析（PCA）的基础知识</li>
@@ -429,65 +311,36 @@ dis(x)=\min \{\|W_x-W_{Ij} \| \} , j=1,2 \ldots n
 
 <p>由下图可知，协方差矩阵的特征值分布十分不均匀。只有少量的特征值很大，大部分特征值都非常小。说明数据由少量的特征值就可以代表大部分的原数据。</p>
 
-<p><img src="/images/image/ml-1/1.png" alt="协方差矩阵的特征值直方图" /></p>
+<p><img src="http://ghdawn.github.com/images/image/ml-1/1.png" alt="协方差矩阵的特征值直方图" /></p>
 
 <h5 id="section-9">人脸重建</h5>
 
 <p>第一幅是人脸重建过程的开始，可以看出来左右两边的图像还相差很远。从第二幅可以看出来，特征脸叠加出来的人脸和原人脸已经十分的相似。同理之后的两图也展现了同样的过程。由此可以知道，通过抽取大特征值对应的特征向量的确可以得到原数据的主要成分。而重构误差也很小。</p>
 
-<p><img src="/images/image/ml-1/2.png" alt="人脸重建1：还不像" /></p>
+<p><img src="http://ghdawn.github.com/images/image/ml-1/2.png" alt="人脸重建1：还不像" /></p>
 
-<p><img src="/images/image/ml-1/3.png" alt="人脸重建1：很像" />
-<img src="/images/image/ml-1/4.png" alt="人脸重建2：还不像" />
-<img src="/images/image/ml-1/5.png" alt="人脸重建2：很像" /></p>
+<p><img src="http://ghdawn.github.com/images/image/ml-1/3.png" alt="人脸重建1：很像" />
+<img src="http://ghdawn.github.com/images/image/ml-1/4.png" alt="人脸重建2：还不像" />
+<img src="http://ghdawn.github.com/images/image/ml-1/5.png" alt="人脸重建2：很像" /></p>
 
 <h5 id="section-10">人脸识别</h5>
 
 <p>如果见过的话，直接给出那个人，否则的话，就给出最相近的人，如下图
-<img src="/images/image/ml-1/8.png" alt="见过的" />
-<img src="/images/image/ml-1/7.png" alt="没见过，但是很像的" />
-<img src="/images/image/ml-1/6.png" alt="没见过，但是很像的" /></p>
+<img src="http://ghdawn.github.com/images/image/ml-1/8.png" alt="见过的" />
+<img src="http://ghdawn.github.com/images/image/ml-1/7.png" alt="没见过，但是很像的" />
+<img src="http://ghdawn.github.com/images/image/ml-1/6.png" alt="没见过，但是很像的" /></p>
 
 <p>由此可知,<code>PCA</code> 方法成功的应用在了人脸识别上。同时该结果也验证了我的实现过程的正确性。</p>
 
-</div>
+]]></content>
+  </entry>
   
-  
-
-
-    </article>
-  
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2012/07/crossgdb/">为ARM平台交叉编译GDB</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2012-07-30T20:53:00+08:00" pubdate data-updated="true">Jul 30<span>th</span>, 2012</time>
-        
-         | <a href="/blog/2012/07/crossgdb/#disqus_thread">Comments</a>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p>为了方便调试嵌入式程序，需要移植一份<em>GDB</em>到ARM平台。</p>
+  <entry>
+    <title type="html"><![CDATA[为ARM平台交叉编译GDB]]></title>
+    <link href="http://ghdawn.github.com/blog/2012/07/crossgdb/"/>
+    <updated>2012-07-30T20:53:00+08:00</updated>
+    <id>http://ghdawn.github.com/blog/2012/07/crossgdb</id>
+    <content type="html"><![CDATA[<p>为了方便调试嵌入式程序，需要移植一份<em>GDB</em>到ARM平台。</p>
 
 <h2 id="gdb">GDB之前需要先准备的一个库</h2>
 
@@ -549,44 +402,15 @@ dis(x)=\min \{\|W_x-W_{Ij} \| \} , j=1,2 \ldots n
 <h3 id="section-2">注意</h3>
 
 <p>交叉编译的时候会出现这样一个问题：交叉编译器使用的<em>GLIBC</em>版本高于嵌入式Linux里的版本，这会导致可执行文件在开发板里无法运行。而给开发板里更新<em>GLIBC</em>是一个十分困难的事情，目前我没有找到相关的资料，所以最好还是选择和开发板匹配的交叉编译器。</p>
-</div>
+]]></content>
+  </entry>
   
-  
-
-
-    </article>
-  
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2012/06/drawing/">我的木碗中的宇宙</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2012-06-26T12:57:00+08:00" pubdate data-updated="true">Jun 26<span>th</span>, 2012</time>
-        
-         | <a href="/blog/2012/06/drawing/#disqus_thread">Comments</a>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p>某天上网，突然看到豆瓣的推荐里有<a href="http://www.douban.com/group/topic/28764390/">这样</a>一篇文章，讲了在碗里画一个很好看的宇宙的方法。我感觉很好看，就想做一个给女朋友。</p>
+  <entry>
+    <title type="html"><![CDATA[我的木碗中的宇宙]]></title>
+    <link href="http://ghdawn.github.com/blog/2012/06/drawing/"/>
+    <updated>2012-06-26T12:57:00+08:00</updated>
+    <id>http://ghdawn.github.com/blog/2012/06/drawing</id>
+    <content type="html"><![CDATA[<p>某天上网，突然看到豆瓣的推荐里有<a href="http://www.douban.com/group/topic/28764390/">这样</a>一篇文章，讲了在碗里画一个很好看的宇宙的方法。我感觉很好看，就想做一个给女朋友。</p>
 
 <p>先在淘宝上买一些设备：<a href="http://trade.taobao.com/trade/detail/tradeSnap.htm?tradeID=169551961541722">木碗</a>，<a href="http://trade.taobao.com/trade/detail/tradeSnap.htm?tradeID=133675131561722">颜料</a>,会送颜料盘和画笔,和<a href="http://trade.taobao.com/trade/detail/tradeSnap.htm?tradeID=169545961751722">水晶滴胶</a>,会送量杯。</p>
 
@@ -597,7 +421,7 @@ dis(x)=\min \{\|W_x-W_{Ij} \| \} , j=1,2 \ldots n
 
 <p>水晶胶可以滴的厚一点，这样后面的立体感才会强。但是太厚的话在胶变干的时候会产生很大的热量，据商家说会对颜料有损坏，所以说不能滴的太厚。这个自己斟酌。
 大约二十小时左右胶会干透，变硬。效果如图：
-<img src="/images/image/WP_000194.jpg" alt="背景层" /></p>
+<img src="http://ghdawn.github.com/images/image/WP_000194.jpg" alt="背景层" /></p>
 
 <h3 id="section">底色</h3>
 <p>首先选择银核的位置，用白色-黄色-肉色的顺序向外渐变的画。白色是主要的颜色，黄色的作用是让银核变得非常亮，肉色只是为了让边沿变暗，以和紫色相接。<br />
@@ -605,13 +429,13 @@ dis(x)=\min \{\|W_x-W_{Ij} \| \} , j=1,2 \ldots n
 
 <p>最后还是等颜色干了上胶。</p>
 
-<p><img src="/images/image/WP_000200.jpg" alt="第二层的效果" /></p>
+<p><img src="http://ghdawn.github.com/images/image/WP_000200.jpg" alt="第二层的效果" /></p>
 
 <h3 id="section-1">主颜色层</h3>
 <p>主颜色层由蓝色，紫色组成。不过还是先涂一下白色的银核，可以淡一点，透过这一层还能看到下一层的银核。</p>
 
 <p>画好后，还是从中心向外涂色。先在画笔的一边上沾一些紫色，涂几圈。这时候不用洗掉，在灵另一边直接涂上蓝色，让笔上同时有两种颜色，接着涂几圈。最后以蓝色为主收场。不过颜色只要一点就好，让水多一些。颜料太浓会很难看，比如： <br />
-<img src="/images/image/WP_000211.jpg" alt="颜色浓了点" /></p>
+<img src="http://ghdawn.github.com/images/image/WP_000211.jpg" alt="颜色浓了点" /></p>
 
 <p>这样涂好了以后，在画笔上沾很多水，从中心用水涂出去，把颜色混合起来，这样就会产生渐变色的效果。同时颜色变淡以后，就可以看到下一次的星星有很多的颜色。</p>
 
@@ -620,53 +444,24 @@ dis(x)=\min \{\|W_x-W_{Ij} \| \} , j=1,2 \ldots n
 <h5 id="section-2">注意！</h5>
 <p>渐变色是需要混合的，但是不能用水把两中颜色调和在一起，这样只会产生一种新的颜色，而不是两个颜色的渐变。渐变色就需要在画笔上同时涂一些颜色，然后混合在一起，反复刷上去。</p>
 
-<p><img src="/images/image/WP_000220.jpg" alt="半成品" /></p>
+<p><img src="http://ghdawn.github.com/images/image/WP_000220.jpg" alt="半成品" /></p>
 
 <h3 id="section-3">最后一次上色</h3>
 
 <p>这样的颜色还是有一些浓，所以最后一层上用非常非常淡的紫色和蓝色加一个虚无缥缈的雾层，当然要把银核的位置空过去。然后用牙签点上白色的旋转的旋臂，从小到大的旋转起来。</p>
 
-<p><img src="/images/image/WP_000226.jpg" alt="最后一层" /></p>
+<p><img src="http://ghdawn.github.com/images/image/WP_000226.jpg" alt="最后一层" /></p>
 
 <p>我没有加夜光层，因为我买来的夜光涂料颜色一点也不好看，涂上只会让效果变差。</p>
-</div>
+]]></content>
+  </entry>
   
-  
-
-
-    </article>
-  
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2012/05/android-arduino/">使用单片机Arduino(AVR)与Android设备通讯</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2012-05-04T21:57:00+08:00" pubdate data-updated="true">May 4<span>th</span>, 2012</time>
-        
-         | <a href="/blog/2012/05/android-arduino/#disqus_thread">Comments</a>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><h3 id="section">简述需求</h3>
+  <entry>
+    <title type="html"><![CDATA[使用单片机Arduino(AVR)与Android设备通讯]]></title>
+    <link href="http://ghdawn.github.com/blog/2012/05/android-arduino/"/>
+    <updated>2012-05-04T21:57:00+08:00</updated>
+    <id>http://ghdawn.github.com/blog/2012/05/android-arduino</id>
+    <content type="html"><![CDATA[<h3 id="section">简述需求</h3>
 <p>现在的Android设备，像手机，平板等，有很多的资源，比如照相机，音箱等,同时CPU已经很好，运算能力很强。功能十分丰富，但是必须得人手操控才能使用。这么丰富的资源，如果能自动做点事情，或者作为一个控制核心控制其它的东西就更好了，所以Google官方提供了一种方法，将Android设备按附件模式与一个有<a href="http://baike.baidu.com/view/1402520.htm?fromTaglist">USB Host</a>的设备相连，两者通过USB接口相连传输数据，从而实现通过单片机操控手机。（<a href="http://zh.wikipedia.org/zh-cn/USB">USB</a>是主从结构的总线，这里要求Android设备作为从机，单片机作为主机，而一般的开发板附带的usb口都是client，如果需要做这个实验，则需要买<a href="http://item.taobao.com/item.htm?id=12892248805">有USB Host的开发板</a>，或者买专门的 USB host shield模块放在开发板上。）</p>
 
 <p>在这里，Google要求Android平台的版本至少为2.3.3，单片机要求实现了<em>Android Accessory Protocol</em>协议。其中Google官方支持了一个开源硬件平台<a href="http://www.arduino.cc/">Arduino</a>。现阶段，Android只能支持一个USB设备，不过能满足大部分需求了。</p>
@@ -1258,44 +1053,15 @@ dis(x)=\min \{\|W_x-W_{Ij} \| \} , j=1,2 \ldots n
 </span></code></pre></td></tr></table></div></figure></notextile></div>
 
 <p>如果步骤没出错的话，至此，把Arduino开发板插到Android设备上，应该就能互相传数据了。</p>
-</div>
+]]></content>
+  </entry>
   
-  
-
-
-    </article>
-  
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2012/04/study-android-2/">学习Android开发-用canvas绘图</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2012-04-06T15:32:00+08:00" pubdate data-updated="true">Apr 6<span>th</span>, 2012</time>
-        
-         | <a href="/blog/2012/04/study-android-2/#disqus_thread">Comments</a>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p>接着<a href="/blog/2012/03/15/study-android-1/">上一篇</a>所说，我们已经从SVG文件中得到了基本图形的定义信息，如圆的圆心坐标与半径，直线段的端点坐标，所以可以开始绘图了。我的想法是，一张SVG图片解析完成后，把所有图片画进一个<em>Bitmap</em>里，这样以后所有的对图片的操作都可以用<em>Android</em>自带的方法操作，应该会简单一些。<em>Bitmap</em>对象需要用工厂方法来创建。创建好空的bitmap后，将它传给一个<em>Canvas</em>对象，即可以通过<em>canvas</em>的方法，在该bitmap上绘制图形。如下：</p>
+  <entry>
+    <title type="html"><![CDATA[学习Android开发-用canvas绘图]]></title>
+    <link href="http://ghdawn.github.com/blog/2012/04/study-android-2/"/>
+    <updated>2012-04-06T15:32:00+08:00</updated>
+    <id>http://ghdawn.github.com/blog/2012/04/study-android-2</id>
+    <content type="html"><![CDATA[<p>接着<a href="http://ghdawn.github.com/blog/2012/03/15/study-android-1/">上一篇</a>所说，我们已经从SVG文件中得到了基本图形的定义信息，如圆的圆心坐标与半径，直线段的端点坐标，所以可以开始绘图了。我的想法是，一张SVG图片解析完成后，把所有图片画进一个<em>Bitmap</em>里，这样以后所有的对图片的操作都可以用<em>Android</em>自带的方法操作，应该会简单一些。<em>Bitmap</em>对象需要用工厂方法来创建。创建好空的bitmap后，将它传给一个<em>Canvas</em>对象，即可以通过<em>canvas</em>的方法，在该bitmap上绘制图形。如下：</p>
 
 <pre><code>    bitmap = Bitmap.createBitmap(1024, 768, Config.ALPHA_8);
     Canvas canvas = new Canvas(bitmap);
@@ -1343,44 +1109,15 @@ dis(x)=\min \{\|W_x-W_{Ij} \| \} , j=1,2 \ldots n
 </span><span class="line">	<span class="o">}</span>
 </span></code></pre></td></tr></table></div></figure></notextile></div>
 
-</div>
+]]></content>
+  </entry>
   
-  
-
-
-    </article>
-  
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2012/03/study-cv-1/">学习机器视觉1&#8211;检测圆心</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2012-03-18T16:12:00+08:00" pubdate data-updated="true">Mar 18<span>th</span>, 2012</time>
-        
-         | <a href="/blog/2012/03/study-cv-1/#disqus_thread">Comments</a>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><h3 id="section">任务描述及环境</h3>
+  <entry>
+    <title type="html"><![CDATA[学习机器视觉1--检测圆心]]></title>
+    <link href="http://ghdawn.github.com/blog/2012/03/study-cv-1/"/>
+    <updated>2012-03-18T16:12:00+08:00</updated>
+    <id>http://ghdawn.github.com/blog/2012/03/study-cv-1</id>
+    <content type="html"><![CDATA[<h3 id="section">任务描述及环境</h3>
 
 <p>打开摄像头，识别出画面中的圆，并标出圆心，输出圆心的像空间坐标。<br />
 Intel(R) Core(TM)2 Duo CPU     T8100  @ 2.10GHz / 2GB<br />
@@ -1903,47 +1640,18 @@ OpenCV的函数如下，前两个参数和高斯滤波一样，第3，4个参数
 </span></code></pre></td></tr></table></div></figure></notextile></div>
 
 <p>最终效果如下：
-<img src="/images/image/nocirclefound.png" alt="没找到圆" />
-<img src="/images/image/findcircle.png" alt="找到圆" /></p>
+<img src="http://ghdawn.github.com/images/image/nocirclefound.png" alt="没找到圆" />
+<img src="http://ghdawn.github.com/images/image/findcircle.png" alt="找到圆" /></p>
 
-</div>
+]]></content>
+  </entry>
   
-  
-
-
-    </article>
-  
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2012/03/study-android-1/">学习Android开发-SVG文件解析</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2012-03-15T18:57:00+08:00" pubdate data-updated="true">Mar 15<span>th</span>, 2012</time>
-        
-         | <a href="/blog/2012/03/study-android-1/#disqus_thread">Comments</a>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p>我毕业设计的题目是在安卓平台上开发一个工程图的浏览器。需要从服务器中读取用户选择的图纸，并在终端上显示。我所接收到的图纸的类型是SVG格式。</p>
+  <entry>
+    <title type="html"><![CDATA[学习Android开发-SVG文件解析]]></title>
+    <link href="http://ghdawn.github.com/blog/2012/03/study-android-1/"/>
+    <updated>2012-03-15T18:57:00+08:00</updated>
+    <id>http://ghdawn.github.com/blog/2012/03/study-android-1</id>
+    <content type="html"><![CDATA[<p>我毕业设计的题目是在安卓平台上开发一个工程图的浏览器。需要从服务器中读取用户选择的图纸，并在终端上显示。我所接收到的图纸的类型是SVG格式。</p>
 
 <p>Android并没有直接支持渲染SVG格式，而CodeProject和GitHub上的那些SVG库又都很不靠谱，所以我需要自己解析并绘图。SVG格式的图片是基于XML的，所以图片相当于一个文档，可以用解析XML文档的方式来解析图片。关于SVG图片的详情请见<a href="http://www.w3school.com.cn/svg/svg_intro.asp">这里</a></p>
 
@@ -2045,44 +1753,15 @@ OpenCV的函数如下，前两个参数和高斯滤波一样，第3，4个参数
 </span></code></pre></td></tr></table></div></figure></notextile></div>
 
 <p>对于直线等其他的图形，也是同样的解析方式，只要把所有图形存下来就可以绘制了~~</p>
-</div>
+]]></content>
+  </entry>
   
-  
-
-
-    </article>
-  
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2012/02/kao-yan-jing-yan/">我关于考研的一点经验</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2012-02-28T15:42:00+08:00" pubdate data-updated="true">Feb 28<span>th</span>, 2012</time>
-        
-         | <a href="/blog/2012/02/kao-yan-jing-yan/#disqus_thread">Comments</a>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p>从昨天下午开始查分起，身边就不断爆出各种400+的分数，最高有430+，本班也有420+。我的分数是398，其中政治57，英语66，数学145，专业课130。不知道在总体排名怎么样，但是对我来说这是一个很让我满意的分数。我也不怕丢人，就抛砖引玉说一点我的考研经验，望后人能有所借鉴。</p>
+  <entry>
+    <title type="html"><![CDATA[我关于考研的一点经验]]></title>
+    <link href="http://ghdawn.github.com/blog/2012/02/kao-yan-jing-yan/"/>
+    <updated>2012-02-28T15:42:00+08:00</updated>
+    <id>http://ghdawn.github.com/blog/2012/02/kao-yan-jing-yan</id>
+    <content type="html"><![CDATA[<p>从昨天下午开始查分起，身边就不断爆出各种400+的分数，最高有430+，本班也有420+。我的分数是398，其中政治57，英语66，数学145，专业课130。不知道在总体排名怎么样，但是对我来说这是一个很让我满意的分数。我也不怕丢人，就抛砖引玉说一点我的考研经验，望后人能有所借鉴。</p>
 
 <h3 id="section">关于时间安排</h3>
 <p>我是从8月底开始准备的，但是很不认真，一直到10月开始真正非常认真的做准备。虽然时间倒是够了，我心态也还可以，但是凭心而论，这个时间太紧了。在十月十一月的时候，我每天时间安排的非常满，生怕到考前还复习不完。这样的感觉很不舒服，要不是我对数学和专业课比较感兴趣，恐怕没法保持这么好的心态。毕竟身子后面一个大石头追着的感觉不好。建议大家从8月就开始认真点儿的准备。</p>
@@ -2113,44 +1792,15 @@ OpenCV的函数如下，前两个参数和高斯滤波一样，第3，4个参数
 
 <p>愿大家都考研成功，最后给大家一句话：秦人不暇自哀，而后人哀之。后人哀之而不鉴之，亦使后人而复哀后人也。</p>
 
-</div>
+]]></content>
+  </entry>
   
-  
-
-
-    </article>
-  
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2012/02/kao-yan-gan-xiang/">考研一学期的感想</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2012-02-28T14:40:00+08:00" pubdate data-updated="true">Feb 28<span>th</span>, 2012</time>
-        
-         | <a href="/blog/2012/02/kao-yan-gan-xiang/#disqus_thread">Comments</a>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p>我从一开始就希望上研究生，但是又不愿意三年的时间全部花在课本之上去争取保研资格，而学校的冯如杯又不是那么靠谱，那么考研就是我唯一的方式了。从大四开学以后到昨天下午查分，我终于经历了一次完整的大考历程。</p>
+  <entry>
+    <title type="html"><![CDATA[考研一学期的感想]]></title>
+    <link href="http://ghdawn.github.com/blog/2012/02/kao-yan-gan-xiang/"/>
+    <updated>2012-02-28T14:40:00+08:00</updated>
+    <id>http://ghdawn.github.com/blog/2012/02/kao-yan-gan-xiang</id>
+    <content type="html"><![CDATA[<p>我从一开始就希望上研究生，但是又不愿意三年的时间全部花在课本之上去争取保研资格，而学校的冯如杯又不是那么靠谱，那么考研就是我唯一的方式了。从大四开学以后到昨天下午查分，我终于经历了一次完整的大考历程。</p>
 
 <p>刚开始准备考研的时候，总听说考自己学校容易，开学了再准备也来得及，于是我从8月底开始，很悠闲的度过了考研的第一个月。开学了我也不着急，每天按时上课，按时写作业，和保研了的女朋友一起自习，时不时再打会儿游戏。每周的生活节奏真是不错，唯一能看出来我是准备考研的，就是周末我需要去上新东方的英语强化班。</p>
 
@@ -2169,44 +1819,15 @@ OpenCV的函数如下，前两个参数和高斯滤波一样，第3，4个参数
 
 <p>其实考研的整个过程，除了政治学的比较痛苦，其他的感觉还可以，我也没有太紧张，我的爸妈女朋友也都在安慰我，再加上自我感觉复习的还不错，我心态保持的很好。由于每天刚开始过的太悠闲，中间看上去貌似悠闲（没有太早起，中午照常睡觉），加上后来玩游戏，我的舍友说我要是能考上，那就是个奇迹~~看来，还不错！</p>
 
-</div>
+]]></content>
+  </entry>
   
-  
-
-
-    </article>
-  
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2012/02/64-open-cv/">关于在64位Linux上编译安装OpenCV的问题</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2012-02-25T15:04:00+08:00" pubdate data-updated="true">Feb 25<span>th</span>, 2012</time>
-        
-         | <a href="/blog/2012/02/64-open-cv/#disqus_thread">Comments</a>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p>出于某些需要，我想装个OpenCV做一下图像相关的试验，于是我在<a href="http://sourceforge.net/projects/opencvlibrary/">SourceForge</a>中下载了最新的OpenCV2.3.1，并找到这个非常详细的<a href="http://www.ozbotz.org/opencv-installation/">安装教程</a>编译安装。但是这里出了两个问题。</p>
+  <entry>
+    <title type="html"><![CDATA[关于在64位Linux上编译安装OpenCV的问题]]></title>
+    <link href="http://ghdawn.github.com/blog/2012/02/64-open-cv/"/>
+    <updated>2012-02-25T15:04:00+08:00</updated>
+    <id>http://ghdawn.github.com/blog/2012/02/64-open-cv</id>
+    <content type="html"><![CDATA[<p>出于某些需要，我想装个OpenCV做一下图像相关的试验，于是我在<a href="http://sourceforge.net/projects/opencvlibrary/">SourceForge</a>中下载了最新的OpenCV2.3.1，并找到这个非常详细的<a href="http://www.ozbotz.org/opencv-installation/">安装教程</a>编译安装。但是这里出了两个问题。</p>
 
 <h3 id="section">第一个问题</h3>
 
@@ -2249,161 +1870,570 @@ OpenCV的函数如下，前两个参数和高斯滤波一样，第3，4个参数
 <p>这时候编译运行就应该没问题了</p>
 
 <p>希望大家出了类似问题的能安然度过~~~另外如果有人能告诉我为什么，感激不尽！</p>
-</div>
+]]></content>
+  </entry>
   
+  <entry>
+    <title type="html"><![CDATA[doubantest]]></title>
+    <link href="http://ghdawn.github.com/blog/2012/02/doubantest/"/>
+    <updated>2012-02-23T10:24:00+08:00</updated>
+    <id>http://ghdawn.github.com/blog/2012/02/doubantest</id>
+    <content type="html"><![CDATA[<p>doubanclaimcc7c5f762d583445</p>
+
+]]></content>
+  </entry>
   
+  <entry>
+    <title type="html"><![CDATA[学习在自动控制中应用MATLAB-1]]></title>
+    <link href="http://ghdawn.github.com/blog/2012/02/matlab-study1/"/>
+    <updated>2012-02-17T17:20:00+08:00</updated>
+    <id>http://ghdawn.github.com/blog/2012/02/matlab-study1</id>
+    <content type="html"><![CDATA[<h2 id="section">建立系统传递函数</h2>
 
+<p>设系统的传递函数为：<a href="http://www.codecogs.com/eqnedit.php?latex=\fn_jvn G(s)=\frac{s@plus;1}{2s^3@plus;3s^2@plus;4s@plus;5}" target="_blank"><img src="http://latex.codecogs.com/png.latex?\fn_jvn G(s)=\frac{s+1}{2s^3+3s^2+4s+5}" title="\fn_jvn G(s)=\frac{s+1}{2s^3+3s^2+4s+5}" /></a> <br />
+则在matlab中输入如下命令，可得到其传递函数：   </p>
 
-    </article>
+<div class="bogus-wrapper"><notextile><figure class="code"> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+<span class="line-number">4</span>
+<span class="line-number">5</span>
+<span class="line-number">6</span>
+</pre></td><td class="code"><pre><code class="matlab"><span class="line"><span class="n">num</span><span class="p">=[</span>1 2<span class="p">];</span><span class="n">den</span><span class="p">=[</span>2 3 4 5<span class="p">];</span><span class="n">G</span><span class="p">=</span><span class="n">tf</span><span class="p">(</span><span class="n">num</span><span class="p">,</span><span class="n">den</span><span class="p">)</span>
+</span><span class="line">
+</span><span class="line"><span class="n">Transfer</span> <span class="k">function</span><span class="p">:</span>
+</span><span class="line">         <span class="n">s</span> <span class="o">+</span> 2
+</span><span class="line"><span class="o">-----------------------</span>
+</span><span class="line">2 <span class="n">s</span>^3 <span class="o">+</span> 3 <span class="n">s</span>^2 <span class="o">+</span> 4 <span class="n">s</span> <span class="o">+</span> 5
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<p>令：</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+<span class="line-number">4</span>
+<span class="line-number">5</span>
+<span class="line-number">6</span>
+<span class="line-number">7</span>
+<span class="line-number">8</span>
+<span class="line-number">9</span>
+<span class="line-number">10</span>
+<span class="line-number">11</span>
+<span class="line-number">12</span>
+<span class="line-number">13</span>
+</pre></td><td class="code"><pre><code class="matlab"><span class="line"><span class="o">&gt;&gt;</span> <span class="n">G1</span><span class="p">=</span><span class="n">tf</span><span class="p">([</span>1 2<span class="p">],[</span>1 2 3<span class="p">])</span>
+</span><span class="line">
+</span><span class="line"><span class="n">Transfer</span> <span class="k">function</span><span class="p">:</span>
+</span><span class="line">    <span class="n">s</span> <span class="o">+</span> 2
+</span><span class="line"><span class="o">-------------</span>
+</span><span class="line"><span class="n">s</span>^2 <span class="o">+</span> 2 <span class="n">s</span> <span class="o">+</span> 3
+</span><span class="line">
+</span><span class="line"><span class="o">&gt;&gt;</span> <span class="n">G2</span><span class="p">=</span><span class="n">tf</span><span class="p">([</span>1<span class="p">],[</span>1 0<span class="p">])</span>
+</span><span class="line">
+</span><span class="line"><span class="n">Transfer</span> <span class="k">function</span><span class="p">:</span>
+</span><span class="line">1
+</span><span class="line"><span class="o">-</span>
+</span><span class="line"><span class="n">s</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<ul>
+  <li>如果需要串联两个模块G1，G2，则用命令：   </li>
+</ul>
+
+<div class="bogus-wrapper"><notextile><figure class="code"> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+<span class="line-number">4</span>
+<span class="line-number">5</span>
+<span class="line-number">6</span>
+</pre></td><td class="code"><pre><code class="matlab"><span class="line"><span class="o">&gt;&gt;</span><span class="n">G1</span><span class="o">*</span><span class="n">G2</span>
+</span><span class="line">
+</span><span class="line"><span class="n">Transfer</span> <span class="k">function</span><span class="p">:</span>
+</span><span class="line">      <span class="n">s</span> <span class="o">+</span> 2
+</span><span class="line"><span class="o">-----------------</span>
+</span><span class="line"><span class="n">s</span>^3 <span class="o">+</span> 2 <span class="n">s</span>^2 <span class="o">+</span> 3 <span class="n">s</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<ul>
+  <li>需要并联两个模块G1，G2，则用命令：</li>
+</ul>
+
+<div class="bogus-wrapper"><notextile><figure class="code"> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+<span class="line-number">4</span>
+<span class="line-number">5</span>
+<span class="line-number">6</span>
+</pre></td><td class="code"><pre><code class="matlab"><span class="line"><span class="o">&gt;&gt;</span><span class="n">G1</span><span class="o">+</span><span class="n">G2</span>
+</span><span class="line">
+</span><span class="line"><span class="n">Transfer</span> <span class="k">function</span><span class="p">:</span>
+</span><span class="line"> 2 <span class="n">s</span>^2 <span class="o">+</span> 4 <span class="n">s</span> <span class="o">+</span> 3
+</span><span class="line"><span class="o">-----------------</span>
+</span><span class="line"><span class="n">s</span>^3 <span class="o">+</span> 2 <span class="n">s</span>^2 <span class="o">+</span> 3 <span class="n">s</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<ul>
+  <li>需要反馈链接，则用：</li>
+</ul>
+
+<div class="bogus-wrapper"><notextile><figure class="code"> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+<span class="line-number">4</span>
+<span class="line-number">5</span>
+<span class="line-number">6</span>
+</pre></td><td class="code"><pre><code class="matlab"><span class="line"><span class="o">&gt;&gt;</span> <span class="n">G</span><span class="p">=</span><span class="n">feedback</span><span class="p">(</span><span class="n">G1</span><span class="p">,</span><span class="n">G2</span><span class="p">,</span><span class="o">-</span>1<span class="p">)</span>
+</span><span class="line">
+</span><span class="line"><span class="n">Transfer</span> <span class="k">function</span><span class="p">:</span>
+</span><span class="line">      <span class="n">s</span>^2 <span class="o">+</span> 2 <span class="n">s</span>
+</span><span class="line"><span class="o">---------------------</span>
+</span><span class="line"><span class="n">s</span>^3 <span class="o">+</span> 2 <span class="n">s</span>^2 <span class="o">+</span> 4 <span class="n">s</span> <span class="o">+</span> 2
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<p>其中-1表示单位负反馈</p>
+
+<h2 id="section-1">判断系统稳定性</h2>
+
+<p>设系统传递函数为：<a href="http://www.codecogs.com/eqnedit.php?latex=\fn_jvn G(s)=\frac{s^3@plus;7s^2@plus;24s@plus;24}{s^8@plus;2s^7@plus;3s^6@plus;4^s5@plus;6s^3@plus;7s^2@plus;8s@plus;9}" target="_blank"><img src="http://latex.codecogs.com/png.latex?\fn_jvn G(s)=\frac{s^3+7s^2+24s+24}{s^8+2s^7+3s^6+4^s5+6s^3+7s^2+8s+9}" title="\fn_jvn G(s)=\frac{s^3+7s^2+24s+24}{s^8+2s^7+3s^6+4^s5+6s^3+7s^2+8s+9}" /></a>   </p>
+
+<p>在matlab中输入如下命令：</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+<span class="line-number">4</span>
+<span class="line-number">5</span>
+<span class="line-number">6</span>
+<span class="line-number">7</span>
+<span class="line-number">8</span>
+<span class="line-number">9</span>
+<span class="line-number">10</span>
+<span class="line-number">11</span>
+<span class="line-number">12</span>
+<span class="line-number">13</span>
+</pre></td><td class="code"><pre><code class="matlab"><span class="line"><span class="n">den</span><span class="p">=[</span>1<span class="p">:</span>9<span class="p">];</span> <span class="c">%建立特征多项式</span>
+</span><span class="line"><span class="n">roots</span><span class="p">(</span><span class="n">den</span><span class="p">)</span> <span class="c">%求根，通过根的正负判定系统是否稳定</span>
+</span><span class="line">
+</span><span class="line"><span class="nb">ans</span> <span class="p">=</span>
+</span><span class="line">
+</span><span class="line">  <span class="o">-</span>1<span class="p">.</span>2888 <span class="o">+</span> 0<span class="p">.</span>4477<span class="nb">i</span>
+</span><span class="line">  <span class="o">-</span>1<span class="p">.</span>2888 <span class="o">-</span> 0<span class="p">.</span>4477<span class="nb">i</span>
+</span><span class="line">  <span class="o">-</span>0<span class="p">.</span>7244 <span class="o">+</span> 1<span class="p">.</span>1370<span class="nb">i</span>
+</span><span class="line">  <span class="o">-</span>0<span class="p">.</span>7244 <span class="o">-</span> 1<span class="p">.</span>1370<span class="nb">i</span>
+</span><span class="line">   0<span class="p">.</span>1364 <span class="o">+</span> 1<span class="p">.</span>3050<span class="nb">i</span>
+</span><span class="line">   0<span class="p">.</span>1364 <span class="o">-</span> 1<span class="p">.</span>3050<span class="nb">i</span>
+</span><span class="line">   0<span class="p">.</span>8767 <span class="o">+</span> 0<span class="p">.</span>8814<span class="nb">i</span>
+</span><span class="line">   0<span class="p">.</span>8767 <span class="o">-</span> 0<span class="p">.</span>8814<span class="nb">i</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<p>由4个极点有正实部可知，系统不稳定。</p>
+
+<h2 id="section-2">求系统响应</h2>
+<p>设系统传递函数为：<a href="http://www.codecogs.com/eqnedit.php?latex=\fn_jvn G(s)=\frac{s@plus;24}{s^2@plus;4s@plus;9}" target="_blank"><img src="http://latex.codecogs.com/png.latex?\fn_jvn G(s)=\frac{s+24}{s^2+4s+9}" title="\fn_jvn G(s)=\frac{s+24}{s^2+4s+9}" /></a></p>
+
+<p>新建.m文件，在编辑器里输入：</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+<span class="line-number">4</span>
+<span class="line-number">5</span>
+<span class="line-number">6</span>
+<span class="line-number">7</span>
+</pre></td><td class="code"><pre><code class="matlab"><span class="line"><span class="n">num</span><span class="p">=[</span>1 24<span class="p">];</span>
+</span><span class="line"><span class="n">den</span><span class="p">=[</span>1 4 9<span class="p">];</span>
+</span><span class="line"><span class="n">G</span><span class="p">=</span><span class="n">tf</span><span class="p">(</span><span class="n">num</span><span class="p">,</span><span class="n">den</span><span class="p">);</span>
+</span><span class="line"><span class="n">t</span><span class="p">=</span>0<span class="p">:</span>0<span class="p">.</span>1<span class="p">:</span>10<span class="p">;</span>
+</span><span class="line"><span class="n">y</span><span class="p">=</span><span class="n">step</span><span class="p">(</span><span class="n">G</span><span class="p">,</span><span class="n">t</span><span class="p">);</span>
+</span><span class="line"><span class="n">plot</span><span class="p">(</span><span class="n">t</span><span class="p">,</span><span class="n">y</span><span class="p">)</span>
+</span><span class="line"><span class="n">Y</span><span class="p">=</span><span class="n">dcgain</span><span class="p">(</span><span class="n">G</span><span class="p">)</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<p>运行可得结果：</p>
+
+<p><img src="http://ghdawn.github.com/images/image/2jiestep.png" alt="阶跃响应" /></p>
+
+<h3 id="section-3">指令解释</h3>
+<ul>
+  <li><em>step</em> 给出了系统的阶跃响应，y保存了每个t时刻的响应</li>
+  <li>如果用_impulse()_代替_step_则可求得系统的脉冲响应</li>
+  <li><em>plot</em> 以t为自变量，y为函数值画出图像</li>
+  <li>_dcgain_得出系统的稳态值</li>
+</ul>
+
+<h2 id="section-4">绘制跟轨迹</h2>
+<p>设系统闭环传递函数为： <br />
+<a href="http://www.codecogs.com/eqnedit.php?latex=\fn_jvn \Phi (s)=\frac{K(s@plus;1)(s@plus;3)}{s(s@plus;2)(s@plus;3)@plus;K(s@plus;1)}" target="_blank"><img src="http://latex.codecogs.com/png.latex?\fn_jvn \Phi (s)=\frac{K(s+1)(s+3)}{s(s+2)(s+3)+K(s+1)}" title="\fn_jvn \Phi (s)=\frac{K(s+1)(s+3)}{s(s+2)(s+3)+K(s+1)}" /></a></p>
+
+<p>特征方程可写为 <br />
+<a href="http://www.codecogs.com/eqnedit.php?latex=\fn_jvn 1@plus;K\frac{s@plus;1}{s(s@plus;2)(s@plus;3)}=1@plus;K\frac{s@plus;1}{s^3@plus;5s^2@plus;6s}=0" target="_blank"><img src="http://latex.codecogs.com/png.latex?\fn_jvn 1+K\frac{s+1}{s(s+2)(s+3)}=1+K\frac{s+1}{s^3+5s^2+6s}=0" title="\fn_jvn 1+K\frac{s+1}{s(s+2)(s+3)}=1+K\frac{s+1}{s^3+5s^2+6s}=0" /></a></p>
+
+<p>新建.m文件，输入如下语句：</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+<span class="line-number">4</span>
+<span class="line-number">5</span>
+<span class="line-number">6</span>
+</pre></td><td class="code"><pre><code class="matlab"><span class="line"><span class="n">num</span><span class="p">=[</span>1 1<span class="p">];</span>
+</span><span class="line"><span class="n">den</span><span class="p">=[</span>1 5 6 0<span class="p">];</span>
+</span><span class="line"><span class="n">G</span><span class="p">=</span><span class="n">tf</span><span class="p">(</span><span class="n">num</span><span class="p">,</span><span class="n">den</span><span class="p">);</span>
+</span><span class="line"><span class="n">hold</span> <span class="n">on</span><span class="p">;</span>
+</span><span class="line"><span class="n">rlocus</span><span class="p">(</span><span class="n">G</span><span class="p">);</span>
+</span><span class="line"><span class="p">[</span><span class="n">K</span><span class="p">,</span><span class="n">P</span><span class="p">]=</span><span class="n">rlocfind</span><span class="p">(</span><span class="n">G</span><span class="p">)</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<p>运行可得结果：</p>
+
+<p><img src="http://ghdawn.github.com/images/image/rootlocus.png" alt="根轨迹" /></p>
+
+<h3 id="section-5">指令解释</h3>
+<ul>
+  <li><em>hold on</em> 使得多次次绘图可以在一个Figure窗口中叠加展出</li>
+  <li><em>rlocus</em> 绘制给定系统的根轨迹</li>
+  <li><em>rlocufind</em> 函数允许用户求取根轨迹上指定点处的开环增益，K为选定点对应的开环增益，P为该增益下的闭环极点位置。</li>
+</ul>
+
+<p>感谢参考书：<a href="http://book.douban.com/subject/1655949/">《自动控制原理》</a></p>
+]]></content>
+  </entry>
   
-  <div class="pagination">
-    
-      <a class="prev" href="/blog/page/2/">&larr; Older</a>
-    
-    <a href="/blog/archives">Blog Archives</a>
-    
-  </div>
-</div>
-<aside class="sidebar">
+  <entry>
+    <title type="html"><![CDATA[为OMAP4430安装Linux/Android系统]]></title>
+    <link href="http://ghdawn.github.com/blog/2012/02/install-linux/"/>
+    <updated>2012-02-13T12:33:00+08:00</updated>
+    <id>http://ghdawn.github.com/blog/2012/02/install-linux</id>
+    <content type="html"><![CDATA[<p>这块开发板没有板载flash，所以操作系统从SD卡引导。这样，我们的操作系统就需要安装在SD卡上。
+##准备sd卡</p>
+
+<ol>
+  <li>插入sd卡，运行如下命令察看sd卡是否已经挂载</li>
+</ol>
+
+<div class="bogus-wrapper"><notextile><figure class="code"> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+<span class="line-number">4</span>
+<span class="line-number">5</span>
+<span class="line-number">6</span>
+<span class="line-number">7</span>
+<span class="line-number">8</span>
+</pre></td><td class="code"><pre><code class="bash"><span class="line">df -h
+</span><span class="line">文件系统            容量  已用  可用 已用%% 挂载点
+</span><span class="line">/dev/sda7              30G   15G   14G  52% /
+</span><span class="line">udev                  1.5G  4.0K  1.5G   1% /dev
+</span><span class="line">tmpfs                 602M  1.1M  601M   1% /run
+</span><span class="line">none                  5.0M     0  5.0M   0% /run/lock
+</span><span class="line">none                  1.5G  472K  1.5G   1% /run/shm
+</span><span class="line">/dev/mmcblk0p1        1.8G   35M  1.7G   3% /media/KINGSTON
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<ol>
+  <li>
+    <p>如果已挂载，就卸载它(我的sd卡,设备为/dev/mmcblk0,分区为/dev/mmcblk0p1,挂载在/media/KINGSTON下了）</p>
+
+    <pre><code> sudo umount /media/KINGSTON
+</code></pre>
+  </li>
+</ol>
+
+<h2 id="sd">将sd卡格式化成双分区</h2>
+
+<h4 id="section">先说点别的</h4>
+<p>如果有兴趣，请仔细阅读<a href="http://code.google.com/p/beagleboard/wiki/LinuxBootDiskFormat">这篇</a>文档，在网上能找到的所有关于SD双分区的教程，几乎全部和他一样，比如<a href="http://blog.csdn.net/lqf785435771/article/details/7096320">这里</a>，<a href="http://www.fengfly.com/plus/view-163969-1.html">这里</a>，和<a href="http://www.anddev.org/zoom-mdk-f25/part-5-booting-x-loader-and-u-boot-from-sd-card-t2500.html">这里</a>。当然，如果懒得看英文，不看也无妨。我认为其重点如下</p>
+
+<ol>
+  <li>
+    <p>记住sd卡的格式化目标格式，即磁头数255，每个磁道上有63个扇区，以及计算出来的柱面数。原文如下：
+ #cylinders = FLOOR (the number of Bytes on the SD Card (from above) / 255 / 63 / 512 )
+ 总的字节数，即运行如下命令，看到的bytes</p>
+
+    <pre><code> sudo fdisk /dev/mmcblk0 #换成你的设备，切记是设备不是分区，如mmcblk0p1,或sdb1等为分区，mmcblk0,sdb为设备
+</code></pre>
+
+    <p>这样即可获得这h,s,c这三个参数</p>
+  </li>
+  <li>
+    <p>第一分区的系统类型的十六进制代码，我已经查过了，可以告诉你是 c (W95 FAT32 (LBA))</p>
+  </li>
+</ol>
+
+<p>有了这两个信息（虽然不知道为什么要这样设定h,s,c这三个信息），有兴趣的同学可以按照上述文章进行格式化。</p>
+
+<p>注意注意！！首先，这些地方写的fdisk命令中，单位都是cylinder，而这是已经废弃了的单位，现在用的都是sector。所以这些文档的内容，都太太太老了，即使文章是新发的。其次，我也不知道为什么，反正我这样做完，没有用，fdisk可以格式化的的sd卡，却不能指定上述信息。所以在格式化完以后，我的开发板不能用这个sd卡启动，会出现这么几个错误：</p>
+
+<ul>
+  <li>找不到sd卡</li>
+  <li>无法执行MLO</li>
+  <li>执行MLO，找不到分区表</li>
+</ul>
+
+<p>我还是想不通为什么，反正我这样做没有用，不知道他们是怎么做到的，能成功引导。
+我很奇怪，这么这么多人都用了这个方法并写了出来，为什么我就是做不成功？</p>
+
+<h4 id="sd-1">开始格式化sd卡</h4>
+<p>我的解决方案是：使用sfdisk，另一个分区程序。用<em>man</em>得到的这两个程序的信息差不多，但是fdisk的界面要友好很多，操作也简单，只是，没用。sfdisk的用户界面和操作恶心到了极致，但是将就一下能给我把活干了。</p>
+
+<ol>
+  <li>
+    <p>在命令行内执行如下命令，清除sd卡开头的1024个字节（这里似乎存放的分区表，fdisk和sfdisk都不会清除那块信息，但是如果不清空，还是有问题）</p>
+
+    <pre><code> sudo dd if=/dev/zero of=/dev/mmcblk0 bs=1024 count=1024 #of后换成你的设备
+</code></pre>
+  </li>
+  <li>
+    <p>执行命令，其中h，s，c为上一步说的信息，请提前算好。-D表示支持dos方式。因为要格式的双分区，第一个分区是fat格式的。</p>
+
+    <pre><code>  sudo sfdisk -D -H 255 -S 63 -C 243 /dev/mmcblk0
+</code></pre>
+  </li>
+  <li>
+    <p>这时应该会提示找不到分区（第一步已经清除了），并让你输入分区信息。这里会需要设定四个分区。我们只要前两个分区把空间填满，后两个设置为empty就好了。输入如下</p>
+
+    <pre><code> 0 9 c * 回车      
+ 9 (你的c数-9） L 回车          
+ 回车           
+ 回车           
+</code></pre>
+  </li>
+  <li>
+    <p>解释：此处输入格式为起始柱面，柱面数，系统类型，是否可启动。第一个分区用于引导启动，大小不用太大，于是给了9个柱面的空间，c表示fat32（见上一块），*表示可引导启动。第二个分区使用剩下所有空间，系统类型为Linux。其余的均为空</p>
+  </li>
+  <li>这样设置完后，会提示是否写入，输入y即可完成设置，得到两个分区mmcblk0p1,mmcblk0p2。如果用USB口的读卡器，则可能是sdb1,sdb2。</li>
+  <li>
+    <p>输入以下命令，将两个分区格式化。<em>mkfs.vfat</em>用于格式化fat系列分区，<em>-F 32</em>指定分区表为32位。<em>-n</em> 给分区起名字为boot。<em>mkfs.ext3</em>用于格式化ext3分区，<em>-L</em> 也是起名字(我叫它 linux_fs）</p>
+
+    <pre><code> sudo mkfs.vfat -F 32 -n boot /dev/mmcblk0p1          
+ sudo mkfs.ext3 -L linux_fs /dev/mmcblk0p2        
+</code></pre>
+  </li>
+</ol>
+
+<p>至此，最令人头疼的部分就解决了。</p>
+
+<p>在头疼这么久以后，我发现<a href="http://git.openembedded.org/openembedded/tree/contrib/angstrom/omap3-mkcard.sh">这里</a>有一个脚本可以很好的做完这些事情，只要以管理员身份执行，并将你的设备路径作为第一个参数即可。</p>
+
+<h2 id="section-1">安装系统</h2>
+
+<h3 id="linux">安装Linux</h3>
+<ol>
+  <li>挂载SD卡</li>
+  <li>在<a href="https://gforge.ti.com/gf/download/frsrelease/387/4170/L24.9-PandaBoard_minimal-fs.tar.gz">这里</a>下载linux最小系统，并解压缩（可能需要sudo）。</li>
+  <li>
+    <p>把其中的<em>boot</em>文件夹下的<em>MLO</em>，<em>u-boot.bin</em>,<em>uImage</em>复制进boot分区</p>
+
+    <pre><code> sudo cp boot/* /media/boot/        
+</code></pre>
+  </li>
+  <li>
+    <p>把<em>angstrom_minimal-fs</em>内的文件和文件夹复制进第二个分区 <em>linux_fs</em> （可能需要sudo）</p>
+
+    <pre><code> sudo cp -rf angstrom/* /media/linux_fs        
+</code></pre>
+  </li>
+  <li>
+    <p>刷新文件缓冲，确认文件都已经复制进去（如果不执行这句，有可能文件没拷进分区内）</p>
+
+    <pre><code> sync        
+</code></pre>
+  </li>
+  <li>把卡插进开发板，开机实验吧！</li>
+</ol>
+
+<h3 id="android">安装Android</h3>
+
+<p>其实方法都一样，只是格式化的时候建议把第二个分区名字改成类似android_fs之类的好认的名字，并且在<a href="http://code.google.com/p/pandroid/downloads/list">这里</a>下载android文件系统，其余操作同上。</p>
+]]></content>
+  </entry>
   
-    <section>
-<a href="http://9.douban.com/reader/subscribe?url=http://ghdawn.me" target="_blank"><img src="http://www.douban.com/pics/newnine/feedbutton1.gif"/></a>
+  <entry>
+    <title type="html"><![CDATA[OMAP4430 开发环境配置手记]]></title>
+    <link href="http://ghdawn.github.com/blog/2012/02/about-omap4430/"/>
+    <updated>2012-02-09T15:25:00+08:00</updated>
+    <id>http://ghdawn.github.com/blog/2012/02/about-omap4430</id>
+    <content type="html"><![CDATA[<p>由于学习的内容与嵌入式开发有关，所以在这里记录一下学习过程。这次为开箱后的开发环境配置。</p>
 
-  <h1>Recent Posts</h1>
-  <ul id="recent_posts">
-    
-      <li class="post">
-        <a href="/blog/2012/12/ml-pca/">机器学习作业1&#8211;基于PCA方法的人脸识别</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2012/07/crossgdb/">为ARM平台交叉编译GDB</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2012/06/drawing/">我的木碗中的宇宙</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2012/05/android-arduino/">使用单片机Arduino(AVR)与Android设备通讯</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2012/04/study-android-2/">学习Android开发-用canvas绘图</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2012/03/study-cv-1/">学习机器视觉1&#8211;检测圆心</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2012/03/study-android-1/">学习Android开发-SVG文件解析</a>
-      </li>
-    
-  </ul>
-</section>
+<p>我这块OMAP4430开发板配双核Cortex-A9处理器，运行系统为Ubuntu，具体信息见<a href="http://pandaboard.org/">官网PandaBoard</a>。</p>
 
+<p>我的计算机环境：Linux Mint 12</p>
 
-<section>
-<h1>标签</h1>
-<span class='categories_tag'> <a href='/blog/categories/android' style='font-size: 122.5%'>Android(3)</a>  <a href='/blog/categories/automatic' style='font-size: 107.5%'>Automatic(1)</a>  <a href='/blog/categories/codes' style='font-size: 160.0%'>Codes(8)</a>  <a href='/blog/categories/linux' style='font-size: 160.0%'>Linux(8)</a>  <a href='/blog/categories/matlab' style='font-size: 107.5%'>Matlab(1)</a>  <a href='/blog/categories/opencv' style='font-size: 115.0%'>Opencv(2)</a>  <a href='/blog/categories/sth' style='font-size: 137.5%'>Sth(5)</a>  <a href='/blog/categories/嵌入式' style='font-size: 130.0%'>嵌入式(4)</a>  <a href='/blog/categories/机器学习' style='font-size: 107.5%'>机器学习(1)</a>  <a href='/blog/categories/考研' style='font-size: 115.0%'>考研(2)</a> </span>
-</section>
+<h1 id="gcc">安装GCC交叉编译环境</h1>
 
-<section id="douban_sidebar">
-<h1>豆瓣</h1>
+<h2 id="section">通过软件包管理器自动安装</h2>
+<p>打开新立得包管理器，搜索_binutils-arm-linux-gnueabi_，选中以下软件包：  </p>
 
-<script type="text/javascript" src="http://www.douban.com/service/badge/dream29831/?show=collection&amp;n=8&amp;columns=2&amp;picsize=medium&amp;hideself=yes" ></script>
-</section>
-<section id="comment_sidebar">
-<h1>近期评论</h1>
+<ul>
+  <li>binutils-arm-linux-gnueabi</li>
+  <li>g++-arm-linux-gnueabi</li>
+  <li>gcc-arm-linux-gnueabi</li>
+  <li>cpp-arm-linux-gnueabi</li>
+</ul>
 
-<script type="text/javascript" src="http://ghdawn.disqus.com/recent_comments_widget.js?num_items=5&hide_avatars=0&avatar_size=32&excerpt_length=20"></script><a href="http://disqus.com/">Powered by Disqus</a>
+<h2 id="section-1">自己下载，手动安装</h2>
+<ul>
+  <li>在<a href="http://blog.chinaunix.net/link.php?url=http://www.codesourcery.com%2Fsgpp%2Flite%2Farm%2Fportal%2Frelease1293">这里</a>下载最新的<em>ARM-GCC交叉编译器</em></li>
+  <li>将压缩包解压到某个位置（可以改个名字，这个文件名太长了。如我这里放在~/develop/arm-linux-gnueabi）</li>
+</ul>
 
-</section>
+<div class="bogus-wrapper"><notextile><figure class="code"> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+</pre></td><td class="code"><pre><code class="bash"><span class="line"> tar xvf arm-2010q1-202-arm-none-linux-gnueabi-i686-pc-linux-gnu.tar.bz2
+</span><span class="line">
+</span></code></pre></td></tr></table></div></figure></notextile></div>
 
-<section>
-  <h1>Github Repos</h1>
-  <ul id="gh_repos">
-    <li class="loading">Status updating&#8230;</li>
-  </ul>
+<ul>
+  <li>将其中的<em>bin</em>文件夹加入环境变量</li>
+</ul>
+
+<div class="bogus-wrapper"><notextile><figure class="code"> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+</pre></td><td class="code"><pre><code class="bash"><span class="line"> vim .bashrc <span class="c">#打开配置文件，加入如下内容</span>
+</span><span class="line"> PATH+<span class="o">=</span>:~/develop/arm-linux-gnueabi/bin <span class="c">#切记加上：以和其他路径分开</span>
+</span><span class="line">
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<ul>
+  <li>保存重启</li>
+</ul>
+
+<p>安装完成以后，在终端里运行：</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+</pre></td><td class="code"><pre><code class="bash"><span class="line">arm-linux-gnueabi-g++ -mcpu<span class="o">=</span>cortex-a9 -mfpu<span class="o">=</span>neon test.cpp -o <span class="nb">test</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<p>编译成功说明环境已经安装好了，可得到<em>test</em>文件
+###一些指令
+<a href="http://gcc.gnu.org/onlinedocs/gcc/ARM-Options.html">这里</a>有GCC关于ARM的全部指令</p>
+
+<ul>
+  <li><em>-mcpu=</em> 指定目标机的类型，可以选择类似cortex-a9,arm7tdmi等各种型号，只要确定你的GCC支持。我的是corte-a9</li>
+  <li><em>-mfpu=</em> 选择浮点运算设备，我的开发板有neon</li>
+  <li><em>-o</em> 指定编译结果名称</li>
+</ul>
+
+<h1 id="section-2">运行测试程序</h1>
+<ul>
+  <li>插好鼠标键盘，接电开机。以前使用的开发板需要用串口和PC机相连，板子通过PC终端来控制，并输出信息，所以需要配置<em>minicom</em>来访问串口。但是这块板子在解压缩Linux内核后就不再向串口输出信息，也无法通过串口输入指令，所以接不接串口都无所谓。  </li>
+  <li>在开发板中运行测试程序，可以通过配置TFTP或NFS的方式，也可以用可移动设备拷进去。我用的是后者，将test文件拷入U盘。但是板上的Ubuntu不能自动挂载U盘。所以：  </li>
+  <li>打开开发板的终端，输入如下指令：</li>
+</ul>
+
+<div class="bogus-wrapper"><notextile><figure class="code"> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+</pre></td><td class="code"><pre><code class="bash"><span class="line">ls /dev | grep sda  <span class="c">#察看是否已经识别U盘，如果结果里没有类似sda1的字样，请检查U盘是否连接好了</span>
+</span><span class="line">sudo mkdir /media/usb
+</span><span class="line">sudo mount -t vfat -o rw /dev/sda /media/usb
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<ul>
+  <li>这时U盘应该已经挂载到<em>/media/usb</em>，进入该目录，运行测试程序</li>
+</ul>
+
+<h3 id="mount">mount指令的一些参数</h3>
+<ul>
+  <li><em>mount</em>的字面解释为：用某方式把某设备或文件挂载到某目录下</li>
+  <li><em>-t</em> 选择要挂载的文件系统，如ntfs(NTFS),vfat(FAT32),iso9660(光盘)</li>
+  <li><em>-o</em> 选择设备的挂载方式，如rw(可读可写),ro(只读),loop(挂载的是文件)</li>
+</ul>
+]]></content>
+  </entry>
   
-  <a href="https://github.com/ghdawn">@ghdawn</a> on Github
+  <entry>
+    <title type="html"><![CDATA[配置博客的时候碰到的一些问题]]></title>
+    <link href="http://ghdawn.github.com/blog/2012/02/how-to-build-it/"/>
+    <updated>2012-02-08T15:54:00+08:00</updated>
+    <id>http://ghdawn.github.com/blog/2012/02/how-to-build-it</id>
+    <content type="html"><![CDATA[<p>我在配置这个博客的时候遇到了各种各样的问题，在这里分享一下
+最初我按照 <a href="http://http://dangfan.me/">DF大牛牛</a>的博客，以及<a href="http://jekyllbootstrap.com">jekyllbootstrap</a>提供的教程配置,但是没有成功，出现了各种各种的问题，实在无法解决，只好作罢。比如：</p>
+
+<ul>
+  <li>bundle install的时候显示安装了某某，运行的时候提示找不到某某</li>
+  <li>不sudo执行命令说没有权限，sudo执行说没有该命令</li>
+</ul>
+
+<p>接着我按照<a href="http://octopress.org/docs/setup/">Octopress</a>提供的教程一步一步的做。发现:</p>
+
+<ol>
+  <li>
+    <p>我用<em>apt-get</em>安装的ruby环境不能用，在每一步都会出问题，上一段说的问题应该就是这个缘故。</p>
+  </li>
+  <li>
+    <p>于是我使用<em>rvm</em>管理版本。首先卸载掉之前<em>apt-get</em>装的一切ruby有关的内容，然后用rvm重新安装，见<a href="http://octopress.org/docs/setup/">Octopress</a>,在这里按说明安装好ruby,gem,bundle等包</p>
+  </li>
+  <li>
+    <p>官网上说使用<em>rake</em>，但是在依赖安装完之后我并没有rake可以使用，linux提示使用apt-get，但是这里如果用了就会出问题。原因见1. 网上有人说可以gem install rake，于是我就这么做了。结果是，依然错误。<em>gem install</em> 装的rake 版本为0.9.2，它需要0.9。解决方法是，卸载掉它们，进.rvm/bin发现，有一个<em>rake-ruby-1.9.2-p290</em> ,是ruby-1.9.2带的。用这个当rake，就可以继续进行了。</p>
+  </li>
+  <li>
+    <p>删掉<em>/source/_includes/custom/head.html</em>中引用Google字体的部分，否则会因为GFW的问题导致博客访问速度极低</p>
+  </li>
+</ol>
+
+<p>继续更新：
+如果碰到了这个问题：</p>
+
+<p>ERROR:  Loading command: install (LoadError)
+      cannot load such file – zlib</p>
+
+<p>ERROR:  While executing gem … (NameError)
+      uninitialized constant Gem::Commands::InstallCommand</p>
+
+<p>就这样：</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+<span class="line-number">4</span>
+<span class="line-number">5</span>
+<span class="line-number">6</span>
+<span class="line-number">7</span>
+<span class="line-number">8</span>
+<span class="line-number">9</span>
+</pre></td><td class="code"><pre><code class="bash"><span class="line">udo apt-get install zlib1g-dev
+</span><span class="line">sudo apt-get install openssl
+</span><span class="line">sudo apt-get install libssl-dev
+</span><span class="line">sudo apt-get install libssl0.9.8
+</span><span class="line"><span class="nb">cd</span> /ext/openssl/
+</span><span class="line">ruby extconf.rb
+</span><span class="line"><span class="nb">cd</span> ../..
+</span><span class="line">make
+</span><span class="line">make install
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<p>应该就好了吧</p>
+]]></content>
+  </entry>
   
-  <script type="text/javascript">
-    $.domReady(function(){
-        if (!window.jXHR){
-            var jxhr = document.createElement('script');
-            jxhr.type = 'text/javascript';
-            jxhr.src = '/javascripts/libs/jXHR.js';
-            var s = document.getElementsByTagName('script')[0];
-            s.parentNode.insertBefore(jxhr, s);
-        }
+  <entry>
+    <title type="html"><![CDATA[Hello]]></title>
+    <link href="http://ghdawn.github.com/blog/2012/02/hello/"/>
+    <updated>2012-02-08T12:01:00+08:00</updated>
+    <id>http://ghdawn.github.com/blog/2012/02/hello</id>
+    <content type="html"><![CDATA[<p>费了好大的劲，重装了无数次ruby环境，还重装了一次系统，终于把这个博客给弄好了，真是不容易啊！我要养成写博客的好习惯，记录下该记住的一些事情，方便我的学习。</p>
 
-        github.showRepos({
-            user: 'ghdawn',
-            count: 0,
-            skip_forks: true,
-            target: '#gh_repos'
-        });
-    });
-  </script>
-  <script src="/javascripts/github.js" type="text/javascript"> </script>
-</section>
+<p>这个系统真是不错，代码块高亮自动就有了</p>
 
-<section id="ga_sidebar">
-<h1>GoogleAnalytics</h1>
+<div class="bogus-wrapper"><notextile><figure class="code"> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+<span class="line-number">4</span>
+<span class="line-number">5</span>
+<span class="line-number">6</span>
+<span class="line-number">7</span>
+</pre></td><td class="code"><pre><code class="cpp"><span class="line"><span class="cp">#include&lt;iostream&gt;</span>
+</span><span class="line"><span class="k">using</span> <span class="k">namespace</span> <span class="n">std</span><span class="p">;</span>
+</span><span class="line"><span class="kt">int</span> <span class="n">main</span><span class="p">()</span>
+</span><span class="line"><span class="p">{</span>
+</span><span class="line">    <span class="n">cout</span><span class="o">&lt;&lt;</span><span class="s">&quot;Hello&quot;</span><span class="o">&lt;&lt;</span><span class="n">endl</span><span class="p">;</span>
+</span><span class="line">    <span class="k">return</span> <span class="mi">0</span><span class="p">;</span>
+</span><span class="line"><span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div>
 
-<script type="text/javascript">
-
-  var _gaq = _gaq || [];
-  _gaq.push(['_setAccount', 'UA-29027763-1']);
-  _gaq.push(['_trackPageview']);
-
-  (function() {
-    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
-    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
-    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
-  })();
-
-</script>
-</section>
-
+]]></content>
+  </entry>
   
-</aside>
-
-    </div>
-  </div>
-  <footer role="contentinfo"><p>
-  Copyright &copy; 2012 - 清风未明 -
-  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
- 
-</p>
-
-</footer>
-  
-
-<script type="text/javascript">
-      var disqus_shortname = 'ghdawn';
-      
-        
-        var disqus_script = 'count.js';
-      
-    (function () {
-      var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
-      dsq.src = 'http://' + disqus_shortname + '.disqus.com/' + disqus_script;
-      (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
-    }());
-</script>
-
-
-
-
-
-
-
-
-
-
-
-</body>
-</html>
+</feed>

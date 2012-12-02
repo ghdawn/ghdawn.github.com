@@ -1,0 +1,557 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>学习在自动控制中应用MATLAB-1 - 成长日志</title>
+  <meta name="author" content="清风未明">
+
+  
+  <meta name="description" content="建立系统传递函数 设系统的传递函数为： 则在matlab中输入如下命令，可得到其传递函数： 1
+2
+3
+4
+5
+6
+num=[1 2];den=[2 3 4 5];G=tf(num,den) Transfer function: s + 2
+-----------------------
+2 s^ &hellip;">
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://ghdawn.github.com/blog/2012/02/matlab-study1">
+  <link href="/favicon.png" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <script src="/javascripts/modernizr-2.0.js"></script>
+  <script src="/javascripts/ender.js"></script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  <link href="/atom.xml" rel="alternate" title="成长日志" type="application/atom+xml">
+  <!-- mathjax config similar to math.stackexchange -->
+
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({
+    tex2jax: {
+      inlineMath: [ ['$','$'], ["\\(","\\)"] ],
+      processEscapes: true
+    }
+  });
+</script>
+
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+      tex2jax: {
+        skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+      }
+    });
+</script>
+
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax(), i;
+        for(i=0; i < all.length; i += 1) {
+            all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+    });
+</script>
+
+<script type="text/javascript"
+   src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+</script>
+
+  
+  <script type="text/javascript">
+    var _gaq = _gaq || [];
+    _gaq.push(['_setAccount', 'UA-29027763-1']);
+    _gaq.push(['_trackPageview']);
+
+    (function() {
+      var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+      ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+      var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+    })();
+  </script>
+
+
+</head>
+
+<body   >
+  <header role="banner"><hgroup>
+  <h1><a href="/">成长日志</a></h1>
+  
+    <h2>一个机器人研究所的计算机爱好者</h2>
+  
+</hgroup>
+
+</header>
+  <nav role="navigation"><ul class="subscription" data-subscription="rss">
+  <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+  
+<form action="http://google.com/search" method="get">
+  <fieldset role="search">
+    <input type="hidden" name="q" value="site:ghdawn.github.com" />
+    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
+  </fieldset>
+</form>
+  
+<ul class="main-navigation">
+  <li><a href="/">Blog</a></li>
+  <li><a href="/blog/archives">Archives</a></li>
+  <li><a href="/about.html">About</a></li>
+</ul>
+
+</nav>
+  <div id="main">
+    <div id="content">
+      <div>
+<article class="hentry" role="article">
+  
+  <header>
+    
+      <h1 class="entry-title">学习在自动控制中应用MATLAB-1</h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2012-02-17T17:20:00+08:00" pubdate data-updated="true">Feb 17<span>th</span>, 2012</time>
+        
+         | <a href="#disqus_thread">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+<div class="entry-content"><h2 id="section">建立系统传递函数</h2>
+
+<p>设系统的传递函数为：<a href="http://www.codecogs.com/eqnedit.php?latex=\fn_jvn G(s)=\frac{s@plus;1}{2s^3@plus;3s^2@plus;4s@plus;5}" target="_blank"><img src="http://latex.codecogs.com/png.latex?\fn_jvn G(s)=\frac{s+1}{2s^3+3s^2+4s+5}" title="\fn_jvn G(s)=\frac{s+1}{2s^3+3s^2+4s+5}" /></a> <br />
+则在matlab中输入如下命令，可得到其传递函数：   </p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+<span class="line-number">4</span>
+<span class="line-number">5</span>
+<span class="line-number">6</span>
+</pre></td><td class="code"><pre><code class="matlab"><span class="line"><span class="n">num</span><span class="p">=[</span>1 2<span class="p">];</span><span class="n">den</span><span class="p">=[</span>2 3 4 5<span class="p">];</span><span class="n">G</span><span class="p">=</span><span class="n">tf</span><span class="p">(</span><span class="n">num</span><span class="p">,</span><span class="n">den</span><span class="p">)</span>
+</span><span class="line">
+</span><span class="line"><span class="n">Transfer</span> <span class="k">function</span><span class="p">:</span>
+</span><span class="line">         <span class="n">s</span> <span class="o">+</span> 2
+</span><span class="line"><span class="o">-----------------------</span>
+</span><span class="line">2 <span class="n">s</span>^3 <span class="o">+</span> 3 <span class="n">s</span>^2 <span class="o">+</span> 4 <span class="n">s</span> <span class="o">+</span> 5
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<p>令：</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+<span class="line-number">4</span>
+<span class="line-number">5</span>
+<span class="line-number">6</span>
+<span class="line-number">7</span>
+<span class="line-number">8</span>
+<span class="line-number">9</span>
+<span class="line-number">10</span>
+<span class="line-number">11</span>
+<span class="line-number">12</span>
+<span class="line-number">13</span>
+</pre></td><td class="code"><pre><code class="matlab"><span class="line"><span class="o">&gt;&gt;</span> <span class="n">G1</span><span class="p">=</span><span class="n">tf</span><span class="p">([</span>1 2<span class="p">],[</span>1 2 3<span class="p">])</span>
+</span><span class="line">
+</span><span class="line"><span class="n">Transfer</span> <span class="k">function</span><span class="p">:</span>
+</span><span class="line">    <span class="n">s</span> <span class="o">+</span> 2
+</span><span class="line"><span class="o">-------------</span>
+</span><span class="line"><span class="n">s</span>^2 <span class="o">+</span> 2 <span class="n">s</span> <span class="o">+</span> 3
+</span><span class="line">
+</span><span class="line"><span class="o">&gt;&gt;</span> <span class="n">G2</span><span class="p">=</span><span class="n">tf</span><span class="p">([</span>1<span class="p">],[</span>1 0<span class="p">])</span>
+</span><span class="line">
+</span><span class="line"><span class="n">Transfer</span> <span class="k">function</span><span class="p">:</span>
+</span><span class="line">1
+</span><span class="line"><span class="o">-</span>
+</span><span class="line"><span class="n">s</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<ul>
+  <li>如果需要串联两个模块G1，G2，则用命令：   </li>
+</ul>
+
+<div class="bogus-wrapper"><notextile><figure class="code"> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+<span class="line-number">4</span>
+<span class="line-number">5</span>
+<span class="line-number">6</span>
+</pre></td><td class="code"><pre><code class="matlab"><span class="line"><span class="o">&gt;&gt;</span><span class="n">G1</span><span class="o">*</span><span class="n">G2</span>
+</span><span class="line">
+</span><span class="line"><span class="n">Transfer</span> <span class="k">function</span><span class="p">:</span>
+</span><span class="line">      <span class="n">s</span> <span class="o">+</span> 2
+</span><span class="line"><span class="o">-----------------</span>
+</span><span class="line"><span class="n">s</span>^3 <span class="o">+</span> 2 <span class="n">s</span>^2 <span class="o">+</span> 3 <span class="n">s</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<ul>
+  <li>需要并联两个模块G1，G2，则用命令：</li>
+</ul>
+
+<div class="bogus-wrapper"><notextile><figure class="code"> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+<span class="line-number">4</span>
+<span class="line-number">5</span>
+<span class="line-number">6</span>
+</pre></td><td class="code"><pre><code class="matlab"><span class="line"><span class="o">&gt;&gt;</span><span class="n">G1</span><span class="o">+</span><span class="n">G2</span>
+</span><span class="line">
+</span><span class="line"><span class="n">Transfer</span> <span class="k">function</span><span class="p">:</span>
+</span><span class="line"> 2 <span class="n">s</span>^2 <span class="o">+</span> 4 <span class="n">s</span> <span class="o">+</span> 3
+</span><span class="line"><span class="o">-----------------</span>
+</span><span class="line"><span class="n">s</span>^3 <span class="o">+</span> 2 <span class="n">s</span>^2 <span class="o">+</span> 3 <span class="n">s</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<ul>
+  <li>需要反馈链接，则用：</li>
+</ul>
+
+<div class="bogus-wrapper"><notextile><figure class="code"> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+<span class="line-number">4</span>
+<span class="line-number">5</span>
+<span class="line-number">6</span>
+</pre></td><td class="code"><pre><code class="matlab"><span class="line"><span class="o">&gt;&gt;</span> <span class="n">G</span><span class="p">=</span><span class="n">feedback</span><span class="p">(</span><span class="n">G1</span><span class="p">,</span><span class="n">G2</span><span class="p">,</span><span class="o">-</span>1<span class="p">)</span>
+</span><span class="line">
+</span><span class="line"><span class="n">Transfer</span> <span class="k">function</span><span class="p">:</span>
+</span><span class="line">      <span class="n">s</span>^2 <span class="o">+</span> 2 <span class="n">s</span>
+</span><span class="line"><span class="o">---------------------</span>
+</span><span class="line"><span class="n">s</span>^3 <span class="o">+</span> 2 <span class="n">s</span>^2 <span class="o">+</span> 4 <span class="n">s</span> <span class="o">+</span> 2
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<p>其中-1表示单位负反馈</p>
+
+<h2 id="section-1">判断系统稳定性</h2>
+
+<p>设系统传递函数为：<a href="http://www.codecogs.com/eqnedit.php?latex=\fn_jvn G(s)=\frac{s^3@plus;7s^2@plus;24s@plus;24}{s^8@plus;2s^7@plus;3s^6@plus;4^s5@plus;6s^3@plus;7s^2@plus;8s@plus;9}" target="_blank"><img src="http://latex.codecogs.com/png.latex?\fn_jvn G(s)=\frac{s^3+7s^2+24s+24}{s^8+2s^7+3s^6+4^s5+6s^3+7s^2+8s+9}" title="\fn_jvn G(s)=\frac{s^3+7s^2+24s+24}{s^8+2s^7+3s^6+4^s5+6s^3+7s^2+8s+9}" /></a>   </p>
+
+<p>在matlab中输入如下命令：</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+<span class="line-number">4</span>
+<span class="line-number">5</span>
+<span class="line-number">6</span>
+<span class="line-number">7</span>
+<span class="line-number">8</span>
+<span class="line-number">9</span>
+<span class="line-number">10</span>
+<span class="line-number">11</span>
+<span class="line-number">12</span>
+<span class="line-number">13</span>
+</pre></td><td class="code"><pre><code class="matlab"><span class="line"><span class="n">den</span><span class="p">=[</span>1<span class="p">:</span>9<span class="p">];</span> <span class="c">%建立特征多项式</span>
+</span><span class="line"><span class="n">roots</span><span class="p">(</span><span class="n">den</span><span class="p">)</span> <span class="c">%求根，通过根的正负判定系统是否稳定</span>
+</span><span class="line">
+</span><span class="line"><span class="nb">ans</span> <span class="p">=</span>
+</span><span class="line">
+</span><span class="line">  <span class="o">-</span>1<span class="p">.</span>2888 <span class="o">+</span> 0<span class="p">.</span>4477<span class="nb">i</span>
+</span><span class="line">  <span class="o">-</span>1<span class="p">.</span>2888 <span class="o">-</span> 0<span class="p">.</span>4477<span class="nb">i</span>
+</span><span class="line">  <span class="o">-</span>0<span class="p">.</span>7244 <span class="o">+</span> 1<span class="p">.</span>1370<span class="nb">i</span>
+</span><span class="line">  <span class="o">-</span>0<span class="p">.</span>7244 <span class="o">-</span> 1<span class="p">.</span>1370<span class="nb">i</span>
+</span><span class="line">   0<span class="p">.</span>1364 <span class="o">+</span> 1<span class="p">.</span>3050<span class="nb">i</span>
+</span><span class="line">   0<span class="p">.</span>1364 <span class="o">-</span> 1<span class="p">.</span>3050<span class="nb">i</span>
+</span><span class="line">   0<span class="p">.</span>8767 <span class="o">+</span> 0<span class="p">.</span>8814<span class="nb">i</span>
+</span><span class="line">   0<span class="p">.</span>8767 <span class="o">-</span> 0<span class="p">.</span>8814<span class="nb">i</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<p>由4个极点有正实部可知，系统不稳定。</p>
+
+<h2 id="section-2">求系统响应</h2>
+<p>设系统传递函数为：<a href="http://www.codecogs.com/eqnedit.php?latex=\fn_jvn G(s)=\frac{s@plus;24}{s^2@plus;4s@plus;9}" target="_blank"><img src="http://latex.codecogs.com/png.latex?\fn_jvn G(s)=\frac{s+24}{s^2+4s+9}" title="\fn_jvn G(s)=\frac{s+24}{s^2+4s+9}" /></a></p>
+
+<p>新建.m文件，在编辑器里输入：</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+<span class="line-number">4</span>
+<span class="line-number">5</span>
+<span class="line-number">6</span>
+<span class="line-number">7</span>
+</pre></td><td class="code"><pre><code class="matlab"><span class="line"><span class="n">num</span><span class="p">=[</span>1 24<span class="p">];</span>
+</span><span class="line"><span class="n">den</span><span class="p">=[</span>1 4 9<span class="p">];</span>
+</span><span class="line"><span class="n">G</span><span class="p">=</span><span class="n">tf</span><span class="p">(</span><span class="n">num</span><span class="p">,</span><span class="n">den</span><span class="p">);</span>
+</span><span class="line"><span class="n">t</span><span class="p">=</span>0<span class="p">:</span>0<span class="p">.</span>1<span class="p">:</span>10<span class="p">;</span>
+</span><span class="line"><span class="n">y</span><span class="p">=</span><span class="n">step</span><span class="p">(</span><span class="n">G</span><span class="p">,</span><span class="n">t</span><span class="p">);</span>
+</span><span class="line"><span class="n">plot</span><span class="p">(</span><span class="n">t</span><span class="p">,</span><span class="n">y</span><span class="p">)</span>
+</span><span class="line"><span class="n">Y</span><span class="p">=</span><span class="n">dcgain</span><span class="p">(</span><span class="n">G</span><span class="p">)</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<p>运行可得结果：</p>
+
+<p><img src="/images/image/2jiestep.png" alt="阶跃响应" /></p>
+
+<h3 id="section-3">指令解释</h3>
+<ul>
+  <li><em>step</em> 给出了系统的阶跃响应，y保存了每个t时刻的响应</li>
+  <li>如果用_impulse()_代替_step_则可求得系统的脉冲响应</li>
+  <li><em>plot</em> 以t为自变量，y为函数值画出图像</li>
+  <li>_dcgain_得出系统的稳态值</li>
+</ul>
+
+<h2 id="section-4">绘制跟轨迹</h2>
+<p>设系统闭环传递函数为： <br />
+<a href="http://www.codecogs.com/eqnedit.php?latex=\fn_jvn \Phi (s)=\frac{K(s@plus;1)(s@plus;3)}{s(s@plus;2)(s@plus;3)@plus;K(s@plus;1)}" target="_blank"><img src="http://latex.codecogs.com/png.latex?\fn_jvn \Phi (s)=\frac{K(s+1)(s+3)}{s(s+2)(s+3)+K(s+1)}" title="\fn_jvn \Phi (s)=\frac{K(s+1)(s+3)}{s(s+2)(s+3)+K(s+1)}" /></a></p>
+
+<p>特征方程可写为 <br />
+<a href="http://www.codecogs.com/eqnedit.php?latex=\fn_jvn 1@plus;K\frac{s@plus;1}{s(s@plus;2)(s@plus;3)}=1@plus;K\frac{s@plus;1}{s^3@plus;5s^2@plus;6s}=0" target="_blank"><img src="http://latex.codecogs.com/png.latex?\fn_jvn 1+K\frac{s+1}{s(s+2)(s+3)}=1+K\frac{s+1}{s^3+5s^2+6s}=0" title="\fn_jvn 1+K\frac{s+1}{s(s+2)(s+3)}=1+K\frac{s+1}{s^3+5s^2+6s}=0" /></a></p>
+
+<p>新建.m文件，输入如下语句：</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+<span class="line-number">4</span>
+<span class="line-number">5</span>
+<span class="line-number">6</span>
+</pre></td><td class="code"><pre><code class="matlab"><span class="line"><span class="n">num</span><span class="p">=[</span>1 1<span class="p">];</span>
+</span><span class="line"><span class="n">den</span><span class="p">=[</span>1 5 6 0<span class="p">];</span>
+</span><span class="line"><span class="n">G</span><span class="p">=</span><span class="n">tf</span><span class="p">(</span><span class="n">num</span><span class="p">,</span><span class="n">den</span><span class="p">);</span>
+</span><span class="line"><span class="n">hold</span> <span class="n">on</span><span class="p">;</span>
+</span><span class="line"><span class="n">rlocus</span><span class="p">(</span><span class="n">G</span><span class="p">);</span>
+</span><span class="line"><span class="p">[</span><span class="n">K</span><span class="p">,</span><span class="n">P</span><span class="p">]=</span><span class="n">rlocfind</span><span class="p">(</span><span class="n">G</span><span class="p">)</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<p>运行可得结果：</p>
+
+<p><img src="/images/image/rootlocus.png" alt="根轨迹" /></p>
+
+<h3 id="section-5">指令解释</h3>
+<ul>
+  <li><em>hold on</em> 使得多次次绘图可以在一个Figure窗口中叠加展出</li>
+  <li><em>rlocus</em> 绘制给定系统的根轨迹</li>
+  <li><em>rlocufind</em> 函数允许用户求取根轨迹上指定点处的开环增益，K为选定点对应的开环增益，P为该增益下的闭环极点位置。</li>
+</ul>
+
+<p>感谢参考书：<a href="http://book.douban.com/subject/1655949/">《自动控制原理》</a></p>
+</div>
+
+
+  <footer>
+    <p class="meta">
+      
+  
+
+<span class="byline author vcard">Posted by <span class="fn">清风未明</span></span>
+
+      
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2012-02-17T17:20:00+08:00" pubdate data-updated="true">Feb 17<span>th</span>, 2012</time>
+      
+
+<span class="categories">
+  
+    <a class='category' href='/blog/categories/automatic/'>automatic</a>, <a class='category' href='/blog/categories/matlab/'>matlab</a>
+  
+</span>
+
+
+    </p>
+    
+      <div class="sharing">
+  
+</div>
+
+    
+    <p class="meta">
+      
+        <a class="basic-alignment left" href="/blog/2012/02/install-linux/" title="Previous Post: 为OMAP4430安装Linux/Android系统">&laquo; 为OMAP4430安装Linux/Android系统</a>
+      
+      
+        <a class="basic-alignment right" href="/blog/2012/02/doubantest/" title="next Post: doubantest">doubantest &raquo;</a>
+      
+    </p>
+  </footer>
+</article>
+
+  <section>
+    <h1>Comments</h1>
+    <div id="disqus_thread" aria-live="polite"><noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+</div>
+  </section>
+
+</div>
+
+<aside class="sidebar">
+  
+    <section>
+<a href="http://9.douban.com/reader/subscribe?url=http://ghdawn.me" target="_blank"><img src="http://www.douban.com/pics/newnine/feedbutton1.gif"/></a>
+
+  <h1>Recent Posts</h1>
+  <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/blog/2012/12/ml-pca/">机器学习作业1--基于PCA方法的人脸识别</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2012/07/crossgdb/">为ARM平台交叉编译GDB</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2012/06/drawing/">我的木碗中的宇宙</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2012/05/android-arduino/">使用单片机Arduino(AVR)与Android设备通讯</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2012/04/study-android-2/">学习Android开发-用canvas绘图</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2012/03/study-cv-1/">学习机器视觉1--检测圆心</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2012/03/study-android-1/">学习Android开发-SVG文件解析</a>
+      </li>
+    
+  </ul>
+</section>
+
+
+<section>
+<h1>标签</h1>
+<span class='categories_tag'> <a href='/blog/categories/android' style='font-size: 122.5%'>Android(3)</a>  <a href='/blog/categories/automatic' style='font-size: 107.5%'>Automatic(1)</a>  <a href='/blog/categories/codes' style='font-size: 160.0%'>Codes(8)</a>  <a href='/blog/categories/linux' style='font-size: 160.0%'>Linux(8)</a>  <a href='/blog/categories/matlab' style='font-size: 107.5%'>Matlab(1)</a>  <a href='/blog/categories/opencv' style='font-size: 115.0%'>Opencv(2)</a>  <a href='/blog/categories/sth' style='font-size: 137.5%'>Sth(5)</a>  <a href='/blog/categories/嵌入式' style='font-size: 130.0%'>嵌入式(4)</a>  <a href='/blog/categories/机器学习' style='font-size: 107.5%'>机器学习(1)</a>  <a href='/blog/categories/考研' style='font-size: 115.0%'>考研(2)</a> </span>
+</section>
+
+<section id="douban_sidebar">
+<h1>豆瓣</h1>
+
+<script type="text/javascript" src="http://www.douban.com/service/badge/dream29831/?show=collection&amp;n=8&amp;columns=2&amp;picsize=medium&amp;hideself=yes" ></script>
+</section>
+<section id="comment_sidebar">
+<h1>近期评论</h1>
+
+<script type="text/javascript" src="http://ghdawn.disqus.com/recent_comments_widget.js?num_items=5&hide_avatars=0&avatar_size=32&excerpt_length=20"></script><a href="http://disqus.com/">Powered by Disqus</a>
+
+</section>
+
+<section>
+  <h1>Github Repos</h1>
+  <ul id="gh_repos">
+    <li class="loading">Status updating...</li>
+  </ul>
+  
+  <a href="https://github.com/ghdawn">@ghdawn</a> on Github
+  
+  <script type="text/javascript">
+    $.domReady(function(){
+        if (!window.jXHR){
+            var jxhr = document.createElement('script');
+            jxhr.type = 'text/javascript';
+            jxhr.src = '/javascripts/libs/jXHR.js';
+            var s = document.getElementsByTagName('script')[0];
+            s.parentNode.insertBefore(jxhr, s);
+        }
+
+        github.showRepos({
+            user: 'ghdawn',
+            count: 0,
+            skip_forks: true,
+            target: '#gh_repos'
+        });
+    });
+  </script>
+  <script src="/javascripts/github.js" type="text/javascript"> </script>
+</section>
+
+<section id="ga_sidebar">
+<h1>GoogleAnalytics</h1>
+
+<script type="text/javascript">
+
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-29027763-1']);
+  _gaq.push(['_trackPageview']);
+
+  (function() {
+    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  })();
+
+</script>
+</section>
+
+  
+</aside>
+
+
+    </div>
+  </div>
+  <footer role="contentinfo"><p>
+  Copyright &copy; 2012 - 清风未明 -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
+ 
+</p>
+
+</footer>
+  
+
+<script type="text/javascript">
+      var disqus_shortname = 'ghdawn';
+      
+        
+        // var disqus_developer = 1;
+        var disqus_identifier = 'http://ghdawn.github.com/blog/2012/02/matlab-study1/';
+        var disqus_url = 'http://ghdawn.github.com/blog/2012/02/matlab-study1/';
+        var disqus_script = 'embed.js';
+      
+    (function () {
+      var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+      dsq.src = 'http://' + disqus_shortname + '.disqus.com/' + disqus_script;
+      (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    }());
+</script>
+
+
+
+
+
+
+
+
+
+
+
+</body>
+</html>

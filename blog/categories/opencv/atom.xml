@@ -1,0 +1,591 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Category: OpenCV | 成长日志]]></title>
+  <link href="http://ghdawn.github.com/blog/categories/opencv/atom.xml" rel="self"/>
+  <link href="http://ghdawn.github.com/"/>
+  <updated>2012-12-02T21:51:18+08:00</updated>
+  <id>http://ghdawn.github.com/</id>
+  <author>
+    <name><![CDATA[清风未明]]></name>
+    
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[学习机器视觉1--检测圆心]]></title>
+    <link href="http://ghdawn.github.com/blog/2012/03/study-cv-1/"/>
+    <updated>2012-03-18T16:12:00+08:00</updated>
+    <id>http://ghdawn.github.com/blog/2012/03/study-cv-1</id>
+    <content type="html"><![CDATA[<h3 id="section">任务描述及环境</h3>
+
+<p>打开摄像头，识别出画面中的圆，并标出圆心，输出圆心的像空间坐标。<br />
+Intel(R) Core(TM)2 Duo CPU     T8100  @ 2.10GHz / 2GB<br />
+Linux Mint 12 （64bit）<br />
+OpenCV 2.3.1<br />
+Code Blocks 10.05<br />
+###用OpenCV从摄像头获取视频流###
+后来版本的OpenCV可以用C++的语法，从而去掉了指针，使用起来十分方便。</p>
+
+<p>所有视频流的操作都是通过<em>VideoCapture</em>类完成。可以通过给它的构造函数，或<em>open</em>函数传递参数完成打开视频的操作。其中如果参数为整数i，则打开第i个摄像头（如果存在的话）。如果参数是字符串，则认为是视频文件的路径。</p>
+
+<p><em>VideoCapture</em>重载了<em>»</em>操作符，所以可以直接当输入流来用。或者使用<em>read(Mat&amp; image)</em>函数来读取也行。</p>
+
+<p>得到图片之后再用<em>imshow</em>就可以显示图片了。代码如下
+<div class='bogus-wrapper'><notextile><figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+</pre></td><td class='code'><pre><code class='cpp'><span class='line'><span class="kt">int</span> <span class="n">main</span><span class="p">(</span><span class="kt">int</span><span class="p">,</span> <span class="kt">char</span><span class="o">**</span><span class="p">)</span>
+</span><span class='line'><span class="p">{</span>
+</span><span class='line'>    <span class="n">VideoCapture</span> <span class="n">cap</span><span class="p">(</span><span class="mi">0</span><span class="p">);</span>
+</span><span class='line'>    <span class="k">if</span><span class="p">(</span><span class="o">!</span><span class="n">cap</span><span class="p">.</span><span class="n">isOpened</span><span class="p">())</span>
+</span><span class='line'>        <span class="k">return</span> <span class="o">-</span><span class="mi">1</span><span class="p">;</span><span class="o">&lt;/</span><span class="n">p</span><span class="o">&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="o">&lt;</span><span class="n">pre</span><span class="o">&gt;&lt;</span><span class="n">code</span><span class="o">&gt;</span><span class="n">Mat</span> <span class="n">frame</span><span class="p">;</span>
+</span><span class='line'><span class="n">namedWindow</span><span class="p">(</span><span class="s">&quot;frame&quot;</span><span class="p">,</span><span class="mi">1</span><span class="p">);</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">while</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+</span><span class='line'><span class="p">{</span>
+</span><span class='line'>    <span class="n">cap</span> <span class="o">&amp;</span><span class="n">gt</span><span class="p">;</span><span class="o">&amp;</span><span class="n">gt</span><span class="p">;</span> <span class="n">frame</span><span class="p">;</span> <span class="c1">// get a new frame from camera</span>
+</span><span class='line'>    <span class="n">imshow</span><span class="p">(</span><span class="s">&quot;frame&quot;</span><span class="p">,</span><span class="n">frame</span><span class="p">);</span>
+</span><span class='line'>    <span class="k">if</span><span class="p">(</span><span class="n">waitKey</span><span class="p">(</span><span class="mi">30</span><span class="p">)</span> <span class="o">&amp;</span><span class="n">gt</span><span class="p">;</span><span class="o">=</span> <span class="mi">0</span><span class="p">)</span> <span class="k">break</span><span class="p">;</span>
+</span><span class='line'><span class="p">}</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">return</span> <span class="mi">0</span><span class="p">;</span> <span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+</code></pre>
+
+<h3 id="opencv">用OpenCV的函数提取边界</h3>
+<p>这里我用的是<em>canny</em>算子提取边界。</p>
+
+<ul>
+  <li>
+    <p>将摄像头获得的图片转换成灰度图以方便以后运算。其实RGB图也是可以做的，但是由于我不需要颜色识别，只要找到图形就行了，所以用灰度图。</p>
+
+    <pre><code>  cvtColor(frame, edges, CV_BGR2GRAY);
+</code></pre>
+  </li>
+  <li>
+    <p>进行滤波，去掉高频噪声的部分。任何图像可以看作是一个函数的图像，而我们需要的图形是静止，或者有慢速的移动。而图片中可能会出现各种噪声，是不稳定的。也就是说我们需要图像中低频的部分，而希望过滤掉高频的部分。所以需要滤波，也会让图像变得模糊一点。高斯滤波函数就是正态分布（高斯分布）的概率密度函数，将每一点及其周围的点做了加权平均，其中该点占的比重最大，周围越远比重越小，而各个方向的变化是均匀的。  </p>
+  </li>
+</ul>
+
+<p>一维公式为：<img src="http://upload.wikimedia.org/wikipedia/zh/math/7/4/a/74a7dd469476d59a561174131eca644e.png" alt="高斯函数" />
+其函数图像为：<img src="http://upload.wikimedia.org/wikipedia/commons/thumb/1/1b/Normal_distribution_pdf.png/325px-Normal_distribution_pdf.png" alt="函数图像" /><br />
+我们的图像是二维的，所以用的是二维的高斯函数。详情请见维基百科的<a href="http://zh.wikipedia.org/wiki/%E9%AB%98%E6%96%AF%E6%A8%A1%E7%B3%8A">这里</a>，<a href="http://zh.wikipedia.org/wiki/%E6%AD%A3%E6%80%81%E5%88%86%E5%B8%83">这里</a>。<br />
+OpenCV的函数如下，其中第一个参数是源图片，第二个是目标图片，这两个可以相同。第三个参数是每一点模糊的范围，需要是正奇数。最后两个参数是联合分布的两个方差，方差越大，周围点占的比重越高，图片越模糊。</p>
+
+<pre><code>    GaussianBlur(edges, edges, Size(7,7), 2.5, 2.5);
+</code></pre>
+
+<ul>
+  <li>
+    <p>用canny算子提取边界。canny算子主要通过计算图像中的亮度梯度来判定边界，我们需要给定两个阀值low,high（其实一个也行，但是不够灵活）。当某点的梯度大于 high的时候，确定是边界点。如果梯度小于low则不是边界点。如果在他们之间，则需要通过连通域内的其他点的一起判断。一般建议两个阀值的比例为2：1或者3：1。
+详情请见维基百科的<a href="http://zh.wikipedia.org/wiki/Canny%E7%AE%97%E5%AD%90">这里</a> <br />
+OpenCV的函数如下，前两个参数和高斯滤波一样，第3，4个参数分别是低，高阀值。canny函数中调用了Sobel方法计算微分，第5个参数就是给Sobel函数的，必须是1，3，5，7。</p>
+
+    <pre><code>  Canny(edges, edges, 15, 45, 3);
+</code></pre>
+  </li>
+  <li>
+    <p>至此，<em>edges</em>对象里的图像就已经是二值化之后的边界图像了，可以用<em>imshow</em>显示察看。</p>
+  </li>
+</ul>
+
+<h3 id="section-1">找到图像中的圆并标出圆心</h3>
+
+<p>这一部分最基本的算法就是种子染色法（FloodFill），OpenCV自带了这个方法，但是由于我以前实现过相关的算法，所以这里就不用OpenCV了，把自己写的贴过来直接用，反正算法也十分简单短小。</p>
+
+<ul>
+  <li>在全图像范围扫描，搜索所有的<a href="http://zh.wikipedia.org/wiki/%E8%BF%9E%E9%80%9A%E5%9B%BE">连通分量</a>。 方法是搜索图像上的每一个点，如果该点未访问，并且该点为我探测到的边界点（边界检测后，图像已经被二值化了，边界点即其灰度值大于<em>maxvalue</em>点），则在该点开始染色。全图像染色结束后，可以通过对连通分量进行筛选，大概找到其中的圆。<em>room</em>代表当前搜索的连通分量的序号，<em>f数组</em>储存每个点的访问情况（值为0代表未访问，值为整数i代表该点属于第i个连通分量）代码如下</li>
+</ul>
+
+<p><div class='bogus-wrapper'><notextile><figure class='code'><figcaption><span>search</span></figcaption>
+ <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+</pre></td><td class='code'><pre><code class='cpp'><span class='line'><span class="c1">// find</span>
+</span><span class='line'><span class="kt">void</span> <span class="n">search</span><span class="p">(</span><span class="n">Mat</span> <span class="o">&amp;</span><span class="n">amp</span><span class="p">;</span> <span class="n">img_bin</span><span class="p">)</span>
+</span><span class='line'><span class="p">{</span>
+</span><span class='line'>    <span class="c1">//  out(f);</span>
+</span><span class='line'>    <span class="kt">int</span> <span class="n">room</span><span class="o">=</span><span class="mi">0</span><span class="p">;</span>
+</span><span class='line'>    <span class="k">while</span><span class="p">(</span><span class="o">++</span><span class="n">room</span><span class="p">)</span>
+</span><span class='line'>    <span class="p">{</span>
+</span><span class='line'>        <span class="kt">int</span> <span class="n">x</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span><span class="n">y</span><span class="o">=</span><span class="mi">0</span><span class="p">;</span>
+</span><span class='line'>        <span class="k">for</span><span class="p">(</span><span class="kt">int</span> <span class="n">i</span><span class="o">=</span><span class="mi">1</span><span class="p">;</span> <span class="n">i</span><span class="o">&amp;</span><span class="n">lt</span><span class="p">;</span><span class="n">m</span><span class="p">;</span> <span class="n">i</span><span class="o">++</span><span class="p">)</span>
+</span><span class='line'>        <span class="p">{</span>
+</span><span class='line'>            <span class="k">for</span><span class="p">(</span><span class="kt">int</span> <span class="n">j</span><span class="o">=</span><span class="mi">1</span><span class="p">;</span> <span class="n">j</span><span class="o">&amp;</span><span class="n">lt</span><span class="p">;</span><span class="n">n</span><span class="p">;</span> <span class="n">j</span><span class="o">++</span><span class="p">)</span>
+</span><span class='line'>                <span class="k">if</span><span class="p">(</span><span class="n">img_bin</span><span class="p">.</span><span class="n">at</span><span class="o">&lt;</span><span class="n">uchar</span><span class="o">&gt;</span><span class="p">(</span><span class="n">i</span><span class="p">,</span><span class="n">j</span><span class="p">)</span><span class="o">&amp;</span><span class="n">gt</span><span class="p">;</span><span class="mi">200</span> <span class="o">&amp;</span><span class="n">amp</span><span class="p">;</span><span class="o">&amp;</span><span class="n">amp</span><span class="p">;</span> <span class="n">f</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="n">j</span><span class="p">]</span><span class="o">==</span><span class="mi">0</span><span class="p">)</span>
+</span><span class='line'>                <span class="p">{</span>
+</span><span class='line'>                    <span class="n">x</span><span class="o">=</span><span class="n">i</span><span class="p">,</span><span class="n">y</span><span class="o">=</span><span class="n">j</span><span class="p">;</span><span class="o">&lt;/</span><span class="n">uchar</span><span class="o">&gt;&lt;/</span><span class="n">p</span><span class="o">&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="o">&lt;</span><span class="n">pre</span><span class="o">&gt;&lt;</span><span class="n">code</span><span class="o">&gt;</span>                <span class="k">break</span><span class="p">;</span>
+</span><span class='line'>            <span class="p">}</span>
+</span><span class='line'>        <span class="k">if</span><span class="p">(</span><span class="n">x</span><span class="o">!=</span><span class="mi">0</span><span class="o">||</span><span class="n">y</span><span class="o">!=</span><span class="mi">0</span><span class="p">)</span> <span class="k">break</span><span class="p">;</span>
+</span><span class='line'>    <span class="p">}</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="k">if</span><span class="p">(</span><span class="n">x</span><span class="o">==</span><span class="mi">0</span><span class="o">&amp;</span><span class="n">amp</span><span class="p">;</span><span class="o">&amp;</span><span class="n">amp</span><span class="p">;</span><span class="n">y</span><span class="o">==</span><span class="mi">0</span><span class="p">)</span>
+</span><span class='line'>    <span class="p">{</span>
+</span><span class='line'>        <span class="o">--</span><span class="n">room</span><span class="p">;</span>
+</span><span class='line'>        <span class="n">output</span><span class="p">(</span><span class="n">img_bin</span><span class="p">,</span><span class="n">room</span><span class="p">);</span>
+</span><span class='line'>        <span class="k">return</span> <span class="p">;</span>
+</span><span class='line'>    <span class="p">}</span>
+</span><span class='line'>    <span class="n">fill</span><span class="p">(</span><span class="n">img_bin</span><span class="p">,</span><span class="n">x</span><span class="p">,</span><span class="n">y</span><span class="p">,</span><span class="n">room</span><span class="p">);</span>
+</span><span class='line'><span class="p">}</span> <span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+</code></pre>
+
+<ul>
+  <li>
+    <p>其中，我的种子染色法就是用深度优先搜索的方法，对每个点判断其周围的8个方向是否可走，如果可走，就走过去并染上颜色，直到该连通域内所有点都被染色，算法退出。
+<div class='bogus-wrapper'><notextile><figure class='code'><figcaption><span>FloodFill</span></figcaption>
+ <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+</pre></td><td class='code'><pre><code class='cpp'><span class='line'><span class="kt">int</span> <span class="n">dx</span><span class="p">[]</span><span class="o">=</span> <span class="p">{</span><span class="mi">0</span><span class="p">,</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">},</span>
+</span><span class='line'>  <span class="n">dy</span><span class="p">[]</span><span class="o">=</span> <span class="p">{</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">};</span>
+</span><span class='line'><span class="kt">void</span> <span class="n">fill</span><span class="p">(</span><span class="k">const</span> <span class="n">Mat</span> <span class="o">&amp;</span><span class="n">amp</span><span class="p">;</span> <span class="n">img_bin</span><span class="p">,</span><span class="kt">int</span> <span class="n">x</span><span class="p">,</span><span class="kt">int</span> <span class="n">y</span><span class="p">,</span><span class="kt">int</span> <span class="n">room</span><span class="p">)</span>
+</span><span class='line'><span class="p">{</span><span class="o">&lt;/</span><span class="n">p</span><span class="o">&gt;</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="o">&lt;</span><span class="n">p</span><span class="o">&gt;</span><span class="n">f</span><span class="p">[</span><span class="n">x</span><span class="p">][</span><span class="n">y</span><span class="p">]</span><span class="o">=</span><span class="n">room</span><span class="p">;</span>
+</span><span class='line'><span class="c1">//cout«x«’ ’«y«endl;</span>
+</span><span class='line'><span class="c1">//cin.get();</span>
+</span><span class='line'>  <span class="k">for</span><span class="p">(</span><span class="kt">int</span> <span class="n">i</span><span class="o">=</span><span class="mi">0</span><span class="p">;</span> <span class="n">i</span><span class="o">&amp;</span><span class="n">lt</span><span class="p">;</span><span class="mi">8</span><span class="p">;</span> <span class="n">i</span><span class="o">++</span><span class="p">)</span>
+</span><span class='line'>  <span class="p">{</span>
+</span><span class='line'>      <span class="kt">int</span> <span class="n">newx</span><span class="o">=</span><span class="n">x</span><span class="o">+</span><span class="n">dx</span><span class="p">[</span><span class="n">i</span><span class="p">],</span><span class="n">newy</span><span class="o">=</span><span class="n">y</span><span class="o">+</span><span class="n">dy</span><span class="p">[</span><span class="n">i</span><span class="p">];</span>
+</span><span class='line'>      <span class="k">if</span><span class="p">(</span> <span class="n">newx</span><span class="o">&amp;</span><span class="n">lt</span><span class="p">;</span><span class="mi">0</span> <span class="o">||</span> <span class="n">newx</span> <span class="o">&amp;</span><span class="n">gt</span><span class="p">;</span><span class="o">=</span><span class="n">m</span><span class="p">)</span><span class="k">continue</span><span class="p">;</span>
+</span><span class='line'>      <span class="k">if</span><span class="p">(</span> <span class="n">newy</span><span class="o">&amp;</span><span class="n">lt</span><span class="p">;</span><span class="mi">0</span> <span class="o">||</span> <span class="n">newy</span> <span class="o">&amp;</span><span class="n">gt</span><span class="p">;</span><span class="o">=</span><span class="n">n</span><span class="p">)</span> <span class="k">continue</span><span class="p">;</span>
+</span><span class='line'>      <span class="k">if</span><span class="p">(</span><span class="n">img_bin</span><span class="p">.</span><span class="n">at</span><span class="o">&lt;</span><span class="n">uchar</span><span class="o">&gt;</span><span class="p">(</span><span class="n">newx</span><span class="p">,</span><span class="n">newy</span><span class="p">)</span><span class="o">&amp;</span><span class="n">gt</span><span class="p">;</span><span class="n">maxValue</span> <span class="o">&amp;</span><span class="n">amp</span><span class="p">;</span><span class="o">&amp;</span><span class="n">amp</span><span class="p">;</span> <span class="n">f</span><span class="p">[</span><span class="n">newx</span><span class="p">][</span><span class="n">newy</span><span class="p">]</span> <span class="o">==</span> <span class="mi">0</span><span class="p">)</span>
+</span><span class='line'>          <span class="n">fill</span><span class="p">(</span><span class="n">img_bin</span><span class="p">,</span><span class="n">newx</span><span class="p">,</span><span class="n">newy</span><span class="p">,</span><span class="n">room</span><span class="p">);</span>
+</span><span class='line'>  <span class="p">}</span>
+</span><span class='line'><span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div></uchar></p>
+  </li>
+  <li>
+    <p>当所有点都染色结束后，就需要筛选其中的圆了。我的想法是，对每个连通分量进行判断：  </p>
+    <ol>
+      <li>如果该连通分量内的点少于<em>min_pixel</em>，我就认为这是噪声点，肯定不是我的圆，将它排除</li>
+      <li>将每一个点的坐标<code>(x,y)</code>看作两个随机变量<em>X，Y</em>，由于我们知道圆，及椭圆的方程为二次方程，即如果这些点满足圆的方程，则他们为平方关系，完全无线性关系。所以如果我们求这两个随机变量的相关系数，其值应该十分趋近于零。反之，如果大于一个很小的值<em>eps</em>，则认为这不是圆</li>
+      <li>到这里大部分的干扰应该都能除去了，但是可能还会有少部分不是圆的形状满足这个逻辑，目前我没有更好的办法解决它~~所以只好输出它了，我在找到的圆心上画了十字叉和正圆，效果见最底下</li>
+    </ol>
+  </li>
+</ul>
+
+<p><div class='bogus-wrapper'><notextile><figure class='code'><figcaption><span>select and output</span></figcaption>
+ <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+<span class='line-number'>29</span>
+<span class='line-number'>30</span>
+<span class='line-number'>31</span>
+<span class='line-number'>32</span>
+<span class='line-number'>33</span>
+<span class='line-number'>34</span>
+<span class='line-number'>35</span>
+<span class='line-number'>36</span>
+<span class='line-number'>37</span>
+</pre></td><td class='code'><pre><code class='cpp'><span class='line'><span class="kt">void</span> <span class="n">output</span><span class="p">(</span><span class="n">Mat</span> <span class="o">&amp;</span><span class="n">amp</span><span class="p">;</span> <span class="n">img_bin</span><span class="p">,</span><span class="kt">int</span> <span class="n">room</span><span class="p">)</span>
+</span><span class='line'><span class="p">{</span><span class="o">&lt;/</span><span class="n">p</span><span class="o">&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="o">&lt;</span><span class="n">pre</span><span class="o">&gt;&lt;</span><span class="n">code</span><span class="o">&gt;</span><span class="k">const</span> <span class="kt">int</span> <span class="n">min_pixel</span><span class="o">=</span><span class="mi">250</span><span class="p">;</span>
+</span><span class='line'><span class="k">const</span> <span class="kt">float</span> <span class="n">eps</span><span class="o">=</span><span class="mf">0.05</span><span class="p">;</span>
+</span><span class='line'><span class="n">printf</span><span class="p">(</span><span class="s">&quot;Number=%d</span><span class="se">\n</span><span class="s">&quot;</span><span class="p">,</span><span class="n">room</span><span class="p">);</span>
+</span><span class='line'><span class="k">for</span><span class="p">(</span><span class="kt">int</span> <span class="n">k</span><span class="o">=</span><span class="mi">1</span><span class="p">;</span> <span class="n">k</span><span class="o">&amp;</span><span class="n">lt</span><span class="p">;</span><span class="o">=</span><span class="n">room</span><span class="p">;</span> <span class="n">k</span><span class="o">++</span><span class="p">)</span>
+</span><span class='line'><span class="p">{</span>
+</span><span class='line'>    <span class="n">Linevec</span> <span class="n">x</span><span class="p">,</span><span class="n">y</span><span class="p">;</span>
+</span><span class='line'>    <span class="kt">int</span> <span class="n">num</span><span class="o">=</span><span class="mi">0</span><span class="p">;</span>
+</span><span class='line'>    <span class="k">for</span><span class="p">(</span><span class="kt">int</span> <span class="n">i</span><span class="o">=</span><span class="mi">1</span><span class="p">;</span> <span class="n">i</span><span class="o">&amp;</span><span class="n">lt</span><span class="p">;</span><span class="n">m</span><span class="p">;</span> <span class="n">i</span><span class="o">++</span><span class="p">)</span>
+</span><span class='line'>        <span class="k">for</span><span class="p">(</span><span class="kt">int</span> <span class="n">j</span><span class="o">=</span><span class="mi">1</span><span class="p">;</span> <span class="n">j</span><span class="o">&amp;</span><span class="n">lt</span><span class="p">;</span><span class="n">n</span><span class="p">;</span> <span class="n">j</span><span class="o">++</span><span class="p">)</span>
+</span><span class='line'>        <span class="p">{</span>
+</span><span class='line'>            <span class="k">if</span><span class="p">(</span> <span class="n">f</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="n">j</span><span class="p">]</span><span class="o">==</span><span class="n">k</span><span class="p">)</span>
+</span><span class='line'>            <span class="p">{</span>
+</span><span class='line'>                <span class="n">x</span><span class="p">.</span><span class="n">add</span><span class="p">(</span><span class="n">i</span><span class="p">),</span><span class="n">y</span><span class="p">.</span><span class="n">add</span><span class="p">(</span><span class="n">j</span><span class="p">),</span><span class="o">++</span><span class="n">num</span><span class="p">;</span>
+</span><span class='line'>
+</span><span class='line'>            <span class="p">}</span>
+</span><span class='line'>        <span class="p">}</span>
+</span><span class='line'>    <span class="k">if</span><span class="p">(</span><span class="n">num</span><span class="o">&amp;</span><span class="n">lt</span><span class="p">;</span><span class="n">min_pixel</span><span class="p">)</span>
+</span><span class='line'>    <span class="p">{</span>
+</span><span class='line'>        <span class="n">clean</span><span class="p">(</span><span class="n">img_bin</span><span class="p">,</span><span class="n">x</span><span class="p">,</span><span class="n">y</span><span class="p">);</span>
+</span><span class='line'>        <span class="k">continue</span><span class="p">;</span>
+</span><span class='line'>    <span class="p">}</span>
+</span><span class='line'>
+</span><span class='line'>
+</span><span class='line'>    <span class="k">if</span><span class="p">(</span> <span class="n">fabs</span><span class="p">(</span><span class="n">Factor</span><span class="o">::</span><span class="n">Corr</span><span class="p">(</span><span class="n">x</span><span class="p">,</span><span class="n">y</span><span class="p">))</span><span class="o">&amp;</span><span class="n">gt</span><span class="p">;</span><span class="n">eps</span><span class="p">)</span>
+</span><span class='line'>    <span class="p">{</span>
+</span><span class='line'>        <span class="n">clean</span><span class="p">(</span><span class="n">img_bin</span><span class="p">,</span><span class="n">x</span><span class="p">,</span><span class="n">y</span><span class="p">);</span>
+</span><span class='line'>        <span class="k">continue</span><span class="p">;</span>
+</span><span class='line'>    <span class="p">}</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="n">printf</span><span class="p">(</span><span class="s">&quot;No.%d:x=%f,y=%f</span><span class="se">\n</span><span class="s">&quot;</span><span class="p">,</span><span class="n">k</span><span class="p">,</span><span class="n">x</span><span class="p">.</span><span class="n">getAverage</span><span class="p">(),</span><span class="n">y</span><span class="p">.</span><span class="n">getAverage</span><span class="p">());</span>
+</span><span class='line'>    <span class="n">printf</span><span class="p">(</span><span class="s">&quot;Corr=%f,Cov=%f</span><span class="se">\n</span><span class="s">&quot;</span><span class="p">,</span><span class="n">Factor</span><span class="o">::</span><span class="n">Corr</span><span class="p">(</span><span class="n">x</span><span class="p">,</span><span class="n">y</span><span class="p">),</span><span class="n">Factor</span><span class="o">::</span><span class="n">Cov</span><span class="p">(</span><span class="n">x</span><span class="p">,</span><span class="n">y</span><span class="p">));</span>
+</span><span class='line'>    <span class="n">DrawTarget</span><span class="p">(</span><span class="n">img_bin</span><span class="p">,</span><span class="n">y</span><span class="p">.</span><span class="n">getAverage</span><span class="p">(),</span><span class="n">x</span><span class="p">.</span><span class="n">getAverage</span><span class="p">());</span>
+</span><span class='line'><span class="p">}</span>
+</span><span class='line'><span class="c1">//cin.get(); } </span>
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+</code></pre>
+
+<p>上述代码中的<em>Linevec</em>用于单个随机变量的数字特征计算，<em>Factor</em>类用于计算两个随机变量的协方差及相关系数，这里不考虑软件工程里的封装之类的东西，仅仅作为简单的工具，所以一切都是<em>public</em>。分别定义如下：
+<div class='bogus-wrapper'><notextile><figure class='code'><figcaption><span>Linevec</span></figcaption>
+ <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+<span class='line-number'>29</span>
+<span class='line-number'>30</span>
+<span class='line-number'>31</span>
+<span class='line-number'>32</span>
+<span class='line-number'>33</span>
+<span class='line-number'>34</span>
+<span class='line-number'>35</span>
+<span class='line-number'>36</span>
+<span class='line-number'>37</span>
+<span class='line-number'>38</span>
+<span class='line-number'>39</span>
+<span class='line-number'>40</span>
+<span class='line-number'>41</span>
+<span class='line-number'>42</span>
+<span class='line-number'>43</span>
+<span class='line-number'>44</span>
+<span class='line-number'>45</span>
+<span class='line-number'>46</span>
+<span class='line-number'>47</span>
+<span class='line-number'>48</span>
+<span class='line-number'>49</span>
+<span class='line-number'>50</span>
+<span class='line-number'>51</span>
+<span class='line-number'>52</span>
+<span class='line-number'>53</span>
+<span class='line-number'>54</span>
+<span class='line-number'>55</span>
+<span class='line-number'>56</span>
+<span class='line-number'>57</span>
+<span class='line-number'>58</span>
+<span class='line-number'>59</span>
+<span class='line-number'>60</span>
+<span class='line-number'>61</span>
+<span class='line-number'>62</span>
+<span class='line-number'>63</span>
+<span class='line-number'>64</span>
+<span class='line-number'>65</span>
+<span class='line-number'>66</span>
+<span class='line-number'>67</span>
+<span class='line-number'>68</span>
+<span class='line-number'>69</span>
+<span class='line-number'>70</span>
+<span class='line-number'>71</span>
+<span class='line-number'>72</span>
+<span class='line-number'>73</span>
+<span class='line-number'>74</span>
+<span class='line-number'>75</span>
+<span class='line-number'>76</span>
+<span class='line-number'>77</span>
+<span class='line-number'>78</span>
+<span class='line-number'>79</span>
+<span class='line-number'>80</span>
+<span class='line-number'>81</span>
+<span class='line-number'>82</span>
+<span class='line-number'>83</span>
+<span class='line-number'>84</span>
+<span class='line-number'>85</span>
+<span class='line-number'>86</span>
+<span class='line-number'>87</span>
+<span class='line-number'>88</span>
+</pre></td><td class='code'><pre><code class='cpp'><span class='line'><span class="k">class</span> <span class="nc">Linevec</span>
+</span><span class='line'><span class="p">{</span>
+</span><span class='line'><span class="k">public</span><span class="o">:&lt;/</span><span class="n">p</span><span class="o">&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="o">&lt;</span><span class="n">pre</span><span class="o">&gt;&lt;</span><span class="n">code</span><span class="o">&gt;</span><span class="n">vector</span><span class="o">&amp;</span><span class="n">lt</span><span class="p">;</span><span class="kt">float</span><span class="o">&amp;</span><span class="n">gt</span><span class="p">;</span> <span class="n">data</span><span class="p">;</span>
+</span><span class='line'>
+</span><span class='line'><span class="kt">float</span> <span class="n">sum</span><span class="p">;</span>
+</span><span class='line'><span class="kt">float</span> <span class="n">x_average</span><span class="p">;</span>
+</span><span class='line'><span class="kt">float</span> <span class="n">x2_average</span><span class="p">;</span>
+</span><span class='line'><span class="kt">float</span> <span class="n">var</span><span class="p">;</span>
+</span><span class='line'>
+</span><span class='line'><span class="n">Linevec</span><span class="p">(</span><span class="k">const</span> <span class="n">Linevec</span><span class="o">&amp;</span><span class="n">amp</span><span class="p">;</span> <span class="n">temp</span><span class="p">)</span>
+</span><span class='line'><span class="p">{</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="n">data</span><span class="o">=</span><span class="n">temp</span><span class="p">.</span><span class="n">data</span><span class="p">;</span>
+</span><span class='line'>    <span class="n">sum</span><span class="o">=</span><span class="n">temp</span><span class="p">.</span><span class="n">sum</span><span class="p">;</span>
+</span><span class='line'>    <span class="n">x_average</span><span class="o">=</span><span class="n">temp</span><span class="p">.</span><span class="n">x_average</span><span class="p">;</span>
+</span><span class='line'>    <span class="n">x2_average</span><span class="o">=</span><span class="n">temp</span><span class="p">.</span><span class="n">x2_average</span><span class="p">;</span>
+</span><span class='line'><span class="p">}</span>
+</span><span class='line'><span class="n">Linevec</span><span class="p">()</span>
+</span><span class='line'><span class="p">{</span>
+</span><span class='line'>    <span class="n">sum</span><span class="o">=</span><span class="n">x_average</span><span class="o">=</span><span class="n">x2_average</span><span class="o">=</span><span class="mi">0</span><span class="p">;</span>
+</span><span class='line'><span class="p">}</span>
+</span><span class='line'><span class="n">Linevec</span><span class="p">(</span><span class="kt">int</span> <span class="n">N</span><span class="p">)</span>
+</span><span class='line'><span class="p">{</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="n">data</span><span class="p">.</span><span class="n">resize</span><span class="p">(</span><span class="n">N</span><span class="p">);</span>
+</span><span class='line'><span class="p">}</span>
+</span><span class='line'><span class="kt">void</span> <span class="n">readData</span><span class="p">()</span>
+</span><span class='line'><span class="p">{</span>
+</span><span class='line'>    <span class="k">for</span><span class="p">(</span><span class="kt">unsigned</span> <span class="kt">int</span> <span class="n">i</span><span class="o">=</span><span class="mi">1</span><span class="p">;</span> <span class="n">i</span><span class="o">&amp;</span><span class="n">lt</span><span class="p">;</span><span class="o">=</span><span class="n">data</span><span class="p">.</span><span class="n">size</span><span class="p">();</span> <span class="n">i</span><span class="o">++</span><span class="p">)</span>
+</span><span class='line'>    <span class="p">{</span>
+</span><span class='line'>        <span class="n">cin</span><span class="o">&amp;</span><span class="n">gt</span><span class="p">;</span><span class="o">&amp;</span><span class="n">gt</span><span class="p">;</span><span class="n">data</span><span class="p">[</span><span class="n">i</span><span class="p">];</span>
+</span><span class='line'>        <span class="n">sum</span><span class="o">+=</span><span class="n">data</span><span class="p">[</span><span class="n">i</span><span class="p">];</span>
+</span><span class='line'>        <span class="n">x2_average</span><span class="o">+=</span><span class="n">data</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">*</span><span class="n">data</span><span class="p">[</span><span class="n">i</span><span class="p">];</span>
+</span><span class='line'>    <span class="p">}</span>
+</span><span class='line'>    <span class="n">cout</span><span class="o">&amp;</span><span class="n">lt</span><span class="p">;</span><span class="o">&amp;</span><span class="n">lt</span><span class="p">;</span><span class="s">&quot;Read Finished&quot;</span><span class="o">&amp;</span><span class="n">lt</span><span class="p">;</span><span class="o">&amp;</span><span class="n">lt</span><span class="p">;</span><span class="n">endl</span><span class="p">;</span>
+</span><span class='line'>    <span class="n">x_average</span><span class="o">=</span><span class="n">sum</span><span class="o">/</span><span class="n">data</span><span class="p">.</span><span class="n">size</span><span class="p">();</span>
+</span><span class='line'>    <span class="n">x2_average</span><span class="o">/=</span><span class="n">data</span><span class="p">.</span><span class="n">size</span><span class="p">();</span>
+</span><span class='line'><span class="p">}</span>
+</span><span class='line'><span class="kt">void</span> <span class="n">add</span><span class="p">(</span><span class="kt">float</span> <span class="n">t</span><span class="p">)</span>
+</span><span class='line'><span class="p">{</span>
+</span><span class='line'>    <span class="n">data</span><span class="p">.</span><span class="n">push_back</span><span class="p">(</span><span class="n">t</span><span class="p">);</span>
+</span><span class='line'>
+</span><span class='line'><span class="p">}</span>
+</span><span class='line'><span class="kt">float</span> <span class="n">getSum</span><span class="p">()</span>
+</span><span class='line'><span class="p">{</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="n">sum</span><span class="o">=</span><span class="mi">0</span><span class="p">;</span>
+</span><span class='line'>    <span class="k">for</span><span class="p">(</span><span class="n">vector</span><span class="o">&amp;</span><span class="n">lt</span><span class="p">;</span><span class="kt">float</span><span class="o">&amp;</span><span class="n">gt</span><span class="p">;</span><span class="o">::</span><span class="n">iterator</span> <span class="n">i</span><span class="o">=</span><span class="n">data</span><span class="p">.</span><span class="n">begin</span><span class="p">();</span> <span class="n">i</span><span class="o">!=</span><span class="n">data</span><span class="p">.</span><span class="n">end</span><span class="p">();</span> <span class="n">i</span><span class="o">++</span><span class="p">)</span>
+</span><span class='line'>        <span class="n">sum</span><span class="o">+=*</span><span class="n">i</span><span class="p">;</span>
+</span><span class='line'>    <span class="k">return</span> <span class="n">sum</span><span class="p">;</span>
+</span><span class='line'><span class="p">}</span>
+</span><span class='line'><span class="kt">float</span> <span class="n">getAverage</span><span class="p">()</span>
+</span><span class='line'><span class="p">{</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="k">return</span> <span class="n">x_average</span><span class="o">=</span><span class="n">getSum</span><span class="p">()</span><span class="o">/</span><span class="n">data</span><span class="p">.</span><span class="n">size</span><span class="p">();</span>
+</span><span class='line'><span class="p">}</span>
+</span><span class='line'><span class="kt">float</span> <span class="n">getAverage2</span><span class="p">()</span>
+</span><span class='line'><span class="p">{</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="n">x2_average</span><span class="o">=</span><span class="mi">0</span><span class="p">;</span>
+</span><span class='line'>    <span class="k">for</span><span class="p">(</span><span class="n">vector</span><span class="o">&amp;</span><span class="n">lt</span><span class="p">;</span><span class="kt">float</span><span class="o">&amp;</span><span class="n">gt</span><span class="p">;</span><span class="o">::</span><span class="n">iterator</span> <span class="n">i</span><span class="o">=</span><span class="n">data</span><span class="p">.</span><span class="n">begin</span><span class="p">();</span> <span class="n">i</span><span class="o">!=</span><span class="n">data</span><span class="p">.</span><span class="n">end</span><span class="p">();</span> <span class="n">i</span><span class="o">++</span><span class="p">)</span>
+</span><span class='line'>        <span class="n">x2_average</span><span class="o">+=</span><span class="p">(</span><span class="o">*</span><span class="n">i</span><span class="p">)</span><span class="o">*</span><span class="p">(</span><span class="o">*</span><span class="n">i</span><span class="p">);</span>
+</span><span class='line'>    <span class="k">return</span> <span class="n">x2_average</span><span class="o">=</span><span class="n">x2_average</span><span class="o">/</span><span class="n">data</span><span class="p">.</span><span class="n">size</span><span class="p">();</span>
+</span><span class='line'><span class="p">}</span>
+</span><span class='line'><span class="kt">int</span> <span class="n">getCount</span><span class="p">()</span>
+</span><span class='line'><span class="p">{</span>
+</span><span class='line'>    <span class="k">return</span> <span class="n">data</span><span class="p">.</span><span class="n">size</span><span class="p">();</span>
+</span><span class='line'><span class="p">}</span>
+</span><span class='line'><span class="kt">float</span> <span class="n">E</span><span class="p">()</span>
+</span><span class='line'><span class="p">{</span>
+</span><span class='line'>    <span class="k">return</span> <span class="n">getAverage</span><span class="p">();</span>
+</span><span class='line'><span class="p">}</span>
+</span><span class='line'><span class="kt">float</span> <span class="n">E2</span><span class="p">()</span>
+</span><span class='line'><span class="p">{</span>
+</span><span class='line'>    <span class="k">return</span> <span class="n">getAverage2</span><span class="p">();</span>
+</span><span class='line'><span class="p">}</span>
+</span><span class='line'><span class="kt">float</span> <span class="n">Var</span><span class="p">()</span>
+</span><span class='line'><span class="p">{</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="n">var</span><span class="o">=</span><span class="mf">0.0f</span><span class="p">;</span>
+</span><span class='line'>    <span class="n">getAverage</span><span class="p">();</span>
+</span><span class='line'>    <span class="k">for</span><span class="p">(</span><span class="kt">unsigned</span> <span class="kt">int</span> <span class="n">i</span><span class="o">=</span><span class="mi">0</span><span class="p">;</span> <span class="n">i</span><span class="o">&amp;</span><span class="n">lt</span><span class="p">;</span><span class="n">data</span><span class="p">.</span><span class="n">size</span><span class="p">();</span> <span class="n">i</span><span class="o">++</span><span class="p">)</span>
+</span><span class='line'>        <span class="n">var</span><span class="o">+=</span><span class="p">(</span><span class="n">data</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">-</span><span class="n">x_average</span><span class="p">)</span><span class="o">*</span><span class="p">(</span><span class="n">data</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">-</span><span class="n">x_average</span><span class="p">);</span>
+</span><span class='line'>    <span class="n">var</span><span class="o">/=</span><span class="n">data</span><span class="p">.</span><span class="n">size</span><span class="p">()</span><span class="o">-</span><span class="mi">1</span><span class="p">;</span>
+</span><span class='line'>    <span class="k">return</span> <span class="n">var</span><span class="p">;</span>
+</span><span class='line'><span class="p">}</span> <span class="p">};</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+</code></pre>
+
+<p><div class='bogus-wrapper'><notextile><figure class='code'><figcaption><span>Factor</span></figcaption>
+ <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+</pre></td><td class='code'><pre><code class='cpp'><span class='line'><span class="k">class</span> <span class="nc">Factor</span>
+</span><span class='line'><span class="p">{</span>
+</span><span class='line'><span class="k">public</span><span class="o">:&lt;/</span><span class="n">p</span><span class="o">&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="o">&lt;</span><span class="n">pre</span><span class="o">&gt;&lt;</span><span class="n">code</span><span class="o">&gt;</span><span class="k">static</span> <span class="kt">float</span> <span class="n">Cov</span><span class="p">(</span><span class="n">Linevec</span> <span class="o">&amp;</span><span class="n">amp</span><span class="p">;</span><span class="n">x</span><span class="p">,</span><span class="n">Linevec</span> <span class="o">&amp;</span><span class="n">amp</span><span class="p">;</span><span class="n">y</span><span class="p">)</span>
+</span><span class='line'><span class="p">{</span>
+</span><span class='line'>    <span class="kt">float</span> <span class="n">xy_average</span><span class="o">=</span><span class="mf">0.0f</span><span class="p">;</span>
+</span><span class='line'>    <span class="k">for</span><span class="p">(</span><span class="kt">int</span> <span class="n">i</span><span class="o">=</span><span class="mi">0</span><span class="p">;</span> <span class="n">i</span><span class="o">&amp;</span><span class="n">lt</span><span class="p">;</span><span class="n">x</span><span class="p">.</span><span class="n">getCount</span><span class="p">();</span> <span class="n">i</span><span class="o">++</span><span class="p">)</span>
+</span><span class='line'>        <span class="n">xy_average</span><span class="o">+=</span><span class="n">x</span><span class="p">.</span><span class="n">data</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">*</span><span class="n">y</span><span class="p">.</span><span class="n">data</span><span class="p">[</span><span class="n">i</span><span class="p">];</span>
+</span><span class='line'>    <span class="n">xy_average</span><span class="o">/=</span><span class="n">x</span><span class="p">.</span><span class="n">getCount</span><span class="p">();</span>
+</span><span class='line'>    <span class="k">return</span> <span class="n">xy_average</span><span class="o">-</span><span class="n">x</span><span class="p">.</span><span class="n">E</span><span class="p">()</span><span class="o">*</span><span class="n">y</span><span class="p">.</span><span class="n">E</span><span class="p">();</span>
+</span><span class='line'><span class="p">}</span>
+</span><span class='line'><span class="k">static</span> <span class="kt">float</span> <span class="n">Corr</span><span class="p">(</span><span class="n">Linevec</span> <span class="o">&amp;</span><span class="n">amp</span><span class="p">;</span><span class="n">x</span><span class="p">,</span><span class="n">Linevec</span> <span class="o">&amp;</span><span class="n">amp</span><span class="p">;</span><span class="n">y</span><span class="p">)</span>
+</span><span class='line'><span class="p">{</span>
+</span><span class='line'>    <span class="k">return</span> <span class="n">Cov</span><span class="p">(</span><span class="n">x</span><span class="p">,</span><span class="n">y</span><span class="p">)</span><span class="o">/</span><span class="n">sqrt</span><span class="p">(</span><span class="n">x</span><span class="p">.</span><span class="n">Var</span><span class="p">()</span><span class="o">*</span><span class="n">y</span><span class="p">.</span><span class="n">Var</span><span class="p">());</span>
+</span><span class='line'><span class="p">}</span> <span class="p">};</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div> 由于图省事，有一些变量我设置了全局，我列在下面,
+</code></pre>
+
+<p><div class='bogus-wrapper'><notextile><figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class='cpp'><span class='line'><span class="kt">int</span> <span class="n">n</span><span class="p">,</span><span class="n">m</span><span class="p">;</span>
+</span><span class='line'><span class="k">const</span> <span class="kt">int</span> <span class="n">width</span><span class="o">=</span><span class="mi">800</span><span class="p">,</span><span class="n">height</span><span class="o">=</span><span class="mi">800</span><span class="p">;</span>
+</span><span class='line'><span class="kt">int</span> <span class="n">f</span><span class="p">[</span><span class="n">height</span><span class="p">][</span><span class="n">width</span><span class="p">];</span>
+</span><span class='line'><span class="k">const</span> <span class="kt">int</span> <span class="n">maxValue</span><span class="o">=</span><span class="mi">200</span><span class="p">;</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div></p>
+
+<p>最终效果如下：
+<img src="/images/image/nocirclefound.png" alt="没找到圆" />
+<img src="/images/image/findcircle.png" alt="找到圆" /></p>
+
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[关于在64位Linux上编译安装OpenCV的问题]]></title>
+    <link href="http://ghdawn.github.com/blog/2012/02/64-open-cv/"/>
+    <updated>2012-02-25T15:04:00+08:00</updated>
+    <id>http://ghdawn.github.com/blog/2012/02/64-open-cv</id>
+    <content type="html"><![CDATA[<p>出于某些需要，我想装个OpenCV做一下图像相关的试验，于是我在<a href="http://sourceforge.net/projects/opencvlibrary/">SourceForge</a>中下载了最新的OpenCV2.3.1，并找到这个非常详细的<a href="http://www.ozbotz.org/opencv-installation/">安装教程</a>编译安装。但是这里出了两个问题。</p>
+
+<h3 id="section">第一个问题</h3>
+
+<p>OpenCV2.3.1要求ffmpeg0.8的版本，这个版本高了或者低了我都出现了编译错误。OpenCV2.3和以前的则需要低一点，系统自带的版本是低版本，需要卸载老版本，重新编译安装x264和ffmpeg。网上总是有很多坑爹的完全一样的安装指导，可惜都不能用。  </p>
+
+<h3 id="section-1">第二个问题</h3>
+
+<p>这个是64位的问题（我的计算机是Linux Mint12 64bit，如果有人用64位系统，可能也会出类似问题）。我的方法和大家的安装方法都一样，但是我做的时候在很多地方编译不通过，各种编译错误。错误提示大概就是我是x86_64的平台，链接库的时候会出问题。不过还好，在刚才教程底下大家的讨论里我找到了解决方案：</p>
+
+<p>其他的不变，按照教程输入命令即可，只是在安装x264和ffmpeg的时候，第一步<em>configure</em>中加入<strong>–enable-pic</strong>和<strong>–enable-shared</strong>（两个减号）,然后编译安装x264和ffmpeg。在前两个都安装好之后，再重新编译OpenCV，这就可以编译通过了。</p>
+
+<h3 id="section-2">第三个问题</h3>
+<p>即使cmake的时候选择了支持<em>python</em>，安装完成后，<em>python</em>里也找不到相关的库。在官网上找到，在cmake之前，需要先安装<em>python-dev</em>。</p>
+
+<pre><code>    sudo apt-get install python-dev
+</code></pre>
+
+<p>然后<em>cmake</em>时，可以选择<em>Python-OpenCV</em>的安装位置，然后再编译安装OpenCV。安装时可以看到输出信息中出现了正在安装<em>python</em>的库。装好以后，修改.bashrc，增加环境变量<em>PYTHONPATH</em>,并把值设置为刚才选择的安装位置。这样就可以完成安装了。</p>
+
+<p>安装好以后，我不能用如下这个命令来编译，会出现找不到引用的错误。</p>
+
+<pre><code>    g++ `pkg-config opencv --cflags` `pkg-config opencv --libs` my_code.cpp  -o my_code
+</code></pre>
+
+<p>要想顺利编译通过，这里需要把源代码文件放在第一个参数，即</p>
+
+<pre><code>    g++ my_code.cpp `pkg-config opencv --cflags` `pkg-config opencv --libs`  -o my_code
+</code></pre>
+
+<p>然后编译就正常了。</p>
+
+<h3 id="code-blocksopencv">在Code Blocks里配置OpenCV环境</h3>
+<ol>
+  <li>新建一个工程</li>
+  <li>在左侧的Projects区里，右键点击工程，选择<strong>Build Option</strong></li>
+  <li>在<strong>Compiler settings</strong> 的 <strong>Other options</strong>中，加入 <strong><code>pkg-config opencv  --cflags</code></strong></li>
+  <li>在<strong>Linker setting</strong> 的<strong>Other Linker options</strong>中，加入<strong><code>pkg-config opencv --libs </code></strong></li>
+</ol>
+
+<p>这时候编译运行就应该没问题了</p>
+
+<p>希望大家出了类似问题的能安然度过~~~另外如果有人能告诉我为什么，感激不尽！</p>
+]]></content>
+  </entry>
+  
+</feed>

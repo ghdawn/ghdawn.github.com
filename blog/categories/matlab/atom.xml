@@ -1,0 +1,231 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Category: matlab | 成长日志]]></title>
+  <link href="http://ghdawn.github.com/blog/categories/matlab/atom.xml" rel="self"/>
+  <link href="http://ghdawn.github.com/"/>
+  <updated>2012-12-02T21:51:18+08:00</updated>
+  <id>http://ghdawn.github.com/</id>
+  <author>
+    <name><![CDATA[清风未明]]></name>
+    
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[学习在自动控制中应用MATLAB-1]]></title>
+    <link href="http://ghdawn.github.com/blog/2012/02/matlab-study1/"/>
+    <updated>2012-02-17T17:20:00+08:00</updated>
+    <id>http://ghdawn.github.com/blog/2012/02/matlab-study1</id>
+    <content type="html"><![CDATA[<h2 id="section">建立系统传递函数</h2>
+
+<p>设系统的传递函数为：<a href="http://www.codecogs.com/eqnedit.php?latex=\fn_jvn G(s)=\frac{s@plus;1}{2s^3@plus;3s^2@plus;4s@plus;5}" target="_blank"><img src="http://latex.codecogs.com/png.latex?\fn_jvn G(s)=\frac{s+1}{2s^3+3s^2+4s+5}" title="\fn_jvn G(s)=\frac{s+1}{2s^3+3s^2+4s+5}" /></a> <br />
+则在matlab中输入如下命令，可得到其传递函数： <br />
+<div class='bogus-wrapper'><notextile><figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+</pre></td><td class='code'><pre><code class='matlab'><span class='line'><span class="n">num</span><span class="p">=[</span>1 2<span class="p">];</span><span class="n">den</span><span class="p">=[</span>2 3 4 5<span class="p">];</span><span class="n">G</span><span class="p">=</span><span class="n">tf</span><span class="p">(</span><span class="n">num</span><span class="p">,</span><span class="n">den</span><span class="p">)</span><span class="o">&lt;/</span><span class="n">p</span><span class="o">&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="o">&lt;</span><span class="n">p</span><span class="o">&gt;</span><span class="n">Transfer</span> <span class="k">function</span><span class="p">:</span>
+</span><span class='line'>         <span class="n">s</span> <span class="o">+</span> 2
+</span><span class='line'>———————–
+</span><span class='line'>2 <span class="n">s</span>^3 <span class="o">+</span> 3 <span class="n">s</span>^2 <span class="o">+</span> 4 <span class="n">s</span> <span class="o">+</span> 5
+</span></code></pre></td></tr></table></div></figure></notextile></div></p>
+
+<p>令：
+<div class='bogus-wrapper'><notextile><figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+</pre></td><td class='code'><pre><code class='matlab'><span class='line'>» <span class="n">G1</span><span class="p">=</span><span class="n">tf</span><span class="p">([</span>1 2<span class="p">],[</span>1 2 3<span class="p">])</span><span class="o">&lt;/</span><span class="n">p</span><span class="o">&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="o">&lt;</span><span class="n">p</span><span class="o">&gt;</span><span class="n">Transfer</span> <span class="k">function</span><span class="p">:</span>
+</span><span class='line'>    <span class="n">s</span> <span class="o">+</span> 2
+</span><span class='line'>————<span class="o">-</span>
+</span><span class='line'><span class="n">s</span>^2 <span class="o">+</span> 2 <span class="n">s</span> <span class="o">+</span> 3<span class="o">&lt;/</span><span class="n">p</span><span class="o">&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="o">&lt;</span><span class="n">blockquote</span><span class="o">&gt;</span>
+</span><span class='line'>  <span class="o">&lt;</span><span class="n">blockquote</span><span class="o">&gt;</span>
+</span><span class='line'>    <span class="o">&lt;</span><span class="n">p</span><span class="o">&gt;</span><span class="n">G2</span><span class="p">=</span><span class="n">tf</span><span class="p">([</span>1<span class="p">],[</span>1 0<span class="p">])</span><span class="o">&lt;/</span><span class="n">p</span><span class="o">&gt;</span>
+</span><span class='line'>  <span class="o">&lt;/</span><span class="n">blockquote</span><span class="o">&gt;</span>
+</span><span class='line'><span class="o">&lt;/</span><span class="n">blockquote</span><span class="o">&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="o">&lt;</span><span class="n">p</span><span class="o">&gt;</span><span class="n">Transfer</span> <span class="k">function</span><span class="p">:</span>
+</span><span class='line'>1
+</span><span class='line'><span class="o">-</span>
+</span><span class='line'><span class="n">s</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div></p>
+
+<ul>
+  <li>如果需要串联两个模块G1，G2，则用命令： <br />
+<div class='bogus-wrapper'><notextile><figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+</pre></td><td class='code'><pre><code class='matlab'><span class='line'>»<span class="n">G1</span><span class="o">*</span><span class="n">G2</span><span class="o">&lt;/</span><span class="n">li</span><span class="o">&gt;</span>
+</span><span class='line'><span class="o">&lt;/</span><span class="n">ul</span><span class="o">&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="o">&lt;</span><span class="n">p</span><span class="o">&gt;</span><span class="n">Transfer</span> <span class="k">function</span><span class="p">:</span>
+</span><span class='line'>      <span class="n">s</span> <span class="o">+</span> 2
+</span><span class='line'>—————–
+</span><span class='line'><span class="n">s</span>^3 <span class="o">+</span> 2 <span class="n">s</span>^2 <span class="o">+</span> 3 <span class="n">s</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div></p>
+
+<ul>
+  <li>需要并联两个模块G1，G2，则用命令：
+<div class='bogus-wrapper'><notextile><figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+</pre></td><td class='code'><pre><code class='matlab'><span class='line'>»<span class="n">G1</span><span class="o">+</span><span class="n">G2</span><span class="o">&lt;/</span><span class="n">li</span><span class="o">&gt;</span>
+</span><span class='line'><span class="o">&lt;/</span><span class="n">ul</span><span class="o">&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="o">&lt;</span><span class="n">p</span><span class="o">&gt;</span><span class="n">Transfer</span> <span class="k">function</span><span class="p">:</span>
+</span><span class='line'> 2 <span class="n">s</span>^2 <span class="o">+</span> 4 <span class="n">s</span> <span class="o">+</span> 3
+</span><span class='line'>—————–
+</span><span class='line'><span class="n">s</span>^3 <span class="o">+</span> 2 <span class="n">s</span>^2 <span class="o">+</span> 3 <span class="n">s</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div>     <br />
+- 需要反馈链接，则用：
+<div class='bogus-wrapper'><notextile><figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+</pre></td><td class='code'><pre><code class='matlab'><span class='line'>» <span class="n">G</span><span class="p">=</span><span class="n">feedback</span><span class="p">(</span><span class="n">G1</span><span class="p">,</span><span class="n">G2</span><span class="p">,</span><span class="o">-</span>1<span class="p">)</span><span class="o">&lt;/</span><span class="n">p</span><span class="o">&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="o">&lt;</span><span class="n">p</span><span class="o">&gt;</span><span class="n">Transfer</span> <span class="k">function</span><span class="p">:</span>
+</span><span class='line'>      <span class="n">s</span>^2 <span class="o">+</span> 2 <span class="n">s</span>
+</span><span class='line'>———————
+</span><span class='line'><span class="n">s</span>^3 <span class="o">+</span> 2 <span class="n">s</span>^2 <span class="o">+</span> 4 <span class="n">s</span> <span class="o">+</span> 2
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+其中-1表示单位负反馈</p>
+
+<h2 id="section-1">判断系统稳定性</h2>
+
+<p>设系统传递函数为：<a href="http://www.codecogs.com/eqnedit.php?latex=\fn_jvn G(s)=\frac{s^3@plus;7s^2@plus;24s@plus;24}{s^8@plus;2s^7@plus;3s^6@plus;4^s5@plus;6s^3@plus;7s^2@plus;8s@plus;9}" target="_blank"><img src="http://latex.codecogs.com/png.latex?\fn_jvn G(s)=\frac{s^3+7s^2+24s+24}{s^8+2s^7+3s^6+4^s5+6s^3+7s^2+8s+9}" title="\fn_jvn G(s)=\frac{s^3+7s^2+24s+24}{s^8+2s^7+3s^6+4^s5+6s^3+7s^2+8s+9}" /></a>   </p>
+
+<p>在matlab中输入如下命令：</p>
+
+<p><div class='bogus-wrapper'><notextile><figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+</pre></td><td class='code'><pre><code class='matlab'><span class='line'><span class="n">den</span><span class="p">=[</span>1<span class="p">:</span>9<span class="p">];</span> <span class="c">%建立特征多项式</span>
+</span><span class='line'><span class="n">roots</span><span class="p">(</span><span class="n">den</span><span class="p">)</span> <span class="c">%求根，通过根的正负判定系统是否稳定&lt;/p&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="o">&lt;</span><span class="n">p</span><span class="o">&gt;</span><span class="nb">ans</span> <span class="p">=</span><span class="o">&lt;/</span><span class="n">p</span><span class="o">&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="o">&lt;</span><span class="n">p</span><span class="o">&gt;-</span>1<span class="p">.</span>2888 <span class="o">+</span> 0<span class="p">.</span>4477<span class="nb">i</span>
+</span><span class='line'>  <span class="o">-</span>1<span class="p">.</span>2888 <span class="o">-</span> 0<span class="p">.</span>4477<span class="nb">i</span>
+</span><span class='line'>  <span class="o">-</span>0<span class="p">.</span>7244 <span class="o">+</span> 1<span class="p">.</span>1370<span class="nb">i</span>
+</span><span class='line'>  <span class="o">-</span>0<span class="p">.</span>7244 <span class="o">-</span> 1<span class="p">.</span>1370<span class="nb">i</span>
+</span><span class='line'>   0<span class="p">.</span>1364 <span class="o">+</span> 1<span class="p">.</span>3050<span class="nb">i</span>
+</span><span class='line'>   0<span class="p">.</span>1364 <span class="o">-</span> 1<span class="p">.</span>3050<span class="nb">i</span>
+</span><span class='line'>   0<span class="p">.</span>8767 <span class="o">+</span> 0<span class="p">.</span>8814<span class="nb">i</span>
+</span><span class='line'>   0<span class="p">.</span>8767 <span class="o">-</span> 0<span class="p">.</span>8814<span class="nb">i</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div></p>
+
+<p>由4个极点有正实部可知，系统不稳定。</p>
+
+<h2 id="section-2">求系统响应</h2>
+<p>设系统传递函数为：<a href="http://www.codecogs.com/eqnedit.php?latex=\fn_jvn G(s)=\frac{s@plus;24}{s^2@plus;4s@plus;9}" target="_blank"><img src="http://latex.codecogs.com/png.latex?\fn_jvn G(s)=\frac{s+24}{s^2+4s+9}" title="\fn_jvn G(s)=\frac{s+24}{s^2+4s+9}" /></a></p>
+
+<p>新建.m文件，在编辑器里输入：
+<div class='bogus-wrapper'><notextile><figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+</pre></td><td class='code'><pre><code class='matlab'><span class='line'><span class="n">num</span><span class="p">=[</span>1 24<span class="p">];</span>
+</span><span class='line'><span class="n">den</span><span class="p">=[</span>1 4 9<span class="p">];</span>
+</span><span class='line'><span class="n">G</span><span class="p">=</span><span class="n">tf</span><span class="p">(</span><span class="n">num</span><span class="p">,</span><span class="n">den</span><span class="p">);</span>
+</span><span class='line'><span class="n">t</span><span class="p">=</span>0<span class="p">:</span>0<span class="p">.</span>1<span class="p">:</span>10<span class="p">;</span>
+</span><span class='line'><span class="n">y</span><span class="p">=</span><span class="n">step</span><span class="p">(</span><span class="n">G</span><span class="p">,</span><span class="n">t</span><span class="p">);</span>
+</span><span class='line'><span class="n">plot</span><span class="p">(</span><span class="n">t</span><span class="p">,</span><span class="n">y</span><span class="p">)</span>
+</span><span class='line'><span class="n">Y</span><span class="p">=</span><span class="n">dcgain</span><span class="p">(</span><span class="n">G</span><span class="p">)</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+运行可得结果：</p>
+
+<p><img src="/images/image/2jiestep.png" alt="阶跃响应" /></p>
+
+<h3 id="section-3">指令解释</h3>
+<ul>
+  <li><em>step</em> 给出了系统的阶跃响应，y保存了每个t时刻的响应</li>
+  <li>如果用_impulse()_代替_step_则可求得系统的脉冲响应</li>
+  <li><em>plot</em> 以t为自变量，y为函数值画出图像</li>
+  <li>_dcgain_得出系统的稳态值</li>
+</ul>
+
+<h2 id="section-4">绘制跟轨迹</h2>
+<p>设系统闭环传递函数为： <br />
+<a href="http://www.codecogs.com/eqnedit.php?latex=\fn_jvn \Phi (s)=\frac{K(s@plus;1)(s@plus;3)}{s(s@plus;2)(s@plus;3)@plus;K(s@plus;1)}" target="_blank"><img src="http://latex.codecogs.com/png.latex?\fn_jvn \Phi (s)=\frac{K(s+1)(s+3)}{s(s+2)(s+3)+K(s+1)}" title="\fn_jvn \Phi (s)=\frac{K(s+1)(s+3)}{s(s+2)(s+3)+K(s+1)}" /></a></p>
+
+<p>特征方程可写为 <br />
+<a href="http://www.codecogs.com/eqnedit.php?latex=\fn_jvn 1@plus;K\frac{s@plus;1}{s(s@plus;2)(s@plus;3)}=1@plus;K\frac{s@plus;1}{s^3@plus;5s^2@plus;6s}=0" target="_blank"><img src="http://latex.codecogs.com/png.latex?\fn_jvn 1+K\frac{s+1}{s(s+2)(s+3)}=1+K\frac{s+1}{s^3+5s^2+6s}=0" title="\fn_jvn 1+K\frac{s+1}{s(s+2)(s+3)}=1+K\frac{s+1}{s^3+5s^2+6s}=0" /></a></p>
+
+<p>新建.m文件，输入如下语句：</p>
+
+<p><div class='bogus-wrapper'><notextile><figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+</pre></td><td class='code'><pre><code class='matlab'><span class='line'><span class="n">num</span><span class="p">=[</span>1 1<span class="p">];</span>
+</span><span class='line'><span class="n">den</span><span class="p">=[</span>1 5 6 0<span class="p">];</span>
+</span><span class='line'><span class="n">G</span><span class="p">=</span><span class="n">tf</span><span class="p">(</span><span class="n">num</span><span class="p">,</span><span class="n">den</span><span class="p">);</span>
+</span><span class='line'><span class="n">hold</span> <span class="n">on</span><span class="p">;</span>
+</span><span class='line'><span class="n">rlocus</span><span class="p">(</span><span class="n">G</span><span class="p">);</span>
+</span><span class='line'><span class="p">[</span><span class="n">K</span><span class="p">,</span><span class="n">P</span><span class="p">]=</span><span class="n">rlocfind</span><span class="p">(</span><span class="n">G</span><span class="p">)</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+运行可得结果：</p>
+
+<p><img src="/images/image/rootlocus.png" alt="根轨迹" /></p>
+
+<h3 id="section-5">指令解释</h3>
+<ul>
+  <li><em>hold on</em> 使得多次次绘图可以在一个Figure窗口中叠加展出</li>
+  <li><em>rlocus</em> 绘制给定系统的根轨迹</li>
+  <li><em>rlocufind</em> 函数允许用户求取根轨迹上指定点处的开环增益，K为选定点对应的开环增益，P为该增益下的闭环极点位置。</li>
+</ul>
+
+<p>感谢参考书：<a href="http://book.douban.com/subject/1655949/">《自动控制原理》</a></p>
+]]></content>
+  </entry>
+  
+</feed>
