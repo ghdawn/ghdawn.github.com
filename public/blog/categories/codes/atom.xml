@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Codes | 成长日志]]></title>
   <link href="http://ghdawn.github.com/blog/categories/codes/atom.xml" rel="self"/>
   <link href="http://ghdawn.github.com/"/>
-  <updated>2012-12-02T21:48:10+08:00</updated>
+  <updated>2012-12-02T21:49:13+08:00</updated>
   <id>http://ghdawn.github.com/</id>
   <author>
     <name><![CDATA[清风未明]]></name>
@@ -77,23 +77,41 @@ A=C^T \Lambda C
 <h5 id="section-3">数据读取</h5>
 <p>这里使用的人脸数据库共有$N=150$张人脸图像，分辨率为$M\times M=80 \times 80$，以$FERET-XXX.tif$命名。由于PCA中，每个人脸图像是以一个列向量的形式存在，所以需要将这每个图像重构成列向量。在后续的算法中，需要将整体人脸零均值化，所以还需要记录下来所有人的平均脸。matlab 代码如下：</p>
 
-<p>{%codeblock lang:matlab %}</p>
-
-<p>file=’FERET-‘;
-N=150;
-M=80;
-Image=zeros(M*M,N);</p>
-
-<p>average=zeros(M<em>M,1);
-% read face image
-for i = 1:N
-   t=imread([file,num2str(i,’%03d’),’.tif’]);
-   t=reshape(t,M</em>M,1);
-   Image(:,i)=t;
-   average=average+Image(:,i);
-end</p>
-
-<p>{% endcodeblock %}</p>
+<p><div class='bogus-wrapper'><notextile><figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+</pre></td><td class='code'><pre><code class='matlab'><span class='line'><span class="o">&lt;/</span><span class="n">p</span><span class="o">&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="o">&lt;</span><span class="n">p</span><span class="o">&gt;</span><span class="n">file</span><span class="p">=</span>’<span class="n">FERET</span><span class="o">-</span>‘<span class="p">;</span>
+</span><span class='line'><span class="n">N</span><span class="p">=</span>150<span class="p">;</span>
+</span><span class='line'><span class="n">M</span><span class="p">=</span>80<span class="p">;</span>
+</span><span class='line'><span class="n">Image</span><span class="p">=</span><span class="nb">zeros</span><span class="p">(</span><span class="n">M</span><span class="o">*</span><span class="n">M</span><span class="p">,</span><span class="n">N</span><span class="p">);</span><span class="o">&lt;/</span><span class="n">p</span><span class="o">&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="o">&lt;</span><span class="n">p</span><span class="o">&gt;</span><span class="n">average</span><span class="p">=</span><span class="nb">zeros</span><span class="p">(</span><span class="n">M</span><span class="o">&lt;</span><span class="n">em</span><span class="o">&gt;</span><span class="n">M</span><span class="p">,</span>1<span class="p">);</span>
+</span><span class='line'><span class="c">% read face image</span>
+</span><span class='line'><span class="k">for</span> <span class="nb">i</span> <span class="p">=</span> 1<span class="p">:</span><span class="n">N</span>
+</span><span class='line'>   <span class="n">t</span><span class="p">=</span><span class="n">imread</span><span class="p">([</span><span class="n">file</span><span class="p">,</span><span class="n">num2str</span><span class="p">(</span><span class="nb">i</span><span class="p">,</span>’<span class="c">%03d’),’.tif’]);</span>
+</span><span class='line'>   <span class="n">t</span><span class="p">=</span><span class="nb">reshape</span><span class="p">(</span><span class="n">t</span><span class="p">,</span><span class="n">M</span><span class="o">&lt;/</span><span class="n">em</span><span class="o">&gt;</span><span class="n">M</span><span class="p">,</span>1<span class="p">);</span>
+</span><span class='line'>   <span class="n">Image</span><span class="p">(:,</span><span class="nb">i</span><span class="p">)=</span><span class="n">t</span><span class="p">;</span>
+</span><span class='line'>   <span class="n">average</span><span class="p">=</span><span class="n">average</span><span class="o">+</span><span class="n">Image</span><span class="p">(:,</span><span class="nb">i</span><span class="p">);</span>
+</span><span class='line'><span class="k">end</span><span class="o">&lt;/</span><span class="n">p</span><span class="o">&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="o">&lt;</span><span class="n">p</span><span class="o">&gt;</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div></p>
 
 <h5 id="section-4">数据预处理</h5>
 
@@ -107,48 +125,79 @@ r(A_{m \times n}) \leq min \{ m,n \}
 
 <p>所以它的秩很小，即不为零的特征根很少($r \leq N$)。于是先求出 <script type="math/tex">Image^ T Image</script> 这个维数较小的矩阵的所有特征值和特征向量 <script type="math/tex"> V_{N \times N} </script>，再通过 <script type="math/tex"> U_{M^ 2 \times N}=Image \times V </script>,即可求出原矩阵 <script type="math/tex">ImageImage^ T </script> 的特征向量。通过特征值我们可以看出来，大量的特征集中在很少的几个特征值上。而大部分特征值都很小，表示了他们携带的数据特征很小。把这些特征向量规范后以后，这些单位特征向量可以作为一组基底张成一个空间，即是特征脸方法中的特征空间，最后，把原图像向量向这个特征空间中投影，即可以得到我们所需的特征脸。</p>
 
-<p>{%codeblock lang:matlab %}
-% zero-mean
-average=average/N;
-for i = 1:N
-    Image(:,i)=Image(:,i)-average;
-end</p>
-
-<p>% Calc the vector
-[V,D]=eig(Image’<em>Image);
-D=diag(D);
-figure(1);
-bar(D)
-sum_d=sum(D);
-U=Image</em>V;
-for i = 1:N
-    U(:,i)=U(:,i)/sqrt(U(:,i)’*U(:,i));
-end
-{% endcodeblock %}</p>
+<p><div class='bogus-wrapper'><notextile><figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+</pre></td><td class='code'><pre><code class='matlab'><span class='line'><span class="c">% zero-mean</span>
+</span><span class='line'><span class="n">average</span><span class="p">=</span><span class="n">average</span><span class="o">/</span><span class="n">N</span><span class="p">;</span>
+</span><span class='line'><span class="k">for</span> <span class="nb">i</span> <span class="p">=</span> 1<span class="p">:</span><span class="n">N</span>
+</span><span class='line'>    <span class="n">Image</span><span class="p">(:,</span><span class="nb">i</span><span class="p">)=</span><span class="n">Image</span><span class="p">(:,</span><span class="nb">i</span><span class="p">)</span><span class="o">-</span><span class="n">average</span><span class="p">;</span>
+</span><span class='line'><span class="k">end</span><span class="o">&lt;/</span><span class="n">p</span><span class="o">&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="o">&lt;</span><span class="n">p</span><span class="o">&gt;</span><span class="c">% Calc the vector</span>
+</span><span class='line'><span class="p">[</span><span class="n">V</span><span class="p">,</span><span class="n">D</span><span class="p">]=</span><span class="n">eig</span><span class="p">(</span><span class="n">Image</span>’<span class="o">&lt;</span><span class="n">em</span><span class="o">&gt;</span><span class="n">Image</span><span class="p">);</span>
+</span><span class='line'><span class="n">D</span><span class="p">=</span><span class="nb">diag</span><span class="p">(</span><span class="n">D</span><span class="p">);</span>
+</span><span class='line'><span class="n">figure</span><span class="p">(</span>1<span class="p">);</span>
+</span><span class='line'><span class="n">bar</span><span class="p">(</span><span class="n">D</span><span class="p">)</span>
+</span><span class='line'><span class="n">sum_d</span><span class="p">=</span><span class="n">sum</span><span class="p">(</span><span class="n">D</span><span class="p">);</span>
+</span><span class='line'><span class="n">U</span><span class="p">=</span><span class="n">Image</span><span class="o">&lt;/</span><span class="n">em</span><span class="o">&gt;</span><span class="n">V</span><span class="p">;</span>
+</span><span class='line'><span class="k">for</span> <span class="nb">i</span> <span class="p">=</span> 1<span class="p">:</span><span class="n">N</span>
+</span><span class='line'>    <span class="n">U</span><span class="p">(:,</span><span class="nb">i</span><span class="p">)=</span><span class="n">U</span><span class="p">(:,</span><span class="nb">i</span><span class="p">)</span><span class="o">/</span><span class="nb">sqrt</span><span class="p">(</span><span class="n">U</span><span class="p">(:,</span><span class="nb">i</span><span class="p">)</span>’<span class="o">*</span><span class="n">U</span><span class="p">(:,</span><span class="nb">i</span><span class="p">));</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div></p>
 
 <h5 id="section-5">人脸重建</h5>
 
 <p>人脸重建实验的目的是为了测试特征脸所携带的人脸信息。由于特征值的大小代表了其所对应的特征向量所携带的信息量，通过将最大的一些特征值对应的特征向量叠加就可以获得原图像中的大部分信息量，也就是所谓的主成分。这里先将所有特征值按从大到小的顺序排列。通过叠加特征向量的方式，就可以得到一组对原人脸的逼近特征脸。而将特征值加起来，正是总的信息量，也可以求出重构误差。</p>
 
-<p>{%codeblock lang:matlab %}
-%% Form a face
-selected=131;
-subplot(1,2,1);
-imshow(uint8(reshape( Image(:,selected)+average,M,M)))
-subplot(1,2,2);
-k=100;</p>
-
-<p>p=zeros(M<em>M,1);
-err=0;
-for i=fliplr(N-k:N)
-     w=U(:,i)’</em>Image(:,selected);
-     err=err+D(i);
-     1-err/sum_d
-     p=p+w*U(:,i);
-     imshow(uint8(reshape(p+average,M,M)))
-     pause(0.2)
-end
-{% endcodeblock %}</p>
+<p><div class='bogus-wrapper'><notextile><figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+</pre></td><td class='code'><pre><code class='matlab'><span class='line'><span class="c">%% Form a face</span>
+</span><span class='line'><span class="n">selected</span><span class="p">=</span>131<span class="p">;</span>
+</span><span class='line'><span class="n">subplot</span><span class="p">(</span>1<span class="p">,</span>2<span class="p">,</span>1<span class="p">);</span>
+</span><span class='line'><span class="n">imshow</span><span class="p">(</span><span class="n">uint8</span><span class="p">(</span><span class="nb">reshape</span><span class="p">(</span> <span class="n">Image</span><span class="p">(:,</span><span class="n">selected</span><span class="p">)</span><span class="o">+</span><span class="n">average</span><span class="p">,</span><span class="n">M</span><span class="p">,</span><span class="n">M</span><span class="p">)))</span>
+</span><span class='line'><span class="n">subplot</span><span class="p">(</span>1<span class="p">,</span>2<span class="p">,</span>2<span class="p">);</span>
+</span><span class='line'><span class="n">k</span><span class="p">=</span>100<span class="p">;</span><span class="o">&lt;/</span><span class="n">p</span><span class="o">&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="o">&lt;</span><span class="n">p</span><span class="o">&gt;</span><span class="n">p</span><span class="p">=</span><span class="nb">zeros</span><span class="p">(</span><span class="n">M</span><span class="o">&lt;</span><span class="n">em</span><span class="o">&gt;</span><span class="n">M</span><span class="p">,</span>1<span class="p">);</span>
+</span><span class='line'><span class="n">err</span><span class="p">=</span>0<span class="p">;</span>
+</span><span class='line'><span class="k">for</span> <span class="nb">i</span><span class="p">=</span><span class="nb">fliplr</span><span class="p">(</span><span class="n">N</span><span class="o">-</span><span class="n">k</span><span class="p">:</span><span class="n">N</span><span class="p">)</span>
+</span><span class='line'>     <span class="n">w</span><span class="p">=</span><span class="n">U</span><span class="p">(:,</span><span class="nb">i</span><span class="p">)</span>’<span class="o">&lt;/</span><span class="n">em</span><span class="o">&gt;</span><span class="n">Image</span><span class="p">(:,</span><span class="n">selected</span><span class="p">);</span>
+</span><span class='line'>     <span class="n">err</span><span class="p">=</span><span class="n">err</span><span class="o">+</span><span class="n">D</span><span class="p">(</span><span class="nb">i</span><span class="p">);</span>
+</span><span class='line'>     1<span class="o">-</span><span class="n">err</span><span class="o">/</span><span class="n">sum_d</span>
+</span><span class='line'>     <span class="n">p</span><span class="p">=</span><span class="n">p</span><span class="o">+</span><span class="n">w</span><span class="o">*</span><span class="n">U</span><span class="p">(:,</span><span class="nb">i</span><span class="p">);</span>
+</span><span class='line'>     <span class="n">imshow</span><span class="p">(</span><span class="n">uint8</span><span class="p">(</span><span class="nb">reshape</span><span class="p">(</span><span class="n">p</span><span class="o">+</span><span class="n">average</span><span class="p">,</span><span class="n">M</span><span class="p">,</span><span class="n">M</span><span class="p">)))</span>
+</span><span class='line'>     <span class="n">pause</span><span class="p">(</span>0<span class="p">.</span>2<span class="p">)</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div></p>
 
 <h5 id="section-6">人脸识别</h5>
 
@@ -184,48 +233,89 @@ dis(x)=\min \{\|W_x-W_{Ij} \| \} , j=1,2 \ldots n
 
 <p>其中 <script type="math/tex"> W_x=W_{k\times 1} </script>，为待识别图像的权值向量, <script type="math/tex">W_{Ij} </script> 为第 <script type="math/tex">j </script> 个原图像的权值向量。由此可以看出，每次计算距离的范围从 $M^2$ 下降到了 $k$ ，使得计算量极大的缩减了，从而提高了运算速度。这正是使用<code>PCA</code>方法降维的目的。MATLAB代码如下：</p>
 
-<p>{%codeblock lang:matlab %}</p>
-
-<p>%% Detect a face
-unknown=201;
-k=140;
-w=zeros(k,N);
-for i=1:N
-    for j=fliplr(N-k:N)
-        w(j,i)=U(:,j)’<em>Image(:,i);
-    end
-end
-subplot(2,2,1);
-t=imread([file,num2str(unknown,’%03d’),’.tif’]);
-imshow(t);
-t=(reshape(t,M</em>M,1));
-t=double(t);
-t=t-average;</p>
-
-<p>wt=zeros(k,1);
-p=zeros(M<em>M,1);
-for j=fliplr(N-k:N)
-        wt(j)=U(:,j)’</em>t;
-end</p>
-
-<p>index=0;
-e_min=1000000;
-for i=1:N
-    e=sqrt((wt-w(:,i))’*(wt-w(:,i)))/k;</p>
-
-<pre><code>if( e&lt;e_min)
-    e_min=e
-    index=i;
-end end
-</code></pre>
-
-<p>subplot(2,2,3);
-if(e_min&lt;20)
-    imshow(uint8(reshape( Image(:,index)+average,M,M)))
-else
-    imshow(uint8(zeros(M,M)))
-end
-{% endcodeblock %}</p>
+<p><div class='bogus-wrapper'><notextile><figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+<span class='line-number'>29</span>
+<span class='line-number'>30</span>
+<span class='line-number'>31</span>
+<span class='line-number'>32</span>
+<span class='line-number'>33</span>
+<span class='line-number'>34</span>
+<span class='line-number'>35</span>
+<span class='line-number'>36</span>
+<span class='line-number'>37</span>
+<span class='line-number'>38</span>
+<span class='line-number'>39</span>
+<span class='line-number'>40</span>
+<span class='line-number'>41</span>
+</pre></td><td class='code'><pre><code class='matlab'><span class='line'><span class="o">&lt;/</span><span class="n">p</span><span class="o">&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="o">&lt;</span><span class="n">p</span><span class="o">&gt;</span><span class="c">%% Detect a face</span>
+</span><span class='line'><span class="n">unknown</span><span class="p">=</span>201<span class="p">;</span>
+</span><span class='line'><span class="n">k</span><span class="p">=</span>140<span class="p">;</span>
+</span><span class='line'><span class="n">w</span><span class="p">=</span><span class="nb">zeros</span><span class="p">(</span><span class="n">k</span><span class="p">,</span><span class="n">N</span><span class="p">);</span>
+</span><span class='line'><span class="k">for</span> <span class="nb">i</span><span class="p">=</span>1<span class="p">:</span><span class="n">N</span>
+</span><span class='line'>    <span class="k">for</span> <span class="nb">j</span><span class="p">=</span><span class="nb">fliplr</span><span class="p">(</span><span class="n">N</span><span class="o">-</span><span class="n">k</span><span class="p">:</span><span class="n">N</span><span class="p">)</span>
+</span><span class='line'>        <span class="n">w</span><span class="p">(</span><span class="nb">j</span><span class="p">,</span><span class="nb">i</span><span class="p">)=</span><span class="n">U</span><span class="p">(:,</span><span class="nb">j</span><span class="p">)</span>’<span class="o">&lt;</span><span class="n">em</span><span class="o">&gt;</span><span class="n">Image</span><span class="p">(:,</span><span class="nb">i</span><span class="p">);</span>
+</span><span class='line'>    <span class="k">end</span>
+</span><span class='line'><span class="k">end</span>
+</span><span class='line'><span class="n">subplot</span><span class="p">(</span>2<span class="p">,</span>2<span class="p">,</span>1<span class="p">);</span>
+</span><span class='line'><span class="n">t</span><span class="p">=</span><span class="n">imread</span><span class="p">([</span><span class="n">file</span><span class="p">,</span><span class="n">num2str</span><span class="p">(</span><span class="n">unknown</span><span class="p">,</span>’<span class="c">%03d’),’.tif’]);</span>
+</span><span class='line'><span class="n">imshow</span><span class="p">(</span><span class="n">t</span><span class="p">);</span>
+</span><span class='line'><span class="n">t</span><span class="p">=(</span><span class="nb">reshape</span><span class="p">(</span><span class="n">t</span><span class="p">,</span><span class="n">M</span><span class="o">&lt;/</span><span class="n">em</span><span class="o">&gt;</span><span class="n">M</span><span class="p">,</span>1<span class="p">));</span>
+</span><span class='line'><span class="n">t</span><span class="p">=</span><span class="n">double</span><span class="p">(</span><span class="n">t</span><span class="p">);</span>
+</span><span class='line'><span class="n">t</span><span class="p">=</span><span class="n">t</span><span class="o">-</span><span class="n">average</span><span class="p">;</span><span class="o">&lt;/</span><span class="n">p</span><span class="o">&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="o">&lt;</span><span class="n">p</span><span class="o">&gt;</span><span class="n">wt</span><span class="p">=</span><span class="nb">zeros</span><span class="p">(</span><span class="n">k</span><span class="p">,</span>1<span class="p">);</span>
+</span><span class='line'><span class="n">p</span><span class="p">=</span><span class="nb">zeros</span><span class="p">(</span><span class="n">M</span><span class="o">&lt;</span><span class="n">em</span><span class="o">&gt;</span><span class="n">M</span><span class="p">,</span>1<span class="p">);</span>
+</span><span class='line'><span class="k">for</span> <span class="nb">j</span><span class="p">=</span><span class="nb">fliplr</span><span class="p">(</span><span class="n">N</span><span class="o">-</span><span class="n">k</span><span class="p">:</span><span class="n">N</span><span class="p">)</span>
+</span><span class='line'>        <span class="n">wt</span><span class="p">(</span><span class="nb">j</span><span class="p">)=</span><span class="n">U</span><span class="p">(:,</span><span class="nb">j</span><span class="p">)</span>’<span class="o">&lt;/</span><span class="n">em</span><span class="o">&gt;</span><span class="n">t</span><span class="p">;</span>
+</span><span class='line'><span class="k">end</span><span class="o">&lt;/</span><span class="n">p</span><span class="o">&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="o">&lt;</span><span class="n">p</span><span class="o">&gt;</span><span class="n">index</span><span class="p">=</span>0<span class="p">;</span>
+</span><span class='line'><span class="n">e_min</span><span class="p">=</span>1000000<span class="p">;</span>
+</span><span class='line'><span class="k">for</span> <span class="nb">i</span><span class="p">=</span>1<span class="p">:</span><span class="n">N</span>
+</span><span class='line'>    <span class="n">e</span><span class="p">=</span><span class="nb">sqrt</span><span class="p">((</span><span class="n">wt</span><span class="o">-</span><span class="n">w</span><span class="p">(:,</span><span class="nb">i</span><span class="p">))</span>’<span class="o">*</span><span class="p">(</span><span class="n">wt</span><span class="o">-</span><span class="n">w</span><span class="p">(:,</span><span class="nb">i</span><span class="p">)))</span><span class="o">/</span><span class="n">k</span><span class="p">;</span><span class="o">&lt;/</span><span class="n">p</span><span class="o">&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="o">&lt;</span><span class="n">pre</span><span class="o">&gt;&lt;</span><span class="n">code</span><span class="o">&gt;</span><span class="k">if</span><span class="p">(</span> <span class="n">e</span><span class="o">&amp;</span><span class="n">lt</span><span class="p">;</span><span class="n">e_min</span><span class="p">)</span>
+</span><span class='line'>    <span class="n">e_min</span><span class="p">=</span><span class="n">e</span>
+</span><span class='line'>    <span class="n">index</span><span class="p">=</span><span class="nb">i</span><span class="p">;</span>
+</span><span class='line'><span class="k">end</span> <span class="k">end</span>
+</span><span class='line'><span class="o">&lt;/</span><span class="n">code</span><span class="o">&gt;&lt;/</span><span class="n">pre</span><span class="o">&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="o">&lt;</span><span class="n">p</span><span class="o">&gt;</span><span class="n">subplot</span><span class="p">(</span>2<span class="p">,</span>2<span class="p">,</span>3<span class="p">);</span>
+</span><span class='line'><span class="k">if</span><span class="p">(</span><span class="n">e_min</span><span class="o">&amp;</span><span class="n">lt</span><span class="p">;</span>20<span class="p">)</span>
+</span><span class='line'>    <span class="n">imshow</span><span class="p">(</span><span class="n">uint8</span><span class="p">(</span><span class="nb">reshape</span><span class="p">(</span> <span class="n">Image</span><span class="p">(:,</span><span class="n">index</span><span class="p">)</span><span class="o">+</span><span class="n">average</span><span class="p">,</span><span class="n">M</span><span class="p">,</span><span class="n">M</span><span class="p">)))</span>
+</span><span class='line'><span class="k">else</span>
+</span><span class='line'>    <span class="n">imshow</span><span class="p">(</span><span class="n">uint8</span><span class="p">(</span><span class="nb">zeros</span><span class="p">(</span><span class="n">M</span><span class="p">,</span><span class="n">M</span><span class="p">)))</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div></p>
 
 <h3 id="section-7">实验结果</h3>
 
@@ -278,48 +368,91 @@ end
   <li>在我的应用中，我需要做的是把Android设备中计算的结果以串口的形式发给飞控模块，所以我只需要不断的把Android设备发送来的数据发给串口，再把串口接受到的数据发给Android设备。于是，代码如下：</li>
 </ol>
 
-<p>{% codeblock lang:cpp %}</p>
-
-<h1 id="include-usbh">include <Usb.h /></h1>
-<p>#include <AndroidAccessory.h /></p>
-
-<p>AndroidAccessory acc(“BuaaITR”,
-		     “Demo”,
-		     “DemoKit Arduino Board”,
-		     “1.0”,
-		     “http://www.android.com”,
-		     “0000000012345678”);</p>
-
-<p>void setup()
-{
-	Serial.begin(115200);
-	Serial.print(“\r\nStart”);</p>
-
-<pre><code>acc.powerOn(); }
-</code></pre>
-
-<p>void loop()
-{</p>
-
-<pre><code>byte msg[1024];
-
-if (acc.isConnected()) 
-    {
-            while(Serial.available()&gt;0)
-            {
-              msg[0]=Serial.read();
-              acc.write(msg,1);
-            }
-            int len = acc.read(msg, sizeof(msg), 1);
-            if (len &gt; 0) 
-            {
-              Serial.write(msg,len);
-            }
-    }
-delay(200); }
-</code></pre>
-
-<p>{% endcodeblock%}</p>
+<p><div class='bogus-wrapper'><notextile><figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+<span class='line-number'>29</span>
+<span class='line-number'>30</span>
+<span class='line-number'>31</span>
+<span class='line-number'>32</span>
+<span class='line-number'>33</span>
+<span class='line-number'>34</span>
+<span class='line-number'>35</span>
+<span class='line-number'>36</span>
+<span class='line-number'>37</span>
+<span class='line-number'>38</span>
+<span class='line-number'>39</span>
+<span class='line-number'>40</span>
+<span class='line-number'>41</span>
+<span class='line-number'>42</span>
+</pre></td><td class='code'><pre><code class='cpp'><span class='line'><span class="o">&lt;/</span><span class="n">p</span><span class="o">&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="o">&lt;</span><span class="n">h1</span> <span class="n">id</span><span class="o">=</span><span class="s">&quot;include-usbh&quot;</span><span class="o">&gt;</span><span class="n">include</span> <span class="o">&lt;</span><span class="n">Usb</span><span class="p">.</span><span class="n">h</span> <span class="o">/&gt;&lt;/</span><span class="n">h1</span><span class="o">&gt;</span>
+</span><span class='line'><span class="o">&lt;</span><span class="n">p</span><span class="o">&gt;</span><span class="err">#</span><span class="n">include</span> <span class="o">&lt;</span><span class="n">AndroidAccessory</span><span class="p">.</span><span class="n">h</span> <span class="o">/&gt;&lt;/</span><span class="n">p</span><span class="o">&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="o">&lt;</span><span class="n">p</span><span class="o">&gt;</span><span class="n">AndroidAccessory</span> <span class="n">acc</span><span class="p">(</span><span class="err">“</span><span class="n">BuaaITR</span><span class="err">”</span><span class="p">,</span>
+</span><span class='line'>		     <span class="err">“</span><span class="n">Demo</span><span class="err">”</span><span class="p">,</span>
+</span><span class='line'>		     <span class="err">“</span><span class="n">DemoKit</span> <span class="n">Arduino</span> <span class="n">Board</span><span class="err">”</span><span class="p">,</span>
+</span><span class='line'>		     <span class="err">“</span><span class="mf">1.0</span><span class="err">”</span><span class="p">,</span>
+</span><span class='line'>		     <span class="err">“</span><span class="nl">http:</span><span class="c1">//www.android.com”,</span>
+</span><span class='line'>		     <span class="err">“</span><span class="mo">000000001234567</span><span class="mi">8</span><span class="err">”</span><span class="p">);</span><span class="o">&lt;/</span><span class="n">p</span><span class="o">&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="o">&lt;</span><span class="n">p</span><span class="o">&gt;</span><span class="kt">void</span> <span class="n">setup</span><span class="p">()</span>
+</span><span class='line'><span class="p">{</span>
+</span><span class='line'>	<span class="n">Serial</span><span class="p">.</span><span class="n">begin</span><span class="p">(</span><span class="mi">115200</span><span class="p">);</span>
+</span><span class='line'>	<span class="n">Serial</span><span class="p">.</span><span class="n">print</span><span class="p">(</span><span class="err">“\</span><span class="n">r</span><span class="err">\</span><span class="n">nStart</span><span class="err">”</span><span class="p">);</span><span class="o">&lt;/</span><span class="n">p</span><span class="o">&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="o">&lt;</span><span class="n">pre</span><span class="o">&gt;&lt;</span><span class="n">code</span><span class="o">&gt;</span><span class="n">acc</span><span class="p">.</span><span class="n">powerOn</span><span class="p">();</span> <span class="p">}</span>
+</span><span class='line'><span class="o">&lt;/</span><span class="n">code</span><span class="o">&gt;&lt;/</span><span class="n">pre</span><span class="o">&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="o">&lt;</span><span class="n">p</span><span class="o">&gt;</span><span class="kt">void</span> <span class="n">loop</span><span class="p">()</span>
+</span><span class='line'><span class="p">{</span><span class="o">&lt;/</span><span class="n">p</span><span class="o">&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="o">&lt;</span><span class="n">pre</span><span class="o">&gt;&lt;</span><span class="n">code</span><span class="o">&gt;</span><span class="n">byte</span> <span class="n">msg</span><span class="p">[</span><span class="mi">1024</span><span class="p">];</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">if</span> <span class="p">(</span><span class="n">acc</span><span class="p">.</span><span class="n">isConnected</span><span class="p">())</span>
+</span><span class='line'>    <span class="p">{</span>
+</span><span class='line'>            <span class="k">while</span><span class="p">(</span><span class="n">Serial</span><span class="p">.</span><span class="n">available</span><span class="p">()</span><span class="o">&amp;</span><span class="n">gt</span><span class="p">;</span><span class="mi">0</span><span class="p">)</span>
+</span><span class='line'>            <span class="p">{</span>
+</span><span class='line'>              <span class="n">msg</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">=</span><span class="n">Serial</span><span class="p">.</span><span class="n">read</span><span class="p">();</span>
+</span><span class='line'>              <span class="n">acc</span><span class="p">.</span><span class="n">write</span><span class="p">(</span><span class="n">msg</span><span class="p">,</span><span class="mi">1</span><span class="p">);</span>
+</span><span class='line'>            <span class="p">}</span>
+</span><span class='line'>            <span class="kt">int</span> <span class="n">len</span> <span class="o">=</span> <span class="n">acc</span><span class="p">.</span><span class="n">read</span><span class="p">(</span><span class="n">msg</span><span class="p">,</span> <span class="k">sizeof</span><span class="p">(</span><span class="n">msg</span><span class="p">),</span> <span class="mi">1</span><span class="p">);</span>
+</span><span class='line'>            <span class="k">if</span> <span class="p">(</span><span class="n">len</span> <span class="o">&amp;</span><span class="n">gt</span><span class="p">;</span> <span class="mi">0</span><span class="p">)</span>
+</span><span class='line'>            <span class="p">{</span>
+</span><span class='line'>              <span class="n">Serial</span><span class="p">.</span><span class="n">write</span><span class="p">(</span><span class="n">msg</span><span class="p">,</span><span class="n">len</span><span class="p">);</span>
+</span><span class='line'>            <span class="p">}</span>
+</span><span class='line'>    <span class="p">}</span>
+</span><span class='line'><span class="n">delay</span><span class="p">(</span><span class="mi">200</span><span class="p">);</span> <span class="p">}</span>
+</span><span class='line'><span class="o">&lt;/</span><span class="n">code</span><span class="o">&gt;&lt;/</span><span class="n">pre</span><span class="o">&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="o">&lt;</span><span class="n">p</span><span class="o">&gt;</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div></p>
 
 <h5 id="section-1">一些解释</h5>
 <p>按照这样的方法，单片机这部分就很容易能搞定了，只要Android程序写好了，两个就能匹配工作了。</p>
@@ -337,40 +470,71 @@ delay(200); }
 操作USB的时候，SDK版本为<em>2.3.3，即API 10</em>时是一种操作，版本为那之上的是另一种操作。<em>API 10</em>需要装<a href="http://code.google.com/android/add-ons/google-apis/installing.html">add-on library</a>，我用的是<em>API 10</em>。装好之后，在项目属性中，点选<em>Android</em>，把<em>Build Target</em>改为<em>Google APIs</em>。</p>
 
 <p>要想使<em>Accessory</em>工作，需要在<em>AndroidManifest.xml</em>中声明支持<em>UsbManager.ACTION_USB_ACCESSORY_DETACHED</em>，并添加一个过滤器，来过滤设备。如下：
-{%codeblock lang:xml%}
-<?xml version="1.0" encoding="utf-8"?>
-<manifest xmlns:android="http://schemas.android.com/apk/res/android" package="me.ghdawn" android:versionCode="1" android:versionName="1.0" /></p>
-
-<pre><code>&lt;uses-feature android:name="android.hardware.usb.accessory" /&gt;
-
-&lt;uses-sdk android:minSdkVersion="10" /&gt;
-
-&lt;application
-    android:icon="@drawable/ic_launcher"
-    android:label="@string/app_name" &gt;
-    &lt;uses-library android:name="com.android.future.usb.accessory" /&gt;
-
-    &lt;activity
-        android:name=".UsbAccActivity"
-        android:label="@string/app_name" &gt;
-        &lt;intent-filter&gt;
-            &lt;action android:name="android.intent.action.MAIN" /&gt;
-
-            &lt;category android:name="android.intent.category.LAUNCHER" /&gt;
-        &lt;/intent-filter&gt;
-        &lt;intent-filter&gt;
-            &lt;action android:name="android.hardware.usb.action.USB_ACCESSORY_ATTACHED" /&gt;
-        &lt;/intent-filter&gt;
-
-        &lt;meta-data
-            android:name="android.hardware.usb.action.USB_ACCESSORY_ATTACHED"
-            android:resource="@xml/accessory_filter" /&gt;
-    &lt;/activity&gt;
-&lt;/application&gt;
-</code></pre>
-
-<p>&lt;/manifest&gt;
-{%endcodeblock%}
+<div class='bogus-wrapper'><notextile><figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+<span class='line-number'>29</span>
+<span class='line-number'>30</span>
+<span class='line-number'>31</span>
+<span class='line-number'>32</span>
+</pre></td><td class='code'><pre><code class='xml'><span class='line'><span class="cp">&lt;?xml version=&quot;1.0&quot; encoding=&quot;utf-8&quot;?&gt;</span>
+</span><span class='line'><span class="nt">&lt;manifest</span> <span class="na">xmlns:android=</span><span class="s">&quot;http://schemas.android.com/apk/res/android&quot;</span> <span class="na">package=</span><span class="s">&quot;me.ghdawn&quot;</span> <span class="na">android:versionCode=</span><span class="s">&quot;1&quot;</span> <span class="na">android:versionName=</span><span class="s">&quot;1.0&quot;</span> <span class="nt">/&gt;&lt;/p&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="nt">&lt;pre&gt;&lt;code&gt;</span><span class="ni">&amp;lt;</span>uses-feature android:name=&quot;android.hardware.usb.accessory&quot; /<span class="ni">&amp;gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="ni">&amp;lt;</span>uses-sdk android:minSdkVersion=&quot;10&quot; /<span class="ni">&amp;gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="ni">&amp;lt;</span>application
+</span><span class='line'>    android:icon=&quot;@drawable/ic_launcher&quot;
+</span><span class='line'>    android:label=&quot;@string/app_name&quot; <span class="ni">&amp;gt;</span>
+</span><span class='line'>    <span class="ni">&amp;lt;</span>uses-library android:name=&quot;com.android.future.usb.accessory&quot; /<span class="ni">&amp;gt;</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="ni">&amp;lt;</span>activity
+</span><span class='line'>        android:name=&quot;.UsbAccActivity&quot;
+</span><span class='line'>        android:label=&quot;@string/app_name&quot; <span class="ni">&amp;gt;</span>
+</span><span class='line'>        <span class="ni">&amp;lt;</span>intent-filter<span class="ni">&amp;gt;</span>
+</span><span class='line'>            <span class="ni">&amp;lt;</span>action android:name=&quot;android.intent.action.MAIN&quot; /<span class="ni">&amp;gt;</span>
+</span><span class='line'>
+</span><span class='line'>            <span class="ni">&amp;lt;</span>category android:name=&quot;android.intent.category.LAUNCHER&quot; /<span class="ni">&amp;gt;</span>
+</span><span class='line'>        <span class="ni">&amp;lt;</span>/intent-filter<span class="ni">&amp;gt;</span>
+</span><span class='line'>        <span class="ni">&amp;lt;</span>intent-filter<span class="ni">&amp;gt;</span>
+</span><span class='line'>            <span class="ni">&amp;lt;</span>action android:name=&quot;android.hardware.usb.action.USB_ACCESSORY_ATTACHED&quot; /<span class="ni">&amp;gt;</span>
+</span><span class='line'>        <span class="ni">&amp;lt;</span>/intent-filter<span class="ni">&amp;gt;</span>
+</span><span class='line'>
+</span><span class='line'>        <span class="ni">&amp;lt;</span>meta-data
+</span><span class='line'>            android:name=&quot;android.hardware.usb.action.USB_ACCESSORY_ATTACHED&quot;
+</span><span class='line'>            android:resource=&quot;@xml/accessory_filter&quot; /<span class="ni">&amp;gt;</span>
+</span><span class='line'>    <span class="ni">&amp;lt;</span>/activity<span class="ni">&amp;gt;</span>
+</span><span class='line'><span class="ni">&amp;lt;</span>/application<span class="ni">&amp;gt;</span>
+</span><span class='line'><span class="nt">&lt;/code&gt;&lt;/pre&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="nt">&lt;p&gt;</span><span class="ni">&amp;lt;</span>/manifest<span class="ni">&amp;gt;</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div>
 #####一些说明
 - <em>API 10</em>使用的是<em>Addon library</em>,需要注明：<em><uses-library android:name="com.android.future.usb.accessory" /></em><br />
 - 要说明支持<em>USB_ACCESSORY_ATTACHED</em>模式，所以加上</p>
@@ -393,207 +557,386 @@ delay(200); }
 
 <p>上面这段代码就是注册这个筛选器的。下面这段就是筛选器的内容。还记得上面的<em>Arduino</em>部分中，新建的<em>AndroidAccessory</em>对象吗？那里的第1，2，4个参数正是这里筛选的参数。只有这几个参数匹配的设备才能建立连接。当然，这里筛选条件是可以选的，那几个参数都可以作为筛选条件，只要加在下面就可以。</p>
 
-<p>{%codeblock lang:xml%}
-<?xml version="1.0" encoding="utf-8"?></p>
-
-<resources>
-    <usb-accessory manufacturer="BuaaITR" model="Demo" version="1.0" />
-</resources>
-
-<p>{%endcodeblock%}</p>
+<p><div class='bogus-wrapper'><notextile><figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+</pre></td><td class='code'><pre><code class='xml'><span class='line'><span class="cp">&lt;?xml version=&quot;1.0&quot; encoding=&quot;utf-8&quot;?&gt;</span><span class="nt">&lt;/p&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="nt">&lt;resources&gt;</span>
+</span><span class='line'>    <span class="nt">&lt;usb-accessory</span> <span class="na">manufacturer=</span><span class="s">&quot;BuaaITR&quot;</span> <span class="na">model=</span><span class="s">&quot;Demo&quot;</span> <span class="na">version=</span><span class="s">&quot;1.0&quot;</span> <span class="nt">/&gt;</span>
+</span><span class='line'><span class="nt">&lt;/resources&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="nt">&lt;p&gt;</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div></p>
 
 <p>注：下文的所有<em>设备</em>一词，均指代<em>Arduino设备</em>，程序则代表<em>Android设备</em>。<br />
 这样，就可以开始写代码了。首先需要一个<em>UsbManager</em>对象来管理USB设备，需要一个广播接收器，当系统有广播时，来判断是否为USB附件，并询问是否提供权限。广播的过滤器使用<em>UsbManager.ACTION_USB_ACCESSORY_DETACHED</em>作为<em>action</em>。当接受到一个满足过滤条件的广播时，并且获得了访问的权限，就可以获得该设备的信息，并进行读写了。</p>
 
 <p>广播接收器的代码：
-{%codeblock lang:java%}
-private final BroadcastReceiver mUsbReceiver = new BroadcastReceiver()
-	{
-		@Override
-		public void onReceive(Context context, Intent intent)
-		{
-			String action = intent.getAction();
-			if (ACTION_USB_PERMISSION.equals(action))
-			{
-				synchronized (this)
-				{
-					UsbAccessory accessory = UsbManager.getAccessory(intent);
-					if (intent.getBooleanExtra(
-					        UsbManager.EXTRA_PERMISSION_GRANTED, false))
-					{
-						openAccessory(accessory);
-					}
-					else
-					{
-						Log.d(TAG, “permission denied for accessory “
-						        + accessory);
-					}
-					mPermissionRequestPending = false;
-				}
-			}
-			else if (UsbManager.ACTION_USB_ACCESSORY_DETACHED.equals(action))
-			{
-				UsbAccessory accessory = UsbManager.getAccessory(intent);
-				if (accessory != null &amp;&amp; accessory.equals(mAccessory))
-				{
-					closeAccessory();
-				}
-			}
-		}
-	};
-{%endcodeblock%}</p>
+<div class='bogus-wrapper'><notextile><figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+<span class='line-number'>29</span>
+<span class='line-number'>30</span>
+<span class='line-number'>31</span>
+<span class='line-number'>32</span>
+<span class='line-number'>33</span>
+<span class='line-number'>34</span>
+</pre></td><td class='code'><pre><code class='java'><span class='line'><span class="kd">private</span> <span class="kd">final</span> <span class="n">BroadcastReceiver</span> <span class="n">mUsbReceiver</span> <span class="o">=</span> <span class="k">new</span> <span class="n">BroadcastReceiver</span><span class="o">()</span>
+</span><span class='line'>	<span class="o">{</span>
+</span><span class='line'>		<span class="nd">@Override</span>
+</span><span class='line'>		<span class="kd">public</span> <span class="kt">void</span> <span class="nf">onReceive</span><span class="o">(</span><span class="n">Context</span> <span class="n">context</span><span class="o">,</span> <span class="n">Intent</span> <span class="n">intent</span><span class="o">)</span>
+</span><span class='line'>		<span class="o">{</span>
+</span><span class='line'>			<span class="n">String</span> <span class="n">action</span> <span class="o">=</span> <span class="n">intent</span><span class="o">.</span><span class="na">getAction</span><span class="o">();</span>
+</span><span class='line'>			<span class="k">if</span> <span class="o">(</span><span class="n">ACTION_USB_PERMISSION</span><span class="o">.</span><span class="na">equals</span><span class="o">(</span><span class="n">action</span><span class="o">))</span>
+</span><span class='line'>			<span class="o">{</span>
+</span><span class='line'>				<span class="kd">synchronized</span> <span class="o">(</span><span class="k">this</span><span class="o">)</span>
+</span><span class='line'>				<span class="o">{</span>
+</span><span class='line'>					<span class="n">UsbAccessory</span> <span class="n">accessory</span> <span class="o">=</span> <span class="n">UsbManager</span><span class="o">.</span><span class="na">getAccessory</span><span class="o">(</span><span class="n">intent</span><span class="o">);</span>
+</span><span class='line'>					<span class="k">if</span> <span class="o">(</span><span class="n">intent</span><span class="o">.</span><span class="na">getBooleanExtra</span><span class="o">(</span>
+</span><span class='line'>					        <span class="n">UsbManager</span><span class="o">.</span><span class="na">EXTRA_PERMISSION_GRANTED</span><span class="o">,</span> <span class="kc">false</span><span class="o">))</span>
+</span><span class='line'>					<span class="o">{</span>
+</span><span class='line'>						<span class="n">openAccessory</span><span class="o">(</span><span class="n">accessory</span><span class="o">);</span>
+</span><span class='line'>					<span class="o">}</span>
+</span><span class='line'>					<span class="k">else</span>
+</span><span class='line'>					<span class="o">{</span>
+</span><span class='line'>						<span class="n">Log</span><span class="o">.</span><span class="na">d</span><span class="o">(</span><span class="n">TAG</span><span class="o">,</span> <span class="err">“</span><span class="n">permission</span> <span class="n">denied</span> <span class="k">for</span> <span class="n">accessory</span> <span class="err">“</span>
+</span><span class='line'>						        <span class="o">+</span> <span class="n">accessory</span><span class="o">);</span>
+</span><span class='line'>					<span class="o">}</span>
+</span><span class='line'>					<span class="n">mPermissionRequestPending</span> <span class="o">=</span> <span class="kc">false</span><span class="o">;</span>
+</span><span class='line'>				<span class="o">}</span>
+</span><span class='line'>			<span class="o">}</span>
+</span><span class='line'>			<span class="k">else</span> <span class="nf">if</span> <span class="o">(</span><span class="n">UsbManager</span><span class="o">.</span><span class="na">ACTION_USB_ACCESSORY_DETACHED</span><span class="o">.</span><span class="na">equals</span><span class="o">(</span><span class="n">action</span><span class="o">))</span>
+</span><span class='line'>			<span class="o">{</span>
+</span><span class='line'>				<span class="n">UsbAccessory</span> <span class="n">accessory</span> <span class="o">=</span> <span class="n">UsbManager</span><span class="o">.</span><span class="na">getAccessory</span><span class="o">(</span><span class="n">intent</span><span class="o">);</span>
+</span><span class='line'>				<span class="k">if</span> <span class="o">(</span><span class="n">accessory</span> <span class="o">!=</span> <span class="kc">null</span> <span class="o">&amp;</span><span class="n">amp</span><span class="o">;&amp;</span><span class="n">amp</span><span class="o">;</span> <span class="n">accessory</span><span class="o">.</span><span class="na">equals</span><span class="o">(</span><span class="n">mAccessory</span><span class="o">))</span>
+</span><span class='line'>				<span class="o">{</span>
+</span><span class='line'>					<span class="n">closeAccessory</span><span class="o">();</span>
+</span><span class='line'>				<span class="o">}</span>
+</span><span class='line'>			<span class="o">}</span>
+</span><span class='line'>		<span class="o">}</span>
+</span><span class='line'>	<span class="o">};</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div></p>
 
 <p>建立连接：</p>
 
-<p>{%codeblock lang:java%}
-	private void openAccessory(UsbAccessory accessory)
-	{
-		mFileDescriptor = mUsbManager.openAccessory(accessory);
-		if (mFileDescriptor != null)
-		{
-			mAccessory = accessory;
-			//获得该设备的输入输出流
-			FileDescriptor fd = mFileDescriptor.getFileDescriptor();
-			mInputStream = new FileInputStream(fd);
-			mOutputStream = new FileOutputStream(fd);
-			//是否能对设备进行读写操作
-			canIO = true;
-			//定时查询是否有数据可以接收
-			timer.scheduleAtFixedRate(new TimerTask()
-			{
-				@Override
-				public void run()
-				{
-					// TODO Auto-generated method stub
-					int length = 0;
-					byte[] buffer = new byte[maxBuffer];
-					try
-					{
-						//如果有数据来，则接受数据。
-						if(mInputStream.available()&gt;0)
-						{
-							length=mInputStream.read(buffer);
-							//处理接收到的数据，按需要自己改。
-							usbuart.onReceive(buffer);
-						}</p>
-
-<pre><code>				}
-				catch (IOException e)
-				{
-					// tbhello.setText("IO error\n" + e.getMessage());
-
-				}
-
-			}
-			
-		}, 0, delaytime);
-		Log.d(TAG, "accessory opened");
-
-	}
-	else
-	{
-		Log.d(TAG, "accessory open fail");
-	}
-} {%endcodeblock%} 这样，大部分功能就实现完了，现在需要注册广播接收器，并让程序监视USB设备。
+<p><div class='bogus-wrapper'><notextile><figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+<span class='line-number'>29</span>
+<span class='line-number'>30</span>
+<span class='line-number'>31</span>
+<span class='line-number'>32</span>
+<span class='line-number'>33</span>
+<span class='line-number'>34</span>
+<span class='line-number'>35</span>
+<span class='line-number'>36</span>
+<span class='line-number'>37</span>
+<span class='line-number'>38</span>
+<span class='line-number'>39</span>
+<span class='line-number'>40</span>
+<span class='line-number'>41</span>
+<span class='line-number'>42</span>
+<span class='line-number'>43</span>
+<span class='line-number'>44</span>
+<span class='line-number'>45</span>
+<span class='line-number'>46</span>
+<span class='line-number'>47</span>
+<span class='line-number'>48</span>
+<span class='line-number'>49</span>
+</pre></td><td class='code'><pre><code class='java'><span class='line'>	<span class="kd">private</span> <span class="kt">void</span> <span class="nf">openAccessory</span><span class="o">(</span><span class="n">UsbAccessory</span> <span class="n">accessory</span><span class="o">)</span>
+</span><span class='line'>	<span class="o">{</span>
+</span><span class='line'>		<span class="n">mFileDescriptor</span> <span class="o">=</span> <span class="n">mUsbManager</span><span class="o">.</span><span class="na">openAccessory</span><span class="o">(</span><span class="n">accessory</span><span class="o">);</span>
+</span><span class='line'>		<span class="k">if</span> <span class="o">(</span><span class="n">mFileDescriptor</span> <span class="o">!=</span> <span class="kc">null</span><span class="o">)</span>
+</span><span class='line'>		<span class="o">{</span>
+</span><span class='line'>			<span class="n">mAccessory</span> <span class="o">=</span> <span class="n">accessory</span><span class="o">;</span>
+</span><span class='line'>			<span class="c1">//获得该设备的输入输出流</span>
+</span><span class='line'>			<span class="n">FileDescriptor</span> <span class="n">fd</span> <span class="o">=</span> <span class="n">mFileDescriptor</span><span class="o">.</span><span class="na">getFileDescriptor</span><span class="o">();</span>
+</span><span class='line'>			<span class="n">mInputStream</span> <span class="o">=</span> <span class="k">new</span> <span class="n">FileInputStream</span><span class="o">(</span><span class="n">fd</span><span class="o">);</span>
+</span><span class='line'>			<span class="n">mOutputStream</span> <span class="o">=</span> <span class="k">new</span> <span class="n">FileOutputStream</span><span class="o">(</span><span class="n">fd</span><span class="o">);</span>
+</span><span class='line'>			<span class="c1">//是否能对设备进行读写操作</span>
+</span><span class='line'>			<span class="n">canIO</span> <span class="o">=</span> <span class="kc">true</span><span class="o">;</span>
+</span><span class='line'>			<span class="c1">//定时查询是否有数据可以接收</span>
+</span><span class='line'>			<span class="n">timer</span><span class="o">.</span><span class="na">scheduleAtFixedRate</span><span class="o">(</span><span class="k">new</span> <span class="n">TimerTask</span><span class="o">()</span>
+</span><span class='line'>			<span class="o">{</span>
+</span><span class='line'>				<span class="nd">@Override</span>
+</span><span class='line'>				<span class="kd">public</span> <span class="kt">void</span> <span class="nf">run</span><span class="o">()</span>
+</span><span class='line'>				<span class="o">{</span>
+</span><span class='line'>					<span class="c1">// TODO Auto-generated method stub</span>
+</span><span class='line'>					<span class="kt">int</span> <span class="n">length</span> <span class="o">=</span> <span class="mi">0</span><span class="o">;</span>
+</span><span class='line'>					<span class="kt">byte</span><span class="o">[]</span> <span class="n">buffer</span> <span class="o">=</span> <span class="k">new</span> <span class="kt">byte</span><span class="o">[</span><span class="n">maxBuffer</span><span class="o">];</span>
+</span><span class='line'>					<span class="k">try</span>
+</span><span class='line'>					<span class="o">{</span>
+</span><span class='line'>						<span class="c1">//如果有数据来，则接受数据。</span>
+</span><span class='line'>						<span class="k">if</span><span class="o">(</span><span class="n">mInputStream</span><span class="o">.</span><span class="na">available</span><span class="o">()&amp;</span><span class="n">gt</span><span class="o">;</span><span class="mi">0</span><span class="o">)</span>
+</span><span class='line'>						<span class="o">{</span>
+</span><span class='line'>							<span class="n">length</span><span class="o">=</span><span class="n">mInputStream</span><span class="o">.</span><span class="na">read</span><span class="o">(</span><span class="n">buffer</span><span class="o">);</span>
+</span><span class='line'>							<span class="c1">//处理接收到的数据，按需要自己改。</span>
+</span><span class='line'>							<span class="n">usbuart</span><span class="o">.</span><span class="na">onReceive</span><span class="o">(</span><span class="n">buffer</span><span class="o">);</span>
+</span><span class='line'>						<span class="o">}&lt;/</span><span class="n">p</span><span class="o">&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="o">&lt;</span><span class="n">pre</span><span class="o">&gt;&lt;</span><span class="n">code</span><span class="o">&gt;</span>				<span class="o">}</span>
+</span><span class='line'>				<span class="k">catch</span> <span class="o">(</span><span class="n">IOException</span> <span class="n">e</span><span class="o">)</span>
+</span><span class='line'>				<span class="o">{</span>
+</span><span class='line'>					<span class="c1">// tbhello.setText(&quot;IO error\n&quot; + e.getMessage());</span>
+</span><span class='line'>
+</span><span class='line'>				<span class="o">}</span>
+</span><span class='line'>
+</span><span class='line'>			<span class="o">}</span>
+</span><span class='line'>			
+</span><span class='line'>		<span class="o">},</span> <span class="mi">0</span><span class="o">,</span> <span class="n">delaytime</span><span class="o">);</span>
+</span><span class='line'>		<span class="n">Log</span><span class="o">.</span><span class="na">d</span><span class="o">(</span><span class="n">TAG</span><span class="o">,</span> <span class="s">&quot;accessory opened&quot;</span><span class="o">);</span>
+</span><span class='line'>
+</span><span class='line'>	<span class="o">}</span>
+</span><span class='line'>	<span class="k">else</span>
+</span><span class='line'>	<span class="o">{</span>
+</span><span class='line'>		<span class="n">Log</span><span class="o">.</span><span class="na">d</span><span class="o">(</span><span class="n">TAG</span><span class="o">,</span> <span class="s">&quot;accessory open fail&quot;</span><span class="o">);</span>
+</span><span class='line'>	<span class="o">}</span>
+</span><span class='line'><span class="o">}</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div> 这样，大部分功能就实现完了，现在需要注册广播接收器，并让程序监视USB设备。
 </code></pre>
 
-<p>{%codeblock lang:java%}
-	@Override
-	public void onCreate(Bundle savedInstanceState)
-	{
-		super.onCreate(savedInstanceState);
-		//使用add-on library时，必须这样定义usbmanager对象
-		mUsbManager = UsbManager.getInstance(this);
-		mPermissionIntent = PendingIntent.getBroadcast(this, 0, new Intent(
-		        ACTION_USB_PERMISSION), 0);
-		//注册接收器和过滤器
-		IntentFilter filter = new IntentFilter(ACTION_USB_PERMISSION);
-		filter.addAction(UsbManager.ACTION_USB_ACCESSORY_DETACHED);
-		registerReceiver(mUsbReceiver, filter);</p>
-
-<pre><code>	setContentView(R.layout.main);
-
-}
-
-@Override
-public void onResume()
-{
-	super.onResume();
-
-	Intent intent = getIntent();
-	//如果已经打开了一个设备，就不再查询
-	if (mInputStream != null &amp;&amp; mOutputStream != null)
-	{
-		return;
-	}
-	//只能支持一个设备，如果发现了一个USB设备并且有权限访问，就打开
-	UsbAccessory[] accessories = mUsbManager.getAccessoryList();
-	UsbAccessory accessory = (accessories == null ? null : accessories[0]);
-	if (accessory != null)
-	{
-		if (mUsbManager.hasPermission(accessory))
-		{
-			openAccessory(accessory);
-		}
-		
-	}
-	else
-	{
-		Log.d(TAG, "mAccessory is null");
-	}
-}
-
-@Override
-public void onPause()
-{
-	super.onPause();
-	closeAccessory();
-}
-
-@Override
-public void onDestroy()
-{
-	unregisterReceiver(mUsbReceiver);
-	super.onDestroy();
-} {%endcodeblock%}
+<p><div class='bogus-wrapper'><notextile><figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+<span class='line-number'>29</span>
+<span class='line-number'>30</span>
+<span class='line-number'>31</span>
+<span class='line-number'>32</span>
+<span class='line-number'>33</span>
+<span class='line-number'>34</span>
+<span class='line-number'>35</span>
+<span class='line-number'>36</span>
+<span class='line-number'>37</span>
+<span class='line-number'>38</span>
+<span class='line-number'>39</span>
+<span class='line-number'>40</span>
+<span class='line-number'>41</span>
+<span class='line-number'>42</span>
+<span class='line-number'>43</span>
+<span class='line-number'>44</span>
+<span class='line-number'>45</span>
+<span class='line-number'>46</span>
+<span class='line-number'>47</span>
+<span class='line-number'>48</span>
+<span class='line-number'>49</span>
+<span class='line-number'>50</span>
+<span class='line-number'>51</span>
+<span class='line-number'>52</span>
+<span class='line-number'>53</span>
+<span class='line-number'>54</span>
+<span class='line-number'>55</span>
+<span class='line-number'>56</span>
+<span class='line-number'>57</span>
+<span class='line-number'>58</span>
+</pre></td><td class='code'><pre><code class='java'><span class='line'>	<span class="nd">@Override</span>
+</span><span class='line'>	<span class="kd">public</span> <span class="kt">void</span> <span class="nf">onCreate</span><span class="o">(</span><span class="n">Bundle</span> <span class="n">savedInstanceState</span><span class="o">)</span>
+</span><span class='line'>	<span class="o">{</span>
+</span><span class='line'>		<span class="kd">super</span><span class="o">.</span><span class="na">onCreate</span><span class="o">(</span><span class="n">savedInstanceState</span><span class="o">);</span>
+</span><span class='line'>		<span class="c1">//使用add-on library时，必须这样定义usbmanager对象</span>
+</span><span class='line'>		<span class="n">mUsbManager</span> <span class="o">=</span> <span class="n">UsbManager</span><span class="o">.</span><span class="na">getInstance</span><span class="o">(</span><span class="k">this</span><span class="o">);</span>
+</span><span class='line'>		<span class="n">mPermissionIntent</span> <span class="o">=</span> <span class="n">PendingIntent</span><span class="o">.</span><span class="na">getBroadcast</span><span class="o">(</span><span class="k">this</span><span class="o">,</span> <span class="mi">0</span><span class="o">,</span> <span class="k">new</span> <span class="n">Intent</span><span class="o">(</span>
+</span><span class='line'>		        <span class="n">ACTION_USB_PERMISSION</span><span class="o">),</span> <span class="mi">0</span><span class="o">);</span>
+</span><span class='line'>		<span class="c1">//注册接收器和过滤器</span>
+</span><span class='line'>		<span class="n">IntentFilter</span> <span class="n">filter</span> <span class="o">=</span> <span class="k">new</span> <span class="n">IntentFilter</span><span class="o">(</span><span class="n">ACTION_USB_PERMISSION</span><span class="o">);</span>
+</span><span class='line'>		<span class="n">filter</span><span class="o">.</span><span class="na">addAction</span><span class="o">(</span><span class="n">UsbManager</span><span class="o">.</span><span class="na">ACTION_USB_ACCESSORY_DETACHED</span><span class="o">);</span>
+</span><span class='line'>		<span class="n">registerReceiver</span><span class="o">(</span><span class="n">mUsbReceiver</span><span class="o">,</span> <span class="n">filter</span><span class="o">);&lt;/</span><span class="n">p</span><span class="o">&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="o">&lt;</span><span class="n">pre</span><span class="o">&gt;&lt;</span><span class="n">code</span><span class="o">&gt;</span>	<span class="n">setContentView</span><span class="o">(</span><span class="n">R</span><span class="o">.</span><span class="na">layout</span><span class="o">.</span><span class="na">main</span><span class="o">);</span>
+</span><span class='line'>
+</span><span class='line'><span class="o">}</span>
+</span><span class='line'>
+</span><span class='line'><span class="nd">@Override</span>
+</span><span class='line'><span class="kd">public</span> <span class="kt">void</span> <span class="nf">onResume</span><span class="o">()</span>
+</span><span class='line'><span class="o">{</span>
+</span><span class='line'>	<span class="kd">super</span><span class="o">.</span><span class="na">onResume</span><span class="o">();</span>
+</span><span class='line'>
+</span><span class='line'>	<span class="n">Intent</span> <span class="n">intent</span> <span class="o">=</span> <span class="n">getIntent</span><span class="o">();</span>
+</span><span class='line'>	<span class="c1">//如果已经打开了一个设备，就不再查询</span>
+</span><span class='line'>	<span class="k">if</span> <span class="o">(</span><span class="n">mInputStream</span> <span class="o">!=</span> <span class="kc">null</span> <span class="o">&amp;</span><span class="n">amp</span><span class="o">;&amp;</span><span class="n">amp</span><span class="o">;</span> <span class="n">mOutputStream</span> <span class="o">!=</span> <span class="kc">null</span><span class="o">)</span>
+</span><span class='line'>	<span class="o">{</span>
+</span><span class='line'>		<span class="k">return</span><span class="o">;</span>
+</span><span class='line'>	<span class="o">}</span>
+</span><span class='line'>	<span class="c1">//只能支持一个设备，如果发现了一个USB设备并且有权限访问，就打开</span>
+</span><span class='line'>	<span class="n">UsbAccessory</span><span class="o">[]</span> <span class="n">accessories</span> <span class="o">=</span> <span class="n">mUsbManager</span><span class="o">.</span><span class="na">getAccessoryList</span><span class="o">();</span>
+</span><span class='line'>	<span class="n">UsbAccessory</span> <span class="n">accessory</span> <span class="o">=</span> <span class="o">(</span><span class="n">accessories</span> <span class="o">==</span> <span class="kc">null</span> <span class="o">?</span> <span class="kc">null</span> <span class="o">:</span> <span class="n">accessories</span><span class="o">[</span><span class="mi">0</span><span class="o">]);</span>
+</span><span class='line'>	<span class="k">if</span> <span class="o">(</span><span class="n">accessory</span> <span class="o">!=</span> <span class="kc">null</span><span class="o">)</span>
+</span><span class='line'>	<span class="o">{</span>
+</span><span class='line'>		<span class="k">if</span> <span class="o">(</span><span class="n">mUsbManager</span><span class="o">.</span><span class="na">hasPermission</span><span class="o">(</span><span class="n">accessory</span><span class="o">))</span>
+</span><span class='line'>		<span class="o">{</span>
+</span><span class='line'>			<span class="n">openAccessory</span><span class="o">(</span><span class="n">accessory</span><span class="o">);</span>
+</span><span class='line'>		<span class="o">}</span>
+</span><span class='line'>		
+</span><span class='line'>	<span class="o">}</span>
+</span><span class='line'>	<span class="k">else</span>
+</span><span class='line'>	<span class="o">{</span>
+</span><span class='line'>		<span class="n">Log</span><span class="o">.</span><span class="na">d</span><span class="o">(</span><span class="n">TAG</span><span class="o">,</span> <span class="s">&quot;mAccessory is null&quot;</span><span class="o">);</span>
+</span><span class='line'>	<span class="o">}</span>
+</span><span class='line'><span class="o">}</span>
+</span><span class='line'>
+</span><span class='line'><span class="nd">@Override</span>
+</span><span class='line'><span class="kd">public</span> <span class="kt">void</span> <span class="nf">onPause</span><span class="o">()</span>
+</span><span class='line'><span class="o">{</span>
+</span><span class='line'>	<span class="kd">super</span><span class="o">.</span><span class="na">onPause</span><span class="o">();</span>
+</span><span class='line'>	<span class="n">closeAccessory</span><span class="o">();</span>
+</span><span class='line'><span class="o">}</span>
+</span><span class='line'>
+</span><span class='line'><span class="nd">@Override</span>
+</span><span class='line'><span class="kd">public</span> <span class="kt">void</span> <span class="nf">onDestroy</span><span class="o">()</span>
+</span><span class='line'><span class="o">{</span>
+</span><span class='line'>	<span class="n">unregisterReceiver</span><span class="o">(</span><span class="n">mUsbReceiver</span><span class="o">);</span>
+</span><span class='line'>	<span class="kd">super</span><span class="o">.</span><span class="na">onDestroy</span><span class="o">();</span>
+</span><span class='line'><span class="o">}</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div>
 </code></pre>
 
 <p>如果需要发送数据，就这样：
-{%codeblock lang:java%}
-    public void send(byte[] data)
-    {
-	    if(canIO)
-	    {
-	    	try
-            {
-	            mOutputStream.write(data);
-            }
-            catch (IOException e)
-            {	
-	            // TODO Auto-generated catch block
-	            e.printStackTrace();
-            }
-	    }
-    }
-    {%endcodeblock%}<br />
+<div class='bogus-wrapper'><notextile><figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+</pre></td><td class='code'><pre><code class='java'><span class='line'>    <span class="kd">public</span> <span class="kt">void</span> <span class="nf">send</span><span class="o">(</span><span class="kt">byte</span><span class="o">[]</span> <span class="n">data</span><span class="o">)</span>
+</span><span class='line'>    <span class="o">{</span>
+</span><span class='line'>	    <span class="k">if</span><span class="o">(</span><span class="n">canIO</span><span class="o">)</span>
+</span><span class='line'>	    <span class="o">{</span>
+</span><span class='line'>	    	<span class="k">try</span>
+</span><span class='line'>            <span class="o">{</span>
+</span><span class='line'>	            <span class="n">mOutputStream</span><span class="o">.</span><span class="na">write</span><span class="o">(</span><span class="n">data</span><span class="o">);</span>
+</span><span class='line'>            <span class="o">}</span>
+</span><span class='line'>            <span class="k">catch</span> <span class="o">(</span><span class="n">IOException</span> <span class="n">e</span><span class="o">)</span>
+</span><span class='line'>            <span class="o">{</span>	
+</span><span class='line'>	            <span class="c1">// TODO Auto-generated catch block</span>
+</span><span class='line'>	            <span class="n">e</span><span class="o">.</span><span class="na">printStackTrace</span><span class="o">();</span>
+</span><span class='line'>            <span class="o">}</span>
+</span><span class='line'>	    <span class="o">}</span>
+</span><span class='line'>    <span class="o">}</span>
+</span><span class='line'>
+</span></code></pre></td></tr></table></div></figure></notextile></div><br />
 用到的对象如下：
-{%codeblock lang:java%}
-private static final String TAG = “DemoKit”;</p>
-
-<pre><code>private static final String ACTION_USB_PERMISSION = "com.google.android.DemoKit.action.USB_PERMISSION";
-
-private UsbManager mUsbManager;
-private PendingIntent mPermissionIntent;
-
-
-private int maxBuffer=1024;
-private boolean canIO = false;
-UsbAccessory mAccessory;
-ParcelFileDescriptor mFileDescriptor;
-FileInputStream mInputStream;
-FileOutputStream mOutputStream;
-
-Timer timer = new Timer(); {%endcodeblock%}  
+<div class='bogus-wrapper'><notextile><figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+</pre></td><td class='code'><pre><code class='java'><span class='line'><span class="kd">private</span> <span class="kd">static</span> <span class="kd">final</span> <span class="n">String</span> <span class="n">TAG</span> <span class="o">=</span> <span class="err">“</span><span class="n">DemoKit</span><span class="err">”</span><span class="o">;&lt;/</span><span class="n">p</span><span class="o">&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="o">&lt;</span><span class="n">pre</span><span class="o">&gt;&lt;</span><span class="n">code</span><span class="o">&gt;</span><span class="kd">private</span> <span class="kd">static</span> <span class="kd">final</span> <span class="n">String</span> <span class="n">ACTION_USB_PERMISSION</span> <span class="o">=</span> <span class="s">&quot;com.google.android.DemoKit.action.USB_PERMISSION&quot;</span><span class="o">;</span>
+</span><span class='line'>
+</span><span class='line'><span class="kd">private</span> <span class="n">UsbManager</span> <span class="n">mUsbManager</span><span class="o">;</span>
+</span><span class='line'><span class="kd">private</span> <span class="n">PendingIntent</span> <span class="n">mPermissionIntent</span><span class="o">;</span>
+</span><span class='line'>
+</span><span class='line'>
+</span><span class='line'><span class="kd">private</span> <span class="kt">int</span> <span class="n">maxBuffer</span><span class="o">=</span><span class="mi">1024</span><span class="o">;</span>
+</span><span class='line'><span class="kd">private</span> <span class="kt">boolean</span> <span class="n">canIO</span> <span class="o">=</span> <span class="kc">false</span><span class="o">;</span>
+</span><span class='line'><span class="n">UsbAccessory</span> <span class="n">mAccessory</span><span class="o">;</span>
+</span><span class='line'><span class="n">ParcelFileDescriptor</span> <span class="n">mFileDescriptor</span><span class="o">;</span>
+</span><span class='line'><span class="n">FileInputStream</span> <span class="n">mInputStream</span><span class="o">;</span>
+</span><span class='line'><span class="n">FileOutputStream</span> <span class="n">mOutputStream</span><span class="o">;</span>
+</span><span class='line'>
+</span><span class='line'><span class="n">Timer</span> <span class="n">timer</span> <span class="o">=</span> <span class="k">new</span> <span class="n">Timer</span><span class="o">();</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div>  
 </code></pre>
 
 <p>如果步骤没出错的话，至此，把Arduino开发板插到Android设备上，应该就能互相传数据了。</p>
@@ -630,16 +973,25 @@ Timer timer = new Timer(); {%endcodeblock%}
 
 <p>其中<code>(cx,cy)</code>为圆心坐标，<code>r</code>为半径。这样画出来的圆是实心的，如果想要空心圆，则需要设置<em>paint</em>的类型：</p>
 
-<pre><code>    paint.setStyle(Style.STROKE); 写全一个就是如下： {% codeblock lang:java %}
-public void draw(Canvas canvas)
-{
-	// TODO Auto-generated method stub
-	Paint paint = new Paint();
-	paint.setStyle(Style.STROKE);
-	paint.setColor(Color.BLACK);
-	canvas.drawCircle(_cx, _cy, _r, paint);
-	
-} {% endcodeblock %}
+<pre><code>    paint.setStyle(Style.STROKE); 写全一个就是如下： <div class='bogus-wrapper'><notextile><figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+</pre></td><td class='code'><pre><code class='java'><span class='line'><span class="kd">public</span> <span class="kt">void</span> <span class="nf">draw</span><span class="o">(</span><span class="n">Canvas</span> <span class="n">canvas</span><span class="o">)</span>
+</span><span class='line'><span class="o">{</span>
+</span><span class='line'>	<span class="c1">// TODO Auto-generated method stub</span>
+</span><span class='line'>	<span class="n">Paint</span> <span class="n">paint</span> <span class="o">=</span> <span class="k">new</span> <span class="n">Paint</span><span class="o">();</span>
+</span><span class='line'>	<span class="n">paint</span><span class="o">.</span><span class="na">setStyle</span><span class="o">(</span><span class="n">Style</span><span class="o">.</span><span class="na">STROKE</span><span class="o">);</span>
+</span><span class='line'>	<span class="n">paint</span><span class="o">.</span><span class="na">setColor</span><span class="o">(</span><span class="n">Color</span><span class="o">.</span><span class="na">BLACK</span><span class="o">);</span>
+</span><span class='line'>	<span class="n">canvas</span><span class="o">.</span><span class="na">drawCircle</span><span class="o">(</span><span class="n">_cx</span><span class="o">,</span> <span class="n">_cy</span><span class="o">,</span> <span class="n">_r</span><span class="o">,</span> <span class="n">paint</span><span class="o">);</span>
+</span><span class='line'>	
+</span><span class='line'><span class="o">}</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div>
 </code></pre>
 
 ]]></content>
@@ -665,24 +1017,41 @@ Code Blocks 10.05<br />
 <p><em>VideoCapture</em>重载了<em>»</em>操作符，所以可以直接当输入流来用。或者使用<em>read(Mat&amp; image)</em>函数来读取也行。</p>
 
 <p>得到图片之后再用<em>imshow</em>就可以显示图片了。代码如下
-{%codeblock lang:cpp %}
-int main(int, char**)
-{
-    VideoCapture cap(0); 
-    if(!cap.isOpened()) 
-        return -1;</p>
-
-<pre><code>Mat frame;
-namedWindow("frame",1);
-
-while(1)
-{
-    cap &gt;&gt; frame; // get a new frame from camera
-    imshow("frame",frame);
-    if(waitKey(30) &gt;= 0) break;
-}
-
-return 0; } {%endcodeblock%}
+<div class='bogus-wrapper'><notextile><figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+</pre></td><td class='code'><pre><code class='cpp'><span class='line'><span class="kt">int</span> <span class="n">main</span><span class="p">(</span><span class="kt">int</span><span class="p">,</span> <span class="kt">char</span><span class="o">**</span><span class="p">)</span>
+</span><span class='line'><span class="p">{</span>
+</span><span class='line'>    <span class="n">VideoCapture</span> <span class="n">cap</span><span class="p">(</span><span class="mi">0</span><span class="p">);</span>
+</span><span class='line'>    <span class="k">if</span><span class="p">(</span><span class="o">!</span><span class="n">cap</span><span class="p">.</span><span class="n">isOpened</span><span class="p">())</span>
+</span><span class='line'>        <span class="k">return</span> <span class="o">-</span><span class="mi">1</span><span class="p">;</span><span class="o">&lt;/</span><span class="n">p</span><span class="o">&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="o">&lt;</span><span class="n">pre</span><span class="o">&gt;&lt;</span><span class="n">code</span><span class="o">&gt;</span><span class="n">Mat</span> <span class="n">frame</span><span class="p">;</span>
+</span><span class='line'><span class="n">namedWindow</span><span class="p">(</span><span class="s">&quot;frame&quot;</span><span class="p">,</span><span class="mi">1</span><span class="p">);</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">while</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+</span><span class='line'><span class="p">{</span>
+</span><span class='line'>    <span class="n">cap</span> <span class="o">&amp;</span><span class="n">gt</span><span class="p">;</span><span class="o">&amp;</span><span class="n">gt</span><span class="p">;</span> <span class="n">frame</span><span class="p">;</span> <span class="c1">// get a new frame from camera</span>
+</span><span class='line'>    <span class="n">imshow</span><span class="p">(</span><span class="s">&quot;frame&quot;</span><span class="p">,</span><span class="n">frame</span><span class="p">);</span>
+</span><span class='line'>    <span class="k">if</span><span class="p">(</span><span class="n">waitKey</span><span class="p">(</span><span class="mi">30</span><span class="p">)</span> <span class="o">&amp;</span><span class="n">gt</span><span class="p">;</span><span class="o">=</span> <span class="mi">0</span><span class="p">)</span> <span class="k">break</span><span class="p">;</span>
+</span><span class='line'><span class="p">}</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">return</span> <span class="mi">0</span><span class="p">;</span> <span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div>
 </code></pre>
 
 <h3 id="opencv">用OpenCV的函数提取边界</h3>
@@ -730,59 +1099,105 @@ OpenCV的函数如下，前两个参数和高斯滤波一样，第3，4个参数
   <li>在全图像范围扫描，搜索所有的<a href="http://zh.wikipedia.org/wiki/%E8%BF%9E%E9%80%9A%E5%9B%BE">连通分量</a>。 方法是搜索图像上的每一个点，如果该点未访问，并且该点为我探测到的边界点（边界检测后，图像已经被二值化了，边界点即其灰度值大于<em>maxvalue</em>点），则在该点开始染色。全图像染色结束后，可以通过对连通分量进行筛选，大概找到其中的圆。<em>room</em>代表当前搜索的连通分量的序号，<em>f数组</em>储存每个点的访问情况（值为0代表未访问，值为整数i代表该点属于第i个连通分量）代码如下</li>
 </ul>
 
-<p>{% codeblock lang:cpp search%}
-// find
-void search(Mat &amp; img_bin)
-{
-    //  out(f);
-    int room=0;
-    while(++room)
-    {
-        int x=0,y=0;
-        for(int i=1; i&lt;m; i++)
-        {
-            for(int j=1; j&lt;n; j++)
-                if(img_bin.at<uchar>(i,j)&gt;200 &amp;&amp; f[i][j]==0)
-                {
-                    x=i,y=j;</uchar></p>
-
-<pre><code>                break;
-            }
-        if(x!=0||y!=0) break;
-    }
-
-    if(x==0&amp;&amp;y==0)
-    {
-        --room;
-        output(img_bin,room);
-        return ;
-    }
-    fill(img_bin,x,y,room);
-} } {%endcodeblock%}
+<p><div class='bogus-wrapper'><notextile><figure class='code'><figcaption><span>search</span></figcaption>
+ <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+</pre></td><td class='code'><pre><code class='cpp'><span class='line'><span class="c1">// find</span>
+</span><span class='line'><span class="kt">void</span> <span class="n">search</span><span class="p">(</span><span class="n">Mat</span> <span class="o">&amp;</span><span class="n">amp</span><span class="p">;</span> <span class="n">img_bin</span><span class="p">)</span>
+</span><span class='line'><span class="p">{</span>
+</span><span class='line'>    <span class="c1">//  out(f);</span>
+</span><span class='line'>    <span class="kt">int</span> <span class="n">room</span><span class="o">=</span><span class="mi">0</span><span class="p">;</span>
+</span><span class='line'>    <span class="k">while</span><span class="p">(</span><span class="o">++</span><span class="n">room</span><span class="p">)</span>
+</span><span class='line'>    <span class="p">{</span>
+</span><span class='line'>        <span class="kt">int</span> <span class="n">x</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span><span class="n">y</span><span class="o">=</span><span class="mi">0</span><span class="p">;</span>
+</span><span class='line'>        <span class="k">for</span><span class="p">(</span><span class="kt">int</span> <span class="n">i</span><span class="o">=</span><span class="mi">1</span><span class="p">;</span> <span class="n">i</span><span class="o">&amp;</span><span class="n">lt</span><span class="p">;</span><span class="n">m</span><span class="p">;</span> <span class="n">i</span><span class="o">++</span><span class="p">)</span>
+</span><span class='line'>        <span class="p">{</span>
+</span><span class='line'>            <span class="k">for</span><span class="p">(</span><span class="kt">int</span> <span class="n">j</span><span class="o">=</span><span class="mi">1</span><span class="p">;</span> <span class="n">j</span><span class="o">&amp;</span><span class="n">lt</span><span class="p">;</span><span class="n">n</span><span class="p">;</span> <span class="n">j</span><span class="o">++</span><span class="p">)</span>
+</span><span class='line'>                <span class="k">if</span><span class="p">(</span><span class="n">img_bin</span><span class="p">.</span><span class="n">at</span><span class="o">&lt;</span><span class="n">uchar</span><span class="o">&gt;</span><span class="p">(</span><span class="n">i</span><span class="p">,</span><span class="n">j</span><span class="p">)</span><span class="o">&amp;</span><span class="n">gt</span><span class="p">;</span><span class="mi">200</span> <span class="o">&amp;</span><span class="n">amp</span><span class="p">;</span><span class="o">&amp;</span><span class="n">amp</span><span class="p">;</span> <span class="n">f</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="n">j</span><span class="p">]</span><span class="o">==</span><span class="mi">0</span><span class="p">)</span>
+</span><span class='line'>                <span class="p">{</span>
+</span><span class='line'>                    <span class="n">x</span><span class="o">=</span><span class="n">i</span><span class="p">,</span><span class="n">y</span><span class="o">=</span><span class="n">j</span><span class="p">;</span><span class="o">&lt;/</span><span class="n">uchar</span><span class="o">&gt;&lt;/</span><span class="n">p</span><span class="o">&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="o">&lt;</span><span class="n">pre</span><span class="o">&gt;&lt;</span><span class="n">code</span><span class="o">&gt;</span>                <span class="k">break</span><span class="p">;</span>
+</span><span class='line'>            <span class="p">}</span>
+</span><span class='line'>        <span class="k">if</span><span class="p">(</span><span class="n">x</span><span class="o">!=</span><span class="mi">0</span><span class="o">||</span><span class="n">y</span><span class="o">!=</span><span class="mi">0</span><span class="p">)</span> <span class="k">break</span><span class="p">;</span>
+</span><span class='line'>    <span class="p">}</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="k">if</span><span class="p">(</span><span class="n">x</span><span class="o">==</span><span class="mi">0</span><span class="o">&amp;</span><span class="n">amp</span><span class="p">;</span><span class="o">&amp;</span><span class="n">amp</span><span class="p">;</span><span class="n">y</span><span class="o">==</span><span class="mi">0</span><span class="p">)</span>
+</span><span class='line'>    <span class="p">{</span>
+</span><span class='line'>        <span class="o">--</span><span class="n">room</span><span class="p">;</span>
+</span><span class='line'>        <span class="n">output</span><span class="p">(</span><span class="n">img_bin</span><span class="p">,</span><span class="n">room</span><span class="p">);</span>
+</span><span class='line'>        <span class="k">return</span> <span class="p">;</span>
+</span><span class='line'>    <span class="p">}</span>
+</span><span class='line'>    <span class="n">fill</span><span class="p">(</span><span class="n">img_bin</span><span class="p">,</span><span class="n">x</span><span class="p">,</span><span class="n">y</span><span class="p">,</span><span class="n">room</span><span class="p">);</span>
+</span><span class='line'><span class="p">}</span> <span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div>
 </code></pre>
 
 <ul>
   <li>
     <p>其中，我的种子染色法就是用深度优先搜索的方法，对每个点判断其周围的8个方向是否可走，如果可走，就走过去并染上颜色，直到该连通域内所有点都被染色，算法退出。
-{%codeblock lang:cpp FloodFill%}
-int dx[]= {0,-1,-1,-1, 0, 1, 1, 1},
-  dy[]= {1, 1, 0,-1,-1,-1, 0, 1};
-void fill(const Mat &amp; img_bin,int x,int y,int room)
-{</p>
-
-    <p>f[x][y]=room;
-//cout«x«’ ’«y«endl;
-//cin.get();
-  for(int i=0; i&lt;8; i++)
-  {
-      int newx=x+dx[i],newy=y+dy[i];
-      if( newx&lt;0 || newx &gt;=m)continue;
-      if( newy&lt;0 || newy &gt;=n) continue;
-      if(img_bin.at<uchar>(newx,newy)&gt;maxValue &amp;&amp; f[newx][newy] == 0)
-          fill(img_bin,newx,newy,room);
-  }
-}
-{%endcodeblock%}</uchar></p>
+<div class='bogus-wrapper'><notextile><figure class='code'><figcaption><span>FloodFill</span></figcaption>
+ <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+</pre></td><td class='code'><pre><code class='cpp'><span class='line'><span class="kt">int</span> <span class="n">dx</span><span class="p">[]</span><span class="o">=</span> <span class="p">{</span><span class="mi">0</span><span class="p">,</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">},</span>
+</span><span class='line'>  <span class="n">dy</span><span class="p">[]</span><span class="o">=</span> <span class="p">{</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">};</span>
+</span><span class='line'><span class="kt">void</span> <span class="n">fill</span><span class="p">(</span><span class="k">const</span> <span class="n">Mat</span> <span class="o">&amp;</span><span class="n">amp</span><span class="p">;</span> <span class="n">img_bin</span><span class="p">,</span><span class="kt">int</span> <span class="n">x</span><span class="p">,</span><span class="kt">int</span> <span class="n">y</span><span class="p">,</span><span class="kt">int</span> <span class="n">room</span><span class="p">)</span>
+</span><span class='line'><span class="p">{</span><span class="o">&lt;/</span><span class="n">p</span><span class="o">&gt;</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="o">&lt;</span><span class="n">p</span><span class="o">&gt;</span><span class="n">f</span><span class="p">[</span><span class="n">x</span><span class="p">][</span><span class="n">y</span><span class="p">]</span><span class="o">=</span><span class="n">room</span><span class="p">;</span>
+</span><span class='line'><span class="c1">//cout«x«’ ’«y«endl;</span>
+</span><span class='line'><span class="c1">//cin.get();</span>
+</span><span class='line'>  <span class="k">for</span><span class="p">(</span><span class="kt">int</span> <span class="n">i</span><span class="o">=</span><span class="mi">0</span><span class="p">;</span> <span class="n">i</span><span class="o">&amp;</span><span class="n">lt</span><span class="p">;</span><span class="mi">8</span><span class="p">;</span> <span class="n">i</span><span class="o">++</span><span class="p">)</span>
+</span><span class='line'>  <span class="p">{</span>
+</span><span class='line'>      <span class="kt">int</span> <span class="n">newx</span><span class="o">=</span><span class="n">x</span><span class="o">+</span><span class="n">dx</span><span class="p">[</span><span class="n">i</span><span class="p">],</span><span class="n">newy</span><span class="o">=</span><span class="n">y</span><span class="o">+</span><span class="n">dy</span><span class="p">[</span><span class="n">i</span><span class="p">];</span>
+</span><span class='line'>      <span class="k">if</span><span class="p">(</span> <span class="n">newx</span><span class="o">&amp;</span><span class="n">lt</span><span class="p">;</span><span class="mi">0</span> <span class="o">||</span> <span class="n">newx</span> <span class="o">&amp;</span><span class="n">gt</span><span class="p">;</span><span class="o">=</span><span class="n">m</span><span class="p">)</span><span class="k">continue</span><span class="p">;</span>
+</span><span class='line'>      <span class="k">if</span><span class="p">(</span> <span class="n">newy</span><span class="o">&amp;</span><span class="n">lt</span><span class="p">;</span><span class="mi">0</span> <span class="o">||</span> <span class="n">newy</span> <span class="o">&amp;</span><span class="n">gt</span><span class="p">;</span><span class="o">=</span><span class="n">n</span><span class="p">)</span> <span class="k">continue</span><span class="p">;</span>
+</span><span class='line'>      <span class="k">if</span><span class="p">(</span><span class="n">img_bin</span><span class="p">.</span><span class="n">at</span><span class="o">&lt;</span><span class="n">uchar</span><span class="o">&gt;</span><span class="p">(</span><span class="n">newx</span><span class="p">,</span><span class="n">newy</span><span class="p">)</span><span class="o">&amp;</span><span class="n">gt</span><span class="p">;</span><span class="n">maxValue</span> <span class="o">&amp;</span><span class="n">amp</span><span class="p">;</span><span class="o">&amp;</span><span class="n">amp</span><span class="p">;</span> <span class="n">f</span><span class="p">[</span><span class="n">newx</span><span class="p">][</span><span class="n">newy</span><span class="p">]</span> <span class="o">==</span> <span class="mi">0</span><span class="p">)</span>
+</span><span class='line'>          <span class="n">fill</span><span class="p">(</span><span class="n">img_bin</span><span class="p">,</span><span class="n">newx</span><span class="p">,</span><span class="n">newy</span><span class="p">,</span><span class="n">room</span><span class="p">);</span>
+</span><span class='line'>  <span class="p">}</span>
+</span><span class='line'><span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div></uchar></p>
   </li>
   <li>
     <p>当所有点都染色结束后，就需要筛选其中的圆了。我的想法是，对每个连通分量进行判断：  </p>
@@ -794,163 +1209,310 @@ void fill(const Mat &amp; img_bin,int x,int y,int room)
   </li>
 </ul>
 
-<p>{%codeblock lang:cpp select and output%}
-void output(Mat &amp; img_bin,int room)
-{</p>
-
-<pre><code>const int min_pixel=250;
-const float eps=0.05;
-printf("Number=%d\n",room);
-for(int k=1; k&lt;=room; k++)
-{
-    Linevec x,y;
-    int num=0;
-    for(int i=1; i&lt;m; i++)
-        for(int j=1; j&lt;n; j++)
-        {
-            if( f[i][j]==k)
-            {
-                x.add(i),y.add(j),++num;
-
-            }
-        }
-    if(num&lt;min_pixel)
-    {
-        clean(img_bin,x,y);
-        continue;
-    }
-
-
-    if( fabs(Factor::Corr(x,y))&gt;eps)
-    {
-        clean(img_bin,x,y);
-        continue;
-    }
-
-    printf("No.%d:x=%f,y=%f\n",k,x.getAverage(),y.getAverage());
-    printf("Corr=%f,Cov=%f\n",Factor::Corr(x,y),Factor::Cov(x,y));
-    DrawTarget(img_bin,y.getAverage(),x.getAverage());
-}
-//cin.get(); } {%endcodeblock %}
+<p><div class='bogus-wrapper'><notextile><figure class='code'><figcaption><span>select and output</span></figcaption>
+ <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+<span class='line-number'>29</span>
+<span class='line-number'>30</span>
+<span class='line-number'>31</span>
+<span class='line-number'>32</span>
+<span class='line-number'>33</span>
+<span class='line-number'>34</span>
+<span class='line-number'>35</span>
+<span class='line-number'>36</span>
+<span class='line-number'>37</span>
+</pre></td><td class='code'><pre><code class='cpp'><span class='line'><span class="kt">void</span> <span class="n">output</span><span class="p">(</span><span class="n">Mat</span> <span class="o">&amp;</span><span class="n">amp</span><span class="p">;</span> <span class="n">img_bin</span><span class="p">,</span><span class="kt">int</span> <span class="n">room</span><span class="p">)</span>
+</span><span class='line'><span class="p">{</span><span class="o">&lt;/</span><span class="n">p</span><span class="o">&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="o">&lt;</span><span class="n">pre</span><span class="o">&gt;&lt;</span><span class="n">code</span><span class="o">&gt;</span><span class="k">const</span> <span class="kt">int</span> <span class="n">min_pixel</span><span class="o">=</span><span class="mi">250</span><span class="p">;</span>
+</span><span class='line'><span class="k">const</span> <span class="kt">float</span> <span class="n">eps</span><span class="o">=</span><span class="mf">0.05</span><span class="p">;</span>
+</span><span class='line'><span class="n">printf</span><span class="p">(</span><span class="s">&quot;Number=%d</span><span class="se">\n</span><span class="s">&quot;</span><span class="p">,</span><span class="n">room</span><span class="p">);</span>
+</span><span class='line'><span class="k">for</span><span class="p">(</span><span class="kt">int</span> <span class="n">k</span><span class="o">=</span><span class="mi">1</span><span class="p">;</span> <span class="n">k</span><span class="o">&amp;</span><span class="n">lt</span><span class="p">;</span><span class="o">=</span><span class="n">room</span><span class="p">;</span> <span class="n">k</span><span class="o">++</span><span class="p">)</span>
+</span><span class='line'><span class="p">{</span>
+</span><span class='line'>    <span class="n">Linevec</span> <span class="n">x</span><span class="p">,</span><span class="n">y</span><span class="p">;</span>
+</span><span class='line'>    <span class="kt">int</span> <span class="n">num</span><span class="o">=</span><span class="mi">0</span><span class="p">;</span>
+</span><span class='line'>    <span class="k">for</span><span class="p">(</span><span class="kt">int</span> <span class="n">i</span><span class="o">=</span><span class="mi">1</span><span class="p">;</span> <span class="n">i</span><span class="o">&amp;</span><span class="n">lt</span><span class="p">;</span><span class="n">m</span><span class="p">;</span> <span class="n">i</span><span class="o">++</span><span class="p">)</span>
+</span><span class='line'>        <span class="k">for</span><span class="p">(</span><span class="kt">int</span> <span class="n">j</span><span class="o">=</span><span class="mi">1</span><span class="p">;</span> <span class="n">j</span><span class="o">&amp;</span><span class="n">lt</span><span class="p">;</span><span class="n">n</span><span class="p">;</span> <span class="n">j</span><span class="o">++</span><span class="p">)</span>
+</span><span class='line'>        <span class="p">{</span>
+</span><span class='line'>            <span class="k">if</span><span class="p">(</span> <span class="n">f</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="n">j</span><span class="p">]</span><span class="o">==</span><span class="n">k</span><span class="p">)</span>
+</span><span class='line'>            <span class="p">{</span>
+</span><span class='line'>                <span class="n">x</span><span class="p">.</span><span class="n">add</span><span class="p">(</span><span class="n">i</span><span class="p">),</span><span class="n">y</span><span class="p">.</span><span class="n">add</span><span class="p">(</span><span class="n">j</span><span class="p">),</span><span class="o">++</span><span class="n">num</span><span class="p">;</span>
+</span><span class='line'>
+</span><span class='line'>            <span class="p">}</span>
+</span><span class='line'>        <span class="p">}</span>
+</span><span class='line'>    <span class="k">if</span><span class="p">(</span><span class="n">num</span><span class="o">&amp;</span><span class="n">lt</span><span class="p">;</span><span class="n">min_pixel</span><span class="p">)</span>
+</span><span class='line'>    <span class="p">{</span>
+</span><span class='line'>        <span class="n">clean</span><span class="p">(</span><span class="n">img_bin</span><span class="p">,</span><span class="n">x</span><span class="p">,</span><span class="n">y</span><span class="p">);</span>
+</span><span class='line'>        <span class="k">continue</span><span class="p">;</span>
+</span><span class='line'>    <span class="p">}</span>
+</span><span class='line'>
+</span><span class='line'>
+</span><span class='line'>    <span class="k">if</span><span class="p">(</span> <span class="n">fabs</span><span class="p">(</span><span class="n">Factor</span><span class="o">::</span><span class="n">Corr</span><span class="p">(</span><span class="n">x</span><span class="p">,</span><span class="n">y</span><span class="p">))</span><span class="o">&amp;</span><span class="n">gt</span><span class="p">;</span><span class="n">eps</span><span class="p">)</span>
+</span><span class='line'>    <span class="p">{</span>
+</span><span class='line'>        <span class="n">clean</span><span class="p">(</span><span class="n">img_bin</span><span class="p">,</span><span class="n">x</span><span class="p">,</span><span class="n">y</span><span class="p">);</span>
+</span><span class='line'>        <span class="k">continue</span><span class="p">;</span>
+</span><span class='line'>    <span class="p">}</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="n">printf</span><span class="p">(</span><span class="s">&quot;No.%d:x=%f,y=%f</span><span class="se">\n</span><span class="s">&quot;</span><span class="p">,</span><span class="n">k</span><span class="p">,</span><span class="n">x</span><span class="p">.</span><span class="n">getAverage</span><span class="p">(),</span><span class="n">y</span><span class="p">.</span><span class="n">getAverage</span><span class="p">());</span>
+</span><span class='line'>    <span class="n">printf</span><span class="p">(</span><span class="s">&quot;Corr=%f,Cov=%f</span><span class="se">\n</span><span class="s">&quot;</span><span class="p">,</span><span class="n">Factor</span><span class="o">::</span><span class="n">Corr</span><span class="p">(</span><span class="n">x</span><span class="p">,</span><span class="n">y</span><span class="p">),</span><span class="n">Factor</span><span class="o">::</span><span class="n">Cov</span><span class="p">(</span><span class="n">x</span><span class="p">,</span><span class="n">y</span><span class="p">));</span>
+</span><span class='line'>    <span class="n">DrawTarget</span><span class="p">(</span><span class="n">img_bin</span><span class="p">,</span><span class="n">y</span><span class="p">.</span><span class="n">getAverage</span><span class="p">(),</span><span class="n">x</span><span class="p">.</span><span class="n">getAverage</span><span class="p">());</span>
+</span><span class='line'><span class="p">}</span>
+</span><span class='line'><span class="c1">//cin.get(); } </span>
+</span></code></pre></td></tr></table></div></figure></notextile></div>
 </code></pre>
 
 <p>上述代码中的<em>Linevec</em>用于单个随机变量的数字特征计算，<em>Factor</em>类用于计算两个随机变量的协方差及相关系数，这里不考虑软件工程里的封装之类的东西，仅仅作为简单的工具，所以一切都是<em>public</em>。分别定义如下：
-{%codeblock lang:cpp Linevec%}
-class Linevec
-{
-public:</p>
-
-<pre><code>vector&lt;float&gt; data;
-
-float sum;
-float x_average;
-float x2_average;
-float var;
-
-Linevec(const Linevec&amp; temp)
-{
-
-    data=temp.data;
-    sum=temp.sum;
-    x_average=temp.x_average;
-    x2_average=temp.x2_average;
-}
-Linevec()
-{
-    sum=x_average=x2_average=0;
-}
-Linevec(int N)
-{
-
-    data.resize(N);
-}
-void readData()
-{
-    for(unsigned int i=1; i&lt;=data.size(); i++)
-    {
-        cin&gt;&gt;data[i];
-        sum+=data[i];
-        x2_average+=data[i]*data[i];
-    }
-    cout&lt;&lt;"Read Finished"&lt;&lt;endl;
-    x_average=sum/data.size();
-    x2_average/=data.size();
-}
-void add(float t)
-{
-    data.push_back(t);
-
-}
-float getSum()
-{
-
-    sum=0;
-    for(vector&lt;float&gt;::iterator i=data.begin(); i!=data.end(); i++)
-        sum+=*i;
-    return sum;
-}
-float getAverage()
-{
-
-    return x_average=getSum()/data.size();
-}
-float getAverage2()
-{
-
-    x2_average=0;
-    for(vector&lt;float&gt;::iterator i=data.begin(); i!=data.end(); i++)
-        x2_average+=(*i)*(*i);
-    return x2_average=x2_average/data.size();
-}
-int getCount()
-{
-    return data.size();
-}
-float E()
-{
-    return getAverage();
-}
-float E2()
-{
-    return getAverage2();
-}
-float Var()
-{
-
-    var=0.0f;
-    getAverage();
-    for(unsigned int i=0; i&lt;data.size(); i++)
-        var+=(data[i]-x_average)*(data[i]-x_average);
-    var/=data.size()-1;
-    return var;
-} }; {%endcodeblock %}
+<div class='bogus-wrapper'><notextile><figure class='code'><figcaption><span>Linevec</span></figcaption>
+ <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+<span class='line-number'>29</span>
+<span class='line-number'>30</span>
+<span class='line-number'>31</span>
+<span class='line-number'>32</span>
+<span class='line-number'>33</span>
+<span class='line-number'>34</span>
+<span class='line-number'>35</span>
+<span class='line-number'>36</span>
+<span class='line-number'>37</span>
+<span class='line-number'>38</span>
+<span class='line-number'>39</span>
+<span class='line-number'>40</span>
+<span class='line-number'>41</span>
+<span class='line-number'>42</span>
+<span class='line-number'>43</span>
+<span class='line-number'>44</span>
+<span class='line-number'>45</span>
+<span class='line-number'>46</span>
+<span class='line-number'>47</span>
+<span class='line-number'>48</span>
+<span class='line-number'>49</span>
+<span class='line-number'>50</span>
+<span class='line-number'>51</span>
+<span class='line-number'>52</span>
+<span class='line-number'>53</span>
+<span class='line-number'>54</span>
+<span class='line-number'>55</span>
+<span class='line-number'>56</span>
+<span class='line-number'>57</span>
+<span class='line-number'>58</span>
+<span class='line-number'>59</span>
+<span class='line-number'>60</span>
+<span class='line-number'>61</span>
+<span class='line-number'>62</span>
+<span class='line-number'>63</span>
+<span class='line-number'>64</span>
+<span class='line-number'>65</span>
+<span class='line-number'>66</span>
+<span class='line-number'>67</span>
+<span class='line-number'>68</span>
+<span class='line-number'>69</span>
+<span class='line-number'>70</span>
+<span class='line-number'>71</span>
+<span class='line-number'>72</span>
+<span class='line-number'>73</span>
+<span class='line-number'>74</span>
+<span class='line-number'>75</span>
+<span class='line-number'>76</span>
+<span class='line-number'>77</span>
+<span class='line-number'>78</span>
+<span class='line-number'>79</span>
+<span class='line-number'>80</span>
+<span class='line-number'>81</span>
+<span class='line-number'>82</span>
+<span class='line-number'>83</span>
+<span class='line-number'>84</span>
+<span class='line-number'>85</span>
+<span class='line-number'>86</span>
+<span class='line-number'>87</span>
+<span class='line-number'>88</span>
+</pre></td><td class='code'><pre><code class='cpp'><span class='line'><span class="k">class</span> <span class="nc">Linevec</span>
+</span><span class='line'><span class="p">{</span>
+</span><span class='line'><span class="k">public</span><span class="o">:&lt;/</span><span class="n">p</span><span class="o">&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="o">&lt;</span><span class="n">pre</span><span class="o">&gt;&lt;</span><span class="n">code</span><span class="o">&gt;</span><span class="n">vector</span><span class="o">&amp;</span><span class="n">lt</span><span class="p">;</span><span class="kt">float</span><span class="o">&amp;</span><span class="n">gt</span><span class="p">;</span> <span class="n">data</span><span class="p">;</span>
+</span><span class='line'>
+</span><span class='line'><span class="kt">float</span> <span class="n">sum</span><span class="p">;</span>
+</span><span class='line'><span class="kt">float</span> <span class="n">x_average</span><span class="p">;</span>
+</span><span class='line'><span class="kt">float</span> <span class="n">x2_average</span><span class="p">;</span>
+</span><span class='line'><span class="kt">float</span> <span class="n">var</span><span class="p">;</span>
+</span><span class='line'>
+</span><span class='line'><span class="n">Linevec</span><span class="p">(</span><span class="k">const</span> <span class="n">Linevec</span><span class="o">&amp;</span><span class="n">amp</span><span class="p">;</span> <span class="n">temp</span><span class="p">)</span>
+</span><span class='line'><span class="p">{</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="n">data</span><span class="o">=</span><span class="n">temp</span><span class="p">.</span><span class="n">data</span><span class="p">;</span>
+</span><span class='line'>    <span class="n">sum</span><span class="o">=</span><span class="n">temp</span><span class="p">.</span><span class="n">sum</span><span class="p">;</span>
+</span><span class='line'>    <span class="n">x_average</span><span class="o">=</span><span class="n">temp</span><span class="p">.</span><span class="n">x_average</span><span class="p">;</span>
+</span><span class='line'>    <span class="n">x2_average</span><span class="o">=</span><span class="n">temp</span><span class="p">.</span><span class="n">x2_average</span><span class="p">;</span>
+</span><span class='line'><span class="p">}</span>
+</span><span class='line'><span class="n">Linevec</span><span class="p">()</span>
+</span><span class='line'><span class="p">{</span>
+</span><span class='line'>    <span class="n">sum</span><span class="o">=</span><span class="n">x_average</span><span class="o">=</span><span class="n">x2_average</span><span class="o">=</span><span class="mi">0</span><span class="p">;</span>
+</span><span class='line'><span class="p">}</span>
+</span><span class='line'><span class="n">Linevec</span><span class="p">(</span><span class="kt">int</span> <span class="n">N</span><span class="p">)</span>
+</span><span class='line'><span class="p">{</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="n">data</span><span class="p">.</span><span class="n">resize</span><span class="p">(</span><span class="n">N</span><span class="p">);</span>
+</span><span class='line'><span class="p">}</span>
+</span><span class='line'><span class="kt">void</span> <span class="n">readData</span><span class="p">()</span>
+</span><span class='line'><span class="p">{</span>
+</span><span class='line'>    <span class="k">for</span><span class="p">(</span><span class="kt">unsigned</span> <span class="kt">int</span> <span class="n">i</span><span class="o">=</span><span class="mi">1</span><span class="p">;</span> <span class="n">i</span><span class="o">&amp;</span><span class="n">lt</span><span class="p">;</span><span class="o">=</span><span class="n">data</span><span class="p">.</span><span class="n">size</span><span class="p">();</span> <span class="n">i</span><span class="o">++</span><span class="p">)</span>
+</span><span class='line'>    <span class="p">{</span>
+</span><span class='line'>        <span class="n">cin</span><span class="o">&amp;</span><span class="n">gt</span><span class="p">;</span><span class="o">&amp;</span><span class="n">gt</span><span class="p">;</span><span class="n">data</span><span class="p">[</span><span class="n">i</span><span class="p">];</span>
+</span><span class='line'>        <span class="n">sum</span><span class="o">+=</span><span class="n">data</span><span class="p">[</span><span class="n">i</span><span class="p">];</span>
+</span><span class='line'>        <span class="n">x2_average</span><span class="o">+=</span><span class="n">data</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">*</span><span class="n">data</span><span class="p">[</span><span class="n">i</span><span class="p">];</span>
+</span><span class='line'>    <span class="p">}</span>
+</span><span class='line'>    <span class="n">cout</span><span class="o">&amp;</span><span class="n">lt</span><span class="p">;</span><span class="o">&amp;</span><span class="n">lt</span><span class="p">;</span><span class="s">&quot;Read Finished&quot;</span><span class="o">&amp;</span><span class="n">lt</span><span class="p">;</span><span class="o">&amp;</span><span class="n">lt</span><span class="p">;</span><span class="n">endl</span><span class="p">;</span>
+</span><span class='line'>    <span class="n">x_average</span><span class="o">=</span><span class="n">sum</span><span class="o">/</span><span class="n">data</span><span class="p">.</span><span class="n">size</span><span class="p">();</span>
+</span><span class='line'>    <span class="n">x2_average</span><span class="o">/=</span><span class="n">data</span><span class="p">.</span><span class="n">size</span><span class="p">();</span>
+</span><span class='line'><span class="p">}</span>
+</span><span class='line'><span class="kt">void</span> <span class="n">add</span><span class="p">(</span><span class="kt">float</span> <span class="n">t</span><span class="p">)</span>
+</span><span class='line'><span class="p">{</span>
+</span><span class='line'>    <span class="n">data</span><span class="p">.</span><span class="n">push_back</span><span class="p">(</span><span class="n">t</span><span class="p">);</span>
+</span><span class='line'>
+</span><span class='line'><span class="p">}</span>
+</span><span class='line'><span class="kt">float</span> <span class="n">getSum</span><span class="p">()</span>
+</span><span class='line'><span class="p">{</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="n">sum</span><span class="o">=</span><span class="mi">0</span><span class="p">;</span>
+</span><span class='line'>    <span class="k">for</span><span class="p">(</span><span class="n">vector</span><span class="o">&amp;</span><span class="n">lt</span><span class="p">;</span><span class="kt">float</span><span class="o">&amp;</span><span class="n">gt</span><span class="p">;</span><span class="o">::</span><span class="n">iterator</span> <span class="n">i</span><span class="o">=</span><span class="n">data</span><span class="p">.</span><span class="n">begin</span><span class="p">();</span> <span class="n">i</span><span class="o">!=</span><span class="n">data</span><span class="p">.</span><span class="n">end</span><span class="p">();</span> <span class="n">i</span><span class="o">++</span><span class="p">)</span>
+</span><span class='line'>        <span class="n">sum</span><span class="o">+=*</span><span class="n">i</span><span class="p">;</span>
+</span><span class='line'>    <span class="k">return</span> <span class="n">sum</span><span class="p">;</span>
+</span><span class='line'><span class="p">}</span>
+</span><span class='line'><span class="kt">float</span> <span class="n">getAverage</span><span class="p">()</span>
+</span><span class='line'><span class="p">{</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="k">return</span> <span class="n">x_average</span><span class="o">=</span><span class="n">getSum</span><span class="p">()</span><span class="o">/</span><span class="n">data</span><span class="p">.</span><span class="n">size</span><span class="p">();</span>
+</span><span class='line'><span class="p">}</span>
+</span><span class='line'><span class="kt">float</span> <span class="n">getAverage2</span><span class="p">()</span>
+</span><span class='line'><span class="p">{</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="n">x2_average</span><span class="o">=</span><span class="mi">0</span><span class="p">;</span>
+</span><span class='line'>    <span class="k">for</span><span class="p">(</span><span class="n">vector</span><span class="o">&amp;</span><span class="n">lt</span><span class="p">;</span><span class="kt">float</span><span class="o">&amp;</span><span class="n">gt</span><span class="p">;</span><span class="o">::</span><span class="n">iterator</span> <span class="n">i</span><span class="o">=</span><span class="n">data</span><span class="p">.</span><span class="n">begin</span><span class="p">();</span> <span class="n">i</span><span class="o">!=</span><span class="n">data</span><span class="p">.</span><span class="n">end</span><span class="p">();</span> <span class="n">i</span><span class="o">++</span><span class="p">)</span>
+</span><span class='line'>        <span class="n">x2_average</span><span class="o">+=</span><span class="p">(</span><span class="o">*</span><span class="n">i</span><span class="p">)</span><span class="o">*</span><span class="p">(</span><span class="o">*</span><span class="n">i</span><span class="p">);</span>
+</span><span class='line'>    <span class="k">return</span> <span class="n">x2_average</span><span class="o">=</span><span class="n">x2_average</span><span class="o">/</span><span class="n">data</span><span class="p">.</span><span class="n">size</span><span class="p">();</span>
+</span><span class='line'><span class="p">}</span>
+</span><span class='line'><span class="kt">int</span> <span class="n">getCount</span><span class="p">()</span>
+</span><span class='line'><span class="p">{</span>
+</span><span class='line'>    <span class="k">return</span> <span class="n">data</span><span class="p">.</span><span class="n">size</span><span class="p">();</span>
+</span><span class='line'><span class="p">}</span>
+</span><span class='line'><span class="kt">float</span> <span class="n">E</span><span class="p">()</span>
+</span><span class='line'><span class="p">{</span>
+</span><span class='line'>    <span class="k">return</span> <span class="n">getAverage</span><span class="p">();</span>
+</span><span class='line'><span class="p">}</span>
+</span><span class='line'><span class="kt">float</span> <span class="n">E2</span><span class="p">()</span>
+</span><span class='line'><span class="p">{</span>
+</span><span class='line'>    <span class="k">return</span> <span class="n">getAverage2</span><span class="p">();</span>
+</span><span class='line'><span class="p">}</span>
+</span><span class='line'><span class="kt">float</span> <span class="n">Var</span><span class="p">()</span>
+</span><span class='line'><span class="p">{</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="n">var</span><span class="o">=</span><span class="mf">0.0f</span><span class="p">;</span>
+</span><span class='line'>    <span class="n">getAverage</span><span class="p">();</span>
+</span><span class='line'>    <span class="k">for</span><span class="p">(</span><span class="kt">unsigned</span> <span class="kt">int</span> <span class="n">i</span><span class="o">=</span><span class="mi">0</span><span class="p">;</span> <span class="n">i</span><span class="o">&amp;</span><span class="n">lt</span><span class="p">;</span><span class="n">data</span><span class="p">.</span><span class="n">size</span><span class="p">();</span> <span class="n">i</span><span class="o">++</span><span class="p">)</span>
+</span><span class='line'>        <span class="n">var</span><span class="o">+=</span><span class="p">(</span><span class="n">data</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">-</span><span class="n">x_average</span><span class="p">)</span><span class="o">*</span><span class="p">(</span><span class="n">data</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">-</span><span class="n">x_average</span><span class="p">);</span>
+</span><span class='line'>    <span class="n">var</span><span class="o">/=</span><span class="n">data</span><span class="p">.</span><span class="n">size</span><span class="p">()</span><span class="o">-</span><span class="mi">1</span><span class="p">;</span>
+</span><span class='line'>    <span class="k">return</span> <span class="n">var</span><span class="p">;</span>
+</span><span class='line'><span class="p">}</span> <span class="p">};</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div>
 </code></pre>
 
-<p>{%codeblock lang:cpp Factor%}
-class Factor
-{
-public:</p>
-
-<pre><code>static float Cov(Linevec &amp;x,Linevec &amp;y)
-{
-    float xy_average=0.0f;
-    for(int i=0; i&lt;x.getCount(); i++)
-        xy_average+=x.data[i]*y.data[i];
-    xy_average/=x.getCount();
-    return xy_average-x.E()*y.E();
-}
-static float Corr(Linevec &amp;x,Linevec &amp;y)
-{
-    return Cov(x,y)/sqrt(x.Var()*y.Var());
-} }; {%endcodeblock %} 由于图省事，有一些变量我设置了全局，我列在下面,
+<p><div class='bogus-wrapper'><notextile><figure class='code'><figcaption><span>Factor</span></figcaption>
+ <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+</pre></td><td class='code'><pre><code class='cpp'><span class='line'><span class="k">class</span> <span class="nc">Factor</span>
+</span><span class='line'><span class="p">{</span>
+</span><span class='line'><span class="k">public</span><span class="o">:&lt;/</span><span class="n">p</span><span class="o">&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="o">&lt;</span><span class="n">pre</span><span class="o">&gt;&lt;</span><span class="n">code</span><span class="o">&gt;</span><span class="k">static</span> <span class="kt">float</span> <span class="n">Cov</span><span class="p">(</span><span class="n">Linevec</span> <span class="o">&amp;</span><span class="n">amp</span><span class="p">;</span><span class="n">x</span><span class="p">,</span><span class="n">Linevec</span> <span class="o">&amp;</span><span class="n">amp</span><span class="p">;</span><span class="n">y</span><span class="p">)</span>
+</span><span class='line'><span class="p">{</span>
+</span><span class='line'>    <span class="kt">float</span> <span class="n">xy_average</span><span class="o">=</span><span class="mf">0.0f</span><span class="p">;</span>
+</span><span class='line'>    <span class="k">for</span><span class="p">(</span><span class="kt">int</span> <span class="n">i</span><span class="o">=</span><span class="mi">0</span><span class="p">;</span> <span class="n">i</span><span class="o">&amp;</span><span class="n">lt</span><span class="p">;</span><span class="n">x</span><span class="p">.</span><span class="n">getCount</span><span class="p">();</span> <span class="n">i</span><span class="o">++</span><span class="p">)</span>
+</span><span class='line'>        <span class="n">xy_average</span><span class="o">+=</span><span class="n">x</span><span class="p">.</span><span class="n">data</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">*</span><span class="n">y</span><span class="p">.</span><span class="n">data</span><span class="p">[</span><span class="n">i</span><span class="p">];</span>
+</span><span class='line'>    <span class="n">xy_average</span><span class="o">/=</span><span class="n">x</span><span class="p">.</span><span class="n">getCount</span><span class="p">();</span>
+</span><span class='line'>    <span class="k">return</span> <span class="n">xy_average</span><span class="o">-</span><span class="n">x</span><span class="p">.</span><span class="n">E</span><span class="p">()</span><span class="o">*</span><span class="n">y</span><span class="p">.</span><span class="n">E</span><span class="p">();</span>
+</span><span class='line'><span class="p">}</span>
+</span><span class='line'><span class="k">static</span> <span class="kt">float</span> <span class="n">Corr</span><span class="p">(</span><span class="n">Linevec</span> <span class="o">&amp;</span><span class="n">amp</span><span class="p">;</span><span class="n">x</span><span class="p">,</span><span class="n">Linevec</span> <span class="o">&amp;</span><span class="n">amp</span><span class="p">;</span><span class="n">y</span><span class="p">)</span>
+</span><span class='line'><span class="p">{</span>
+</span><span class='line'>    <span class="k">return</span> <span class="n">Cov</span><span class="p">(</span><span class="n">x</span><span class="p">,</span><span class="n">y</span><span class="p">)</span><span class="o">/</span><span class="n">sqrt</span><span class="p">(</span><span class="n">x</span><span class="p">.</span><span class="n">Var</span><span class="p">()</span><span class="o">*</span><span class="n">y</span><span class="p">.</span><span class="n">Var</span><span class="p">());</span>
+</span><span class='line'><span class="p">}</span> <span class="p">};</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div> 由于图省事，有一些变量我设置了全局，我列在下面,
 </code></pre>
 
-<p>{%codeblock lang:cpp%}
-int n,m;
-const int width=800,height=800;
-int f[height][width];
-const int maxValue=200;
-{%endcodeblock%}</p>
+<p><div class='bogus-wrapper'><notextile><figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class='cpp'><span class='line'><span class="kt">int</span> <span class="n">n</span><span class="p">,</span><span class="n">m</span><span class="p">;</span>
+</span><span class='line'><span class="k">const</span> <span class="kt">int</span> <span class="n">width</span><span class="o">=</span><span class="mi">800</span><span class="p">,</span><span class="n">height</span><span class="o">=</span><span class="mi">800</span><span class="p">;</span>
+</span><span class='line'><span class="kt">int</span> <span class="n">f</span><span class="p">[</span><span class="n">height</span><span class="p">][</span><span class="n">width</span><span class="p">];</span>
+</span><span class='line'><span class="k">const</span> <span class="kt">int</span> <span class="n">maxValue</span><span class="o">=</span><span class="mi">200</span><span class="p">;</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div></p>
 
 <p>最终效果如下：
 <img src="/images/image/nocirclefound.png" alt="没找到圆" />
@@ -970,56 +1532,99 @@ const int maxValue=200;
 
 <p>由于SVG是基于XML的，即需要解析的是一个XML文件，所以需要一个<em>Document</em>对象。这里我使用了JAVA自带的DOM（Document Object Model）方式解析，所以需要一个<em>DocumentBuilder</em>对象来从XML文件中获取DOM文档的实例,然后将解析出的文档传给<em>Document</em>对象。而这个<em>DocumentBuilder</em>对象的初始化又需要用<em>DocumentBuilderFactory</em>的工厂方法。所以初始化的代码如下：</p>
 
-<p>{%codeblock lang:csharp %}
-private InputStream _svgFile;
-Document doc;
-NodeList nList;
-public SVGParase(InputStream svgFile) throws SAXException, IOException
-{
-	_svgFile=svgFile;
-	DocumentBuilderFactory dbFactory = DocumentBuilderFactory
-	        .newInstance();
-	DocumentBuilder dBuilder;
-       try
-       {
-        dBuilder = dbFactory.newDocumentBuilder();
-        doc = dBuilder.parse(_svgFile);      <br />
-	doc.getDocumentElement().normalize();
-       }
-       catch (ParserConfigurationException e)
-       {
-        // TODO Auto-generated catch block
-        e.printStackTrace();
-       }
-}
-{% endcodeblock %}</p>
+<p><div class='bogus-wrapper'><notextile><figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+</pre></td><td class='code'><pre><code class='csharp'><span class='line'><span class="k">private</span> <span class="n">InputStream</span> <span class="n">_svgFile</span><span class="p">;</span>
+</span><span class='line'><span class="n">Document</span> <span class="n">doc</span><span class="p">;</span>
+</span><span class='line'><span class="n">NodeList</span> <span class="n">nList</span><span class="p">;</span>
+</span><span class='line'><span class="k">public</span> <span class="nf">SVGParase</span><span class="p">(</span><span class="n">InputStream</span> <span class="n">svgFile</span><span class="p">)</span> <span class="n">throws</span> <span class="n">SAXException</span><span class="p">,</span> <span class="n">IOException</span>
+</span><span class='line'><span class="p">{</span>
+</span><span class='line'>	<span class="n">_svgFile</span><span class="p">=</span><span class="n">svgFile</span><span class="p">;</span>
+</span><span class='line'>	<span class="n">DocumentBuilderFactory</span> <span class="n">dbFactory</span> <span class="p">=</span> <span class="n">DocumentBuilderFactory</span>
+</span><span class='line'>	        <span class="p">.</span><span class="n">newInstance</span><span class="p">();</span>
+</span><span class='line'>	<span class="n">DocumentBuilder</span> <span class="n">dBuilder</span><span class="p">;</span>
+</span><span class='line'>       <span class="k">try</span>
+</span><span class='line'>       <span class="p">{</span>
+</span><span class='line'>        <span class="n">dBuilder</span> <span class="p">=</span> <span class="n">dbFactory</span><span class="p">.</span><span class="n">newDocumentBuilder</span><span class="p">();</span>
+</span><span class='line'>        <span class="n">doc</span> <span class="p">=</span> <span class="n">dBuilder</span><span class="p">.</span><span class="n">parse</span><span class="p">(</span><span class="n">_svgFile</span><span class="p">);</span>      <span class="p">&lt;</span><span class="n">br</span> <span class="p">/&gt;</span>
+</span><span class='line'>	<span class="n">doc</span><span class="p">.</span><span class="n">getDocumentElement</span><span class="p">().</span><span class="n">normalize</span><span class="p">();</span>
+</span><span class='line'>       <span class="p">}</span>
+</span><span class='line'>       <span class="k">catch</span> <span class="p">(</span><span class="n">ParserConfigurationException</span> <span class="n">e</span><span class="p">)</span>
+</span><span class='line'>       <span class="p">{</span>
+</span><span class='line'>        <span class="c1">// TODO Auto-generated catch block</span>
+</span><span class='line'>        <span class="n">e</span><span class="p">.</span><span class="n">printStackTrace</span><span class="p">();</span>
+</span><span class='line'>       <span class="p">}</span>
+</span><span class='line'><span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div></p>
 
 <p>SVG中图形的形式主要有直线段，圆，椭圆，文本等，标签名为polyline，circile，eclipse，text等。所以要解析某一种图形，先查找所有拥有该标签的节点。下面以圆为例：
 首先查找有circle标签的结点，其中查到的每一个结点如果类型为element，则它代表了一个圆。每一个圆通过 <em>圆心坐标和半径</em> 三个属性来定义，所以在其中查找属性：<em>cx</em>,<em>cy</em>,<em>r</em>即为圆的参数。代码如下：
-{%codeblock lang:java %}
-public ArrayList<Circle> getCircles()
-	{
-		ArrayList<Circle> circles=new ArrayList<Circle>(100);
-		Circle circle;
-		nList = doc.getElementsByTagName("circle");
-		for (int temp = 0; temp &lt; nList.getLength(); temp++)
-		{</Circle></Circle></Circle></p>
-
-<pre><code>		Node nNode = nList.item(temp);
-		
-		if (nNode.getNodeType() == Node.ELEMENT_NODE)
-		{
-
-			Element eElement = (Element) nNode;
-			String cx = eElement.getAttribute("cx");
-			String cy = eElement.getAttribute("cy");
-			String r = eElement.getAttribute("r");
-			circle=new Circle(cx, cy, r);
-			circles.add(circle);
-		}
-	}
-	return circles;
-} {%endcodeblock%} 对于直线等其他的图形，也是同样的解析方式，只要把所有图形存下来就可以绘制了~~
+<div class='bogus-wrapper'><notextile><figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+</pre></td><td class='code'><pre><code class='java'><span class='line'><span class="kd">public</span> <span class="n">ArrayList</span><span class="o">&lt;</span><span class="n">Circle</span><span class="o">&gt;</span> <span class="n">getCircles</span><span class="o">()</span>
+</span><span class='line'>	<span class="o">{</span>
+</span><span class='line'>		<span class="n">ArrayList</span><span class="o">&lt;</span><span class="n">Circle</span><span class="o">&gt;</span> <span class="n">circles</span><span class="o">=</span><span class="k">new</span> <span class="n">ArrayList</span><span class="o">&lt;</span><span class="n">Circle</span><span class="o">&gt;(</span><span class="mi">100</span><span class="o">);</span>
+</span><span class='line'>		<span class="n">Circle</span> <span class="n">circle</span><span class="o">;</span>
+</span><span class='line'>		<span class="n">nList</span> <span class="o">=</span> <span class="n">doc</span><span class="o">.</span><span class="na">getElementsByTagName</span><span class="o">(</span><span class="s">&quot;circle&quot;</span><span class="o">);</span>
+</span><span class='line'>		<span class="k">for</span> <span class="o">(</span><span class="kt">int</span> <span class="n">temp</span> <span class="o">=</span> <span class="mi">0</span><span class="o">;</span> <span class="n">temp</span> <span class="o">&amp;</span><span class="n">lt</span><span class="o">;</span> <span class="n">nList</span><span class="o">.</span><span class="na">getLength</span><span class="o">();</span> <span class="n">temp</span><span class="o">++)</span>
+</span><span class='line'>		<span class="o">{&lt;/</span><span class="n">Circle</span><span class="o">&gt;&lt;/</span><span class="n">Circle</span><span class="o">&gt;&lt;/</span><span class="n">Circle</span><span class="o">&gt;&lt;/</span><span class="n">p</span><span class="o">&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="o">&lt;</span><span class="n">pre</span><span class="o">&gt;&lt;</span><span class="n">code</span><span class="o">&gt;</span>		<span class="n">Node</span> <span class="n">nNode</span> <span class="o">=</span> <span class="n">nList</span><span class="o">.</span><span class="na">item</span><span class="o">(</span><span class="n">temp</span><span class="o">);</span>
+</span><span class='line'>		
+</span><span class='line'>		<span class="k">if</span> <span class="o">(</span><span class="n">nNode</span><span class="o">.</span><span class="na">getNodeType</span><span class="o">()</span> <span class="o">==</span> <span class="n">Node</span><span class="o">.</span><span class="na">ELEMENT_NODE</span><span class="o">)</span>
+</span><span class='line'>		<span class="o">{</span>
+</span><span class='line'>
+</span><span class='line'>			<span class="n">Element</span> <span class="n">eElement</span> <span class="o">=</span> <span class="o">(</span><span class="n">Element</span><span class="o">)</span> <span class="n">nNode</span><span class="o">;</span>
+</span><span class='line'>			<span class="n">String</span> <span class="n">cx</span> <span class="o">=</span> <span class="n">eElement</span><span class="o">.</span><span class="na">getAttribute</span><span class="o">(</span><span class="s">&quot;cx&quot;</span><span class="o">);</span>
+</span><span class='line'>			<span class="n">String</span> <span class="n">cy</span> <span class="o">=</span> <span class="n">eElement</span><span class="o">.</span><span class="na">getAttribute</span><span class="o">(</span><span class="s">&quot;cy&quot;</span><span class="o">);</span>
+</span><span class='line'>			<span class="n">String</span> <span class="n">r</span> <span class="o">=</span> <span class="n">eElement</span><span class="o">.</span><span class="na">getAttribute</span><span class="o">(</span><span class="s">&quot;r&quot;</span><span class="o">);</span>
+</span><span class='line'>			<span class="n">circle</span><span class="o">=</span><span class="k">new</span> <span class="n">Circle</span><span class="o">(</span><span class="n">cx</span><span class="o">,</span> <span class="n">cy</span><span class="o">,</span> <span class="n">r</span><span class="o">);</span>
+</span><span class='line'>			<span class="n">circles</span><span class="o">.</span><span class="na">add</span><span class="o">(</span><span class="n">circle</span><span class="o">);</span>
+</span><span class='line'>		<span class="o">}</span>
+</span><span class='line'>	<span class="o">}</span>
+</span><span class='line'>	<span class="k">return</span> <span class="n">circles</span><span class="o">;</span>
+</span><span class='line'><span class="o">}</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div> 对于直线等其他的图形，也是同样的解析方式，只要把所有图形存下来就可以绘制了~~
 </code></pre>
 ]]></content>
   </entry>
