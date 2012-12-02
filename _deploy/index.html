@@ -1,1 +1,2409 @@
-My Octopress Page is coming soon &hellip;
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>成长日志</title>
+  <meta name="author" content="清风未明">
+
+  
+  <meta name="description" content="实验目的 学习主成分分析（PCA）的基础知识 了解PCA在人脸识别与重建方面的应用 认识数据降维在数据处理中的重要作用 学习使用matlab实现PCA算法 实验原理 随着人们处理的问题越来越复杂，待处理的数据变得越来越庞大。在数据分析和处理的过程中，时间的消耗量是十分巨大的。 &hellip;">
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://ghdawn.github.com">
+  <link href="/favicon.png" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <script src="/javascripts/modernizr-2.0.js"></script>
+  <script src="/javascripts/ender.js"></script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  <link href="/atom.xml" rel="alternate" title="成长日志" type="application/atom+xml">
+  <!-- mathjax config similar to math.stackexchange -->
+
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({
+    tex2jax: {
+      inlineMath: [ ['$','$'], ["\\(","\\)"] ],
+      processEscapes: true
+    }
+  });
+</script>
+
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+      tex2jax: {
+        skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+      }
+    });
+</script>
+
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax(), i;
+        for(i=0; i < all.length; i += 1) {
+            all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+    });
+</script>
+
+<script type="text/javascript"
+   src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+</script>
+
+  
+  <script type="text/javascript">
+    var _gaq = _gaq || [];
+    _gaq.push(['_setAccount', 'UA-29027763-1']);
+    _gaq.push(['_trackPageview']);
+
+    (function() {
+      var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+      ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+      var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+    })();
+  </script>
+
+
+</head>
+
+<body   >
+  <header role="banner"><hgroup>
+  <h1><a href="/">成长日志</a></h1>
+  
+    <h2>一个机器人研究所的计算机爱好者</h2>
+  
+</hgroup>
+
+</header>
+  <nav role="navigation"><ul class="subscription" data-subscription="rss">
+  <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+  
+<form action="http://google.com/search" method="get">
+  <fieldset role="search">
+    <input type="hidden" name="q" value="site:ghdawn.github.com" />
+    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
+  </fieldset>
+</form>
+  
+<ul class="main-navigation">
+  <li><a href="/">Blog</a></li>
+  <li><a href="/blog/archives">Archives</a></li>
+  <li><a href="/about.html">About</a></li>
+</ul>
+
+</nav>
+  <div id="main">
+    <div id="content">
+      <div class="blog-index">
+  
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2012/12/ml-pca/">机器学习作业1&#8211;基于PCA方法的人脸识别</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2012-12-02T20:22:00+08:00" pubdate data-updated="true">Dec 2<span>nd</span>, 2012</time>
+        
+         | <a href="/blog/2012/12/ml-pca/#disqus_thread">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><h3 id="section">实验目的</h3>
+
+<ol>
+  <li>学习主成分分析（PCA）的基础知识</li>
+  <li>了解PCA在人脸识别与重建方面的应用</li>
+  <li>认识数据降维在数据处理中的重要作用</li>
+  <li>学习使用matlab实现PCA算法</li>
+</ol>
+
+<h3 id="section-1">实验原理</h3>
+
+<p>随着人们处理的问题越来越复杂，待处理的数据变得越来越庞大。在数据分析和处理的过程中，时间的消耗量是十分巨大的。于是人们在不断的寻找一些能够简化计算，方便处理数据的方法。其中数据降维就是一种能够简化计算，并且使数据更加易于处理（如数据可视化）的方法。主成分分析（PCA）方法就是一种用于数据降维处理的方法。</p>
+
+<p>通常要处理的原始数据会有以下几个特性：</p>
+
+<ol>
+  <li>数据的不同维数之间是线性相关的，即 $cov(i,j)\neq 0 , i\neq j$</li>
+  <li>数据中的信息量分布不均匀，即有些方向数据分布集中，有些方向信息量较少。</li>
+  <li>一些较少的信息量去掉以后，对原始数据的分析并不产生太大的影响</li>
+</ol>
+
+<p>由此，就考虑是否可以去掉那些包含信息量较少的数据，只保留包含信息量大的数据，这样就可以减少计算量。即抓住问题的主要矛盾，忽略次要矛盾。另外由于数据互相有相关性，数据矩阵的协方差矩阵不是对角阵。当取出了第一条信息量最大的向量，当然希望第二条次大的向量中，不要再包含第一条向量的信息。
+有了以上的考虑，同时数据协方差矩阵一定是实对称矩阵,必可相似对角化。先通过相似对角化的手段，把协方差矩阵化为对角阵。即将数据投影到另外一个坐标系，使得数据分量之间互相没有相关性( $cov(i,j)= 0 , i\neq j$ )。</p>
+
+<script type="math/tex; mode=display">
+\begin{equation}
+A=C^T \Lambda C 
+\end{equation}
+</script>
+
+<p>其中 $A$ 为原数据的协方差矩阵，是对角阵；$C$ 为正交矩阵；$\Lambda$ 为对角阵，即</p>
+
+<script type="math/tex; mode=display">
+\begin{align*}
+   & A=\left(  \begin{array}{cccc}
+      cov(1,1) & cov(1,2) & \cdots & cov(1,n) \\
+      cov(2,1) & cov(2,2) & \cdots & cov(2,n) \\
+      \vdots &   & \ddots & \vdots \\
+      cov(n,1) & cov(n,2) & \cdots & cov(n,n) \\
+      \end{array}      \right) \\
+  &    C^T C= I \\
+ & \\
+
+&    \Lambda=\left(   \begin{array}{cccc}
+      \lambda_1 & 0 & \cdots & 0 \\
+       0 & \lambda_2 & \cdots & 0 \\
+       \vdots &   & \ddots & \vdots \\
+       0 & 0 & \cdots & \lambda_n \\
+      \end{array}\right)
+\end{align*}
+</script>
+
+<p>经过这个变换就可以看出来，协方差矩阵的特征值其实就是每一维数据的方差。而特征值，即方差代表了数据所包含的信息量。所以把特征值排序后，就可以知道在这个坐标系下，每一维数据所包含的信息量大小。我们只需要取出分析所需要的数据量，其余分量可以丢弃，从而在损失较小精度的情况下，减少计算量，提高计算速度。</p>
+
+<h3 id="section-2">实验过程</h3>
+
+<h5 id="section-3">数据读取</h5>
+<p>这里使用的人脸数据库共有$N=150$张人脸图像，分辨率为$M\times M=80 \times 80$，以$FERET-XXX.tif$命名。由于PCA中，每个人脸图像是以一个列向量的形式存在，所以需要将这每个图像重构成列向量。在后续的算法中，需要将整体人脸零均值化，所以还需要记录下来所有人的平均脸。matlab 代码如下：</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+<span class="line-number">4</span>
+<span class="line-number">5</span>
+<span class="line-number">6</span>
+<span class="line-number">7</span>
+<span class="line-number">8</span>
+<span class="line-number">9</span>
+<span class="line-number">10</span>
+<span class="line-number">11</span>
+<span class="line-number">12</span>
+<span class="line-number">13</span>
+</pre></td><td class="code"><pre><code class="matlab"><span class="line"><span class="n">file</span><span class="p">=</span><span class="s">&#39;FERET-&#39;</span><span class="p">;</span>
+</span><span class="line"><span class="n">N</span><span class="p">=</span>150<span class="p">;</span>
+</span><span class="line"><span class="n">M</span><span class="p">=</span>80<span class="p">;</span>
+</span><span class="line"><span class="n">Image</span><span class="p">=</span><span class="nb">zeros</span><span class="p">(</span><span class="n">M</span><span class="o">*</span><span class="n">M</span><span class="p">,</span><span class="n">N</span><span class="p">);</span>
+</span><span class="line">
+</span><span class="line"><span class="n">average</span><span class="p">=</span><span class="nb">zeros</span><span class="p">(</span><span class="n">M</span><span class="o">*</span><span class="n">M</span><span class="p">,</span>1<span class="p">);</span>
+</span><span class="line"><span class="c">% read face image</span>
+</span><span class="line"><span class="k">for</span> <span class="nb">i</span> <span class="p">=</span> 1<span class="p">:</span><span class="n">N</span>
+</span><span class="line">   <span class="n">t</span><span class="p">=</span><span class="n">imread</span><span class="p">([</span><span class="n">file</span><span class="p">,</span><span class="n">num2str</span><span class="p">(</span><span class="nb">i</span><span class="p">,</span><span class="s">&#39;%03d&#39;</span><span class="p">),</span><span class="s">&#39;.tif&#39;</span><span class="p">]);</span>
+</span><span class="line">   <span class="n">t</span><span class="p">=</span><span class="nb">reshape</span><span class="p">(</span><span class="n">t</span><span class="p">,</span><span class="n">M</span><span class="o">*</span><span class="n">M</span><span class="p">,</span>1<span class="p">);</span>
+</span><span class="line">   <span class="n">Image</span><span class="p">(:,</span><span class="nb">i</span><span class="p">)=</span><span class="n">t</span><span class="p">;</span>
+</span><span class="line">   <span class="n">average</span><span class="p">=</span><span class="n">average</span><span class="o">+</span><span class="n">Image</span><span class="p">(:,</span><span class="nb">i</span><span class="p">);</span>
+</span><span class="line"><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<h5 id="section-4">数据预处理</h5>
+
+<p>在读取完所有人脸数据以后，需要把整体数据零均值化，即每个人脸向量减去平均脸的向量。这样，对于PCA来说，我们得到了一组零均值的输入数据点。之后我们求出这组数据的协方差矩阵的特征值和特征向量。由于 $Image_{M^2\times N}$ 的维数很大所以求解特征值十分消耗时间。由线性代数的知识有：</p>
+
+<script type="math/tex; mode=display">
+\begin{equation}
+r(A_{m \times n}) \leq min \{ m,n \}
+\end{equation}
+</script>
+
+<p>所以它的秩很小，即不为零的特征根很少($r \leq N$)。于是先求出 <script type="math/tex">Image^ T Image</script> 这个维数较小的矩阵的所有特征值和特征向量 <script type="math/tex"> V_{N \times N} </script>，再通过 <script type="math/tex"> U_{M^ 2 \times N}=Image \times V </script>,即可求出原矩阵 <script type="math/tex">ImageImage^ T </script> 的特征向量。通过特征值我们可以看出来，大量的特征集中在很少的几个特征值上。而大部分特征值都很小，表示了他们携带的数据特征很小。把这些特征向量规范后以后，这些单位特征向量可以作为一组基底张成一个空间，即是特征脸方法中的特征空间，最后，把原图像向量向这个特征空间中投影，即可以得到我们所需的特征脸。</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+<span class="line-number">4</span>
+<span class="line-number">5</span>
+<span class="line-number">6</span>
+<span class="line-number">7</span>
+<span class="line-number">8</span>
+<span class="line-number">9</span>
+<span class="line-number">10</span>
+<span class="line-number">11</span>
+<span class="line-number">12</span>
+<span class="line-number">13</span>
+<span class="line-number">14</span>
+<span class="line-number">15</span>
+<span class="line-number">16</span>
+</pre></td><td class="code"><pre><code class="matlab"><span class="line"><span class="c">% zero-mean</span>
+</span><span class="line"><span class="n">average</span><span class="p">=</span><span class="n">average</span><span class="o">/</span><span class="n">N</span><span class="p">;</span>
+</span><span class="line"><span class="k">for</span> <span class="nb">i</span> <span class="p">=</span> 1<span class="p">:</span><span class="n">N</span>
+</span><span class="line">    <span class="n">Image</span><span class="p">(:,</span><span class="nb">i</span><span class="p">)=</span><span class="n">Image</span><span class="p">(:,</span><span class="nb">i</span><span class="p">)</span><span class="o">-</span><span class="n">average</span><span class="p">;</span>
+</span><span class="line"><span class="k">end</span>
+</span><span class="line">
+</span><span class="line"><span class="c">% Calc the vector</span>
+</span><span class="line"><span class="p">[</span><span class="n">V</span><span class="p">,</span><span class="n">D</span><span class="p">]=</span><span class="n">eig</span><span class="p">(</span><span class="n">Image</span><span class="o">&#39;*</span><span class="n">Image</span><span class="p">);</span>
+</span><span class="line"><span class="n">D</span><span class="p">=</span><span class="nb">diag</span><span class="p">(</span><span class="n">D</span><span class="p">);</span>
+</span><span class="line"><span class="n">figure</span><span class="p">(</span>1<span class="p">);</span>
+</span><span class="line"><span class="n">bar</span><span class="p">(</span><span class="n">D</span><span class="p">)</span>
+</span><span class="line"><span class="n">sum_d</span><span class="p">=</span><span class="n">sum</span><span class="p">(</span><span class="n">D</span><span class="p">);</span>
+</span><span class="line"><span class="n">U</span><span class="p">=</span><span class="n">Image</span><span class="o">*</span><span class="n">V</span><span class="p">;</span>
+</span><span class="line"><span class="k">for</span> <span class="nb">i</span> <span class="p">=</span> 1<span class="p">:</span><span class="n">N</span>
+</span><span class="line">    <span class="n">U</span><span class="p">(:,</span><span class="nb">i</span><span class="p">)=</span><span class="n">U</span><span class="p">(:,</span><span class="nb">i</span><span class="p">)</span><span class="o">/</span><span class="nb">sqrt</span><span class="p">(</span><span class="n">U</span><span class="p">(:,</span><span class="nb">i</span><span class="p">)</span><span class="o">&#39;*</span><span class="n">U</span><span class="p">(:,</span><span class="nb">i</span><span class="p">));</span>
+</span><span class="line"><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<h5 id="section-5">人脸重建</h5>
+
+<p>人脸重建实验的目的是为了测试特征脸所携带的人脸信息。由于特征值的大小代表了其所对应的特征向量所携带的信息量，通过将最大的一些特征值对应的特征向量叠加就可以获得原图像中的大部分信息量，也就是所谓的主成分。这里先将所有特征值按从大到小的顺序排列。通过叠加特征向量的方式，就可以得到一组对原人脸的逼近特征脸。而将特征值加起来，正是总的信息量，也可以求出重构误差。</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+<span class="line-number">4</span>
+<span class="line-number">5</span>
+<span class="line-number">6</span>
+<span class="line-number">7</span>
+<span class="line-number">8</span>
+<span class="line-number">9</span>
+<span class="line-number">10</span>
+<span class="line-number">11</span>
+<span class="line-number">12</span>
+<span class="line-number">13</span>
+<span class="line-number">14</span>
+<span class="line-number">15</span>
+<span class="line-number">16</span>
+<span class="line-number">17</span>
+</pre></td><td class="code"><pre><code class="matlab"><span class="line"><span class="c">%% Form a face</span>
+</span><span class="line"><span class="n">selected</span><span class="p">=</span>131<span class="p">;</span>
+</span><span class="line"><span class="n">subplot</span><span class="p">(</span>1<span class="p">,</span>2<span class="p">,</span>1<span class="p">);</span>
+</span><span class="line"><span class="n">imshow</span><span class="p">(</span><span class="n">uint8</span><span class="p">(</span><span class="nb">reshape</span><span class="p">(</span> <span class="n">Image</span><span class="p">(:,</span><span class="n">selected</span><span class="p">)</span><span class="o">+</span><span class="n">average</span><span class="p">,</span><span class="n">M</span><span class="p">,</span><span class="n">M</span><span class="p">)))</span>
+</span><span class="line"><span class="n">subplot</span><span class="p">(</span>1<span class="p">,</span>2<span class="p">,</span>2<span class="p">);</span>
+</span><span class="line"><span class="n">k</span><span class="p">=</span>100<span class="p">;</span>
+</span><span class="line">
+</span><span class="line"><span class="n">p</span><span class="p">=</span><span class="nb">zeros</span><span class="p">(</span><span class="n">M</span><span class="o">*</span><span class="n">M</span><span class="p">,</span>1<span class="p">);</span>
+</span><span class="line"><span class="n">err</span><span class="p">=</span>0<span class="p">;</span>
+</span><span class="line"><span class="k">for</span> <span class="nb">i</span><span class="p">=</span><span class="nb">fliplr</span><span class="p">(</span><span class="n">N</span><span class="o">-</span><span class="n">k</span><span class="p">:</span><span class="n">N</span><span class="p">)</span>
+</span><span class="line">     <span class="n">w</span><span class="p">=</span><span class="n">U</span><span class="p">(:,</span><span class="nb">i</span><span class="p">)</span><span class="o">&#39;*</span><span class="n">Image</span><span class="p">(:,</span><span class="n">selected</span><span class="p">);</span>
+</span><span class="line">     <span class="n">err</span><span class="p">=</span><span class="n">err</span><span class="o">+</span><span class="n">D</span><span class="p">(</span><span class="nb">i</span><span class="p">);</span>
+</span><span class="line">     1<span class="o">-</span><span class="n">err</span><span class="o">/</span><span class="n">sum_d</span>
+</span><span class="line">     <span class="n">p</span><span class="p">=</span><span class="n">p</span><span class="o">+</span><span class="n">w</span><span class="o">*</span><span class="n">U</span><span class="p">(:,</span><span class="nb">i</span><span class="p">);</span>
+</span><span class="line">     <span class="n">imshow</span><span class="p">(</span><span class="n">uint8</span><span class="p">(</span><span class="nb">reshape</span><span class="p">(</span><span class="n">p</span><span class="o">+</span><span class="n">average</span><span class="p">,</span><span class="n">M</span><span class="p">,</span><span class="n">M</span><span class="p">)))</span>
+</span><span class="line">     <span class="n">pause</span><span class="p">(</span>0<span class="p">.</span>2<span class="p">)</span>
+</span><span class="line"><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<h5 id="section-6">人脸识别</h5>
+
+<p>人脸识别是先给出一张待识别的图像，在已经训练好的人脸特征空间中，计算待识别图像与已有的人脸之间的距离。当这个距离小于一定程度时，就认为该图像是一张人脸图像，否则就不是人脸图像。到这一步，属于人脸检测的过程。要识别出它是哪一张人脸，就需要进一步降低距离阈值。这两个阈值由实验测试出来。由此，实验过程为：
+设:</p>
+
+<script type="math/tex; mode=display">
+\begin{equation}
+dis(x)=\min \{\|x-I_i \| \} ,i=1,2 \ldots n
+\end{equation}
+</script>
+
+<p>其中$x_{M^2 \times 1}$表示待识别的人脸向量，$I_i$表示第$i$个已知人脸图像。则检测结果如下：</p>
+
+<script type="math/tex; mode=display">
+\begin{align*}
+result= \begin{cases}
+   NotFace & dis(x)> T_f \\
+   FaceNotMeet & T_r \leq dis(x) \leq T_f\\
+   FaceMeet & 0\leq dis(x) <T_r
+   \end{cases}
+\end{align*}
+</script>
+
+<p>其中$T_r$和$T_f$为判断阈值且大于$0$。在实际实验中，$T_r$可以省略，因为如果未知人脸是见过的，那么它到自身的距离一定是最小的（趋于零）。
+由于按照Equ(2)直接计算距离十分耗时间，在这里PCA降维的意义就显现了出来。我们取前$k$个特征向量$(k \leq N)$作为投影坐标系，通过比较待定人脸向量在这个坐标系上的投影权值，与原人脸图像组的投影权值，即可计算出距离，即:</p>
+
+<script type="math/tex; mode=display">
+\begin{equation}
+dis(x)=\min \{\|W_x-W_{Ij} \| \} , j=1,2 \ldots n
+\end{equation}
+</script>
+
+<p>其中 <script type="math/tex"> W_x=W_{k\times 1} </script>，为待识别图像的权值向量, <script type="math/tex">W_{Ij} </script> 为第 <script type="math/tex">j </script> 个原图像的权值向量。由此可以看出，每次计算距离的范围从 $M^2$ 下降到了 $k$ ，使得计算量极大的缩减了，从而提高了运算速度。这正是使用<code>PCA</code>方法降维的目的。MATLAB代码如下：</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+<span class="line-number">4</span>
+<span class="line-number">5</span>
+<span class="line-number">6</span>
+<span class="line-number">7</span>
+<span class="line-number">8</span>
+<span class="line-number">9</span>
+<span class="line-number">10</span>
+<span class="line-number">11</span>
+<span class="line-number">12</span>
+<span class="line-number">13</span>
+<span class="line-number">14</span>
+<span class="line-number">15</span>
+<span class="line-number">16</span>
+<span class="line-number">17</span>
+<span class="line-number">18</span>
+<span class="line-number">19</span>
+<span class="line-number">20</span>
+<span class="line-number">21</span>
+<span class="line-number">22</span>
+<span class="line-number">23</span>
+<span class="line-number">24</span>
+<span class="line-number">25</span>
+<span class="line-number">26</span>
+<span class="line-number">27</span>
+<span class="line-number">28</span>
+<span class="line-number">29</span>
+<span class="line-number">30</span>
+<span class="line-number">31</span>
+<span class="line-number">32</span>
+<span class="line-number">33</span>
+<span class="line-number">34</span>
+<span class="line-number">35</span>
+<span class="line-number">36</span>
+<span class="line-number">37</span>
+<span class="line-number">38</span>
+<span class="line-number">39</span>
+</pre></td><td class="code"><pre><code class="matlab"><span class="line"><span class="c">%% Detect a face</span>
+</span><span class="line"><span class="n">unknown</span><span class="p">=</span>201<span class="p">;</span>
+</span><span class="line"><span class="n">k</span><span class="p">=</span>140<span class="p">;</span>
+</span><span class="line"><span class="n">w</span><span class="p">=</span><span class="nb">zeros</span><span class="p">(</span><span class="n">k</span><span class="p">,</span><span class="n">N</span><span class="p">);</span>
+</span><span class="line"><span class="k">for</span> <span class="nb">i</span><span class="p">=</span>1<span class="p">:</span><span class="n">N</span>
+</span><span class="line">    <span class="k">for</span> <span class="nb">j</span><span class="p">=</span><span class="nb">fliplr</span><span class="p">(</span><span class="n">N</span><span class="o">-</span><span class="n">k</span><span class="p">:</span><span class="n">N</span><span class="p">)</span>
+</span><span class="line">        <span class="n">w</span><span class="p">(</span><span class="nb">j</span><span class="p">,</span><span class="nb">i</span><span class="p">)=</span><span class="n">U</span><span class="p">(:,</span><span class="nb">j</span><span class="p">)</span><span class="o">&#39;*</span><span class="n">Image</span><span class="p">(:,</span><span class="nb">i</span><span class="p">);</span>
+</span><span class="line">    <span class="k">end</span>
+</span><span class="line"><span class="k">end</span>
+</span><span class="line"><span class="n">subplot</span><span class="p">(</span>2<span class="p">,</span>2<span class="p">,</span>1<span class="p">);</span>
+</span><span class="line"><span class="n">t</span><span class="p">=</span><span class="n">imread</span><span class="p">([</span><span class="n">file</span><span class="p">,</span><span class="n">num2str</span><span class="p">(</span><span class="n">unknown</span><span class="p">,</span><span class="s">&#39;%03d&#39;</span><span class="p">),</span><span class="s">&#39;.tif&#39;</span><span class="p">]);</span>
+</span><span class="line"><span class="n">imshow</span><span class="p">(</span><span class="n">t</span><span class="p">);</span>
+</span><span class="line"><span class="n">t</span><span class="p">=(</span><span class="nb">reshape</span><span class="p">(</span><span class="n">t</span><span class="p">,</span><span class="n">M</span><span class="o">*</span><span class="n">M</span><span class="p">,</span>1<span class="p">));</span>
+</span><span class="line"><span class="n">t</span><span class="p">=</span><span class="n">double</span><span class="p">(</span><span class="n">t</span><span class="p">);</span>
+</span><span class="line"><span class="n">t</span><span class="p">=</span><span class="n">t</span><span class="o">-</span><span class="n">average</span><span class="p">;</span>
+</span><span class="line">
+</span><span class="line"><span class="n">wt</span><span class="p">=</span><span class="nb">zeros</span><span class="p">(</span><span class="n">k</span><span class="p">,</span>1<span class="p">);</span>
+</span><span class="line"><span class="n">p</span><span class="p">=</span><span class="nb">zeros</span><span class="p">(</span><span class="n">M</span><span class="o">*</span><span class="n">M</span><span class="p">,</span>1<span class="p">);</span>
+</span><span class="line"><span class="k">for</span> <span class="nb">j</span><span class="p">=</span><span class="nb">fliplr</span><span class="p">(</span><span class="n">N</span><span class="o">-</span><span class="n">k</span><span class="p">:</span><span class="n">N</span><span class="p">)</span>
+</span><span class="line">        <span class="n">wt</span><span class="p">(</span><span class="nb">j</span><span class="p">)=</span><span class="n">U</span><span class="p">(:,</span><span class="nb">j</span><span class="p">)</span><span class="o">&#39;*</span><span class="n">t</span><span class="p">;</span>
+</span><span class="line"><span class="k">end</span>
+</span><span class="line">
+</span><span class="line"><span class="n">index</span><span class="p">=</span>0<span class="p">;</span>
+</span><span class="line"><span class="n">e_min</span><span class="p">=</span>1000000<span class="p">;</span>
+</span><span class="line"><span class="k">for</span> <span class="nb">i</span><span class="p">=</span>1<span class="p">:</span><span class="n">N</span>
+</span><span class="line">    <span class="n">e</span><span class="p">=</span><span class="nb">sqrt</span><span class="p">((</span><span class="n">wt</span><span class="o">-</span><span class="n">w</span><span class="p">(:,</span><span class="nb">i</span><span class="p">))</span><span class="o">&#39;*</span><span class="p">(</span><span class="n">wt</span><span class="o">-</span><span class="n">w</span><span class="p">(:,</span><span class="nb">i</span><span class="p">)))</span><span class="o">/</span><span class="n">k</span><span class="p">;</span>
+</span><span class="line">
+</span><span class="line">    <span class="k">if</span><span class="p">(</span> <span class="n">e</span><span class="o">&lt;</span><span class="n">e_min</span><span class="p">)</span>
+</span><span class="line">        <span class="n">e_min</span><span class="p">=</span><span class="n">e</span>
+</span><span class="line">        <span class="n">index</span><span class="p">=</span><span class="nb">i</span><span class="p">;</span>
+</span><span class="line">    <span class="k">end</span>
+</span><span class="line"><span class="k">end</span>
+</span><span class="line">
+</span><span class="line"><span class="n">subplot</span><span class="p">(</span>2<span class="p">,</span>2<span class="p">,</span>3<span class="p">);</span>
+</span><span class="line"><span class="k">if</span><span class="p">(</span><span class="n">e_min</span><span class="o">&lt;</span>20<span class="p">)</span>
+</span><span class="line">    <span class="n">imshow</span><span class="p">(</span><span class="n">uint8</span><span class="p">(</span><span class="nb">reshape</span><span class="p">(</span> <span class="n">Image</span><span class="p">(:,</span><span class="n">index</span><span class="p">)</span><span class="o">+</span><span class="n">average</span><span class="p">,</span><span class="n">M</span><span class="p">,</span><span class="n">M</span><span class="p">)))</span>
+</span><span class="line"><span class="k">else</span>
+</span><span class="line">    <span class="n">imshow</span><span class="p">(</span><span class="n">uint8</span><span class="p">(</span><span class="nb">zeros</span><span class="p">(</span><span class="n">M</span><span class="p">,</span><span class="n">M</span><span class="p">)))</span>
+</span><span class="line"><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<h3 id="section-7">实验结果</h3>
+
+<h5 id="section-8">计算协方差矩阵的特征值</h5>
+
+<p>由下图可知，协方差矩阵的特征值分布十分不均匀。只有少量的特征值很大，大部分特征值都非常小。说明数据由少量的特征值就可以代表大部分的原数据。</p>
+
+<p><img src="/images/image/ml-1/1.png" alt="协方差矩阵的特征值直方图" /></p>
+
+<h5 id="section-9">人脸重建</h5>
+
+<p>第一幅是人脸重建过程的开始，可以看出来左右两边的图像还相差很远。从第二幅可以看出来，特征脸叠加出来的人脸和原人脸已经十分的相似。同理之后的两图也展现了同样的过程。由此可以知道，通过抽取大特征值对应的特征向量的确可以得到原数据的主要成分。而重构误差也很小。</p>
+
+<p><img src="/images/image/ml-1/2.png" alt="人脸重建1：还不像" /></p>
+
+<p><img src="/images/image/ml-1/3.png" alt="人脸重建1：很像" />
+<img src="/images/image/ml-1/4.png" alt="人脸重建2：还不像" />
+<img src="/images/image/ml-1/5.png" alt="人脸重建2：很像" /></p>
+
+<h5 id="section-10">人脸识别</h5>
+
+<p>如果见过的话，直接给出那个人，否则的话，就给出最相近的人，如下图
+<img src="/images/image/ml-1/8.png" alt="见过的" />
+<img src="/images/image/ml-1/7.png" alt="没见过，但是很像的" />
+<img src="/images/image/ml-1/6.png" alt="没见过，但是很像的" /></p>
+
+<p>由此可知,<code>PCA</code> 方法成功的应用在了人脸识别上。同时该结果也验证了我的实现过程的正确性。</p>
+
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2012/07/crossgdb/">为ARM平台交叉编译GDB</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2012-07-30T20:53:00+08:00" pubdate data-updated="true">Jul 30<span>th</span>, 2012</time>
+        
+         | <a href="/blog/2012/07/crossgdb/#disqus_thread">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>为了方便调试嵌入式程序，需要移植一份<em>GDB</em>到ARM平台。</p>
+
+<h2 id="gdb">GDB之前需要先准备的一个库</h2>
+
+<p>编译ＧＤＢ时首先会提示一个错误，就是缺少一个库:<a href="http://en.wikipedia.org/wiki/Ncurses">ncurses</a>。编译的时候会需要它的一些头文件和库。所以还需要在<a href="http://www.gnu.org/software/ncurses/">这里</a>下载一份它的源码。下载好后，解压到需要的路径。为了便于区分，可以在源代码文件夹中，新建一个文件夹<em>release</em>来放编译完成后的文件。进入源码文件夹，执行以下命令，即可完成编译工作：</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+</pre></td><td class="code"><pre><code class="bash"><span class="line">./configure --host<span class="o">=</span>arm-none-linux-gnueabi  --prefix<span class="o">=</span><span class="s2">&quot;$PWD/release&quot;</span> --without-ada --enable-termcap --with-shared
+</span><span class="line">make
+</span><span class="line">make install
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<h4 id="section">解释</h4>
+
+<ol>
+  <li>
+    <p><em>–host</em> 指定了这份源码将要编译到哪个平台上，<em>configure</em>会按照这个参数来寻找编译器，比如我的编译器是<em>arm-none-linux-gnueabi-gcc</em>，所以我就写<em>arm-none-linux-gnueabi</em></p>
+  </li>
+  <li>
+    <p><em>–prefix</em> 指定了编译好的文件将要存放的地方</p>
+  </li>
+  <li>
+    <p>编译GDB的时候提示缺少的库就是<em>termcap</em>，所以需要<em>–enable-termcap</em> 。 </p>
+  </li>
+  <li>
+    <p>其余的选项可以通过<em>./configure –help</em>命令来查找，按需分配。</p>
+  </li>
+</ol>
+
+<h2 id="gdb-1">编译GDB</h2>
+
+<p>在<a href="http://sources.redhat.com/gdb/download/">这里</a>下载一份GDB的源码准备交叉编译。虽然最新版本是7.4.1，但是我这里一直没有成功编译过去，于是选择了低一点的版本7.3.1。下载后解压到需要的路径。同样为了方便起见我在源代码目录里新建了<em>release</em>文件夹来存放结果。之后使用如下命令来进行编译：</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+</pre></td><td class="code"><pre><code class="bash"><span class="line">/configure --host<span class="o">=</span>arm-none-linux-gnueabi --enable-shared --prefix<span class="o">=</span><span class="s2">&quot;$PWD/release&quot;</span> --without-x --disable-gdbtk --without-included-regex --without-included-gettext --disable-tui <span class="nv">LDFLAGS</span><span class="o">=</span><span class="s2">&quot;-L/home/ghdawn/develop/ncurses-5.9/release/lib&quot;</span> <span class="nv">CPPFLAGS</span><span class="o">=</span><span class="s2">&quot;-I/home/ghdawn/develop/ncurses-5.9/release/include&quot;</span>
+</span><span class="line">make
+</span><span class="line">make install
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<h4 id="section-1">解释</h4>
+
+<ol>
+  <li>
+    <p>前三个参数和上面是一样的。</p>
+  </li>
+  <li>
+    <p>在编译的过程中，会出现好多好多的编译错误，无非就是缺少这个缺少那个。而正好我所需要的功能就是最简单的调试，所以其他的我就都不要了。之后的所有<em>without</em>和<em>disable</em>就是每次编译错误后，我关掉的功能。可以察看<em>./configure –help</em>命令中的解释</p>
+  </li>
+  <li>
+    <p>最后两个指定了<em>ncurses</em>的库和头文件存放的位置，指定给GCC</p>
+  </li>
+</ol>
+
+<p>经过这几步以后，就会在<em>release/bin</em>文件夹下生成所需要的<em>gdb</em>文件，把这个文件复制到开发板上就可以运行了。</p>
+
+<h3 id="section-2">注意</h3>
+
+<p>交叉编译的时候会出现这样一个问题：交叉编译器使用的<em>GLIBC</em>版本高于嵌入式Linux里的版本，这会导致可执行文件在开发板里无法运行。而给开发板里更新<em>GLIBC</em>是一个十分困难的事情，目前我没有找到相关的资料，所以最好还是选择和开发板匹配的交叉编译器。</p>
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2012/06/drawing/">我的木碗中的宇宙</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2012-06-26T12:57:00+08:00" pubdate data-updated="true">Jun 26<span>th</span>, 2012</time>
+        
+         | <a href="/blog/2012/06/drawing/#disqus_thread">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>某天上网，突然看到豆瓣的推荐里有<a href="http://www.douban.com/group/topic/28764390/">这样</a>一篇文章，讲了在碗里画一个很好看的宇宙的方法。我感觉很好看，就想做一个给女朋友。</p>
+
+<p>先在淘宝上买一些设备：<a href="http://trade.taobao.com/trade/detail/tradeSnap.htm?tradeID=169551961541722">木碗</a>，<a href="http://trade.taobao.com/trade/detail/tradeSnap.htm?tradeID=133675131561722">颜料</a>,会送颜料盘和画笔,和<a href="http://trade.taobao.com/trade/detail/tradeSnap.htm?tradeID=169545961751722">水晶滴胶</a>,会送量杯。</p>
+
+<p>我是参照网上的一副银河系想象图来画的：
+<img src="http://scitech.people.com.cn/mediafile/200901/08/F200901080855162169116821.jpg" alt="银河系图" />
+###涂背景层
+首先用黑色的颜料涂满碗内部，作为宇宙的背景，然后用牙签点着白色的颜料来画星星。这里最好用水稀释一点儿，一点就够了。直接图颜料会变得和山一样，不好看，多了以后颜色会太稀。等颜料完全干了就可以灌水晶胶了。</p>
+
+<p>水晶胶可以滴的厚一点，这样后面的立体感才会强。但是太厚的话在胶变干的时候会产生很大的热量，据商家说会对颜料有损坏，所以说不能滴的太厚。这个自己斟酌。
+大约二十小时左右胶会干透，变硬。效果如图：
+<img src="/images/image/WP_000194.jpg" alt="背景层" /></p>
+
+<h3 id="section">底色</h3>
+<p>首先选择银核的位置，用白色-黄色-肉色的顺序向外渐变的画。白色是主要的颜色，黄色的作用是让银核变得非常亮，肉色只是为了让边沿变暗，以和紫色相接。<br />
+涂好银核后，从边界开始向外刷底色紫。我的涂法是在画笔的一边涂上紫色，中间沾一点白色，然后一圈一圈的涂，让颜色尽量淡一点。这样底层的星星就变成有紫色有白色的了。</p>
+
+<p>最后还是等颜色干了上胶。</p>
+
+<p><img src="/images/image/WP_000200.jpg" alt="第二层的效果" /></p>
+
+<h3 id="section-1">主颜色层</h3>
+<p>主颜色层由蓝色，紫色组成。不过还是先涂一下白色的银核，可以淡一点，透过这一层还能看到下一层的银核。</p>
+
+<p>画好后，还是从中心向外涂色。先在画笔的一边上沾一些紫色，涂几圈。这时候不用洗掉，在灵另一边直接涂上蓝色，让笔上同时有两种颜色，接着涂几圈。最后以蓝色为主收场。不过颜色只要一点就好，让水多一些。颜料太浓会很难看，比如： <br />
+<img src="/images/image/WP_000211.jpg" alt="颜色浓了点" /></p>
+
+<p>这样涂好了以后，在画笔上沾很多水，从中心用水涂出去，把颜色混合起来，这样就会产生渐变色的效果。同时颜色变淡以后，就可以看到下一次的星星有很多的颜色。</p>
+
+<p>然后上胶覆盖了。</p>
+
+<h5 id="section-2">注意！</h5>
+<p>渐变色是需要混合的，但是不能用水把两中颜色调和在一起，这样只会产生一种新的颜色，而不是两个颜色的渐变。渐变色就需要在画笔上同时涂一些颜色，然后混合在一起，反复刷上去。</p>
+
+<p><img src="/images/image/WP_000220.jpg" alt="半成品" /></p>
+
+<h3 id="section-3">最后一次上色</h3>
+
+<p>这样的颜色还是有一些浓，所以最后一层上用非常非常淡的紫色和蓝色加一个虚无缥缈的雾层，当然要把银核的位置空过去。然后用牙签点上白色的旋转的旋臂，从小到大的旋转起来。</p>
+
+<p><img src="/images/image/WP_000226.jpg" alt="最后一层" /></p>
+
+<p>我没有加夜光层，因为我买来的夜光涂料颜色一点也不好看，涂上只会让效果变差。</p>
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2012/05/android-arduino/">使用单片机Arduino(AVR)与Android设备通讯</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2012-05-04T21:57:00+08:00" pubdate data-updated="true">May 4<span>th</span>, 2012</time>
+        
+         | <a href="/blog/2012/05/android-arduino/#disqus_thread">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><h3 id="section">简述需求</h3>
+<p>现在的Android设备，像手机，平板等，有很多的资源，比如照相机，音箱等,同时CPU已经很好，运算能力很强。功能十分丰富，但是必须得人手操控才能使用。这么丰富的资源，如果能自动做点事情，或者作为一个控制核心控制其它的东西就更好了，所以Google官方提供了一种方法，将Android设备按附件模式与一个有<a href="http://baike.baidu.com/view/1402520.htm?fromTaglist">USB Host</a>的设备相连，两者通过USB接口相连传输数据，从而实现通过单片机操控手机。（<a href="http://zh.wikipedia.org/zh-cn/USB">USB</a>是主从结构的总线，这里要求Android设备作为从机，单片机作为主机，而一般的开发板附带的usb口都是client，如果需要做这个实验，则需要买<a href="http://item.taobao.com/item.htm?id=12892248805">有USB Host的开发板</a>，或者买专门的 USB host shield模块放在开发板上。）</p>
+
+<p>在这里，Google要求Android平台的版本至少为2.3.3，单片机要求实现了<em>Android Accessory Protocol</em>协议。其中Google官方支持了一个开源硬件平台<a href="http://www.arduino.cc/">Arduino</a>。现阶段，Android只能支持一个USB设备，不过能满足大部分需求了。</p>
+
+<p>Google官方提供了一个简洁的教程（<a href="http://developer.android.com/guide/topics/usb/adk.html">Arduino</a>部分，与<a href="http://developer.android.com/guide/topics/usb/accessory.html">Android</a>部分，以及一份代码示例（包括Android与Arduino部分，在对应的网页里下）。但是教程过于简洁而示例过于复杂：直接按照教程做，很多地方无从下手。按照代码改，代码结构又过于复杂，依然不好下手。于是我在这里耽误了一天多的时间。</p>
+
+<h3 id="arduino">Arduino部分</h3>
+<ol>
+  <li>在<a href="http://www.arduino.cc/">Arduino</a>下载最新的IDE，它是用JAVA开发的，跨平台。同时几乎所有底层的驱动全部写好，开发的时候只要调用即可，完全感觉不到是在开发单片机，实在很爽。</li>
+  <li>下载<a href="https://dl-ssl.google.com/android/adk/adk_release_0512.zip">Google 提供的协议实现代码</a>。解压出来后，将<em>firmware/arduino_libs/</em>下的<em>AndroidAccessory</em>和<em>USB_Host_Shield</em>复制到<em>Arduino IDE</em>的<em>libraries</em>目录下。这两个分别是Android附件协议的实现和USB的驱动。</li>
+  <li>如果按照教程，现在只需要打开<em>firmware/demokit/demokit.pde</em>并烧写进开发板，就可以和教程配套的Android程序进行通讯并控制电机之类的驱动了。</li>
+  <li>但是自己做开发的话就不要用上面的代码了，太复杂太麻烦。在IDE里新建一个文件，包含<em>USB</em>驱动和<em>AndroidAccessory</em>的头文件，并新建一个<em>AndroidAccessory</em>对象，比如叫acc。在<em>setup()</em>函数中，调用acc.powerOn()方法，即可开始试探链接Android设备。</li>
+  <li>在我的应用中，我需要做的是把Android设备中计算的结果以串口的形式发给飞控模块，所以我只需要不断的把Android设备发送来的数据发给串口，再把串口接受到的数据发给Android设备。于是，代码如下：</li>
+</ol>
+
+<div class="bogus-wrapper"><notextile><figure class="code"> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+<span class="line-number">4</span>
+<span class="line-number">5</span>
+<span class="line-number">6</span>
+<span class="line-number">7</span>
+<span class="line-number">8</span>
+<span class="line-number">9</span>
+<span class="line-number">10</span>
+<span class="line-number">11</span>
+<span class="line-number">12</span>
+<span class="line-number">13</span>
+<span class="line-number">14</span>
+<span class="line-number">15</span>
+<span class="line-number">16</span>
+<span class="line-number">17</span>
+<span class="line-number">18</span>
+<span class="line-number">19</span>
+<span class="line-number">20</span>
+<span class="line-number">21</span>
+<span class="line-number">22</span>
+<span class="line-number">23</span>
+<span class="line-number">24</span>
+<span class="line-number">25</span>
+<span class="line-number">26</span>
+<span class="line-number">27</span>
+<span class="line-number">28</span>
+<span class="line-number">29</span>
+<span class="line-number">30</span>
+<span class="line-number">31</span>
+<span class="line-number">32</span>
+<span class="line-number">33</span>
+<span class="line-number">34</span>
+<span class="line-number">35</span>
+<span class="line-number">36</span>
+<span class="line-number">37</span>
+<span class="line-number">38</span>
+<span class="line-number">39</span>
+<span class="line-number">40</span>
+<span class="line-number">41</span>
+</pre></td><td class="code"><pre><code class="cpp"><span class="line"><span class="cp">#include &lt;Usb.h&gt;</span>
+</span><span class="line"><span class="cp">#include &lt;AndroidAccessory.h&gt;</span>
+</span><span class="line">
+</span><span class="line">
+</span><span class="line">
+</span><span class="line"><span class="n">AndroidAccessory</span> <span class="n">acc</span><span class="p">(</span><span class="s">&quot;BuaaITR&quot;</span><span class="p">,</span>
+</span><span class="line">		     <span class="s">&quot;Demo&quot;</span><span class="p">,</span>
+</span><span class="line">		     <span class="s">&quot;DemoKit Arduino Board&quot;</span><span class="p">,</span>
+</span><span class="line">		     <span class="s">&quot;1.0&quot;</span><span class="p">,</span>
+</span><span class="line">		     <span class="s">&quot;http://www.android.com&quot;</span><span class="p">,</span>
+</span><span class="line">		     <span class="s">&quot;0000000012345678&quot;</span><span class="p">);</span>
+</span><span class="line">
+</span><span class="line">
+</span><span class="line"><span class="kt">void</span> <span class="n">setup</span><span class="p">()</span>
+</span><span class="line"><span class="p">{</span>
+</span><span class="line">	<span class="n">Serial</span><span class="p">.</span><span class="n">begin</span><span class="p">(</span><span class="mi">115200</span><span class="p">);</span>
+</span><span class="line">	<span class="n">Serial</span><span class="p">.</span><span class="n">print</span><span class="p">(</span><span class="s">&quot;</span><span class="se">\r\n</span><span class="s">Start&quot;</span><span class="p">);</span>
+</span><span class="line">
+</span><span class="line">	<span class="n">acc</span><span class="p">.</span><span class="n">powerOn</span><span class="p">();</span>
+</span><span class="line"><span class="p">}</span>
+</span><span class="line">
+</span><span class="line"><span class="kt">void</span> <span class="n">loop</span><span class="p">()</span>
+</span><span class="line"><span class="p">{</span>
+</span><span class="line">	
+</span><span class="line">	<span class="n">byte</span> <span class="n">msg</span><span class="p">[</span><span class="mi">1024</span><span class="p">];</span>
+</span><span class="line">	
+</span><span class="line">	<span class="k">if</span> <span class="p">(</span><span class="n">acc</span><span class="p">.</span><span class="n">isConnected</span><span class="p">())</span>
+</span><span class="line">        <span class="p">{</span>
+</span><span class="line">                <span class="k">while</span><span class="p">(</span><span class="n">Serial</span><span class="p">.</span><span class="n">available</span><span class="p">()</span><span class="o">&gt;</span><span class="mi">0</span><span class="p">)</span>
+</span><span class="line">                <span class="p">{</span>
+</span><span class="line">                  <span class="n">msg</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">=</span><span class="n">Serial</span><span class="p">.</span><span class="n">read</span><span class="p">();</span>
+</span><span class="line">                  <span class="n">acc</span><span class="p">.</span><span class="n">write</span><span class="p">(</span><span class="n">msg</span><span class="p">,</span><span class="mi">1</span><span class="p">);</span>
+</span><span class="line">                <span class="p">}</span>
+</span><span class="line">                <span class="kt">int</span> <span class="n">len</span> <span class="o">=</span> <span class="n">acc</span><span class="p">.</span><span class="n">read</span><span class="p">(</span><span class="n">msg</span><span class="p">,</span> <span class="k">sizeof</span><span class="p">(</span><span class="n">msg</span><span class="p">),</span> <span class="mi">1</span><span class="p">);</span>
+</span><span class="line">                <span class="k">if</span> <span class="p">(</span><span class="n">len</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">)</span>
+</span><span class="line">                <span class="p">{</span>
+</span><span class="line">                  <span class="n">Serial</span><span class="p">.</span><span class="n">write</span><span class="p">(</span><span class="n">msg</span><span class="p">,</span><span class="n">len</span><span class="p">);</span>
+</span><span class="line">                <span class="p">}</span>
+</span><span class="line">        <span class="p">}</span>
+</span><span class="line">	<span class="n">delay</span><span class="p">(</span><span class="mi">200</span><span class="p">);</span>
+</span><span class="line"><span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<h5 id="section-1">一些解释</h5>
+<p>按照这样的方法，单片机这部分就很容易能搞定了，只要Android程序写好了，两个就能匹配工作了。</p>
+
+<ul>
+  <li>Arduino简化了开发流程，去掉了主函数，只留下 <em>setup()</em>作为初始化，<em>loop()</em>不断循环。所以把初始化的部分写在<em>setup()</em>里，工作的部分写在<em>loop()</em>中。  </li>
+  <li><em>AndroidAccessory</em>对象的构造函数有6个参数，分别为：设备制造商，设备模型，设备描述，设备版本，网址和序列号。其中制造商，模型和版本必须与Android设备上的软件匹配。即开发Android设备上运行的软件时，也需要制定这三个参数，只有这三个参数相同的设备才能互相连接。  </li>
+  <li>调用<em>acc.powerOn();</em>来使单片机开始工作  </li>
+  <li>单片机与Android设备不一定会匹配，所以需要<em>acc.isConnected()</em>判断是否已经成功的连接。  </li>
+  <li>读写方法分别为<code>acc.write(char* msg,int length)</code> 和<code>acc.read(char* msg,int length ,int nakLimit)</code>。其中msg和length分别为存放数据的数组和期望读写的数据长度。读取函数的第三个参数<em>nakLimit</em>，目前我在网上还没找到有人知道是做什么用的，反正设为1就能用。   </li>
+</ul>
+
+<h3 id="android">Android部分</h3>
+<p>首先声明，这里我是参考了Google的官方文档，同时在Google给的示例代码中改成的，代码已经十分精简，可以直接修改以完成所需的任务。如果有时间，完全可以读Google的代码，从那一大堆代码里修改。<br />
+操作USB的时候，SDK版本为<em>2.3.3，即API 10</em>时是一种操作，版本为那之上的是另一种操作。<em>API 10</em>需要装<a href="http://code.google.com/android/add-ons/google-apis/installing.html">add-on library</a>，我用的是<em>API 10</em>。装好之后，在项目属性中，点选<em>Android</em>，把<em>Build Target</em>改为<em>Google APIs</em>。</p>
+
+<p>要想使<em>Accessory</em>工作，需要在<em>AndroidManifest.xml</em>中声明支持<em>UsbManager.ACTION_USB_ACCESSORY_DETACHED</em>，并添加一个过滤器，来过滤设备。如下：</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+<span class="line-number">4</span>
+<span class="line-number">5</span>
+<span class="line-number">6</span>
+<span class="line-number">7</span>
+<span class="line-number">8</span>
+<span class="line-number">9</span>
+<span class="line-number">10</span>
+<span class="line-number">11</span>
+<span class="line-number">12</span>
+<span class="line-number">13</span>
+<span class="line-number">14</span>
+<span class="line-number">15</span>
+<span class="line-number">16</span>
+<span class="line-number">17</span>
+<span class="line-number">18</span>
+<span class="line-number">19</span>
+<span class="line-number">20</span>
+<span class="line-number">21</span>
+<span class="line-number">22</span>
+<span class="line-number">23</span>
+<span class="line-number">24</span>
+<span class="line-number">25</span>
+<span class="line-number">26</span>
+<span class="line-number">27</span>
+<span class="line-number">28</span>
+<span class="line-number">29</span>
+<span class="line-number">30</span>
+<span class="line-number">31</span>
+<span class="line-number">32</span>
+<span class="line-number">33</span>
+<span class="line-number">34</span>
+</pre></td><td class="code"><pre><code class="xml"><span class="line"><span class="cp">&lt;?xml version=&quot;1.0&quot; encoding=&quot;utf-8&quot;?&gt;</span>
+</span><span class="line"><span class="nt">&lt;manifest</span> <span class="na">xmlns:android=</span><span class="s">&quot;http://schemas.android.com/apk/res/android&quot;</span>
+</span><span class="line">    <span class="na">package=</span><span class="s">&quot;me.ghdawn&quot;</span>
+</span><span class="line">    <span class="na">android:versionCode=</span><span class="s">&quot;1&quot;</span>
+</span><span class="line">    <span class="na">android:versionName=</span><span class="s">&quot;1.0&quot;</span> <span class="nt">&gt;</span>
+</span><span class="line">
+</span><span class="line">    <span class="nt">&lt;uses-feature</span> <span class="na">android:name=</span><span class="s">&quot;android.hardware.usb.accessory&quot;</span> <span class="nt">/&gt;</span>
+</span><span class="line">
+</span><span class="line">    <span class="nt">&lt;uses-sdk</span> <span class="na">android:minSdkVersion=</span><span class="s">&quot;10&quot;</span> <span class="nt">/&gt;</span>
+</span><span class="line">
+</span><span class="line">    <span class="nt">&lt;application</span>
+</span><span class="line">        <span class="na">android:icon=</span><span class="s">&quot;@drawable/ic_launcher&quot;</span>
+</span><span class="line">        <span class="na">android:label=</span><span class="s">&quot;@string/app_name&quot;</span> <span class="nt">&gt;</span>
+</span><span class="line">        <span class="nt">&lt;uses-library</span> <span class="na">android:name=</span><span class="s">&quot;com.android.future.usb.accessory&quot;</span> <span class="nt">/&gt;</span>
+</span><span class="line">
+</span><span class="line">        <span class="nt">&lt;activity</span>
+</span><span class="line">            <span class="na">android:name=</span><span class="s">&quot;.UsbAccActivity&quot;</span>
+</span><span class="line">            <span class="na">android:label=</span><span class="s">&quot;@string/app_name&quot;</span> <span class="nt">&gt;</span>
+</span><span class="line">            <span class="nt">&lt;intent-filter&gt;</span>
+</span><span class="line">                <span class="nt">&lt;action</span> <span class="na">android:name=</span><span class="s">&quot;android.intent.action.MAIN&quot;</span> <span class="nt">/&gt;</span>
+</span><span class="line">
+</span><span class="line">                <span class="nt">&lt;category</span> <span class="na">android:name=</span><span class="s">&quot;android.intent.category.LAUNCHER&quot;</span> <span class="nt">/&gt;</span>
+</span><span class="line">            <span class="nt">&lt;/intent-filter&gt;</span>
+</span><span class="line">            <span class="nt">&lt;intent-filter&gt;</span>
+</span><span class="line">                <span class="nt">&lt;action</span> <span class="na">android:name=</span><span class="s">&quot;android.hardware.usb.action.USB_ACCESSORY_ATTACHED&quot;</span> <span class="nt">/&gt;</span>
+</span><span class="line">            <span class="nt">&lt;/intent-filter&gt;</span>
+</span><span class="line">
+</span><span class="line">            <span class="nt">&lt;meta-data</span>
+</span><span class="line">                <span class="na">android:name=</span><span class="s">&quot;android.hardware.usb.action.USB_ACCESSORY_ATTACHED&quot;</span>
+</span><span class="line">                <span class="na">android:resource=</span><span class="s">&quot;@xml/accessory_filter&quot;</span> <span class="nt">/&gt;</span>
+</span><span class="line">        <span class="nt">&lt;/activity&gt;</span>
+</span><span class="line">    <span class="nt">&lt;/application&gt;</span>
+</span><span class="line">
+</span><span class="line"><span class="nt">&lt;/manifest&gt;</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<h5 id="section-2">一些说明</h5>
+<ul>
+  <li><em>API 10</em>使用的是<em>Addon library</em>,需要注明：<em><uses-library android:name="com.android.future.usb.accessory" /></em>  </li>
+  <li>
+    <p>要说明支持<em>USB_ACCESSORY_ATTACHED</em>模式，所以加上</p>
+
+    <pre><code>  &lt;intent-filter&gt;
+          &lt;action android:name="android.hardware.usb.action.USB_ACCESSORY_ATTACHED" /&gt;
+  &lt;/intent-filter&gt;
+</code></pre>
+  </li>
+  <li>
+    <p>可能会有很多USB接口的设备，所以我们还需要筛选一下此程序能接的单片机，所以增加一个<em>accessory_filter.xml</em>来筛选设备。在<em>res</em>文件夹下新建文件夹<em>xml</em>，在其中新建文件<em>accessory_filter.xml</em>，在这里增加需要的单片机的条件。</p>
+
+    <pre><code>   &lt;meta-data
+          android:name="android.hardware.usb.action.USB_ACCESSORY_ATTACHED"
+          android:resource="@xml/accessory_filter" /&gt;
+</code></pre>
+  </li>
+</ul>
+
+<p>上面这段代码就是注册这个筛选器的。下面这段就是筛选器的内容。还记得上面的<em>Arduino</em>部分中，新建的<em>AndroidAccessory</em>对象吗？那里的第1，2，4个参数正是这里筛选的参数。只有这几个参数匹配的设备才能建立连接。当然，这里筛选条件是可以选的，那几个参数都可以作为筛选条件，只要加在下面就可以。</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+<span class="line-number">4</span>
+<span class="line-number">5</span>
+</pre></td><td class="code"><pre><code class="xml"><span class="line"><span class="cp">&lt;?xml version=&quot;1.0&quot; encoding=&quot;utf-8&quot;?&gt;</span>
+</span><span class="line">
+</span><span class="line"><span class="nt">&lt;resources&gt;</span>
+</span><span class="line">    <span class="nt">&lt;usb-accessory</span> <span class="na">manufacturer=</span><span class="s">&quot;BuaaITR&quot;</span> <span class="na">model=</span><span class="s">&quot;Demo&quot;</span> <span class="na">version=</span><span class="s">&quot;1.0&quot;</span> <span class="nt">/&gt;</span>
+</span><span class="line"><span class="nt">&lt;/resources&gt;</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<p>注：下文的所有<em>设备</em>一词，均指代<em>Arduino设备</em>，程序则代表<em>Android设备</em>。<br />
+这样，就可以开始写代码了。首先需要一个<em>UsbManager</em>对象来管理USB设备，需要一个广播接收器，当系统有广播时，来判断是否为USB附件，并询问是否提供权限。广播的过滤器使用<em>UsbManager.ACTION_USB_ACCESSORY_DETACHED</em>作为<em>action</em>。当接受到一个满足过滤条件的广播时，并且获得了访问的权限，就可以获得该设备的信息，并进行读写了。</p>
+
+<p>广播接收器的代码：</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+<span class="line-number">4</span>
+<span class="line-number">5</span>
+<span class="line-number">6</span>
+<span class="line-number">7</span>
+<span class="line-number">8</span>
+<span class="line-number">9</span>
+<span class="line-number">10</span>
+<span class="line-number">11</span>
+<span class="line-number">12</span>
+<span class="line-number">13</span>
+<span class="line-number">14</span>
+<span class="line-number">15</span>
+<span class="line-number">16</span>
+<span class="line-number">17</span>
+<span class="line-number">18</span>
+<span class="line-number">19</span>
+<span class="line-number">20</span>
+<span class="line-number">21</span>
+<span class="line-number">22</span>
+<span class="line-number">23</span>
+<span class="line-number">24</span>
+<span class="line-number">25</span>
+<span class="line-number">26</span>
+<span class="line-number">27</span>
+<span class="line-number">28</span>
+<span class="line-number">29</span>
+<span class="line-number">30</span>
+<span class="line-number">31</span>
+<span class="line-number">32</span>
+<span class="line-number">33</span>
+<span class="line-number">34</span>
+</pre></td><td class="code"><pre><code class="java"><span class="line"><span class="kd">private</span> <span class="kd">final</span> <span class="n">BroadcastReceiver</span> <span class="n">mUsbReceiver</span> <span class="o">=</span> <span class="k">new</span> <span class="n">BroadcastReceiver</span><span class="o">()</span>
+</span><span class="line">	<span class="o">{</span>
+</span><span class="line">		<span class="nd">@Override</span>
+</span><span class="line">		<span class="kd">public</span> <span class="kt">void</span> <span class="nf">onReceive</span><span class="o">(</span><span class="n">Context</span> <span class="n">context</span><span class="o">,</span> <span class="n">Intent</span> <span class="n">intent</span><span class="o">)</span>
+</span><span class="line">		<span class="o">{</span>
+</span><span class="line">			<span class="n">String</span> <span class="n">action</span> <span class="o">=</span> <span class="n">intent</span><span class="o">.</span><span class="na">getAction</span><span class="o">();</span>
+</span><span class="line">			<span class="k">if</span> <span class="o">(</span><span class="n">ACTION_USB_PERMISSION</span><span class="o">.</span><span class="na">equals</span><span class="o">(</span><span class="n">action</span><span class="o">))</span>
+</span><span class="line">			<span class="o">{</span>
+</span><span class="line">				<span class="kd">synchronized</span> <span class="o">(</span><span class="k">this</span><span class="o">)</span>
+</span><span class="line">				<span class="o">{</span>
+</span><span class="line">					<span class="n">UsbAccessory</span> <span class="n">accessory</span> <span class="o">=</span> <span class="n">UsbManager</span><span class="o">.</span><span class="na">getAccessory</span><span class="o">(</span><span class="n">intent</span><span class="o">);</span>
+</span><span class="line">					<span class="k">if</span> <span class="o">(</span><span class="n">intent</span><span class="o">.</span><span class="na">getBooleanExtra</span><span class="o">(</span>
+</span><span class="line">					        <span class="n">UsbManager</span><span class="o">.</span><span class="na">EXTRA_PERMISSION_GRANTED</span><span class="o">,</span> <span class="kc">false</span><span class="o">))</span>
+</span><span class="line">					<span class="o">{</span>
+</span><span class="line">						<span class="n">openAccessory</span><span class="o">(</span><span class="n">accessory</span><span class="o">);</span>
+</span><span class="line">					<span class="o">}</span>
+</span><span class="line">					<span class="k">else</span>
+</span><span class="line">					<span class="o">{</span>
+</span><span class="line">						<span class="n">Log</span><span class="o">.</span><span class="na">d</span><span class="o">(</span><span class="n">TAG</span><span class="o">,</span> <span class="s">&quot;permission denied for accessory &quot;</span>
+</span><span class="line">						        <span class="o">+</span> <span class="n">accessory</span><span class="o">);</span>
+</span><span class="line">					<span class="o">}</span>
+</span><span class="line">					<span class="n">mPermissionRequestPending</span> <span class="o">=</span> <span class="kc">false</span><span class="o">;</span>
+</span><span class="line">				<span class="o">}</span>
+</span><span class="line">			<span class="o">}</span>
+</span><span class="line">			<span class="k">else</span> <span class="nf">if</span> <span class="o">(</span><span class="n">UsbManager</span><span class="o">.</span><span class="na">ACTION_USB_ACCESSORY_DETACHED</span><span class="o">.</span><span class="na">equals</span><span class="o">(</span><span class="n">action</span><span class="o">))</span>
+</span><span class="line">			<span class="o">{</span>
+</span><span class="line">				<span class="n">UsbAccessory</span> <span class="n">accessory</span> <span class="o">=</span> <span class="n">UsbManager</span><span class="o">.</span><span class="na">getAccessory</span><span class="o">(</span><span class="n">intent</span><span class="o">);</span>
+</span><span class="line">				<span class="k">if</span> <span class="o">(</span><span class="n">accessory</span> <span class="o">!=</span> <span class="kc">null</span> <span class="o">&amp;&amp;</span> <span class="n">accessory</span><span class="o">.</span><span class="na">equals</span><span class="o">(</span><span class="n">mAccessory</span><span class="o">))</span>
+</span><span class="line">				<span class="o">{</span>
+</span><span class="line">					<span class="n">closeAccessory</span><span class="o">();</span>
+</span><span class="line">				<span class="o">}</span>
+</span><span class="line">			<span class="o">}</span>
+</span><span class="line">		<span class="o">}</span>
+</span><span class="line">	<span class="o">};</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<p>建立连接：</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+<span class="line-number">4</span>
+<span class="line-number">5</span>
+<span class="line-number">6</span>
+<span class="line-number">7</span>
+<span class="line-number">8</span>
+<span class="line-number">9</span>
+<span class="line-number">10</span>
+<span class="line-number">11</span>
+<span class="line-number">12</span>
+<span class="line-number">13</span>
+<span class="line-number">14</span>
+<span class="line-number">15</span>
+<span class="line-number">16</span>
+<span class="line-number">17</span>
+<span class="line-number">18</span>
+<span class="line-number">19</span>
+<span class="line-number">20</span>
+<span class="line-number">21</span>
+<span class="line-number">22</span>
+<span class="line-number">23</span>
+<span class="line-number">24</span>
+<span class="line-number">25</span>
+<span class="line-number">26</span>
+<span class="line-number">27</span>
+<span class="line-number">28</span>
+<span class="line-number">29</span>
+<span class="line-number">30</span>
+<span class="line-number">31</span>
+<span class="line-number">32</span>
+<span class="line-number">33</span>
+<span class="line-number">34</span>
+<span class="line-number">35</span>
+<span class="line-number">36</span>
+<span class="line-number">37</span>
+<span class="line-number">38</span>
+<span class="line-number">39</span>
+<span class="line-number">40</span>
+<span class="line-number">41</span>
+<span class="line-number">42</span>
+<span class="line-number">43</span>
+<span class="line-number">44</span>
+<span class="line-number">45</span>
+<span class="line-number">46</span>
+<span class="line-number">47</span>
+<span class="line-number">48</span>
+<span class="line-number">49</span>
+</pre></td><td class="code"><pre><code class="java"><span class="line">	<span class="kd">private</span> <span class="kt">void</span> <span class="nf">openAccessory</span><span class="o">(</span><span class="n">UsbAccessory</span> <span class="n">accessory</span><span class="o">)</span>
+</span><span class="line">	<span class="o">{</span>
+</span><span class="line">		<span class="n">mFileDescriptor</span> <span class="o">=</span> <span class="n">mUsbManager</span><span class="o">.</span><span class="na">openAccessory</span><span class="o">(</span><span class="n">accessory</span><span class="o">);</span>
+</span><span class="line">		<span class="k">if</span> <span class="o">(</span><span class="n">mFileDescriptor</span> <span class="o">!=</span> <span class="kc">null</span><span class="o">)</span>
+</span><span class="line">		<span class="o">{</span>
+</span><span class="line">			<span class="n">mAccessory</span> <span class="o">=</span> <span class="n">accessory</span><span class="o">;</span>
+</span><span class="line">			<span class="c1">//获得该设备的输入输出流</span>
+</span><span class="line">			<span class="n">FileDescriptor</span> <span class="n">fd</span> <span class="o">=</span> <span class="n">mFileDescriptor</span><span class="o">.</span><span class="na">getFileDescriptor</span><span class="o">();</span>
+</span><span class="line">			<span class="n">mInputStream</span> <span class="o">=</span> <span class="k">new</span> <span class="n">FileInputStream</span><span class="o">(</span><span class="n">fd</span><span class="o">);</span>
+</span><span class="line">			<span class="n">mOutputStream</span> <span class="o">=</span> <span class="k">new</span> <span class="n">FileOutputStream</span><span class="o">(</span><span class="n">fd</span><span class="o">);</span>
+</span><span class="line">			<span class="c1">//是否能对设备进行读写操作</span>
+</span><span class="line">			<span class="n">canIO</span> <span class="o">=</span> <span class="kc">true</span><span class="o">;</span>
+</span><span class="line">			<span class="c1">//定时查询是否有数据可以接收</span>
+</span><span class="line">			<span class="n">timer</span><span class="o">.</span><span class="na">scheduleAtFixedRate</span><span class="o">(</span><span class="k">new</span> <span class="n">TimerTask</span><span class="o">()</span>
+</span><span class="line">			<span class="o">{</span>
+</span><span class="line">				<span class="nd">@Override</span>
+</span><span class="line">				<span class="kd">public</span> <span class="kt">void</span> <span class="nf">run</span><span class="o">()</span>
+</span><span class="line">				<span class="o">{</span>
+</span><span class="line">					<span class="c1">// TODO Auto-generated method stub</span>
+</span><span class="line">					<span class="kt">int</span> <span class="n">length</span> <span class="o">=</span> <span class="mi">0</span><span class="o">;</span>
+</span><span class="line">					<span class="kt">byte</span><span class="o">[]</span> <span class="n">buffer</span> <span class="o">=</span> <span class="k">new</span> <span class="kt">byte</span><span class="o">[</span><span class="n">maxBuffer</span><span class="o">];</span>
+</span><span class="line">					<span class="k">try</span>
+</span><span class="line">					<span class="o">{</span>
+</span><span class="line">						<span class="c1">//如果有数据来，则接受数据。</span>
+</span><span class="line">						<span class="k">if</span><span class="o">(</span><span class="n">mInputStream</span><span class="o">.</span><span class="na">available</span><span class="o">()&gt;</span><span class="mi">0</span><span class="o">)</span>
+</span><span class="line">						<span class="o">{</span>
+</span><span class="line">							<span class="n">length</span><span class="o">=</span><span class="n">mInputStream</span><span class="o">.</span><span class="na">read</span><span class="o">(</span><span class="n">buffer</span><span class="o">);</span>
+</span><span class="line">							<span class="c1">//处理接收到的数据，按需要自己改。</span>
+</span><span class="line">							<span class="n">usbuart</span><span class="o">.</span><span class="na">onReceive</span><span class="o">(</span><span class="n">buffer</span><span class="o">);</span>
+</span><span class="line">						<span class="o">}</span>
+</span><span class="line">
+</span><span class="line">					<span class="o">}</span>
+</span><span class="line">					<span class="k">catch</span> <span class="o">(</span><span class="n">IOException</span> <span class="n">e</span><span class="o">)</span>
+</span><span class="line">					<span class="o">{</span>
+</span><span class="line">						<span class="c1">// tbhello.setText(&quot;IO error\n&quot; + e.getMessage());</span>
+</span><span class="line">
+</span><span class="line">					<span class="o">}</span>
+</span><span class="line">
+</span><span class="line">				<span class="o">}</span>
+</span><span class="line">				
+</span><span class="line">			<span class="o">},</span> <span class="mi">0</span><span class="o">,</span> <span class="n">delaytime</span><span class="o">);</span>
+</span><span class="line">			<span class="n">Log</span><span class="o">.</span><span class="na">d</span><span class="o">(</span><span class="n">TAG</span><span class="o">,</span> <span class="s">&quot;accessory opened&quot;</span><span class="o">);</span>
+</span><span class="line">
+</span><span class="line">		<span class="o">}</span>
+</span><span class="line">		<span class="k">else</span>
+</span><span class="line">		<span class="o">{</span>
+</span><span class="line">			<span class="n">Log</span><span class="o">.</span><span class="na">d</span><span class="o">(</span><span class="n">TAG</span><span class="o">,</span> <span class="s">&quot;accessory open fail&quot;</span><span class="o">);</span>
+</span><span class="line">		<span class="o">}</span>
+</span><span class="line">	<span class="o">}</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<p>这样，大部分功能就实现完了，现在需要注册广播接收器，并让程序监视USB设备。</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+<span class="line-number">4</span>
+<span class="line-number">5</span>
+<span class="line-number">6</span>
+<span class="line-number">7</span>
+<span class="line-number">8</span>
+<span class="line-number">9</span>
+<span class="line-number">10</span>
+<span class="line-number">11</span>
+<span class="line-number">12</span>
+<span class="line-number">13</span>
+<span class="line-number">14</span>
+<span class="line-number">15</span>
+<span class="line-number">16</span>
+<span class="line-number">17</span>
+<span class="line-number">18</span>
+<span class="line-number">19</span>
+<span class="line-number">20</span>
+<span class="line-number">21</span>
+<span class="line-number">22</span>
+<span class="line-number">23</span>
+<span class="line-number">24</span>
+<span class="line-number">25</span>
+<span class="line-number">26</span>
+<span class="line-number">27</span>
+<span class="line-number">28</span>
+<span class="line-number">29</span>
+<span class="line-number">30</span>
+<span class="line-number">31</span>
+<span class="line-number">32</span>
+<span class="line-number">33</span>
+<span class="line-number">34</span>
+<span class="line-number">35</span>
+<span class="line-number">36</span>
+<span class="line-number">37</span>
+<span class="line-number">38</span>
+<span class="line-number">39</span>
+<span class="line-number">40</span>
+<span class="line-number">41</span>
+<span class="line-number">42</span>
+<span class="line-number">43</span>
+<span class="line-number">44</span>
+<span class="line-number">45</span>
+<span class="line-number">46</span>
+<span class="line-number">47</span>
+<span class="line-number">48</span>
+<span class="line-number">49</span>
+<span class="line-number">50</span>
+<span class="line-number">51</span>
+<span class="line-number">52</span>
+<span class="line-number">53</span>
+<span class="line-number">54</span>
+<span class="line-number">55</span>
+<span class="line-number">56</span>
+<span class="line-number">57</span>
+<span class="line-number">58</span>
+</pre></td><td class="code"><pre><code class="java"><span class="line">	<span class="nd">@Override</span>
+</span><span class="line">	<span class="kd">public</span> <span class="kt">void</span> <span class="nf">onCreate</span><span class="o">(</span><span class="n">Bundle</span> <span class="n">savedInstanceState</span><span class="o">)</span>
+</span><span class="line">	<span class="o">{</span>
+</span><span class="line">		<span class="kd">super</span><span class="o">.</span><span class="na">onCreate</span><span class="o">(</span><span class="n">savedInstanceState</span><span class="o">);</span>
+</span><span class="line">		<span class="c1">//使用add-on library时，必须这样定义usbmanager对象</span>
+</span><span class="line">		<span class="n">mUsbManager</span> <span class="o">=</span> <span class="n">UsbManager</span><span class="o">.</span><span class="na">getInstance</span><span class="o">(</span><span class="k">this</span><span class="o">);</span>
+</span><span class="line">		<span class="n">mPermissionIntent</span> <span class="o">=</span> <span class="n">PendingIntent</span><span class="o">.</span><span class="na">getBroadcast</span><span class="o">(</span><span class="k">this</span><span class="o">,</span> <span class="mi">0</span><span class="o">,</span> <span class="k">new</span> <span class="n">Intent</span><span class="o">(</span>
+</span><span class="line">		        <span class="n">ACTION_USB_PERMISSION</span><span class="o">),</span> <span class="mi">0</span><span class="o">);</span>
+</span><span class="line">		<span class="c1">//注册接收器和过滤器</span>
+</span><span class="line">		<span class="n">IntentFilter</span> <span class="n">filter</span> <span class="o">=</span> <span class="k">new</span> <span class="n">IntentFilter</span><span class="o">(</span><span class="n">ACTION_USB_PERMISSION</span><span class="o">);</span>
+</span><span class="line">		<span class="n">filter</span><span class="o">.</span><span class="na">addAction</span><span class="o">(</span><span class="n">UsbManager</span><span class="o">.</span><span class="na">ACTION_USB_ACCESSORY_DETACHED</span><span class="o">);</span>
+</span><span class="line">		<span class="n">registerReceiver</span><span class="o">(</span><span class="n">mUsbReceiver</span><span class="o">,</span> <span class="n">filter</span><span class="o">);</span>
+</span><span class="line">
+</span><span class="line">		<span class="n">setContentView</span><span class="o">(</span><span class="n">R</span><span class="o">.</span><span class="na">layout</span><span class="o">.</span><span class="na">main</span><span class="o">);</span>
+</span><span class="line">
+</span><span class="line">	<span class="o">}</span>
+</span><span class="line">
+</span><span class="line">	<span class="nd">@Override</span>
+</span><span class="line">	<span class="kd">public</span> <span class="kt">void</span> <span class="nf">onResume</span><span class="o">()</span>
+</span><span class="line">	<span class="o">{</span>
+</span><span class="line">		<span class="kd">super</span><span class="o">.</span><span class="na">onResume</span><span class="o">();</span>
+</span><span class="line">
+</span><span class="line">		<span class="n">Intent</span> <span class="n">intent</span> <span class="o">=</span> <span class="n">getIntent</span><span class="o">();</span>
+</span><span class="line">		<span class="c1">//如果已经打开了一个设备，就不再查询</span>
+</span><span class="line">		<span class="k">if</span> <span class="o">(</span><span class="n">mInputStream</span> <span class="o">!=</span> <span class="kc">null</span> <span class="o">&amp;&amp;</span> <span class="n">mOutputStream</span> <span class="o">!=</span> <span class="kc">null</span><span class="o">)</span>
+</span><span class="line">		<span class="o">{</span>
+</span><span class="line">			<span class="k">return</span><span class="o">;</span>
+</span><span class="line">		<span class="o">}</span>
+</span><span class="line">		<span class="c1">//只能支持一个设备，如果发现了一个USB设备并且有权限访问，就打开</span>
+</span><span class="line">		<span class="n">UsbAccessory</span><span class="o">[]</span> <span class="n">accessories</span> <span class="o">=</span> <span class="n">mUsbManager</span><span class="o">.</span><span class="na">getAccessoryList</span><span class="o">();</span>
+</span><span class="line">		<span class="n">UsbAccessory</span> <span class="n">accessory</span> <span class="o">=</span> <span class="o">(</span><span class="n">accessories</span> <span class="o">==</span> <span class="kc">null</span> <span class="o">?</span> <span class="kc">null</span> <span class="o">:</span> <span class="n">accessories</span><span class="o">[</span><span class="mi">0</span><span class="o">]);</span>
+</span><span class="line">		<span class="k">if</span> <span class="o">(</span><span class="n">accessory</span> <span class="o">!=</span> <span class="kc">null</span><span class="o">)</span>
+</span><span class="line">		<span class="o">{</span>
+</span><span class="line">			<span class="k">if</span> <span class="o">(</span><span class="n">mUsbManager</span><span class="o">.</span><span class="na">hasPermission</span><span class="o">(</span><span class="n">accessory</span><span class="o">))</span>
+</span><span class="line">			<span class="o">{</span>
+</span><span class="line">				<span class="n">openAccessory</span><span class="o">(</span><span class="n">accessory</span><span class="o">);</span>
+</span><span class="line">			<span class="o">}</span>
+</span><span class="line">			
+</span><span class="line">		<span class="o">}</span>
+</span><span class="line">		<span class="k">else</span>
+</span><span class="line">		<span class="o">{</span>
+</span><span class="line">			<span class="n">Log</span><span class="o">.</span><span class="na">d</span><span class="o">(</span><span class="n">TAG</span><span class="o">,</span> <span class="s">&quot;mAccessory is null&quot;</span><span class="o">);</span>
+</span><span class="line">		<span class="o">}</span>
+</span><span class="line">	<span class="o">}</span>
+</span><span class="line">
+</span><span class="line">	<span class="nd">@Override</span>
+</span><span class="line">	<span class="kd">public</span> <span class="kt">void</span> <span class="nf">onPause</span><span class="o">()</span>
+</span><span class="line">	<span class="o">{</span>
+</span><span class="line">		<span class="kd">super</span><span class="o">.</span><span class="na">onPause</span><span class="o">();</span>
+</span><span class="line">		<span class="n">closeAccessory</span><span class="o">();</span>
+</span><span class="line">	<span class="o">}</span>
+</span><span class="line">
+</span><span class="line">	<span class="nd">@Override</span>
+</span><span class="line">	<span class="kd">public</span> <span class="kt">void</span> <span class="nf">onDestroy</span><span class="o">()</span>
+</span><span class="line">	<span class="o">{</span>
+</span><span class="line">		<span class="n">unregisterReceiver</span><span class="o">(</span><span class="n">mUsbReceiver</span><span class="o">);</span>
+</span><span class="line">		<span class="kd">super</span><span class="o">.</span><span class="na">onDestroy</span><span class="o">();</span>
+</span><span class="line">	<span class="o">}</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<p>如果需要发送数据，就这样：</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+<span class="line-number">4</span>
+<span class="line-number">5</span>
+<span class="line-number">6</span>
+<span class="line-number">7</span>
+<span class="line-number">8</span>
+<span class="line-number">9</span>
+<span class="line-number">10</span>
+<span class="line-number">11</span>
+<span class="line-number">12</span>
+<span class="line-number">13</span>
+<span class="line-number">14</span>
+<span class="line-number">15</span>
+<span class="line-number">16</span>
+</pre></td><td class="code"><pre><code class="java"><span class="line">    <span class="kd">public</span> <span class="kt">void</span> <span class="nf">send</span><span class="o">(</span><span class="kt">byte</span><span class="o">[]</span> <span class="n">data</span><span class="o">)</span>
+</span><span class="line">    <span class="o">{</span>
+</span><span class="line">	    <span class="k">if</span><span class="o">(</span><span class="n">canIO</span><span class="o">)</span>
+</span><span class="line">	    <span class="o">{</span>
+</span><span class="line">	    	<span class="k">try</span>
+</span><span class="line">            <span class="o">{</span>
+</span><span class="line">	            <span class="n">mOutputStream</span><span class="o">.</span><span class="na">write</span><span class="o">(</span><span class="n">data</span><span class="o">);</span>
+</span><span class="line">            <span class="o">}</span>
+</span><span class="line">            <span class="k">catch</span> <span class="o">(</span><span class="n">IOException</span> <span class="n">e</span><span class="o">)</span>
+</span><span class="line">            <span class="o">{</span>	
+</span><span class="line">	            <span class="c1">// TODO Auto-generated catch block</span>
+</span><span class="line">	            <span class="n">e</span><span class="o">.</span><span class="na">printStackTrace</span><span class="o">();</span>
+</span><span class="line">            <span class="o">}</span>
+</span><span class="line">	    <span class="o">}</span>
+</span><span class="line">    <span class="o">}</span>
+</span><span class="line">
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<p>用到的对象如下：</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+<span class="line-number">4</span>
+<span class="line-number">5</span>
+<span class="line-number">6</span>
+<span class="line-number">7</span>
+<span class="line-number">8</span>
+<span class="line-number">9</span>
+<span class="line-number">10</span>
+<span class="line-number">11</span>
+<span class="line-number">12</span>
+<span class="line-number">13</span>
+<span class="line-number">14</span>
+<span class="line-number">15</span>
+<span class="line-number">16</span>
+</pre></td><td class="code"><pre><code class="java"><span class="line"><span class="kd">private</span> <span class="kd">static</span> <span class="kd">final</span> <span class="n">String</span> <span class="n">TAG</span> <span class="o">=</span> <span class="s">&quot;DemoKit&quot;</span><span class="o">;</span>
+</span><span class="line">
+</span><span class="line">	<span class="kd">private</span> <span class="kd">static</span> <span class="kd">final</span> <span class="n">String</span> <span class="n">ACTION_USB_PERMISSION</span> <span class="o">=</span> <span class="s">&quot;com.google.android.DemoKit.action.USB_PERMISSION&quot;</span><span class="o">;</span>
+</span><span class="line">
+</span><span class="line">	<span class="kd">private</span> <span class="n">UsbManager</span> <span class="n">mUsbManager</span><span class="o">;</span>
+</span><span class="line">	<span class="kd">private</span> <span class="n">PendingIntent</span> <span class="n">mPermissionIntent</span><span class="o">;</span>
+</span><span class="line">
+</span><span class="line">
+</span><span class="line">	<span class="kd">private</span> <span class="kt">int</span> <span class="n">maxBuffer</span><span class="o">=</span><span class="mi">1024</span><span class="o">;</span>
+</span><span class="line">	<span class="kd">private</span> <span class="kt">boolean</span> <span class="n">canIO</span> <span class="o">=</span> <span class="kc">false</span><span class="o">;</span>
+</span><span class="line">	<span class="n">UsbAccessory</span> <span class="n">mAccessory</span><span class="o">;</span>
+</span><span class="line">	<span class="n">ParcelFileDescriptor</span> <span class="n">mFileDescriptor</span><span class="o">;</span>
+</span><span class="line">	<span class="n">FileInputStream</span> <span class="n">mInputStream</span><span class="o">;</span>
+</span><span class="line">	<span class="n">FileOutputStream</span> <span class="n">mOutputStream</span><span class="o">;</span>
+</span><span class="line">
+</span><span class="line">	<span class="n">Timer</span> <span class="n">timer</span> <span class="o">=</span> <span class="k">new</span> <span class="n">Timer</span><span class="o">();</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<p>如果步骤没出错的话，至此，把Arduino开发板插到Android设备上，应该就能互相传数据了。</p>
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2012/04/study-android-2/">学习Android开发-用canvas绘图</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2012-04-06T15:32:00+08:00" pubdate data-updated="true">Apr 6<span>th</span>, 2012</time>
+        
+         | <a href="/blog/2012/04/study-android-2/#disqus_thread">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>接着<a href="/blog/2012/03/15/study-android-1/">上一篇</a>所说，我们已经从SVG文件中得到了基本图形的定义信息，如圆的圆心坐标与半径，直线段的端点坐标，所以可以开始绘图了。我的想法是，一张SVG图片解析完成后，把所有图片画进一个<em>Bitmap</em>里，这样以后所有的对图片的操作都可以用<em>Android</em>自带的方法操作，应该会简单一些。<em>Bitmap</em>对象需要用工厂方法来创建。创建好空的bitmap后，将它传给一个<em>Canvas</em>对象，即可以通过<em>canvas</em>的方法，在该bitmap上绘制图形。如下：</p>
+
+<pre><code>    bitmap = Bitmap.createBitmap(1024, 768, Config.ALPHA_8);
+    Canvas canvas = new Canvas(bitmap);
+</code></pre>
+
+<h4 id="section">画直线和圆</h4>
+
+<p><em>canvas</em>绘制直线的方法调用方法如下：</p>
+
+<pre><code>    canvas.drawLine(x1, y1, x2, y2, paint);
+</code></pre>
+
+<p>其中<code>(x1,y1)</code>,<code>(x2,y2)</code>为直线的起始，终止点坐标，<em>paint</em>为画笔类型<em>Paint</em>的对象，画出来图形的样式由它的参数来决定。这里我只在其中设置了颜色为蓝色。</p>
+
+<pre><code>    paint.setColor(Color.BLUE);
+</code></pre>
+
+<p>绘制圆的方法如下：</p>
+
+<pre><code>    canvas.drawCircle(cx, cy, r, paint);
+</code></pre>
+
+<p>其中<code>(cx,cy)</code>为圆心坐标，<code>r</code>为半径。这样画出来的圆是实心的，如果想要空心圆，则需要设置<em>paint</em>的类型：</p>
+
+<pre><code>    paint.setStyle(Style.STROKE); 写全一个就是如下：
+</code></pre>
+
+<div class="bogus-wrapper"><notextile><figure class="code"> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+<span class="line-number">4</span>
+<span class="line-number">5</span>
+<span class="line-number">6</span>
+<span class="line-number">7</span>
+<span class="line-number">8</span>
+<span class="line-number">9</span>
+</pre></td><td class="code"><pre><code class="java"><span class="line">	<span class="kd">public</span> <span class="kt">void</span> <span class="nf">draw</span><span class="o">(</span><span class="n">Canvas</span> <span class="n">canvas</span><span class="o">)</span>
+</span><span class="line">	<span class="o">{</span>
+</span><span class="line">		<span class="c1">// TODO Auto-generated method stub</span>
+</span><span class="line">		<span class="n">Paint</span> <span class="n">paint</span> <span class="o">=</span> <span class="k">new</span> <span class="n">Paint</span><span class="o">();</span>
+</span><span class="line">		<span class="n">paint</span><span class="o">.</span><span class="na">setStyle</span><span class="o">(</span><span class="n">Style</span><span class="o">.</span><span class="na">STROKE</span><span class="o">);</span>
+</span><span class="line">		<span class="n">paint</span><span class="o">.</span><span class="na">setColor</span><span class="o">(</span><span class="n">Color</span><span class="o">.</span><span class="na">BLACK</span><span class="o">);</span>
+</span><span class="line">		<span class="n">canvas</span><span class="o">.</span><span class="na">drawCircle</span><span class="o">(</span><span class="n">_cx</span><span class="o">,</span> <span class="n">_cy</span><span class="o">,</span> <span class="n">_r</span><span class="o">,</span> <span class="n">paint</span><span class="o">);</span>
+</span><span class="line">		
+</span><span class="line">	<span class="o">}</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2012/03/study-cv-1/">学习机器视觉1&#8211;检测圆心</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2012-03-18T16:12:00+08:00" pubdate data-updated="true">Mar 18<span>th</span>, 2012</time>
+        
+         | <a href="/blog/2012/03/study-cv-1/#disqus_thread">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><h3 id="section">任务描述及环境</h3>
+
+<p>打开摄像头，识别出画面中的圆，并标出圆心，输出圆心的像空间坐标。<br />
+Intel(R) Core(TM)2 Duo CPU     T8100  @ 2.10GHz / 2GB<br />
+Linux Mint 12 （64bit）<br />
+OpenCV 2.3.1<br />
+Code Blocks 10.05<br />
+###用OpenCV从摄像头获取视频流###
+后来版本的OpenCV可以用C++的语法，从而去掉了指针，使用起来十分方便。</p>
+
+<p>所有视频流的操作都是通过<em>VideoCapture</em>类完成。可以通过给它的构造函数，或<em>open</em>函数传递参数完成打开视频的操作。其中如果参数为整数i，则打开第i个摄像头（如果存在的话）。如果参数是字符串，则认为是视频文件的路径。</p>
+
+<p><em>VideoCapture</em>重载了<em>»</em>操作符，所以可以直接当输入流来用。或者使用<em>read(Mat&amp; image)</em>函数来读取也行。</p>
+
+<p>得到图片之后再用<em>imshow</em>就可以显示图片了。代码如下</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+<span class="line-number">4</span>
+<span class="line-number">5</span>
+<span class="line-number">6</span>
+<span class="line-number">7</span>
+<span class="line-number">8</span>
+<span class="line-number">9</span>
+<span class="line-number">10</span>
+<span class="line-number">11</span>
+<span class="line-number">12</span>
+<span class="line-number">13</span>
+<span class="line-number">14</span>
+<span class="line-number">15</span>
+<span class="line-number">16</span>
+<span class="line-number">17</span>
+<span class="line-number">18</span>
+</pre></td><td class="code"><pre><code class="cpp"><span class="line"><span class="kt">int</span> <span class="n">main</span><span class="p">(</span><span class="kt">int</span><span class="p">,</span> <span class="kt">char</span><span class="o">**</span><span class="p">)</span>
+</span><span class="line"><span class="p">{</span>
+</span><span class="line">    <span class="n">VideoCapture</span> <span class="n">cap</span><span class="p">(</span><span class="mi">0</span><span class="p">);</span>
+</span><span class="line">    <span class="k">if</span><span class="p">(</span><span class="o">!</span><span class="n">cap</span><span class="p">.</span><span class="n">isOpened</span><span class="p">())</span>
+</span><span class="line">        <span class="k">return</span> <span class="o">-</span><span class="mi">1</span><span class="p">;</span>
+</span><span class="line">
+</span><span class="line">    <span class="n">Mat</span> <span class="n">frame</span><span class="p">;</span>
+</span><span class="line">    <span class="n">namedWindow</span><span class="p">(</span><span class="s">&quot;frame&quot;</span><span class="p">,</span><span class="mi">1</span><span class="p">);</span>
+</span><span class="line">
+</span><span class="line">    <span class="k">while</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+</span><span class="line">    <span class="p">{</span>
+</span><span class="line">        <span class="n">cap</span> <span class="o">&gt;&gt;</span> <span class="n">frame</span><span class="p">;</span> <span class="c1">// get a new frame from camera</span>
+</span><span class="line">        <span class="n">imshow</span><span class="p">(</span><span class="s">&quot;frame&quot;</span><span class="p">,</span><span class="n">frame</span><span class="p">);</span>
+</span><span class="line">        <span class="k">if</span><span class="p">(</span><span class="n">waitKey</span><span class="p">(</span><span class="mi">30</span><span class="p">)</span> <span class="o">&gt;=</span> <span class="mi">0</span><span class="p">)</span> <span class="k">break</span><span class="p">;</span>
+</span><span class="line">    <span class="p">}</span>
+</span><span class="line">
+</span><span class="line">    <span class="k">return</span> <span class="mi">0</span><span class="p">;</span>
+</span><span class="line"><span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<h3 id="opencv">用OpenCV的函数提取边界</h3>
+<p>这里我用的是<em>canny</em>算子提取边界。</p>
+
+<ul>
+  <li>
+    <p>将摄像头获得的图片转换成灰度图以方便以后运算。其实RGB图也是可以做的，但是由于我不需要颜色识别，只要找到图形就行了，所以用灰度图。</p>
+
+    <pre><code>  cvtColor(frame, edges, CV_BGR2GRAY);
+</code></pre>
+  </li>
+  <li>
+    <p>进行滤波，去掉高频噪声的部分。任何图像可以看作是一个函数的图像，而我们需要的图形是静止，或者有慢速的移动。而图片中可能会出现各种噪声，是不稳定的。也就是说我们需要图像中低频的部分，而希望过滤掉高频的部分。所以需要滤波，也会让图像变得模糊一点。高斯滤波函数就是正态分布（高斯分布）的概率密度函数，将每一点及其周围的点做了加权平均，其中该点占的比重最大，周围越远比重越小，而各个方向的变化是均匀的。  </p>
+  </li>
+</ul>
+
+<p>一维公式为：<img src="http://upload.wikimedia.org/wikipedia/zh/math/7/4/a/74a7dd469476d59a561174131eca644e.png" alt="高斯函数" />
+其函数图像为：<img src="http://upload.wikimedia.org/wikipedia/commons/thumb/1/1b/Normal_distribution_pdf.png/325px-Normal_distribution_pdf.png" alt="函数图像" /><br />
+我们的图像是二维的，所以用的是二维的高斯函数。详情请见维基百科的<a href="http://zh.wikipedia.org/wiki/%E9%AB%98%E6%96%AF%E6%A8%A1%E7%B3%8A">这里</a>，<a href="http://zh.wikipedia.org/wiki/%E6%AD%A3%E6%80%81%E5%88%86%E5%B8%83">这里</a>。<br />
+OpenCV的函数如下，其中第一个参数是源图片，第二个是目标图片，这两个可以相同。第三个参数是每一点模糊的范围，需要是正奇数。最后两个参数是联合分布的两个方差，方差越大，周围点占的比重越高，图片越模糊。</p>
+
+<pre><code>    GaussianBlur(edges, edges, Size(7,7), 2.5, 2.5);
+</code></pre>
+
+<ul>
+  <li>
+    <p>用canny算子提取边界。canny算子主要通过计算图像中的亮度梯度来判定边界，我们需要给定两个阀值low,high（其实一个也行，但是不够灵活）。当某点的梯度大于 high的时候，确定是边界点。如果梯度小于low则不是边界点。如果在他们之间，则需要通过连通域内的其他点的一起判断。一般建议两个阀值的比例为2：1或者3：1。
+详情请见维基百科的<a href="http://zh.wikipedia.org/wiki/Canny%E7%AE%97%E5%AD%90">这里</a> <br />
+OpenCV的函数如下，前两个参数和高斯滤波一样，第3，4个参数分别是低，高阀值。canny函数中调用了Sobel方法计算微分，第5个参数就是给Sobel函数的，必须是1，3，5，7。</p>
+
+    <pre><code>  Canny(edges, edges, 15, 45, 3);
+</code></pre>
+  </li>
+  <li>
+    <p>至此，<em>edges</em>对象里的图像就已经是二值化之后的边界图像了，可以用<em>imshow</em>显示察看。</p>
+  </li>
+</ul>
+
+<h3 id="section-1">找到图像中的圆并标出圆心</h3>
+
+<p>这一部分最基本的算法就是种子染色法（FloodFill），OpenCV自带了这个方法，但是由于我以前实现过相关的算法，所以这里就不用OpenCV了，把自己写的贴过来直接用，反正算法也十分简单短小。</p>
+
+<ul>
+  <li>在全图像范围扫描，搜索所有的<a href="http://zh.wikipedia.org/wiki/%E8%BF%9E%E9%80%9A%E5%9B%BE">连通分量</a>。 方法是搜索图像上的每一个点，如果该点未访问，并且该点为我探测到的边界点（边界检测后，图像已经被二值化了，边界点即其灰度值大于<em>maxvalue</em>点），则在该点开始染色。全图像染色结束后，可以通过对连通分量进行筛选，大概找到其中的圆。<em>room</em>代表当前搜索的连通分量的序号，<em>f数组</em>储存每个点的访问情况（值为0代表未访问，值为整数i代表该点属于第i个连通分量）代码如下</li>
+</ul>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span>search</span></figcaption>
+ <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+<span class="line-number">4</span>
+<span class="line-number">5</span>
+<span class="line-number">6</span>
+<span class="line-number">7</span>
+<span class="line-number">8</span>
+<span class="line-number">9</span>
+<span class="line-number">10</span>
+<span class="line-number">11</span>
+<span class="line-number">12</span>
+<span class="line-number">13</span>
+<span class="line-number">14</span>
+<span class="line-number">15</span>
+<span class="line-number">16</span>
+<span class="line-number">17</span>
+<span class="line-number">18</span>
+<span class="line-number">19</span>
+<span class="line-number">20</span>
+<span class="line-number">21</span>
+<span class="line-number">22</span>
+<span class="line-number">23</span>
+<span class="line-number">24</span>
+<span class="line-number">25</span>
+<span class="line-number">26</span>
+<span class="line-number">27</span>
+<span class="line-number">28</span>
+<span class="line-number">29</span>
+</pre></td><td class="code"><pre><code class="cpp"><span class="line"><span class="c1">// find</span>
+</span><span class="line"><span class="kt">void</span> <span class="n">search</span><span class="p">(</span><span class="n">Mat</span> <span class="o">&amp;</span> <span class="n">img_bin</span><span class="p">)</span>
+</span><span class="line"><span class="p">{</span>
+</span><span class="line">    <span class="c1">//  out(f);</span>
+</span><span class="line">    <span class="kt">int</span> <span class="n">room</span><span class="o">=</span><span class="mi">0</span><span class="p">;</span>
+</span><span class="line">    <span class="k">while</span><span class="p">(</span><span class="o">++</span><span class="n">room</span><span class="p">)</span>
+</span><span class="line">    <span class="p">{</span>
+</span><span class="line">        <span class="kt">int</span> <span class="n">x</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span><span class="n">y</span><span class="o">=</span><span class="mi">0</span><span class="p">;</span>
+</span><span class="line">        <span class="k">for</span><span class="p">(</span><span class="kt">int</span> <span class="n">i</span><span class="o">=</span><span class="mi">1</span><span class="p">;</span> <span class="n">i</span><span class="o">&lt;</span><span class="n">m</span><span class="p">;</span> <span class="n">i</span><span class="o">++</span><span class="p">)</span>
+</span><span class="line">        <span class="p">{</span>
+</span><span class="line">            <span class="k">for</span><span class="p">(</span><span class="kt">int</span> <span class="n">j</span><span class="o">=</span><span class="mi">1</span><span class="p">;</span> <span class="n">j</span><span class="o">&lt;</span><span class="n">n</span><span class="p">;</span> <span class="n">j</span><span class="o">++</span><span class="p">)</span>
+</span><span class="line">                <span class="k">if</span><span class="p">(</span><span class="n">img_bin</span><span class="p">.</span><span class="n">at</span><span class="o">&lt;</span><span class="n">uchar</span><span class="o">&gt;</span><span class="p">(</span><span class="n">i</span><span class="p">,</span><span class="n">j</span><span class="p">)</span><span class="o">&gt;</span><span class="mi">200</span> <span class="o">&amp;&amp;</span> <span class="n">f</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="n">j</span><span class="p">]</span><span class="o">==</span><span class="mi">0</span><span class="p">)</span>
+</span><span class="line">                <span class="p">{</span>
+</span><span class="line">                    <span class="n">x</span><span class="o">=</span><span class="n">i</span><span class="p">,</span><span class="n">y</span><span class="o">=</span><span class="n">j</span><span class="p">;</span>
+</span><span class="line">
+</span><span class="line">                    <span class="k">break</span><span class="p">;</span>
+</span><span class="line">                <span class="p">}</span>
+</span><span class="line">            <span class="k">if</span><span class="p">(</span><span class="n">x</span><span class="o">!=</span><span class="mi">0</span><span class="o">||</span><span class="n">y</span><span class="o">!=</span><span class="mi">0</span><span class="p">)</span> <span class="k">break</span><span class="p">;</span>
+</span><span class="line">        <span class="p">}</span>
+</span><span class="line">
+</span><span class="line">        <span class="k">if</span><span class="p">(</span><span class="n">x</span><span class="o">==</span><span class="mi">0</span><span class="o">&amp;&amp;</span><span class="n">y</span><span class="o">==</span><span class="mi">0</span><span class="p">)</span>
+</span><span class="line">        <span class="p">{</span>
+</span><span class="line">            <span class="o">--</span><span class="n">room</span><span class="p">;</span>
+</span><span class="line">            <span class="n">output</span><span class="p">(</span><span class="n">img_bin</span><span class="p">,</span><span class="n">room</span><span class="p">);</span>
+</span><span class="line">            <span class="k">return</span> <span class="p">;</span>
+</span><span class="line">        <span class="p">}</span>
+</span><span class="line">        <span class="n">fill</span><span class="p">(</span><span class="n">img_bin</span><span class="p">,</span><span class="n">x</span><span class="p">,</span><span class="n">y</span><span class="p">,</span><span class="n">room</span><span class="p">);</span>
+</span><span class="line">    <span class="p">}</span>
+</span><span class="line"><span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<ul>
+  <li>其中，我的种子染色法就是用深度优先搜索的方法，对每个点判断其周围的8个方向是否可走，如果可走，就走过去并染上颜色，直到该连通域内所有点都被染色，算法退出。</li>
+</ul>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span>FloodFill</span></figcaption>
+ <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+<span class="line-number">4</span>
+<span class="line-number">5</span>
+<span class="line-number">6</span>
+<span class="line-number">7</span>
+<span class="line-number">8</span>
+<span class="line-number">9</span>
+<span class="line-number">10</span>
+<span class="line-number">11</span>
+<span class="line-number">12</span>
+<span class="line-number">13</span>
+<span class="line-number">14</span>
+<span class="line-number">15</span>
+<span class="line-number">16</span>
+<span class="line-number">17</span>
+</pre></td><td class="code"><pre><code class="cpp"><span class="line"><span class="kt">int</span> <span class="n">dx</span><span class="p">[]</span><span class="o">=</span> <span class="p">{</span><span class="mi">0</span><span class="p">,</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">},</span>
+</span><span class="line">    <span class="n">dy</span><span class="p">[]</span><span class="o">=</span> <span class="p">{</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">};</span>
+</span><span class="line"><span class="kt">void</span> <span class="n">fill</span><span class="p">(</span><span class="k">const</span> <span class="n">Mat</span> <span class="o">&amp;</span> <span class="n">img_bin</span><span class="p">,</span><span class="kt">int</span> <span class="n">x</span><span class="p">,</span><span class="kt">int</span> <span class="n">y</span><span class="p">,</span><span class="kt">int</span> <span class="n">room</span><span class="p">)</span>
+</span><span class="line"><span class="p">{</span>
+</span><span class="line">
+</span><span class="line">    <span class="n">f</span><span class="p">[</span><span class="n">x</span><span class="p">][</span><span class="n">y</span><span class="p">]</span><span class="o">=</span><span class="n">room</span><span class="p">;</span>
+</span><span class="line"><span class="c1">//cout&lt;&lt;x&lt;&lt;&#39; &#39;&lt;&lt;y&lt;&lt;endl;</span>
+</span><span class="line"><span class="c1">//cin.get();</span>
+</span><span class="line">    <span class="k">for</span><span class="p">(</span><span class="kt">int</span> <span class="n">i</span><span class="o">=</span><span class="mi">0</span><span class="p">;</span> <span class="n">i</span><span class="o">&lt;</span><span class="mi">8</span><span class="p">;</span> <span class="n">i</span><span class="o">++</span><span class="p">)</span>
+</span><span class="line">    <span class="p">{</span>
+</span><span class="line">        <span class="kt">int</span> <span class="n">newx</span><span class="o">=</span><span class="n">x</span><span class="o">+</span><span class="n">dx</span><span class="p">[</span><span class="n">i</span><span class="p">],</span><span class="n">newy</span><span class="o">=</span><span class="n">y</span><span class="o">+</span><span class="n">dy</span><span class="p">[</span><span class="n">i</span><span class="p">];</span>
+</span><span class="line">        <span class="k">if</span><span class="p">(</span> <span class="n">newx</span><span class="o">&lt;</span><span class="mi">0</span> <span class="o">||</span> <span class="n">newx</span> <span class="o">&gt;=</span><span class="n">m</span><span class="p">)</span><span class="k">continue</span><span class="p">;</span>
+</span><span class="line">        <span class="k">if</span><span class="p">(</span> <span class="n">newy</span><span class="o">&lt;</span><span class="mi">0</span> <span class="o">||</span> <span class="n">newy</span> <span class="o">&gt;=</span><span class="n">n</span><span class="p">)</span> <span class="k">continue</span><span class="p">;</span>
+</span><span class="line">        <span class="k">if</span><span class="p">(</span><span class="n">img_bin</span><span class="p">.</span><span class="n">at</span><span class="o">&lt;</span><span class="n">uchar</span><span class="o">&gt;</span><span class="p">(</span><span class="n">newx</span><span class="p">,</span><span class="n">newy</span><span class="p">)</span><span class="o">&gt;</span><span class="n">maxValue</span> <span class="o">&amp;&amp;</span> <span class="n">f</span><span class="p">[</span><span class="n">newx</span><span class="p">][</span><span class="n">newy</span><span class="p">]</span> <span class="o">==</span> <span class="mi">0</span><span class="p">)</span>
+</span><span class="line">            <span class="n">fill</span><span class="p">(</span><span class="n">img_bin</span><span class="p">,</span><span class="n">newx</span><span class="p">,</span><span class="n">newy</span><span class="p">,</span><span class="n">room</span><span class="p">);</span>
+</span><span class="line">    <span class="p">}</span>
+</span><span class="line"><span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<ul>
+  <li>当所有点都染色结束后，就需要筛选其中的圆了。我的想法是，对每个连通分量进行判断：<br />
+    <ol>
+      <li>如果该连通分量内的点少于<em>min_pixel</em>，我就认为这是噪声点，肯定不是我的圆，将它排除</li>
+      <li>将每一个点的坐标<code>(x,y)</code>看作两个随机变量<em>X，Y</em>，由于我们知道圆，及椭圆的方程为二次方程，即如果这些点满足圆的方程，则他们为平方关系，完全无线性关系。所以如果我们求这两个随机变量的相关系数，其值应该十分趋近于零。反之，如果大于一个很小的值<em>eps</em>，则认为这不是圆</li>
+      <li>到这里大部分的干扰应该都能除去了，但是可能还会有少部分不是圆的形状满足这个逻辑，目前我没有更好的办法解决它~~所以只好输出它了，我在找到的圆心上画了十字叉和正圆，效果见最底下</li>
+    </ol>
+  </li>
+</ul>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span>select and output</span></figcaption>
+ <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+<span class="line-number">4</span>
+<span class="line-number">5</span>
+<span class="line-number">6</span>
+<span class="line-number">7</span>
+<span class="line-number">8</span>
+<span class="line-number">9</span>
+<span class="line-number">10</span>
+<span class="line-number">11</span>
+<span class="line-number">12</span>
+<span class="line-number">13</span>
+<span class="line-number">14</span>
+<span class="line-number">15</span>
+<span class="line-number">16</span>
+<span class="line-number">17</span>
+<span class="line-number">18</span>
+<span class="line-number">19</span>
+<span class="line-number">20</span>
+<span class="line-number">21</span>
+<span class="line-number">22</span>
+<span class="line-number">23</span>
+<span class="line-number">24</span>
+<span class="line-number">25</span>
+<span class="line-number">26</span>
+<span class="line-number">27</span>
+<span class="line-number">28</span>
+<span class="line-number">29</span>
+<span class="line-number">30</span>
+<span class="line-number">31</span>
+<span class="line-number">32</span>
+<span class="line-number">33</span>
+<span class="line-number">34</span>
+<span class="line-number">35</span>
+<span class="line-number">36</span>
+<span class="line-number">37</span>
+<span class="line-number">38</span>
+</pre></td><td class="code"><pre><code class="cpp"><span class="line"><span class="kt">void</span> <span class="n">output</span><span class="p">(</span><span class="n">Mat</span> <span class="o">&amp;</span> <span class="n">img_bin</span><span class="p">,</span><span class="kt">int</span> <span class="n">room</span><span class="p">)</span>
+</span><span class="line"><span class="p">{</span>
+</span><span class="line">
+</span><span class="line">    <span class="k">const</span> <span class="kt">int</span> <span class="n">min_pixel</span><span class="o">=</span><span class="mi">250</span><span class="p">;</span>
+</span><span class="line">    <span class="k">const</span> <span class="kt">float</span> <span class="n">eps</span><span class="o">=</span><span class="mf">0.05</span><span class="p">;</span>
+</span><span class="line">    <span class="n">printf</span><span class="p">(</span><span class="s">&quot;Number=%d</span><span class="se">\n</span><span class="s">&quot;</span><span class="p">,</span><span class="n">room</span><span class="p">);</span>
+</span><span class="line">    <span class="k">for</span><span class="p">(</span><span class="kt">int</span> <span class="n">k</span><span class="o">=</span><span class="mi">1</span><span class="p">;</span> <span class="n">k</span><span class="o">&lt;=</span><span class="n">room</span><span class="p">;</span> <span class="n">k</span><span class="o">++</span><span class="p">)</span>
+</span><span class="line">    <span class="p">{</span>
+</span><span class="line">        <span class="n">Linevec</span> <span class="n">x</span><span class="p">,</span><span class="n">y</span><span class="p">;</span>
+</span><span class="line">        <span class="kt">int</span> <span class="n">num</span><span class="o">=</span><span class="mi">0</span><span class="p">;</span>
+</span><span class="line">        <span class="k">for</span><span class="p">(</span><span class="kt">int</span> <span class="n">i</span><span class="o">=</span><span class="mi">1</span><span class="p">;</span> <span class="n">i</span><span class="o">&lt;</span><span class="n">m</span><span class="p">;</span> <span class="n">i</span><span class="o">++</span><span class="p">)</span>
+</span><span class="line">            <span class="k">for</span><span class="p">(</span><span class="kt">int</span> <span class="n">j</span><span class="o">=</span><span class="mi">1</span><span class="p">;</span> <span class="n">j</span><span class="o">&lt;</span><span class="n">n</span><span class="p">;</span> <span class="n">j</span><span class="o">++</span><span class="p">)</span>
+</span><span class="line">            <span class="p">{</span>
+</span><span class="line">                <span class="k">if</span><span class="p">(</span> <span class="n">f</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="n">j</span><span class="p">]</span><span class="o">==</span><span class="n">k</span><span class="p">)</span>
+</span><span class="line">                <span class="p">{</span>
+</span><span class="line">                    <span class="n">x</span><span class="p">.</span><span class="n">add</span><span class="p">(</span><span class="n">i</span><span class="p">),</span><span class="n">y</span><span class="p">.</span><span class="n">add</span><span class="p">(</span><span class="n">j</span><span class="p">),</span><span class="o">++</span><span class="n">num</span><span class="p">;</span>
+</span><span class="line">
+</span><span class="line">                <span class="p">}</span>
+</span><span class="line">            <span class="p">}</span>
+</span><span class="line">        <span class="k">if</span><span class="p">(</span><span class="n">num</span><span class="o">&lt;</span><span class="n">min_pixel</span><span class="p">)</span>
+</span><span class="line">        <span class="p">{</span>
+</span><span class="line">            <span class="n">clean</span><span class="p">(</span><span class="n">img_bin</span><span class="p">,</span><span class="n">x</span><span class="p">,</span><span class="n">y</span><span class="p">);</span>
+</span><span class="line">            <span class="k">continue</span><span class="p">;</span>
+</span><span class="line">        <span class="p">}</span>
+</span><span class="line">
+</span><span class="line">
+</span><span class="line">        <span class="k">if</span><span class="p">(</span> <span class="n">fabs</span><span class="p">(</span><span class="n">Factor</span><span class="o">::</span><span class="n">Corr</span><span class="p">(</span><span class="n">x</span><span class="p">,</span><span class="n">y</span><span class="p">))</span><span class="o">&gt;</span><span class="n">eps</span><span class="p">)</span>
+</span><span class="line">        <span class="p">{</span>
+</span><span class="line">            <span class="n">clean</span><span class="p">(</span><span class="n">img_bin</span><span class="p">,</span><span class="n">x</span><span class="p">,</span><span class="n">y</span><span class="p">);</span>
+</span><span class="line">            <span class="k">continue</span><span class="p">;</span>
+</span><span class="line">        <span class="p">}</span>
+</span><span class="line">
+</span><span class="line">        <span class="n">printf</span><span class="p">(</span><span class="s">&quot;No.%d:x=%f,y=%f</span><span class="se">\n</span><span class="s">&quot;</span><span class="p">,</span><span class="n">k</span><span class="p">,</span><span class="n">x</span><span class="p">.</span><span class="n">getAverage</span><span class="p">(),</span><span class="n">y</span><span class="p">.</span><span class="n">getAverage</span><span class="p">());</span>
+</span><span class="line">        <span class="n">printf</span><span class="p">(</span><span class="s">&quot;Corr=%f,Cov=%f</span><span class="se">\n</span><span class="s">&quot;</span><span class="p">,</span><span class="n">Factor</span><span class="o">::</span><span class="n">Corr</span><span class="p">(</span><span class="n">x</span><span class="p">,</span><span class="n">y</span><span class="p">),</span><span class="n">Factor</span><span class="o">::</span><span class="n">Cov</span><span class="p">(</span><span class="n">x</span><span class="p">,</span><span class="n">y</span><span class="p">));</span>
+</span><span class="line">        <span class="n">DrawTarget</span><span class="p">(</span><span class="n">img_bin</span><span class="p">,</span><span class="n">y</span><span class="p">.</span><span class="n">getAverage</span><span class="p">(),</span><span class="n">x</span><span class="p">.</span><span class="n">getAverage</span><span class="p">());</span>
+</span><span class="line">    <span class="p">}</span>
+</span><span class="line">    <span class="c1">//cin.get();</span>
+</span><span class="line"><span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<p>上述代码中的<em>Linevec</em>用于单个随机变量的数字特征计算，<em>Factor</em>类用于计算两个随机变量的协方差及相关系数，这里不考虑软件工程里的封装之类的东西，仅仅作为简单的工具，所以一切都是<em>public</em>。分别定义如下：</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span>Linevec</span></figcaption>
+ <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+<span class="line-number">4</span>
+<span class="line-number">5</span>
+<span class="line-number">6</span>
+<span class="line-number">7</span>
+<span class="line-number">8</span>
+<span class="line-number">9</span>
+<span class="line-number">10</span>
+<span class="line-number">11</span>
+<span class="line-number">12</span>
+<span class="line-number">13</span>
+<span class="line-number">14</span>
+<span class="line-number">15</span>
+<span class="line-number">16</span>
+<span class="line-number">17</span>
+<span class="line-number">18</span>
+<span class="line-number">19</span>
+<span class="line-number">20</span>
+<span class="line-number">21</span>
+<span class="line-number">22</span>
+<span class="line-number">23</span>
+<span class="line-number">24</span>
+<span class="line-number">25</span>
+<span class="line-number">26</span>
+<span class="line-number">27</span>
+<span class="line-number">28</span>
+<span class="line-number">29</span>
+<span class="line-number">30</span>
+<span class="line-number">31</span>
+<span class="line-number">32</span>
+<span class="line-number">33</span>
+<span class="line-number">34</span>
+<span class="line-number">35</span>
+<span class="line-number">36</span>
+<span class="line-number">37</span>
+<span class="line-number">38</span>
+<span class="line-number">39</span>
+<span class="line-number">40</span>
+<span class="line-number">41</span>
+<span class="line-number">42</span>
+<span class="line-number">43</span>
+<span class="line-number">44</span>
+<span class="line-number">45</span>
+<span class="line-number">46</span>
+<span class="line-number">47</span>
+<span class="line-number">48</span>
+<span class="line-number">49</span>
+<span class="line-number">50</span>
+<span class="line-number">51</span>
+<span class="line-number">52</span>
+<span class="line-number">53</span>
+<span class="line-number">54</span>
+<span class="line-number">55</span>
+<span class="line-number">56</span>
+<span class="line-number">57</span>
+<span class="line-number">58</span>
+<span class="line-number">59</span>
+<span class="line-number">60</span>
+<span class="line-number">61</span>
+<span class="line-number">62</span>
+<span class="line-number">63</span>
+<span class="line-number">64</span>
+<span class="line-number">65</span>
+<span class="line-number">66</span>
+<span class="line-number">67</span>
+<span class="line-number">68</span>
+<span class="line-number">69</span>
+<span class="line-number">70</span>
+<span class="line-number">71</span>
+<span class="line-number">72</span>
+<span class="line-number">73</span>
+<span class="line-number">74</span>
+<span class="line-number">75</span>
+<span class="line-number">76</span>
+<span class="line-number">77</span>
+<span class="line-number">78</span>
+<span class="line-number">79</span>
+<span class="line-number">80</span>
+<span class="line-number">81</span>
+<span class="line-number">82</span>
+<span class="line-number">83</span>
+<span class="line-number">84</span>
+<span class="line-number">85</span>
+<span class="line-number">86</span>
+<span class="line-number">87</span>
+<span class="line-number">88</span>
+<span class="line-number">89</span>
+</pre></td><td class="code"><pre><code class="cpp"><span class="line"><span class="k">class</span> <span class="nc">Linevec</span>
+</span><span class="line"><span class="p">{</span>
+</span><span class="line"><span class="k">public</span><span class="o">:</span>
+</span><span class="line">
+</span><span class="line">    <span class="n">vector</span><span class="o">&lt;</span><span class="kt">float</span><span class="o">&gt;</span> <span class="n">data</span><span class="p">;</span>
+</span><span class="line">
+</span><span class="line">    <span class="kt">float</span> <span class="n">sum</span><span class="p">;</span>
+</span><span class="line">    <span class="kt">float</span> <span class="n">x_average</span><span class="p">;</span>
+</span><span class="line">    <span class="kt">float</span> <span class="n">x2_average</span><span class="p">;</span>
+</span><span class="line">    <span class="kt">float</span> <span class="n">var</span><span class="p">;</span>
+</span><span class="line">
+</span><span class="line">    <span class="n">Linevec</span><span class="p">(</span><span class="k">const</span> <span class="n">Linevec</span><span class="o">&amp;</span> <span class="n">temp</span><span class="p">)</span>
+</span><span class="line">    <span class="p">{</span>
+</span><span class="line">
+</span><span class="line">        <span class="n">data</span><span class="o">=</span><span class="n">temp</span><span class="p">.</span><span class="n">data</span><span class="p">;</span>
+</span><span class="line">        <span class="n">sum</span><span class="o">=</span><span class="n">temp</span><span class="p">.</span><span class="n">sum</span><span class="p">;</span>
+</span><span class="line">        <span class="n">x_average</span><span class="o">=</span><span class="n">temp</span><span class="p">.</span><span class="n">x_average</span><span class="p">;</span>
+</span><span class="line">        <span class="n">x2_average</span><span class="o">=</span><span class="n">temp</span><span class="p">.</span><span class="n">x2_average</span><span class="p">;</span>
+</span><span class="line">    <span class="p">}</span>
+</span><span class="line">    <span class="n">Linevec</span><span class="p">()</span>
+</span><span class="line">    <span class="p">{</span>
+</span><span class="line">        <span class="n">sum</span><span class="o">=</span><span class="n">x_average</span><span class="o">=</span><span class="n">x2_average</span><span class="o">=</span><span class="mi">0</span><span class="p">;</span>
+</span><span class="line">    <span class="p">}</span>
+</span><span class="line">    <span class="n">Linevec</span><span class="p">(</span><span class="kt">int</span> <span class="n">N</span><span class="p">)</span>
+</span><span class="line">    <span class="p">{</span>
+</span><span class="line">
+</span><span class="line">        <span class="n">data</span><span class="p">.</span><span class="n">resize</span><span class="p">(</span><span class="n">N</span><span class="p">);</span>
+</span><span class="line">    <span class="p">}</span>
+</span><span class="line">    <span class="kt">void</span> <span class="n">readData</span><span class="p">()</span>
+</span><span class="line">    <span class="p">{</span>
+</span><span class="line">        <span class="k">for</span><span class="p">(</span><span class="kt">unsigned</span> <span class="kt">int</span> <span class="n">i</span><span class="o">=</span><span class="mi">1</span><span class="p">;</span> <span class="n">i</span><span class="o">&lt;=</span><span class="n">data</span><span class="p">.</span><span class="n">size</span><span class="p">();</span> <span class="n">i</span><span class="o">++</span><span class="p">)</span>
+</span><span class="line">        <span class="p">{</span>
+</span><span class="line">            <span class="n">cin</span><span class="o">&gt;&gt;</span><span class="n">data</span><span class="p">[</span><span class="n">i</span><span class="p">];</span>
+</span><span class="line">            <span class="n">sum</span><span class="o">+=</span><span class="n">data</span><span class="p">[</span><span class="n">i</span><span class="p">];</span>
+</span><span class="line">            <span class="n">x2_average</span><span class="o">+=</span><span class="n">data</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">*</span><span class="n">data</span><span class="p">[</span><span class="n">i</span><span class="p">];</span>
+</span><span class="line">        <span class="p">}</span>
+</span><span class="line">        <span class="n">cout</span><span class="o">&lt;&lt;</span><span class="s">&quot;Read Finished&quot;</span><span class="o">&lt;&lt;</span><span class="n">endl</span><span class="p">;</span>
+</span><span class="line">        <span class="n">x_average</span><span class="o">=</span><span class="n">sum</span><span class="o">/</span><span class="n">data</span><span class="p">.</span><span class="n">size</span><span class="p">();</span>
+</span><span class="line">        <span class="n">x2_average</span><span class="o">/=</span><span class="n">data</span><span class="p">.</span><span class="n">size</span><span class="p">();</span>
+</span><span class="line">    <span class="p">}</span>
+</span><span class="line">    <span class="kt">void</span> <span class="n">add</span><span class="p">(</span><span class="kt">float</span> <span class="n">t</span><span class="p">)</span>
+</span><span class="line">    <span class="p">{</span>
+</span><span class="line">        <span class="n">data</span><span class="p">.</span><span class="n">push_back</span><span class="p">(</span><span class="n">t</span><span class="p">);</span>
+</span><span class="line">
+</span><span class="line">    <span class="p">}</span>
+</span><span class="line">    <span class="kt">float</span> <span class="n">getSum</span><span class="p">()</span>
+</span><span class="line">    <span class="p">{</span>
+</span><span class="line">
+</span><span class="line">        <span class="n">sum</span><span class="o">=</span><span class="mi">0</span><span class="p">;</span>
+</span><span class="line">        <span class="k">for</span><span class="p">(</span><span class="n">vector</span><span class="o">&lt;</span><span class="kt">float</span><span class="o">&gt;::</span><span class="n">iterator</span> <span class="n">i</span><span class="o">=</span><span class="n">data</span><span class="p">.</span><span class="n">begin</span><span class="p">();</span> <span class="n">i</span><span class="o">!=</span><span class="n">data</span><span class="p">.</span><span class="n">end</span><span class="p">();</span> <span class="n">i</span><span class="o">++</span><span class="p">)</span>
+</span><span class="line">            <span class="n">sum</span><span class="o">+=*</span><span class="n">i</span><span class="p">;</span>
+</span><span class="line">        <span class="k">return</span> <span class="n">sum</span><span class="p">;</span>
+</span><span class="line">    <span class="p">}</span>
+</span><span class="line">    <span class="kt">float</span> <span class="n">getAverage</span><span class="p">()</span>
+</span><span class="line">    <span class="p">{</span>
+</span><span class="line">
+</span><span class="line">        <span class="k">return</span> <span class="n">x_average</span><span class="o">=</span><span class="n">getSum</span><span class="p">()</span><span class="o">/</span><span class="n">data</span><span class="p">.</span><span class="n">size</span><span class="p">();</span>
+</span><span class="line">    <span class="p">}</span>
+</span><span class="line">    <span class="kt">float</span> <span class="n">getAverage2</span><span class="p">()</span>
+</span><span class="line">    <span class="p">{</span>
+</span><span class="line">
+</span><span class="line">        <span class="n">x2_average</span><span class="o">=</span><span class="mi">0</span><span class="p">;</span>
+</span><span class="line">        <span class="k">for</span><span class="p">(</span><span class="n">vector</span><span class="o">&lt;</span><span class="kt">float</span><span class="o">&gt;::</span><span class="n">iterator</span> <span class="n">i</span><span class="o">=</span><span class="n">data</span><span class="p">.</span><span class="n">begin</span><span class="p">();</span> <span class="n">i</span><span class="o">!=</span><span class="n">data</span><span class="p">.</span><span class="n">end</span><span class="p">();</span> <span class="n">i</span><span class="o">++</span><span class="p">)</span>
+</span><span class="line">            <span class="n">x2_average</span><span class="o">+=</span><span class="p">(</span><span class="o">*</span><span class="n">i</span><span class="p">)</span><span class="o">*</span><span class="p">(</span><span class="o">*</span><span class="n">i</span><span class="p">);</span>
+</span><span class="line">        <span class="k">return</span> <span class="n">x2_average</span><span class="o">=</span><span class="n">x2_average</span><span class="o">/</span><span class="n">data</span><span class="p">.</span><span class="n">size</span><span class="p">();</span>
+</span><span class="line">    <span class="p">}</span>
+</span><span class="line">    <span class="kt">int</span> <span class="n">getCount</span><span class="p">()</span>
+</span><span class="line">    <span class="p">{</span>
+</span><span class="line">        <span class="k">return</span> <span class="n">data</span><span class="p">.</span><span class="n">size</span><span class="p">();</span>
+</span><span class="line">    <span class="p">}</span>
+</span><span class="line">    <span class="kt">float</span> <span class="n">E</span><span class="p">()</span>
+</span><span class="line">    <span class="p">{</span>
+</span><span class="line">        <span class="k">return</span> <span class="n">getAverage</span><span class="p">();</span>
+</span><span class="line">    <span class="p">}</span>
+</span><span class="line">    <span class="kt">float</span> <span class="n">E2</span><span class="p">()</span>
+</span><span class="line">    <span class="p">{</span>
+</span><span class="line">        <span class="k">return</span> <span class="n">getAverage2</span><span class="p">();</span>
+</span><span class="line">    <span class="p">}</span>
+</span><span class="line">    <span class="kt">float</span> <span class="n">Var</span><span class="p">()</span>
+</span><span class="line">    <span class="p">{</span>
+</span><span class="line">
+</span><span class="line">        <span class="n">var</span><span class="o">=</span><span class="mf">0.0f</span><span class="p">;</span>
+</span><span class="line">        <span class="n">getAverage</span><span class="p">();</span>
+</span><span class="line">        <span class="k">for</span><span class="p">(</span><span class="kt">unsigned</span> <span class="kt">int</span> <span class="n">i</span><span class="o">=</span><span class="mi">0</span><span class="p">;</span> <span class="n">i</span><span class="o">&lt;</span><span class="n">data</span><span class="p">.</span><span class="n">size</span><span class="p">();</span> <span class="n">i</span><span class="o">++</span><span class="p">)</span>
+</span><span class="line">            <span class="n">var</span><span class="o">+=</span><span class="p">(</span><span class="n">data</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">-</span><span class="n">x_average</span><span class="p">)</span><span class="o">*</span><span class="p">(</span><span class="n">data</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">-</span><span class="n">x_average</span><span class="p">);</span>
+</span><span class="line">        <span class="n">var</span><span class="o">/=</span><span class="n">data</span><span class="p">.</span><span class="n">size</span><span class="p">()</span><span class="o">-</span><span class="mi">1</span><span class="p">;</span>
+</span><span class="line">        <span class="k">return</span> <span class="n">var</span><span class="p">;</span>
+</span><span class="line">    <span class="p">}</span>
+</span><span class="line"><span class="p">};</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span>Factor</span></figcaption>
+ <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+<span class="line-number">4</span>
+<span class="line-number">5</span>
+<span class="line-number">6</span>
+<span class="line-number">7</span>
+<span class="line-number">8</span>
+<span class="line-number">9</span>
+<span class="line-number">10</span>
+<span class="line-number">11</span>
+<span class="line-number">12</span>
+<span class="line-number">13</span>
+<span class="line-number">14</span>
+<span class="line-number">15</span>
+<span class="line-number">16</span>
+<span class="line-number">17</span>
+</pre></td><td class="code"><pre><code class="cpp"><span class="line"><span class="k">class</span> <span class="nc">Factor</span>
+</span><span class="line"><span class="p">{</span>
+</span><span class="line"><span class="k">public</span><span class="o">:</span>
+</span><span class="line">
+</span><span class="line">    <span class="k">static</span> <span class="kt">float</span> <span class="n">Cov</span><span class="p">(</span><span class="n">Linevec</span> <span class="o">&amp;</span><span class="n">x</span><span class="p">,</span><span class="n">Linevec</span> <span class="o">&amp;</span><span class="n">y</span><span class="p">)</span>
+</span><span class="line">    <span class="p">{</span>
+</span><span class="line">        <span class="kt">float</span> <span class="n">xy_average</span><span class="o">=</span><span class="mf">0.0f</span><span class="p">;</span>
+</span><span class="line">        <span class="k">for</span><span class="p">(</span><span class="kt">int</span> <span class="n">i</span><span class="o">=</span><span class="mi">0</span><span class="p">;</span> <span class="n">i</span><span class="o">&lt;</span><span class="n">x</span><span class="p">.</span><span class="n">getCount</span><span class="p">();</span> <span class="n">i</span><span class="o">++</span><span class="p">)</span>
+</span><span class="line">            <span class="n">xy_average</span><span class="o">+=</span><span class="n">x</span><span class="p">.</span><span class="n">data</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">*</span><span class="n">y</span><span class="p">.</span><span class="n">data</span><span class="p">[</span><span class="n">i</span><span class="p">];</span>
+</span><span class="line">        <span class="n">xy_average</span><span class="o">/=</span><span class="n">x</span><span class="p">.</span><span class="n">getCount</span><span class="p">();</span>
+</span><span class="line">        <span class="k">return</span> <span class="n">xy_average</span><span class="o">-</span><span class="n">x</span><span class="p">.</span><span class="n">E</span><span class="p">()</span><span class="o">*</span><span class="n">y</span><span class="p">.</span><span class="n">E</span><span class="p">();</span>
+</span><span class="line">    <span class="p">}</span>
+</span><span class="line">    <span class="k">static</span> <span class="kt">float</span> <span class="n">Corr</span><span class="p">(</span><span class="n">Linevec</span> <span class="o">&amp;</span><span class="n">x</span><span class="p">,</span><span class="n">Linevec</span> <span class="o">&amp;</span><span class="n">y</span><span class="p">)</span>
+</span><span class="line">    <span class="p">{</span>
+</span><span class="line">        <span class="k">return</span> <span class="n">Cov</span><span class="p">(</span><span class="n">x</span><span class="p">,</span><span class="n">y</span><span class="p">)</span><span class="o">/</span><span class="n">sqrt</span><span class="p">(</span><span class="n">x</span><span class="p">.</span><span class="n">Var</span><span class="p">()</span><span class="o">*</span><span class="n">y</span><span class="p">.</span><span class="n">Var</span><span class="p">());</span>
+</span><span class="line">    <span class="p">}</span>
+</span><span class="line"><span class="p">};</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<p>由于图省事，有一些变量我设置了全局，我列在下面,</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+<span class="line-number">4</span>
+</pre></td><td class="code"><pre><code class="cpp"><span class="line"><span class="kt">int</span> <span class="n">n</span><span class="p">,</span><span class="n">m</span><span class="p">;</span>
+</span><span class="line"><span class="k">const</span> <span class="kt">int</span> <span class="n">width</span><span class="o">=</span><span class="mi">800</span><span class="p">,</span><span class="n">height</span><span class="o">=</span><span class="mi">800</span><span class="p">;</span>
+</span><span class="line"><span class="kt">int</span> <span class="n">f</span><span class="p">[</span><span class="n">height</span><span class="p">][</span><span class="n">width</span><span class="p">];</span>
+</span><span class="line"><span class="k">const</span> <span class="kt">int</span> <span class="n">maxValue</span><span class="o">=</span><span class="mi">200</span><span class="p">;</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<p>最终效果如下：
+<img src="/images/image/nocirclefound.png" alt="没找到圆" />
+<img src="/images/image/findcircle.png" alt="找到圆" /></p>
+
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2012/03/study-android-1/">学习Android开发-SVG文件解析</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2012-03-15T18:57:00+08:00" pubdate data-updated="true">Mar 15<span>th</span>, 2012</time>
+        
+         | <a href="/blog/2012/03/study-android-1/#disqus_thread">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>我毕业设计的题目是在安卓平台上开发一个工程图的浏览器。需要从服务器中读取用户选择的图纸，并在终端上显示。我所接收到的图纸的类型是SVG格式。</p>
+
+<p>Android并没有直接支持渲染SVG格式，而CodeProject和GitHub上的那些SVG库又都很不靠谱，所以我需要自己解析并绘图。SVG格式的图片是基于XML的，所以图片相当于一个文档，可以用解析XML文档的方式来解析图片。关于SVG图片的详情请见<a href="http://www.w3school.com.cn/svg/svg_intro.asp">这里</a></p>
+
+<p>由于SVG是基于XML的，即需要解析的是一个XML文件，所以需要一个<em>Document</em>对象。这里我使用了JAVA自带的DOM（Document Object Model）方式解析，所以需要一个<em>DocumentBuilder</em>对象来从XML文件中获取DOM文档的实例,然后将解析出的文档传给<em>Document</em>对象。而这个<em>DocumentBuilder</em>对象的初始化又需要用<em>DocumentBuilderFactory</em>的工厂方法。所以初始化的代码如下：</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+<span class="line-number">4</span>
+<span class="line-number">5</span>
+<span class="line-number">6</span>
+<span class="line-number">7</span>
+<span class="line-number">8</span>
+<span class="line-number">9</span>
+<span class="line-number">10</span>
+<span class="line-number">11</span>
+<span class="line-number">12</span>
+<span class="line-number">13</span>
+<span class="line-number">14</span>
+<span class="line-number">15</span>
+<span class="line-number">16</span>
+<span class="line-number">17</span>
+<span class="line-number">18</span>
+<span class="line-number">19</span>
+<span class="line-number">20</span>
+<span class="line-number">21</span>
+</pre></td><td class="code"><pre><code class="csharp"><span class="line"><span class="k">private</span> <span class="n">InputStream</span> <span class="n">_svgFile</span><span class="p">;</span>
+</span><span class="line"><span class="n">Document</span> <span class="n">doc</span><span class="p">;</span>
+</span><span class="line"><span class="n">NodeList</span> <span class="n">nList</span><span class="p">;</span>
+</span><span class="line"><span class="k">public</span> <span class="nf">SVGParase</span><span class="p">(</span><span class="n">InputStream</span> <span class="n">svgFile</span><span class="p">)</span> <span class="n">throws</span> <span class="n">SAXException</span><span class="p">,</span> <span class="n">IOException</span>
+</span><span class="line"><span class="p">{</span>
+</span><span class="line">	<span class="n">_svgFile</span><span class="p">=</span><span class="n">svgFile</span><span class="p">;</span>
+</span><span class="line">	<span class="n">DocumentBuilderFactory</span> <span class="n">dbFactory</span> <span class="p">=</span> <span class="n">DocumentBuilderFactory</span>
+</span><span class="line">	        <span class="p">.</span><span class="n">newInstance</span><span class="p">();</span>
+</span><span class="line">	<span class="n">DocumentBuilder</span> <span class="n">dBuilder</span><span class="p">;</span>
+</span><span class="line">       <span class="k">try</span>
+</span><span class="line">       <span class="p">{</span>
+</span><span class="line">        <span class="n">dBuilder</span> <span class="p">=</span> <span class="n">dbFactory</span><span class="p">.</span><span class="n">newDocumentBuilder</span><span class="p">();</span>
+</span><span class="line">        <span class="n">doc</span> <span class="p">=</span> <span class="n">dBuilder</span><span class="p">.</span><span class="n">parse</span><span class="p">(</span><span class="n">_svgFile</span><span class="p">);</span>
+</span><span class="line">	<span class="n">doc</span><span class="p">.</span><span class="n">getDocumentElement</span><span class="p">().</span><span class="n">normalize</span><span class="p">();</span>
+</span><span class="line">       <span class="p">}</span>
+</span><span class="line">       <span class="k">catch</span> <span class="p">(</span><span class="n">ParserConfigurationException</span> <span class="n">e</span><span class="p">)</span>
+</span><span class="line">       <span class="p">{</span>
+</span><span class="line">        <span class="c1">// TODO Auto-generated catch block</span>
+</span><span class="line">        <span class="n">e</span><span class="p">.</span><span class="n">printStackTrace</span><span class="p">();</span>
+</span><span class="line">       <span class="p">}</span>
+</span><span class="line"><span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<p>SVG中图形的形式主要有直线段，圆，椭圆，文本等，标签名为polyline，circile，eclipse，text等。所以要解析某一种图形，先查找所有拥有该标签的节点。下面以圆为例：
+首先查找有circle标签的结点，其中查到的每一个结点如果类型为element，则它代表了一个圆。每一个圆通过 <em>圆心坐标和半径</em> 三个属性来定义，所以在其中查找属性：<em>cx</em>,<em>cy</em>,<em>r</em>即为圆的参数。代码如下：</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+<span class="line-number">4</span>
+<span class="line-number">5</span>
+<span class="line-number">6</span>
+<span class="line-number">7</span>
+<span class="line-number">8</span>
+<span class="line-number">9</span>
+<span class="line-number">10</span>
+<span class="line-number">11</span>
+<span class="line-number">12</span>
+<span class="line-number">13</span>
+<span class="line-number">14</span>
+<span class="line-number">15</span>
+<span class="line-number">16</span>
+<span class="line-number">17</span>
+<span class="line-number">18</span>
+<span class="line-number">19</span>
+<span class="line-number">20</span>
+<span class="line-number">21</span>
+<span class="line-number">22</span>
+<span class="line-number">23</span>
+</pre></td><td class="code"><pre><code class="java"><span class="line"><span class="kd">public</span> <span class="n">ArrayList</span><span class="o">&lt;</span><span class="n">Circle</span><span class="o">&gt;</span> <span class="n">getCircles</span><span class="o">()</span>
+</span><span class="line">	<span class="o">{</span>
+</span><span class="line">		<span class="n">ArrayList</span><span class="o">&lt;</span><span class="n">Circle</span><span class="o">&gt;</span> <span class="n">circles</span><span class="o">=</span><span class="k">new</span> <span class="n">ArrayList</span><span class="o">&lt;</span><span class="n">Circle</span><span class="o">&gt;(</span><span class="mi">100</span><span class="o">);</span>
+</span><span class="line">		<span class="n">Circle</span> <span class="n">circle</span><span class="o">;</span>
+</span><span class="line">		<span class="n">nList</span> <span class="o">=</span> <span class="n">doc</span><span class="o">.</span><span class="na">getElementsByTagName</span><span class="o">(</span><span class="s">&quot;circle&quot;</span><span class="o">);</span>
+</span><span class="line">		<span class="k">for</span> <span class="o">(</span><span class="kt">int</span> <span class="n">temp</span> <span class="o">=</span> <span class="mi">0</span><span class="o">;</span> <span class="n">temp</span> <span class="o">&lt;</span> <span class="n">nList</span><span class="o">.</span><span class="na">getLength</span><span class="o">();</span> <span class="n">temp</span><span class="o">++)</span>
+</span><span class="line">		<span class="o">{</span>
+</span><span class="line">
+</span><span class="line">			<span class="n">Node</span> <span class="n">nNode</span> <span class="o">=</span> <span class="n">nList</span><span class="o">.</span><span class="na">item</span><span class="o">(</span><span class="n">temp</span><span class="o">);</span>
+</span><span class="line">			
+</span><span class="line">			<span class="k">if</span> <span class="o">(</span><span class="n">nNode</span><span class="o">.</span><span class="na">getNodeType</span><span class="o">()</span> <span class="o">==</span> <span class="n">Node</span><span class="o">.</span><span class="na">ELEMENT_NODE</span><span class="o">)</span>
+</span><span class="line">			<span class="o">{</span>
+</span><span class="line">
+</span><span class="line">				<span class="n">Element</span> <span class="n">eElement</span> <span class="o">=</span> <span class="o">(</span><span class="n">Element</span><span class="o">)</span> <span class="n">nNode</span><span class="o">;</span>
+</span><span class="line">				<span class="n">String</span> <span class="n">cx</span> <span class="o">=</span> <span class="n">eElement</span><span class="o">.</span><span class="na">getAttribute</span><span class="o">(</span><span class="s">&quot;cx&quot;</span><span class="o">);</span>
+</span><span class="line">				<span class="n">String</span> <span class="n">cy</span> <span class="o">=</span> <span class="n">eElement</span><span class="o">.</span><span class="na">getAttribute</span><span class="o">(</span><span class="s">&quot;cy&quot;</span><span class="o">);</span>
+</span><span class="line">				<span class="n">String</span> <span class="n">r</span> <span class="o">=</span> <span class="n">eElement</span><span class="o">.</span><span class="na">getAttribute</span><span class="o">(</span><span class="s">&quot;r&quot;</span><span class="o">);</span>
+</span><span class="line">				<span class="n">circle</span><span class="o">=</span><span class="k">new</span> <span class="n">Circle</span><span class="o">(</span><span class="n">cx</span><span class="o">,</span> <span class="n">cy</span><span class="o">,</span> <span class="n">r</span><span class="o">);</span>
+</span><span class="line">				<span class="n">circles</span><span class="o">.</span><span class="na">add</span><span class="o">(</span><span class="n">circle</span><span class="o">);</span>
+</span><span class="line">			<span class="o">}</span>
+</span><span class="line">		<span class="o">}</span>
+</span><span class="line">		<span class="k">return</span> <span class="n">circles</span><span class="o">;</span>
+</span><span class="line">	<span class="o">}</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<p>对于直线等其他的图形，也是同样的解析方式，只要把所有图形存下来就可以绘制了~~</p>
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2012/02/kao-yan-jing-yan/">我关于考研的一点经验</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2012-02-28T15:42:00+08:00" pubdate data-updated="true">Feb 28<span>th</span>, 2012</time>
+        
+         | <a href="/blog/2012/02/kao-yan-jing-yan/#disqus_thread">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>从昨天下午开始查分起，身边就不断爆出各种400+的分数，最高有430+，本班也有420+。我的分数是398，其中政治57，英语66，数学145，专业课130。不知道在总体排名怎么样，但是对我来说这是一个很让我满意的分数。我也不怕丢人，就抛砖引玉说一点我的考研经验，望后人能有所借鉴。</p>
+
+<h3 id="section">关于时间安排</h3>
+<p>我是从8月底开始准备的，但是很不认真，一直到10月开始真正非常认真的做准备。虽然时间倒是够了，我心态也还可以，但是凭心而论，这个时间太紧了。在十月十一月的时候，我每天时间安排的非常满，生怕到考前还复习不完。这样的感觉很不舒服，要不是我对数学和专业课比较感兴趣，恐怕没法保持这么好的心态。毕竟身子后面一个大石头追着的感觉不好。建议大家从8月就开始认真点儿的准备。</p>
+
+<p>我的同学有复习到很晚，早上起的很早的。我不认真的时候每天10点回宿舍，早上10点出发，中午要睡觉。认真的时候早上9点出发，中午还要睡一会儿，晚上11点半回宿舍。其区别不在时间长短，而在学习的状态。我个人感觉睡觉是很重要的，十分不建议大家晚上太晚，十二点多也就够了，可别熬着过，太痛苦了。中午我也要睡一会儿，图书馆很多中午不会宿舍的同学，但是他们也会撑不住，趴在桌子上睡觉。所以还是回宿舍睡觉比较舒服。</p>
+
+<h3 id="section-1">关于辅导班</h3>
+<p>我很重视这个考试，上了不少辅导班：海天政治强化，海天政治冲刺，新东方英语强化，和新东方英语强化班附赠的 政治，数学，英语串讲班。我的政治非常差，所以上完海天政治班，我从一点不知道变成知道了一些，感觉还有所收获，就又报了海天的政治冲刺。但是海天的教学环境，无法让人感觉是一个正规的教育机构，课都是几千人在大礼堂，在体育馆上的。后来听了上了新东方送的政治课，我感觉新东方还是略胜一筹，老师讲课有板书，上课有桌子，这样的感觉才是在上课，才像一个正规的教育机构。
+所以我的感想是，新东方真的是教育机构，且不说老师的情况，新东方是在上课，有桌子有凳子，让你感觉是在学习。海天则像个骗子，把学生放到大礼堂，体育馆，好几千号人坐着听大喇叭里传出来的声音：这个划一下，这个是重点……所以我极其不推荐大家报海天，那感觉，真心差</p>
+
+<h3 id="section-2">关于政治</h3>
+
+<p>我比较差才57，大家千万好好学习啊！要好好背，至于上什么辅导班买什么书，其实都一样，内容就那些，关键是买回来了要背，反复背。。。我就是不好好背的前车之鉴</p>
+
+<h3 id="section-3">关于数学</h3>
+
+<p>这个才是重点，要知道得数学专业课者得天下，这是豆瓣经验帖里我看来的。我的复习过程是：看课本-&gt; 做复习全书 -&gt;做真题专项 -&gt; 做真题卷。我感觉最重要的步骤就是做全书和真题卷。我在第一步复习的时候走了误区，课本看的太细，甚至借了几本外文教材细扣线性代数，看了一些群、环论的东西。但是后来发现，准备考试不能这样，就做了李永乐的<a href="http://book.douban.com/subject/4398150/">数学复习全书</a>，这个书很厚，做起来很痛苦，刚做也有点难度，因为里边不少真题，和真题的改编版。但是希望大家能认真做一遍，确实有效果。至于看网上人说的做好几遍，我觉得没有必要了，这个书还是以学习为主，而不是巩固。而且时间不允许，除非从2，3月份开始复习。第三步，我借的是一本西交大出的<a href="http://book.douban.com/subject/6394719/">历年真题分类解析</a>。其实我感觉是这样，如果不愿意做那么厚的复习全书，完全可以通过这一步来代替。先看一遍课本相关的部分，然后开始做一个分类，这里收录了从84开始的历年数学真题，绝对有实战价值。我因为做了全书，在做这个就不那么痛苦了，也就再没看课本，直接刷题。到12月左右就做完了高数和线代，概率实在做不下去了，就停止了。</p>
+
+<p>这期间我找过我的数学老师lhy，她绝对是一个非常好的老师，很热情的给我讲了一些题，并给我提出了一个高效率的复习方法，就是我最后一步，分享给大家：就是反复做真题卷，成套的做。历年的真题卷叠加在一起，正好就是考研的重点内容的合辑。很容易可以知道那里是重点，那里掌握的不好。一遍又一遍的做。刚开始可能每天只能做一份，分析，查错，然后改错，学习。后来每天就能三五份，再就10多份，反正就轮着来，一遍又一遍，让所有方法，定理，概念，公式烂熟于心。而且考研的时候，最大的问题并不是不会做，而是根本做不完。要知道考研数学基础题占近130分，这些都是不那么难，但是需要计算量的题目。根据我的亲身经历，考研数学结束的时候，很多同学都还没有做完卷子，而最后的几道概率题全是典型题，丢了太可惜。所以反复做真题，熟悉卷子结构，也了解自己的速度，这样在考场上就能把握好时间，不至于做不完卷子。今年考试的时候，我就提前了近一个小时做完第一遍，有充分的时间再检查几遍。所以数学才能考145的成绩，我个人十分满意。</p>
+
+<h3 id="section-4">关于英语</h3>
+
+<p>每年都有同学英语单科不过线，从而饮恨。用新东方老师的话说，考研英语的目的就是刷人，没别的，所以题目很恶心。这个一定要重视起来，最好能很早开始背单词。我就是因为时间不够，没有背单词，词汇表才背了3个list，所以很吃亏。英语的一切都可以归结为翻译，无论是完形，阅读，还是写作，都是英汉互译的过程，所以可以通过翻译来练。我用的新东方唐静的<a href="http://book.douban.com/subject/5991129/">考研英语拆分与组合翻译法:2012</a>，保证每天至少练一句，积少成多，从96年到11年的翻译题我全都做了 一遍，这对我做阅读和写作都很有帮助，因为翻译的句子都是长难句。建议大家先看看语法书，然后练习练习拆分句子结构，对英语考试很有帮助。只要每天坚持做翻译，这10分大部分都能到手。阅读也必须每天做，随便找一本真题，就开始做把，先读一遍，然后做题，做完不对答案，直接开始翻译文章，查字典，顺便记几个单词。不管读的时候看懂了没有，翻译过后应该都能懂了，再做一遍，看看有没有不一样，然后再对答案。这样读一段时间以后，阅读也会提高的。可惜我复习的时间太短了，达不到我其他同学的水平。但是对自己来说，从平均错10个到后来的5个，后来的3个，已经让我很满意了。至于写作，我不建议大家背模版，根本就是扯淡，我建议大家找一些优秀真题作文，去翻译他们的作文，然后看着译文再翻译成英文，这样来几篇，自己的思路就会出现了。然后可以开始写作，每周坚持至少一篇应该够了。</p>
+
+<h3 id="section-5">关于专业课</h3>
+
+<p>专业课都是我比较喜欢的课，我就翻来覆去看书，做真题卷子，不断往现实项目里对比，很快就搞定了。重点就在真题卷子，不管考哪个学校，想办法要到真题卷和对应的课本，出题必在其中，多做几套就很清楚了。</p>
+
+<p>愿大家都考研成功，最后给大家一句话：秦人不暇自哀，而后人哀之。后人哀之而不鉴之，亦使后人而复哀后人也。</p>
+
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2012/02/kao-yan-gan-xiang/">考研一学期的感想</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2012-02-28T14:40:00+08:00" pubdate data-updated="true">Feb 28<span>th</span>, 2012</time>
+        
+         | <a href="/blog/2012/02/kao-yan-gan-xiang/#disqus_thread">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>我从一开始就希望上研究生，但是又不愿意三年的时间全部花在课本之上去争取保研资格，而学校的冯如杯又不是那么靠谱，那么考研就是我唯一的方式了。从大四开学以后到昨天下午查分，我终于经历了一次完整的大考历程。</p>
+
+<p>刚开始准备考研的时候，总听说考自己学校容易，开学了再准备也来得及，于是我从8月底开始，很悠闲的度过了考研的第一个月。开学了我也不着急，每天按时上课，按时写作业，和保研了的女朋友一起自习，时不时再打会儿游戏。每周的生活节奏真是不错，唯一能看出来我是准备考研的，就是周末我需要去上新东方的英语强化班。</p>
+
+<p>这样的情况持续到了十一，我的政治差到无极限，我很害怕政治单科不过线，所以慕名报了海天酱油的政治班。这期间我才开始感受到了考研的气氛，因为其政治班是在社院大礼堂内，足足坐了一千多号人，过道里都挤满了人。我才反应过来，考研的人很多，不是我想想的那么没有竞争~~连续7天每天从早上到下午的政治课，让我都快吐血了，我开始觉得考研不是那么容易了。回学校以后我找了学长，和一起考研的同学们聊天，我才知道反应过来：</p>
+
+<ol>
+  <li>我认识的学长们，没有考上的研究生。因为要么他们是保送的，要么是考研没考上。考自己的学校，还没有一个考上的。而具学长透漏，每年考上我们院的学生中，有三分之一北航的同学，就是多的了。我不禁觉得有点恐怖了，这可怕的事情。</li>
+  <li>我找到了机器人所的招生信息，去年的分数线是355，而最后一名考上的则是360+。换句话说考不上370就很悬。而且每年的招生名额不到30人，还包括已经保送的十几个同学。</li>
+</ol>
+
+<p>我这才反应过来，难怪其他同学都那么刻苦，我每天10点多回宿舍，他们都还在自习。我一贯自习的三号楼二楼只开到10点，然后我就和女朋友回宿舍了。而我的同学都在11点半关门的新主楼，和通宵的三号楼三楼自习，和考研的人一起自习，互相监督。我当时就觉得，这样下去我必然是考不上的。还好我亲爱的女朋友给了我很大的支持，她说之后这段时间不需要我陪她，让我去和考研的人一起，自己安排时间，不等她，不陪她。于是那天起，我开始第一轮认真复习。几天后，由于数学已经大概过了一遍课本，自我感觉还不错，我做了一套2001年的数学真题。结果却是，只会做六十多分的题，还没全做对。我不敢说我是忘了，我知道我从一开始就没学好。</p>
+
+<p>之后每天我去图书馆自习，开始做<a href="http://book.douban.com/subject/4398150/">数学复习全书</a>，个人感觉这个书还不错，就是太厚了，做的人很痛苦。另外根据新东方老师的建议，专门拿一个本子每天做真题翻译，每周做真题阅读的翻译。还好我个人对数学比较有好感，这段时间并没有像其他人说的那么痛苦，倒是不断的发现数学很有意思，并且自省当初为何不认真学数学。周边的同学大都是考研的，有的人很认真一直在看书做题，有的人则经常玩手机，一玩就是一上午一下午。我就尽量挑印象里很认真的同学，想办法坐到他们旁边，因为我一向容易思想跑毛，希望这样来互相监督。实在不想学习了，我就去借一本计算机的书看看~~~有个兴趣爱好真不错。不过到后来，座位渐渐很难找到了。图书馆的座位一向紧张，我一直以为只是因为人多。但是经过我的观察，很多同学一个人要占两个座位，并不是给同学，而是方便自己放书，衣服，包。我观察到很多同学这里有个座位，坐着学习，过一会儿去旁边的一个堆满了书的座位换个书，再回来。更有甚者，只是为了防止下午太阳太晒，就占两个座位，有太阳了可以方便离开。实在太过分了！</p>
+
+<p>到了十一十二月，我听从老师的建议开始刷数学真题，一遍一遍做，把课本的所有知识点全部过了几遍。同时开始准备专业课。我的专业课是动力学，自动控制和微机原理，都是很实用的课，我学的时候感觉也很好，反复看几遍书都觉得很有意思。唯一不好的就是政治，怎么也记不住。后来同学推荐，我买了一个海天出的小册子，没事就拿出来背一背，倒是还有些用处。起码不太担心过不了线了。再加上其他的几课也看的腻歪了，考前半个月就有点不想看的感觉。我就每天在宿舍打一盘dota，或者看会儿电影，放松一下心情。</p>
+
+<p>其实考研的整个过程，除了政治学的比较痛苦，其他的感觉还可以，我也没有太紧张，我的爸妈女朋友也都在安慰我，再加上自我感觉复习的还不错，我心态保持的很好。由于每天刚开始过的太悠闲，中间看上去貌似悠闲（没有太早起，中午照常睡觉），加上后来玩游戏，我的舍友说我要是能考上，那就是个奇迹~~看来，还不错！</p>
+
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2012/02/64-open-cv/">关于在64位Linux上编译安装OpenCV的问题</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2012-02-25T15:04:00+08:00" pubdate data-updated="true">Feb 25<span>th</span>, 2012</time>
+        
+         | <a href="/blog/2012/02/64-open-cv/#disqus_thread">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>出于某些需要，我想装个OpenCV做一下图像相关的试验，于是我在<a href="http://sourceforge.net/projects/opencvlibrary/">SourceForge</a>中下载了最新的OpenCV2.3.1，并找到这个非常详细的<a href="http://www.ozbotz.org/opencv-installation/">安装教程</a>编译安装。但是这里出了两个问题。</p>
+
+<h3 id="section">第一个问题</h3>
+
+<p>OpenCV2.3.1要求ffmpeg0.8的版本，这个版本高了或者低了我都出现了编译错误。OpenCV2.3和以前的则需要低一点，系统自带的版本是低版本，需要卸载老版本，重新编译安装x264和ffmpeg。网上总是有很多坑爹的完全一样的安装指导，可惜都不能用。  </p>
+
+<h3 id="section-1">第二个问题</h3>
+
+<p>这个是64位的问题（我的计算机是Linux Mint12 64bit，如果有人用64位系统，可能也会出类似问题）。我的方法和大家的安装方法都一样，但是我做的时候在很多地方编译不通过，各种编译错误。错误提示大概就是我是x86_64的平台，链接库的时候会出问题。不过还好，在刚才教程底下大家的讨论里我找到了解决方案：</p>
+
+<p>其他的不变，按照教程输入命令即可，只是在安装x264和ffmpeg的时候，第一步<em>configure</em>中加入<strong>–enable-pic</strong>和<strong>–enable-shared</strong>（两个减号）,然后编译安装x264和ffmpeg。在前两个都安装好之后，再重新编译OpenCV，这就可以编译通过了。</p>
+
+<h3 id="section-2">第三个问题</h3>
+<p>即使cmake的时候选择了支持<em>python</em>，安装完成后，<em>python</em>里也找不到相关的库。在官网上找到，在cmake之前，需要先安装<em>python-dev</em>。</p>
+
+<pre><code>    sudo apt-get install python-dev
+</code></pre>
+
+<p>然后<em>cmake</em>时，可以选择<em>Python-OpenCV</em>的安装位置，然后再编译安装OpenCV。安装时可以看到输出信息中出现了正在安装<em>python</em>的库。装好以后，修改.bashrc，增加环境变量<em>PYTHONPATH</em>,并把值设置为刚才选择的安装位置。这样就可以完成安装了。</p>
+
+<p>安装好以后，我不能用如下这个命令来编译，会出现找不到引用的错误。</p>
+
+<pre><code>    g++ `pkg-config opencv --cflags` `pkg-config opencv --libs` my_code.cpp  -o my_code
+</code></pre>
+
+<p>要想顺利编译通过，这里需要把源代码文件放在第一个参数，即</p>
+
+<pre><code>    g++ my_code.cpp `pkg-config opencv --cflags` `pkg-config opencv --libs`  -o my_code
+</code></pre>
+
+<p>然后编译就正常了。</p>
+
+<h3 id="code-blocksopencv">在Code Blocks里配置OpenCV环境</h3>
+<ol>
+  <li>新建一个工程</li>
+  <li>在左侧的Projects区里，右键点击工程，选择<strong>Build Option</strong></li>
+  <li>在<strong>Compiler settings</strong> 的 <strong>Other options</strong>中，加入 <strong><code>pkg-config opencv  --cflags</code></strong></li>
+  <li>在<strong>Linker setting</strong> 的<strong>Other Linker options</strong>中，加入<strong><code>pkg-config opencv --libs </code></strong></li>
+</ol>
+
+<p>这时候编译运行就应该没问题了</p>
+
+<p>希望大家出了类似问题的能安然度过~~~另外如果有人能告诉我为什么，感激不尽！</p>
+</div>
+  
+  
+
+
+    </article>
+  
+  <div class="pagination">
+    
+      <a class="prev" href="/blog/page/2/">&larr; Older</a>
+    
+    <a href="/blog/archives">Blog Archives</a>
+    
+  </div>
+</div>
+<aside class="sidebar">
+  
+    <section>
+<a href="http://9.douban.com/reader/subscribe?url=http://ghdawn.me" target="_blank"><img src="http://www.douban.com/pics/newnine/feedbutton1.gif"/></a>
+
+  <h1>Recent Posts</h1>
+  <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/blog/2012/12/ml-pca/">机器学习作业1&#8211;基于PCA方法的人脸识别</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2012/07/crossgdb/">为ARM平台交叉编译GDB</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2012/06/drawing/">我的木碗中的宇宙</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2012/05/android-arduino/">使用单片机Arduino(AVR)与Android设备通讯</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2012/04/study-android-2/">学习Android开发-用canvas绘图</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2012/03/study-cv-1/">学习机器视觉1&#8211;检测圆心</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2012/03/study-android-1/">学习Android开发-SVG文件解析</a>
+      </li>
+    
+  </ul>
+</section>
+
+
+<section>
+<h1>标签</h1>
+<span class='categories_tag'> <a href='/blog/categories/android' style='font-size: 122.5%'>Android(3)</a>  <a href='/blog/categories/automatic' style='font-size: 107.5%'>Automatic(1)</a>  <a href='/blog/categories/codes' style='font-size: 160.0%'>Codes(8)</a>  <a href='/blog/categories/linux' style='font-size: 160.0%'>Linux(8)</a>  <a href='/blog/categories/matlab' style='font-size: 107.5%'>Matlab(1)</a>  <a href='/blog/categories/opencv' style='font-size: 115.0%'>Opencv(2)</a>  <a href='/blog/categories/sth' style='font-size: 137.5%'>Sth(5)</a>  <a href='/blog/categories/嵌入式' style='font-size: 130.0%'>嵌入式(4)</a>  <a href='/blog/categories/机器学习' style='font-size: 107.5%'>机器学习(1)</a>  <a href='/blog/categories/考研' style='font-size: 115.0%'>考研(2)</a> </span>
+</section>
+
+<section id="douban_sidebar">
+<h1>豆瓣</h1>
+
+<script type="text/javascript" src="http://www.douban.com/service/badge/dream29831/?show=collection&amp;n=8&amp;columns=2&amp;picsize=medium&amp;hideself=yes" ></script>
+</section>
+<section id="comment_sidebar">
+<h1>近期评论</h1>
+
+<script type="text/javascript" src="http://ghdawn.disqus.com/recent_comments_widget.js?num_items=5&hide_avatars=0&avatar_size=32&excerpt_length=20"></script><a href="http://disqus.com/">Powered by Disqus</a>
+
+</section>
+
+<section>
+  <h1>Github Repos</h1>
+  <ul id="gh_repos">
+    <li class="loading">Status updating&#8230;</li>
+  </ul>
+  
+  <a href="https://github.com/ghdawn">@ghdawn</a> on Github
+  
+  <script type="text/javascript">
+    $.domReady(function(){
+        if (!window.jXHR){
+            var jxhr = document.createElement('script');
+            jxhr.type = 'text/javascript';
+            jxhr.src = '/javascripts/libs/jXHR.js';
+            var s = document.getElementsByTagName('script')[0];
+            s.parentNode.insertBefore(jxhr, s);
+        }
+
+        github.showRepos({
+            user: 'ghdawn',
+            count: 0,
+            skip_forks: true,
+            target: '#gh_repos'
+        });
+    });
+  </script>
+  <script src="/javascripts/github.js" type="text/javascript"> </script>
+</section>
+
+<section id="ga_sidebar">
+<h1>GoogleAnalytics</h1>
+
+<script type="text/javascript">
+
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-29027763-1']);
+  _gaq.push(['_trackPageview']);
+
+  (function() {
+    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  })();
+
+</script>
+</section>
+
+  
+</aside>
+
+    </div>
+  </div>
+  <footer role="contentinfo"><p>
+  Copyright &copy; 2012 - 清风未明 -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
+ 
+</p>
+
+</footer>
+  
+
+<script type="text/javascript">
+      var disqus_shortname = 'ghdawn';
+      
+        
+        var disqus_script = 'count.js';
+      
+    (function () {
+      var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+      dsq.src = 'http://' + disqus_shortname + '.disqus.com/' + disqus_script;
+      (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    }());
+</script>
+
+
+
+
+
+
+
+
+
+
+
+</body>
+</html>
