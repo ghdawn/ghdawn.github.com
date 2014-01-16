@@ -1,10 +1,7 @@
----
-layout: post
-title: "doubantest"
+Title: "doubantest"
 date: 2012-02-23 10:24
 comments: true
-categories: 
----
+Status: draft
 
 doubanclaimcc7c5f762d583445
 

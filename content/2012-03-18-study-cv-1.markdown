@@ -1,10 +1,8 @@
----
-layout: post
 title: "学习机器视觉1--检测圆心"
 date: 2012-03-18 16:12
 comments: true
-categories: [Codes,Linux,OpenCV]
----
+Tags: Codes,OpenCV,Linux
+Category: Study 
 
 ###任务描述及环境###
 
@@ -21,7 +19,7 @@ Code Blocks 10.05
 *VideoCapture*重载了*>>*操作符，所以可以直接当输入流来用。或者使用*read(Mat& image)*函数来读取也行。
 
 得到图片之后再用*imshow*就可以显示图片了。代码如下
-{%codeblock lang:cpp %}
+```cpp
 int main(int, char**)
 {
     VideoCapture cap(0); 
@@ -40,7 +38,7 @@ int main(int, char**)
 
     return 0;
 }
-{%endcodeblock%}
+```
 
 ###用OpenCV的函数提取边界
 这里我用的是*canny*算子提取边界。
@@ -72,7 +70,7 @@ OpenCV的函数如下，前两个参数和高斯滤波一样，第3，4个参数
 
 - 在全图像范围扫描，搜索所有的[连通分量](http://zh.wikipedia.org/wiki/%E8%BF%9E%E9%80%9A%E5%9B%BE)。 方法是搜索图像上的每一个点，如果该点未访问，并且该点为我探测到的边界点（边界检测后，图像已经被二值化了，边界点即其灰度值大于*maxvalue*点），则在该点开始染色。全图像染色结束后，可以通过对连通分量进行筛选，大概找到其中的圆。*room*代表当前搜索的连通分量的序号，*f数组*储存每个点的访问情况（值为0代表未访问，值为整数i代表该点属于第i个连通分量）代码如下
 
-{% codeblock lang:cpp search%}
+```cpp
 // find
 void search(Mat & img_bin)
 {
@@ -102,10 +100,11 @@ void search(Mat & img_bin)
         fill(img_bin,x,y,room);
     }
 }
-{%endcodeblock%}
+```
 
 - 其中，我的种子染色法就是用深度优先搜索的方法，对每个点判断其周围的8个方向是否可走，如果可走，就走过去并染上颜色，直到该连通域内所有点都被染色，算法退出。
-{%codeblock lang:cpp FloodFill%}
+
+```cpp 
 int dx[]= {0,-1,-1,-1, 0, 1, 1, 1},
     dy[]= {1, 1, 0,-1,-1,-1, 0, 1};
 void fill(const Mat & img_bin,int x,int y,int room)
@@ -123,7 +122,7 @@ void fill(const Mat & img_bin,int x,int y,int room)
             fill(img_bin,newx,newy,room);
     }
 }
-{%endcodeblock%}
+```
 
 
 - 当所有点都染色结束后，就需要筛选其中的圆了。我的想法是，对每个连通分量进行判断：  
@@ -131,7 +130,7 @@ void fill(const Mat & img_bin,int x,int y,int room)
   2. 将每一个点的坐标`(x,y)`看作两个随机变量*X，Y*，由于我们知道圆，及椭圆的方程为二次方程，即如果这些点满足圆的方程，则他们为平方关系，完全无线性关系。所以如果我们求这两个随机变量的相关系数，其值应该十分趋近于零。反之，如果大于一个很小的值*eps*，则认为这不是圆
   3. 到这里大部分的干扰应该都能除去了，但是可能还会有少部分不是圆的形状满足这个逻辑，目前我没有更好的办法解决它~~所以只好输出它了，我在找到的圆心上画了十字叉和正圆，效果见最底下
 
-{%codeblock lang:cpp select and output%}
+```cpp
 void output(Mat & img_bin,int room)
 {
 
@@ -170,10 +169,10 @@ void output(Mat & img_bin,int room)
     }
     //cin.get();
 }
-{%endcodeblock %}
+```
 
 上述代码中的*Linevec*用于单个随机变量的数字特征计算，*Factor*类用于计算两个随机变量的协方差及相关系数，这里不考虑软件工程里的封装之类的东西，仅仅作为简单的工具，所以一切都是*public*。分别定义如下：
-{%codeblock lang:cpp Linevec%}
+```cpp
 class Linevec
 {
 public:
@@ -263,9 +262,9 @@ public:
         return var;
     }
 };
-{%endcodeblock %}
+```
 
-{%codeblock lang:cpp Factor%}
+```cpp
 class Factor
 {
 public:
@@ -283,17 +282,17 @@ public:
         return Cov(x,y)/sqrt(x.Var()*y.Var());
     }
 };
-{%endcodeblock %}
+```
 由于图省事，有一些变量我设置了全局，我列在下面,
 
-{%codeblock lang:cpp%}
+```cpp
 int n,m;
 const int width=800,height=800;
 int f[height][width];
 const int maxValue=200;
-{%endcodeblock%}
+```
 
 最终效果如下：
-![没找到圆](/images/image/nocirclefound.png)
-![找到圆](/images/image/findcircle.png)
+![没找到圆](/image/nocirclefound.png)
+![找到圆](/image/findcircle.png)
   

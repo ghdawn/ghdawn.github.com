@@ -1,10 +1,8 @@
----
-layout: post
 title: "为ARM平台交叉编译GDB"
 date: 2012-07-30 20:53
 comments: true
-categories: [嵌入式,Linux]
----
+Tags: 嵌入式,Linux
+Category: Study 
 
 为了方便调试嵌入式程序，需要移植一份*GDB*到ARM平台。
 
@@ -13,11 +11,11 @@ categories: [嵌入式,Linux]
 
 编译ＧＤＢ时首先会提示一个错误，就是缺少一个库:[ncurses](http://en.wikipedia.org/wiki/Ncurses)。编译的时候会需要它的一些头文件和库。所以还需要在[这里](http://www.gnu.org/software/ncurses/)下载一份它的源码。下载好后，解压到需要的路径。为了便于区分，可以在源代码文件夹中，新建一个文件夹*release*来放编译完成后的文件。进入源码文件夹，执行以下命令，即可完成编译工作：
 
-{%codeblock lang:bash%}
+```bash
 ./configure --host=arm-none-linux-gnueabi  --prefix="$PWD/release" --without-ada --enable-termcap --with-shared
 make
 make install
-{%endcodeblock%}
+```
 
 ####解释####
 
@@ -33,11 +31,11 @@ make install
 
 在[这里](http://sources.redhat.com/gdb/download/)下载一份GDB的源码准备交叉编译。虽然最新版本是7.4.1，但是我这里一直没有成功编译过去，于是选择了低一点的版本7.3.1。下载后解压到需要的路径。同样为了方便起见我在源代码目录里新建了*release*文件夹来存放结果。之后使用如下命令来进行编译：
 
-{%codeblock lang:bash%}
+```bash
 /configure --host=arm-none-linux-gnueabi --enable-shared --prefix="$PWD/release" --without-x --disable-gdbtk --without-included-regex --without-included-gettext --disable-tui LDFLAGS="-L/home/ghdawn/develop/ncurses-5.9/release/lib" CPPFLAGS="-I/home/ghdawn/develop/ncurses-5.9/release/include"
 make
 make install
-{%endcodeblock%}
+```
 
 ####解释####
 

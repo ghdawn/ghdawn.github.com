@@ -1,10 +1,8 @@
----
-layout: post
 title: "学习Android开发-用canvas绘图"
 date: 2012-04-06 15:32
 comments: true
-categories: [Codes,Linux,Android]
----
+Tags: Codes,Android,Linux
+Category: Study 
 
 接着[上一篇](/blog/2012/03/15/study-android-1/)所说，我们已经从SVG文件中得到了基本图形的定义信息，如圆的圆心坐标与半径，直线段的端点坐标，所以可以开始绘图了。我的想法是，一张SVG图片解析完成后，把所有图片画进一个*Bitmap*里，这样以后所有的对图片的操作都可以用*Android*自带的方法操作，应该会简单一些。*Bitmap*对象需要用工厂方法来创建。创建好空的bitmap后，将它传给一个*Canvas*对象，即可以通过*canvas*的方法，在该bitmap上绘制图形。如下：
 
@@ -29,7 +27,7 @@ categories: [Codes,Linux,Android]
 
         paint.setStyle(Style.STROKE);
 写全一个就是如下：
-{% codeblock lang:java %}
+```java
 	public void draw(Canvas canvas)
 	{
 		// TODO Auto-generated method stub
@@ -39,6 +37,6 @@ categories: [Codes,Linux,Android]
 		canvas.drawCircle(_cx, _cy, _r, paint);
 		
 	}
-{% endcodeblock %}
+```
         
 

@@ -1,10 +1,7 @@
----
-layout: post
 title: "又是octopress博客的问题"
 date: 2012-12-02 21:57
-comments: true
-categories: [Sth]
----
+Tags: Boring,blog
+Category: Study 
 
 假期换了电脑，在新电脑上写了博客，但是怎么也提交不上去，一直提示：
 

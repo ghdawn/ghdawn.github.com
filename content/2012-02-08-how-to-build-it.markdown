@@ -1,10 +1,9 @@
----
-layout: post
-title: "配置博客的时候碰到的一些问题"
-date: 2012-02-08 15:54
+Title: "配置博客的时候碰到的一些问题"
+Date: 2012-02-08 15:54
 comments: true
-categories: sth 
----
+Category: Study 
+Tags: Boring,blog
+
 我在配置这个博客的时候遇到了各种各样的问题，在这里分享一下
 最初我按照 [DF大牛牛](http://http://dangfan.me/)的博客，以及[jekyllbootstrap](http://jekyllbootstrap.com)提供的教程配置,但是没有成功，出现了各种各种的问题，实在无法解决，只好作罢。比如：
 
@@ -31,8 +30,8 @@ ERROR:  While executing gem ... (NameError)
       uninitialized constant Gem::Commands::InstallCommand
   
 就这样：
-{%codeblock lang:bash %}
-udo apt-get install zlib1g-dev
+``` bash
+sudo apt-get install zlib1g-dev
 sudo apt-get install openssl
 sudo apt-get install libssl-dev
 sudo apt-get install libssl0.9.8
@@ -41,6 +40,6 @@ ruby extconf.rb
 cd ../..
 make
 make install
-{% endcodeblock %}
+```
 
 应该就好了吧

@@ -1,10 +1,8 @@
----
-layout: post
 title: "使用单片机Arduino(AVR)与Android设备通讯"
 date: 2012-05-04 21:57
 comments: true
-categories: [Codes,Linux,Android,嵌入式]
----
+Tags: Codes,Linux,Android,嵌入式
+Category: Study 
 
 ###简述需求
 现在的Android设备，像手机，平板等，有很多的资源，比如照相机，音箱等,同时CPU已经很好，运算能力很强。功能十分丰富，但是必须得人手操控才能使用。这么丰富的资源，如果能自动做点事情，或者作为一个控制核心控制其它的东西就更好了，所以Google官方提供了一种方法，将Android设备按附件模式与一个有[USB Host](http://baike.baidu.com/view/1402520.htm?fromTaglist)的设备相连，两者通过USB接口相连传输数据，从而实现通过单片机操控手机。（[USB](http://zh.wikipedia.org/zh-cn/USB)是主从结构的总线，这里要求Android设备作为从机，单片机作为主机，而一般的开发板附带的usb口都是client，如果需要做这个实验，则需要买[有USB Host的开发板](http://item.taobao.com/item.htm?id=12892248805)，或者买专门的 USB host shield模块放在开发板上。）
@@ -20,7 +18,7 @@ Google官方提供了一个简洁的教程（[Arduino](http://developer.android.
 4. 但是自己做开发的话就不要用上面的代码了，太复杂太麻烦。在IDE里新建一个文件，包含*USB*驱动和*AndroidAccessory*的头文件，并新建一个*AndroidAccessory*对象，比如叫acc。在*setup()*函数中，调用acc.powerOn()方法，即可开始试探链接Android设备。
 5. 在我的应用中，我需要做的是把Android设备中计算的结果以串口的形式发给飞控模块，所以我只需要不断的把Android设备发送来的数据发给串口，再把串口接受到的数据发给Android设备。于是，代码如下：
 
-{% codeblock lang:cpp %}
+```cpp
 
 #include <Usb.h>
 #include <AndroidAccessory.h>
@@ -64,7 +62,7 @@ void loop()
 	delay(200);
 }
 
-{% endcodeblock%}
+```
 
 #####一些解释
 按照这样的方法，单片机这部分就很容易能搞定了，只要Android程序写好了，两个就能匹配工作了。
@@ -81,7 +79,7 @@ void loop()
 
 
 要想使*Accessory*工作，需要在*AndroidManifest.xml*中声明支持*UsbManager.ACTION_USB_ACCESSORY_DETACHED*，并添加一个过滤器，来过滤设备。如下：
-{%codeblock lang:xml%}
+```xml
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="me.ghdawn"
@@ -116,7 +114,7 @@ void loop()
     </application>
 
 </manifest>
-{%endcodeblock%}
+```
 #####一些说明
 - *API 10*使用的是*Addon library*,需要注明：*<uses-library android:name="com.android.future.usb.accessory" />*  
 - 要说明支持*USB_ACCESSORY_ATTACHED*模式，所以加上
@@ -133,20 +131,20 @@ void loop()
 
 上面这段代码就是注册这个筛选器的。下面这段就是筛选器的内容。还记得上面的*Arduino*部分中，新建的*AndroidAccessory*对象吗？那里的第1，2，4个参数正是这里筛选的参数。只有这几个参数匹配的设备才能建立连接。当然，这里筛选条件是可以选的，那几个参数都可以作为筛选条件，只要加在下面就可以。
 
-{%codeblock lang:xml%}
+```xml
 <?xml version="1.0" encoding="utf-8"?>
 
 <resources>
     <usb-accessory manufacturer="BuaaITR" model="Demo" version="1.0" />
 </resources>
 
-{%endcodeblock%}
+```
 
 注：下文的所有*设备*一词，均指代*Arduino设备*，程序则代表*Android设备*。  
 这样，就可以开始写代码了。首先需要一个*UsbManager*对象来管理USB设备，需要一个广播接收器，当系统有广播时，来判断是否为USB附件，并询问是否提供权限。广播的过滤器使用*UsbManager.ACTION_USB_ACCESSORY_DETACHED*作为*action*。当接受到一个满足过滤条件的广播时，并且获得了访问的权限，就可以获得该设备的信息，并进行读写了。
 
 广播接收器的代码：
-{%codeblock lang:java%}
+```java
 private final BroadcastReceiver mUsbReceiver = new BroadcastReceiver()
 	{
 		@Override
@@ -181,12 +179,11 @@ private final BroadcastReceiver mUsbReceiver = new BroadcastReceiver()
 			}
 		}
 	};
-{%endcodeblock%}
+```
 
 建立连接：
 
-
-{%codeblock lang:java%}
+```java
 	private void openAccessory(UsbAccessory accessory)
 	{
 		mFileDescriptor = mUsbManager.openAccessory(accessory);
@@ -236,10 +233,10 @@ private final BroadcastReceiver mUsbReceiver = new BroadcastReceiver()
 			Log.d(TAG, "accessory open fail");
 		}
 	}
-{%endcodeblock%}
+```
 这样，大部分功能就实现完了，现在需要注册广播接收器，并让程序监视USB设备。
 
-{%codeblock lang:java%}
+```java
 	@Override
 	public void onCreate(Bundle savedInstanceState)
 	{
@@ -298,10 +295,10 @@ private final BroadcastReceiver mUsbReceiver = new BroadcastReceiver()
 		unregisterReceiver(mUsbReceiver);
 		super.onDestroy();
 	}
-{%endcodeblock%}
+```
 
 如果需要发送数据，就这样：
-{%codeblock lang:java%}
+```
     public void send(byte[] data)
     {
 	    if(canIO)
@@ -317,9 +314,9 @@ private final BroadcastReceiver mUsbReceiver = new BroadcastReceiver()
             }
 	    }
     }
-    {%endcodeblock%}  
+```
 用到的对象如下：
-{%codeblock lang:java%}
+```java
 private static final String TAG = "DemoKit";
 
 	private static final String ACTION_USB_PERMISSION = "com.google.android.DemoKit.action.USB_PERMISSION";
@@ -336,6 +333,6 @@ private static final String TAG = "DemoKit";
 	FileOutputStream mOutputStream;
 
 	Timer timer = new Timer();
-{%endcodeblock%}  
+```
 
 如果步骤没出错的话，至此，把Arduino开发板插到Android设备上，应该就能互相传数据了。

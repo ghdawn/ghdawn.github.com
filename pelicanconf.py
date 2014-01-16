@@ -6,9 +6,11 @@ AUTHOR = u'\u6e05\u98ce\u672a\u660e'
 SITENAME = u'\u8bb0\u5f55'
 SITEURL = ''
 
-TIMEZONE = 'Europe/Paris'
+TIMEZONE = 'Asia/Shanghai'
 
 DEFAULT_LANG = u'zh'
+STATIC_PATHS = [u"image"]
+
 
 #Plugin
 PLUGIN_PATH = u"pelican-plugins"
@@ -21,21 +23,23 @@ CATEGORY_FEED_ATOM = None
 TRANSLATION_FEED_ATOM = None
 
 DISQUS_SITENAME = u"ghdawn"
+GOOGLE_ANALYTICS = u"UA-29027763-1"
 
-STATIC_PATHS = [u"content/img"]
+
+FEED_RSS = u"feeds/all.rss.xml" 
+CATEGORY_FEED_RSS=u"feeds/%s.rss.xml"
 
 THEME = "bootstrap2"
 # Blogroll
-LINKS =  (('Pelican', 'http://getpelican.com/'),
-          ('Python.org', 'http://python.org/'),
-          ('Jinja2', 'http://jinja.pocoo.org/'),
-          ('You can modify those links in your config file', '#'),)
+LINKS =  (('DFDNN', 'https://dangfan.me/zhs'),
+          ('Dumbear', 'http://dumbear.com/'),
+          ('逆铭', 'http://www.tomtung.com/'),
+          )
 
 # Social widget
-SOCIAL = (('You can add links in your config file', '#'),
-          ('Another social link', '#'),)
-
-DEFAULT_PAGINATION = 10
+SOCIAL = (('github', 'https://github.com/ghdawn'),
+          ('饭否', 'http://fanfou.com/home'))
+DEFAULT_PAGINATION = 7
 
 # Uncomment following line if you want document-relative URLs when developing
-#RELATIVE_URLS = True
+RELATIVE_URLS = True

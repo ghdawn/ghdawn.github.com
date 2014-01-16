@@ -1,10 +1,8 @@
----
-layout: post
-title: "关于在64位Linux上编译安装OpenCV的问题"
+Title: "关于在64位Linux上编译安装OpenCV的问题"
 date: 2012-02-25 15:04
 comments: true
-categories: [Codes,Linux,OpenCV]
----
+Tags: Codes,OpenCV,Linux
+Category: Study 
 
 出于某些需要，我想装个OpenCV做一下图像相关的试验，于是我在[SourceForge](http://sourceforge.net/projects/opencvlibrary/)中下载了最新的OpenCV2.3.1，并找到这个非常详细的[安装教程](http://www.ozbotz.org/opencv-installation/)编译安装。但是这里出了两个问题。
 

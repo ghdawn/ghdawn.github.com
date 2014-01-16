@@ -1,17 +1,16 @@
----
-layout: post
-title: "为OMAP4430安装Linux/Android系统"
+Title: "为OMAP4430安装Linux/Android系统"
 date: 2012-02-13 12:33
 comments: true
-categories: [Codes,嵌入式,Linux]
----
+Tags: Codes,嵌入式,Linux
+Category: Study 
+
 
 这块开发板没有板载flash，所以操作系统从SD卡引导。这样，我们的操作系统就需要安装在SD卡上。
 ##准备sd卡
 
 1. 插入sd卡，运行如下命令察看sd卡是否已经挂载
 
-{% codeblock lang:bash %}
+``` bash
 df -h
 文件系统            容量  已用  可用 已用%% 挂载点
 /dev/sda7              30G   15G   14G  52% /
@@ -20,7 +19,7 @@ tmpfs                 602M  1.1M  601M   1% /run
 none                  5.0M     0  5.0M   0% /run/lock
 none                  1.5G  472K  1.5G   1% /run/shm
 /dev/mmcblk0p1        1.8G   35M  1.7G   3% /media/KINGSTON
-{% endcodeblock %}
+```
        
 2. 如果已挂载，就卸载它(我的sd卡,设备为/dev/mmcblk0,分区为/dev/mmcblk0p1,挂载在/media/KINGSTON下了）
 
