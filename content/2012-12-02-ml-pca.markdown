@@ -1,0 +1,242 @@
+---
+layout: post
+title: "机器学习作业1--基于PCA方法的人脸识别"
+date: 2012-12-02 20:22
+comments: true
+categories: [机器学习,Codes]
+---
+
+
+### 实验目的 ###
+
+1. 学习主成分分析（PCA）的基础知识
+1. 了解PCA在人脸识别与重建方面的应用
+1. 认识数据降维在数据处理中的重要作用
+1. 学习使用matlab实现PCA算法
+
+### 实验原理 ###
+
+随着人们处理的问题越来越复杂，待处理的数据变得越来越庞大。在数据分析和处理的过程中，时间的消耗量是十分巨大的。于是人们在不断的寻找一些能够简化计算，方便处理数据的方法。其中数据降维就是一种能够简化计算，并且使数据更加易于处理（如数据可视化）的方法。主成分分析（PCA）方法就是一种用于数据降维处理的方法。
+
+通常要处理的原始数据会有以下几个特性：
+
+1. 数据的不同维数之间是线性相关的，即 $cov(i,j)\neq 0 , i\neq j$
+1. 数据中的信息量分布不均匀，即有些方向数据分布集中，有些方向信息量较少。
+1. 一些较少的信息量去掉以后，对原始数据的分析并不产生太大的影响
+
+由此，就考虑是否可以去掉那些包含信息量较少的数据，只保留包含信息量大的数据，这样就可以减少计算量。即抓住问题的主要矛盾，忽略次要矛盾。另外由于数据互相有相关性，数据矩阵的协方差矩阵不是对角阵。当取出了第一条信息量最大的向量，当然希望第二条次大的向量中，不要再包含第一条向量的信息。
+有了以上的考虑，同时数据协方差矩阵一定是实对称矩阵,必可相似对角化。先通过相似对角化的手段，把协方差矩阵化为对角阵。即将数据投影到另外一个坐标系，使得数据分量之间互相没有相关性( $cov(i,j)= 0 , i\neq j$ )。
+
+$$
+\begin{equation}
+A=C^T \Lambda C 
+\end{equation}
+$$
+
+其中 $A$ 为原数据的协方差矩阵，是对角阵；$C$ 为正交矩阵；$\Lambda$ 为对角阵，即
+
+
+$$
+\begin{align*}
+   & A=\left(  \begin{array}{cccc}
+      cov(1,1) & cov(1,2) & \cdots & cov(1,n) \\
+      cov(2,1) & cov(2,2) & \cdots & cov(2,n) \\
+      \vdots &   & \ddots & \vdots \\
+      cov(n,1) & cov(n,2) & \cdots & cov(n,n) \\
+      \end{array}      \right) \\
+  &    C^T C= I \\
+ & \\
+
+&    \Lambda=\left(   \begin{array}{cccc}
+      \lambda_1 & 0 & \cdots & 0 \\
+       0 & \lambda_2 & \cdots & 0 \\
+       \vdots &   & \ddots & \vdots \\
+       0 & 0 & \cdots & \lambda_n \\
+      \end{array}\right)
+\end{align*}
+$$
+
+经过这个变换就可以看出来，协方差矩阵的特征值其实就是每一维数据的方差。而特征值，即方差代表了数据所包含的信息量。所以把特征值排序后，就可以知道在这个坐标系下，每一维数据所包含的信息量大小。我们只需要取出分析所需要的数据量，其余分量可以丢弃，从而在损失较小精度的情况下，减少计算量，提高计算速度。
+
+### 实验过程 ###
+
+##### 数据读取 #####
+这里使用的人脸数据库共有$N=150$张人脸图像，分辨率为$M\times M=80 \times 80$，以$FERET-XXX.tif$命名。由于PCA中，每个人脸图像是以一个列向量的形式存在，所以需要将这每个图像重构成列向量。在后续的算法中，需要将整体人脸零均值化，所以还需要记录下来所有人的平均脸。matlab 代码如下：
+
+{%codeblock lang:matlab %}
+
+file='FERET-';
+N=150;
+M=80;
+Image=zeros(M*M,N);
+
+average=zeros(M*M,1);
+% read face image
+for i = 1:N
+   t=imread([file,num2str(i,'%03d'),'.tif']);
+   t=reshape(t,M*M,1);
+   Image(:,i)=t;
+   average=average+Image(:,i);
+end
+
+{% endcodeblock %}
+
+##### 数据预处理 #####
+
+在读取完所有人脸数据以后，需要把整体数据零均值化，即每个人脸向量减去平均脸的向量。这样，对于PCA来说，我们得到了一组零均值的输入数据点。之后我们求出这组数据的协方差矩阵的特征值和特征向量。由于 $Image_{M^2\times N}$ 的维数很大所以求解特征值十分消耗时间。由线性代数的知识有：
+
+$$
+\begin{equation}
+r(A_{m \times n}) \leq min \{ m,n \}
+\end{equation}
+$$
+
+所以它的秩很小，即不为零的特征根很少($r \leq N$)。于是先求出 $$Image^ T Image$$ 这个维数较小的矩阵的所有特征值和特征向量 $$ V_{N \times N} $$，再通过 $$ U_{M^ 2 \times N}=Image \times V $$,即可求出原矩阵 $$ImageImage^ T $$ 的特征向量。通过特征值我们可以看出来，大量的特征集中在很少的几个特征值上。而大部分特征值都很小，表示了他们携带的数据特征很小。把这些特征向量规范后以后，这些单位特征向量可以作为一组基底张成一个空间，即是特征脸方法中的特征空间，最后，把原图像向量向这个特征空间中投影，即可以得到我们所需的特征脸。
+
+{%codeblock lang:matlab %}
+% zero-mean
+average=average/N;
+for i = 1:N
+    Image(:,i)=Image(:,i)-average;
+end
+
+% Calc the vector
+[V,D]=eig(Image'*Image);
+D=diag(D);
+figure(1);
+bar(D)
+sum_d=sum(D);
+U=Image*V;
+for i = 1:N
+    U(:,i)=U(:,i)/sqrt(U(:,i)'*U(:,i));
+end
+{% endcodeblock %}
+
+##### 人脸重建 #####
+
+人脸重建实验的目的是为了测试特征脸所携带的人脸信息。由于特征值的大小代表了其所对应的特征向量所携带的信息量，通过将最大的一些特征值对应的特征向量叠加就可以获得原图像中的大部分信息量，也就是所谓的主成分。这里先将所有特征值按从大到小的顺序排列。通过叠加特征向量的方式，就可以得到一组对原人脸的逼近特征脸。而将特征值加起来，正是总的信息量，也可以求出重构误差。
+
+{%codeblock lang:matlab %}
+%% Form a face
+selected=131;
+subplot(1,2,1);
+imshow(uint8(reshape( Image(:,selected)+average,M,M)))
+subplot(1,2,2);
+k=100;
+
+p=zeros(M*M,1);
+err=0;
+for i=fliplr(N-k:N)
+     w=U(:,i)'*Image(:,selected);
+     err=err+D(i);
+     1-err/sum_d
+     p=p+w*U(:,i);
+     imshow(uint8(reshape(p+average,M,M)))
+     pause(0.2)
+end
+{% endcodeblock %}
+
+##### 人脸识别 #####
+
+人脸识别是先给出一张待识别的图像，在已经训练好的人脸特征空间中，计算待识别图像与已有的人脸之间的距离。当这个距离小于一定程度时，就认为该图像是一张人脸图像，否则就不是人脸图像。到这一步，属于人脸检测的过程。要识别出它是哪一张人脸，就需要进一步降低距离阈值。这两个阈值由实验测试出来。由此，实验过程为：
+设:
+
+$$
+\begin{equation}
+dis(x)=\min \{\|x-I_i \| \} ,i=1,2 \ldots n
+\end{equation}
+$$
+
+其中$x_{M^2 \times 1}$表示待识别的人脸向量，$I_i$表示第$i$个已知人脸图像。则检测结果如下：
+
+$$
+\begin{align*}
+result= \begin{cases}
+   NotFace & dis(x)> T_f \\
+   FaceNotMeet & T_r \leq dis(x) \leq T_f\\
+   FaceMeet & 0\leq dis(x) <T_r
+   \end{cases}
+\end{align*}
+$$
+
+其中$T_r$和$T_f$为判断阈值且大于$0$。在实际实验中，$T_r$可以省略，因为如果未知人脸是见过的，那么它到自身的距离一定是最小的（趋于零）。
+由于按照Equ(2)直接计算距离十分耗时间，在这里PCA降维的意义就显现了出来。我们取前$k$个特征向量$(k \leq N)$作为投影坐标系，通过比较待定人脸向量在这个坐标系上的投影权值，与原人脸图像组的投影权值，即可计算出距离，即:
+
+$$
+\begin{equation}
+dis(x)=\min \{\|W_x-W_{Ij} \| \} , j=1,2 \ldots n
+\end{equation}
+$$
+
+其中 $$ W_x=W_{k\times 1} $$，为待识别图像的权值向量, $$W_{Ij} $$ 为第 $$j $$ 个原图像的权值向量。由此可以看出，每次计算距离的范围从 $M^2$ 下降到了 $k$ ，使得计算量极大的缩减了，从而提高了运算速度。这正是使用`PCA`方法降维的目的。MATLAB代码如下：
+
+{%codeblock lang:matlab %}
+
+%% Detect a face
+unknown=201;
+k=140;
+w=zeros(k,N);
+for i=1:N
+    for j=fliplr(N-k:N)
+        w(j,i)=U(:,j)'*Image(:,i);
+    end
+end
+subplot(2,2,1);
+t=imread([file,num2str(unknown,'%03d'),'.tif']);
+imshow(t);
+t=(reshape(t,M*M,1));
+t=double(t);
+t=t-average;
+
+wt=zeros(k,1);
+p=zeros(M*M,1);
+for j=fliplr(N-k:N)
+        wt(j)=U(:,j)'*t;
+end
+
+index=0;
+e_min=1000000;
+for i=1:N
+    e=sqrt((wt-w(:,i))'*(wt-w(:,i)))/k;
+
+    if( e<e_min)
+        e_min=e
+        index=i;
+    end
+end
+
+subplot(2,2,3);
+if(e_min<20)
+    imshow(uint8(reshape( Image(:,index)+average,M,M)))
+else
+    imshow(uint8(zeros(M,M)))
+end
+{% endcodeblock %}
+
+### 实验结果 ###  
+
+##### 计算协方差矩阵的特征值 #####     
+
+由下图可知，协方差矩阵的特征值分布十分不均匀。只有少量的特征值很大，大部分特征值都非常小。说明数据由少量的特征值就可以代表大部分的原数据。
+
+![协方差矩阵的特征值直方图](/images/image/ml-1/1.png)
+
+##### 人脸重建 #####
+
+ 第一幅是人脸重建过程的开始，可以看出来左右两边的图像还相差很远。从第二幅可以看出来，特征脸叠加出来的人脸和原人脸已经十分的相似。同理之后的两图也展现了同样的过程。由此可以知道，通过抽取大特征值对应的特征向量的确可以得到原数据的主要成分。而重构误差也很小。
+
+![人脸重建1：还不像](/images/image/ml-1/2.png)
+
+![人脸重建1：很像](/images/image/ml-1/3.png)
+![人脸重建2：还不像](/images/image/ml-1/4.png)
+![人脸重建2：很像](/images/image/ml-1/5.png)
+
+##### 人脸识别 #####
+
+  如果见过的话，直接给出那个人，否则的话，就给出最相近的人，如下图
+![见过的](/images/image/ml-1/8.png)
+![没见过，但是很像的](/images/image/ml-1/7.png)
+![没见过，但是很像的](/images/image/ml-1/6.png)
+ 
+由此可知,`PCA` 方法成功的应用在了人脸识别上。同时该结果也验证了我的实现过程的正确性。
+

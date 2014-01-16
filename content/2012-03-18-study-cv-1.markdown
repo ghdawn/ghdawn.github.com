@@ -1,0 +1,299 @@
+---
+layout: post
+title: "学习机器视觉1--检测圆心"
+date: 2012-03-18 16:12
+comments: true
+categories: [Codes,Linux,OpenCV]
+---
+
+###任务描述及环境###
+
+打开摄像头，识别出画面中的圆，并标出圆心，输出圆心的像空间坐标。  
+Intel(R) Core(TM)2 Duo CPU     T8100  @ 2.10GHz / 2GB  
+Linux Mint 12 （64bit）  
+OpenCV 2.3.1  
+Code Blocks 10.05  
+###用OpenCV从摄像头获取视频流###
+后来版本的OpenCV可以用C++的语法，从而去掉了指针，使用起来十分方便。
+
+所有视频流的操作都是通过*VideoCapture*类完成。可以通过给它的构造函数，或*open*函数传递参数完成打开视频的操作。其中如果参数为整数i，则打开第i个摄像头（如果存在的话）。如果参数是字符串，则认为是视频文件的路径。
+
+*VideoCapture*重载了*>>*操作符，所以可以直接当输入流来用。或者使用*read(Mat& image)*函数来读取也行。
+
+得到图片之后再用*imshow*就可以显示图片了。代码如下
+{%codeblock lang:cpp %}
+int main(int, char**)
+{
+    VideoCapture cap(0); 
+    if(!cap.isOpened()) 
+        return -1;
+
+    Mat frame;
+    namedWindow("frame",1);
+
+    while(1)
+    {
+        cap >> frame; // get a new frame from camera
+        imshow("frame",frame);
+        if(waitKey(30) >= 0) break;
+    }
+
+    return 0;
+}
+{%endcodeblock%}
+
+###用OpenCV的函数提取边界
+这里我用的是*canny*算子提取边界。
+
+- 将摄像头获得的图片转换成灰度图以方便以后运算。其实RGB图也是可以做的，但是由于我不需要颜色识别，只要找到图形就行了，所以用灰度图。
+
+        cvtColor(frame, edges, CV_BGR2GRAY);
+
+- 进行滤波，去掉高频噪声的部分。任何图像可以看作是一个函数的图像，而我们需要的图形是静止，或者有慢速的移动。而图片中可能会出现各种噪声，是不稳定的。也就是说我们需要图像中低频的部分，而希望过滤掉高频的部分。所以需要滤波，也会让图像变得模糊一点。高斯滤波函数就是正态分布（高斯分布）的概率密度函数，将每一点及其周围的点做了加权平均，其中该点占的比重最大，周围越远比重越小，而各个方向的变化是均匀的。  
+
+一维公式为：![高斯函数](http://upload.wikimedia.org/wikipedia/zh/math/7/4/a/74a7dd469476d59a561174131eca644e.png)
+其函数图像为：![函数图像](http://upload.wikimedia.org/wikipedia/commons/thumb/1/1b/Normal_distribution_pdf.png/325px-Normal_distribution_pdf.png)  
+我们的图像是二维的，所以用的是二维的高斯函数。详情请见维基百科的[这里](http://zh.wikipedia.org/wiki/%E9%AB%98%E6%96%AF%E6%A8%A1%E7%B3%8A)，[这里](http://zh.wikipedia.org/wiki/%E6%AD%A3%E6%80%81%E5%88%86%E5%B8%83)。  
+OpenCV的函数如下，其中第一个参数是源图片，第二个是目标图片，这两个可以相同。第三个参数是每一点模糊的范围，需要是正奇数。最后两个参数是联合分布的两个方差，方差越大，周围点占的比重越高，图片越模糊。
+
+        GaussianBlur(edges, edges, Size(7,7), 2.5, 2.5);
+
+- 用canny算子提取边界。canny算子主要通过计算图像中的亮度梯度来判定边界，我们需要给定两个阀值low,high（其实一个也行，但是不够灵活）。当某点的梯度大于 high的时候，确定是边界点。如果梯度小于low则不是边界点。如果在他们之间，则需要通过连通域内的其他点的一起判断。一般建议两个阀值的比例为2：1或者3：1。
+详情请见维基百科的[这里](http://zh.wikipedia.org/wiki/Canny%E7%AE%97%E5%AD%90)   
+OpenCV的函数如下，前两个参数和高斯滤波一样，第3，4个参数分别是低，高阀值。canny函数中调用了Sobel方法计算微分，第5个参数就是给Sobel函数的，必须是1，3，5，7。
+
+        Canny(edges, edges, 15, 45, 3);
+        
+- 至此，*edges*对象里的图像就已经是二值化之后的边界图像了，可以用*imshow*显示察看。
+
+###找到图像中的圆并标出圆心###
+
+这一部分最基本的算法就是种子染色法（FloodFill），OpenCV自带了这个方法，但是由于我以前实现过相关的算法，所以这里就不用OpenCV了，把自己写的贴过来直接用，反正算法也十分简单短小。
+
+- 在全图像范围扫描，搜索所有的[连通分量](http://zh.wikipedia.org/wiki/%E8%BF%9E%E9%80%9A%E5%9B%BE)。 方法是搜索图像上的每一个点，如果该点未访问，并且该点为我探测到的边界点（边界检测后，图像已经被二值化了，边界点即其灰度值大于*maxvalue*点），则在该点开始染色。全图像染色结束后，可以通过对连通分量进行筛选，大概找到其中的圆。*room*代表当前搜索的连通分量的序号，*f数组*储存每个点的访问情况（值为0代表未访问，值为整数i代表该点属于第i个连通分量）代码如下
+
+{% codeblock lang:cpp search%}
+// find
+void search(Mat & img_bin)
+{
+    //  out(f);
+    int room=0;
+    while(++room)
+    {
+        int x=0,y=0;
+        for(int i=1; i<m; i++)
+        {
+            for(int j=1; j<n; j++)
+                if(img_bin.at<uchar>(i,j)>200 && f[i][j]==0)
+                {
+                    x=i,y=j;
+
+                    break;
+                }
+            if(x!=0||y!=0) break;
+        }
+
+        if(x==0&&y==0)
+        {
+            --room;
+            output(img_bin,room);
+            return ;
+        }
+        fill(img_bin,x,y,room);
+    }
+}
+{%endcodeblock%}
+
+- 其中，我的种子染色法就是用深度优先搜索的方法，对每个点判断其周围的8个方向是否可走，如果可走，就走过去并染上颜色，直到该连通域内所有点都被染色，算法退出。
+{%codeblock lang:cpp FloodFill%}
+int dx[]= {0,-1,-1,-1, 0, 1, 1, 1},
+    dy[]= {1, 1, 0,-1,-1,-1, 0, 1};
+void fill(const Mat & img_bin,int x,int y,int room)
+{
+
+    f[x][y]=room;
+//cout<<x<<' '<<y<<endl;
+//cin.get();
+    for(int i=0; i<8; i++)
+    {
+        int newx=x+dx[i],newy=y+dy[i];
+        if( newx<0 || newx >=m)continue;
+        if( newy<0 || newy >=n) continue;
+        if(img_bin.at<uchar>(newx,newy)>maxValue && f[newx][newy] == 0)
+            fill(img_bin,newx,newy,room);
+    }
+}
+{%endcodeblock%}
+
+
+- 当所有点都染色结束后，就需要筛选其中的圆了。我的想法是，对每个连通分量进行判断：  
+  1. 如果该连通分量内的点少于*min_pixel*，我就认为这是噪声点，肯定不是我的圆，将它排除
+  2. 将每一个点的坐标`(x,y)`看作两个随机变量*X，Y*，由于我们知道圆，及椭圆的方程为二次方程，即如果这些点满足圆的方程，则他们为平方关系，完全无线性关系。所以如果我们求这两个随机变量的相关系数，其值应该十分趋近于零。反之，如果大于一个很小的值*eps*，则认为这不是圆
+  3. 到这里大部分的干扰应该都能除去了，但是可能还会有少部分不是圆的形状满足这个逻辑，目前我没有更好的办法解决它~~所以只好输出它了，我在找到的圆心上画了十字叉和正圆，效果见最底下
+
+{%codeblock lang:cpp select and output%}
+void output(Mat & img_bin,int room)
+{
+
+    const int min_pixel=250;
+    const float eps=0.05;
+    printf("Number=%d\n",room);
+    for(int k=1; k<=room; k++)
+    {
+        Linevec x,y;
+        int num=0;
+        for(int i=1; i<m; i++)
+            for(int j=1; j<n; j++)
+            {
+                if( f[i][j]==k)
+                {
+                    x.add(i),y.add(j),++num;
+
+                }
+            }
+        if(num<min_pixel)
+        {
+            clean(img_bin,x,y);
+            continue;
+        }
+
+
+        if( fabs(Factor::Corr(x,y))>eps)
+        {
+            clean(img_bin,x,y);
+            continue;
+        }
+
+        printf("No.%d:x=%f,y=%f\n",k,x.getAverage(),y.getAverage());
+        printf("Corr=%f,Cov=%f\n",Factor::Corr(x,y),Factor::Cov(x,y));
+        DrawTarget(img_bin,y.getAverage(),x.getAverage());
+    }
+    //cin.get();
+}
+{%endcodeblock %}
+
+上述代码中的*Linevec*用于单个随机变量的数字特征计算，*Factor*类用于计算两个随机变量的协方差及相关系数，这里不考虑软件工程里的封装之类的东西，仅仅作为简单的工具，所以一切都是*public*。分别定义如下：
+{%codeblock lang:cpp Linevec%}
+class Linevec
+{
+public:
+
+    vector<float> data;
+
+    float sum;
+    float x_average;
+    float x2_average;
+    float var;
+
+    Linevec(const Linevec& temp)
+    {
+
+        data=temp.data;
+        sum=temp.sum;
+        x_average=temp.x_average;
+        x2_average=temp.x2_average;
+    }
+    Linevec()
+    {
+        sum=x_average=x2_average=0;
+    }
+    Linevec(int N)
+    {
+
+        data.resize(N);
+    }
+    void readData()
+    {
+        for(unsigned int i=1; i<=data.size(); i++)
+        {
+            cin>>data[i];
+            sum+=data[i];
+            x2_average+=data[i]*data[i];
+        }
+        cout<<"Read Finished"<<endl;
+        x_average=sum/data.size();
+        x2_average/=data.size();
+    }
+    void add(float t)
+    {
+        data.push_back(t);
+
+    }
+    float getSum()
+    {
+
+        sum=0;
+        for(vector<float>::iterator i=data.begin(); i!=data.end(); i++)
+            sum+=*i;
+        return sum;
+    }
+    float getAverage()
+    {
+
+        return x_average=getSum()/data.size();
+    }
+    float getAverage2()
+    {
+
+        x2_average=0;
+        for(vector<float>::iterator i=data.begin(); i!=data.end(); i++)
+            x2_average+=(*i)*(*i);
+        return x2_average=x2_average/data.size();
+    }
+    int getCount()
+    {
+        return data.size();
+    }
+    float E()
+    {
+        return getAverage();
+    }
+    float E2()
+    {
+        return getAverage2();
+    }
+    float Var()
+    {
+
+        var=0.0f;
+        getAverage();
+        for(unsigned int i=0; i<data.size(); i++)
+            var+=(data[i]-x_average)*(data[i]-x_average);
+        var/=data.size()-1;
+        return var;
+    }
+};
+{%endcodeblock %}
+
+{%codeblock lang:cpp Factor%}
+class Factor
+{
+public:
+
+    static float Cov(Linevec &x,Linevec &y)
+    {
+        float xy_average=0.0f;
+        for(int i=0; i<x.getCount(); i++)
+            xy_average+=x.data[i]*y.data[i];
+        xy_average/=x.getCount();
+        return xy_average-x.E()*y.E();
+    }
+    static float Corr(Linevec &x,Linevec &y)
+    {
+        return Cov(x,y)/sqrt(x.Var()*y.Var());
+    }
+};
+{%endcodeblock %}
+由于图省事，有一些变量我设置了全局，我列在下面,
+
+{%codeblock lang:cpp%}
+int n,m;
+const int width=800,height=800;
+int f[height][width];
+const int maxValue=200;
+{%endcodeblock%}
+
+最终效果如下：
+![没找到圆](/images/image/nocirclefound.png)
+![找到圆](/images/image/findcircle.png)
+  
