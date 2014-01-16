@@ -1,0 +1,1436 @@
+<?xml version="1.0" encoding="utf-8"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>记录</title><link>/</link><description></description><atom:link href="/feeds/all.rss.xml" rel="self"></atom:link><lastBuildDate>Sun, 02 Dec 2012 21:57:00 +0800</lastBuildDate><item><title>"又是octopress博客的问题"</title><link>/you-shi-octopressbo-ke-de-wen-ti.html</link><description>&lt;p&gt;假期换了电脑，在新电脑上写了博客，但是怎么也提交不上去，一直提示：&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="cp"&gt;## Pushing generated _deploy website&lt;/span&gt;
+&lt;span class="n"&gt;Everything&lt;/span&gt; &lt;span class="n"&gt;up&lt;/span&gt;&lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="n"&gt;to&lt;/span&gt;&lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="n"&gt;date&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;在&lt;a href="https://github.com/imathis/octopress/issues/336"&gt;这里&lt;/a&gt;找到了解决方法：&lt;/p&gt;
+&lt;p&gt;运行&lt;/p&gt;
+&lt;p&gt;&lt;code&gt;rake setup_github_pages&lt;/code&gt;&lt;/p&gt;
+&lt;p&gt;输入博客的git地址，即可更新&lt;/p&gt;</description><dc:creator xmlns:dc="http://purl.org/dc/elements/1.1/">清风未明</dc:creator><pubDate>Sun, 02 Dec 2012 21:57:00 +0800</pubDate><guid>tag:,2012-12-02:you-shi-octopressbo-ke-de-wen-ti.html</guid><category>Boring</category><category>blog</category></item><item><title>"机器学习作业1--基于PCA方法的人脸识别"</title><link>/ji-qi-xue-xi-zuo-ye-1-ji-yu-pcafang-fa-de-ren-lian-shi-bie.html</link><description>&lt;h3&gt;实验目的&lt;/h3&gt;
+&lt;ol&gt;
+&lt;li&gt;学习主成分分析（PCA）的基础知识&lt;/li&gt;
+&lt;li&gt;了解PCA在人脸识别与重建方面的应用&lt;/li&gt;
+&lt;li&gt;认识数据降维在数据处理中的重要作用&lt;/li&gt;
+&lt;li&gt;学习使用matlab实现PCA算法&lt;/li&gt;
+&lt;/ol&gt;
+&lt;h3&gt;实验原理&lt;/h3&gt;
+&lt;p&gt;随着人们处理的问题越来越复杂，待处理的数据变得越来越庞大。在数据分析和处理的过程中，时间的消耗量是十分巨大的。于是人们在不断的寻找一些能够简化计算，方便处理数据的方法。其中数据降维就是一种能够简化计算，并且使数据更加易于处理（如数据可视化）的方法。主成分分析（PCA）方法就是一种用于数据降维处理的方法。&lt;/p&gt;
+&lt;p&gt;通常要处理的原始数据会有以下几个特性：&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;数据的不同维数之间是线性相关的，即 $cov(i,j)\neq 0 , i\neq j$&lt;/li&gt;
+&lt;li&gt;数据中的信息量分布不均匀，即有些方向数据分布集中，有些方向信息量较少。&lt;/li&gt;
+&lt;li&gt;一些较少的信息量去掉以后，对原始数据的分析并不产生太大的影响&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;由此，就考虑是否可以去掉那些包含信息量较少的数据，只保留包含信息量大的数据，这样就可以减少计算量。即抓住问题的主要矛盾，忽略次要矛盾。另外由于数据互相有相关性，数据矩阵的协方差矩阵不是对角阵。当取出了第一条信息量最大的向量，当然希望第二条次大的向量中，不要再包含第一条向量的信息。
+有了以上的考虑，同时数据协方差矩阵一定是实对称矩阵,必可相似对角化。先通过相似对角化的手段，把协方差矩阵化为对角阵。即将数据投影到另外一个坐标系，使得数据分量之间互相没有相关性( $cov(i,j)= 0 , i\neq j$ )。&lt;/p&gt;
+&lt;p&gt;\begin{equation}
+A=C^T \Lambda C 
+\end{equation}&lt;/p&gt;
+&lt;p&gt;其中 $A$ 为原数据的协方差矩阵，是对角阵；$C$ 为正交矩阵；$\Lambda$ 为对角阵，即&lt;/p&gt;
+&lt;p&gt;\begin{equation}
+   A=\left(  \begin{array}{cccc}
+      cov(1,1) &amp;amp; cov(1,2) &amp;amp; \cdots &amp;amp; cov(1,n) \\
+      cov(2,1) &amp;amp; cov(2,2) &amp;amp; \cdots &amp;amp; cov(2,n) \\
+      \vdots &amp;amp;   &amp;amp; \ddots &amp;amp; \vdots \\
+      cov(n,1) &amp;amp; cov(n,2) &amp;amp; \cdots &amp;amp; cov(n,n) \\
+      \end{array}      \right)
+\end{equation}
+$$
+C^T C= I
+$$&lt;/p&gt;
+&lt;p&gt;\begin{equation}
+  \Lambda=\left(   \begin{array}{cccc}
+      \lambda_1 &amp;amp; 0 &amp;amp; \cdots &amp;amp; 0 \\
+       0 &amp;amp; \lambda_2 &amp;amp; \cdots &amp;amp; 0 \\
+       \vdots &amp;amp;   &amp;amp; \ddots &amp;amp; \vdots \\
+       0 &amp;amp; 0 &amp;amp; \cdots &amp;amp; \lambda_n \\
+      \end{array}\right)
+\end{equation}&lt;/p&gt;
+&lt;p&gt;经过这个变换就可以看出来，协方差矩阵的特征值其实就是每一维数据的方差。而特征值，即方差代表了数据所包含的信息量。所以把特征值排序后，就可以知道在这个坐标系下，每一维数据所包含的信息量大小。我们只需要取出分析所需要的数据量，其余分量可以丢弃，从而在损失较小精度的情况下，减少计算量，提高计算速度。&lt;/p&gt;
+&lt;h3&gt;实验过程&lt;/h3&gt;
+&lt;h5&gt;数据读取&lt;/h5&gt;
+&lt;p&gt;这里使用的人脸数据库共有$N=150$张人脸图像，分辨率为$M\times M=80 \times 80$，以$FERET-XXX.tif$命名。由于PCA中，每个人脸图像是以一个列向量的形式存在，所以需要将这每个图像重构成列向量。在后续的算法中，需要将整体人脸零均值化，所以还需要记录下来所有人的平均脸。matlab 代码如下：&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="n"&gt;file&lt;/span&gt;&lt;span class="p"&gt;=&lt;/span&gt;&lt;span class="s"&gt;&amp;#39;FERET-&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+&lt;span class="n"&gt;N&lt;/span&gt;&lt;span class="p"&gt;=&lt;/span&gt;&lt;span class="mi"&gt;150&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+&lt;span class="n"&gt;M&lt;/span&gt;&lt;span class="p"&gt;=&lt;/span&gt;&lt;span class="mi"&gt;80&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+&lt;span class="n"&gt;Image&lt;/span&gt;&lt;span class="p"&gt;=&lt;/span&gt;&lt;span class="nb"&gt;zeros&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;M&lt;/span&gt;&lt;span class="o"&gt;*&lt;/span&gt;&lt;span class="n"&gt;M&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="n"&gt;N&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;
+
+&lt;span class="n"&gt;average&lt;/span&gt;&lt;span class="p"&gt;=&lt;/span&gt;&lt;span class="nb"&gt;zeros&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;M&lt;/span&gt;&lt;span class="o"&gt;*&lt;/span&gt;&lt;span class="n"&gt;M&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="mi"&gt;1&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;
+&lt;span class="c"&gt;% read face image&lt;/span&gt;
+&lt;span class="k"&gt;for&lt;/span&gt; &lt;span class="nb"&gt;i&lt;/span&gt; &lt;span class="p"&gt;=&lt;/span&gt; &lt;span class="mi"&gt;1&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;&lt;span class="n"&gt;N&lt;/span&gt;
+   &lt;span class="n"&gt;t&lt;/span&gt;&lt;span class="p"&gt;=&lt;/span&gt;&lt;span class="n"&gt;imread&lt;/span&gt;&lt;span class="p"&gt;([&lt;/span&gt;&lt;span class="n"&gt;file&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="n"&gt;num2str&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nb"&gt;i&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="s"&gt;&amp;#39;%03d&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;),&lt;/span&gt;&lt;span class="s"&gt;&amp;#39;.tif&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;]);&lt;/span&gt;
+   &lt;span class="n"&gt;t&lt;/span&gt;&lt;span class="p"&gt;=&lt;/span&gt;&lt;span class="nb"&gt;reshape&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;t&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="n"&gt;M&lt;/span&gt;&lt;span class="o"&gt;*&lt;/span&gt;&lt;span class="n"&gt;M&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="mi"&gt;1&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;
+   &lt;span class="n"&gt;Image&lt;/span&gt;&lt;span class="p"&gt;(:,&lt;/span&gt;&lt;span class="nb"&gt;i&lt;/span&gt;&lt;span class="p"&gt;)=&lt;/span&gt;&lt;span class="n"&gt;t&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+   &lt;span class="n"&gt;average&lt;/span&gt;&lt;span class="p"&gt;=&lt;/span&gt;&lt;span class="n"&gt;average&lt;/span&gt;&lt;span class="o"&gt;+&lt;/span&gt;&lt;span class="n"&gt;Image&lt;/span&gt;&lt;span class="p"&gt;(:,&lt;/span&gt;&lt;span class="nb"&gt;i&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;
+&lt;span class="k"&gt;end&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;h5&gt;数据预处理&lt;/h5&gt;
+&lt;p&gt;在读取完所有人脸数据以后，需要把整体数据零均值化，即每个人脸向量减去平均脸的向量。这样，对于PCA来说，我们得到了一组零均值的输入数据点。之后我们求出这组数据的协方差矩阵的特征值和特征向量。由于 $Image_{M^2\times N}$ 的维数很大所以求解特征值十分消耗时间。由线性代数的知识有：&lt;/p&gt;
+&lt;p&gt;$$
+\begin{equation}
+r(A_{m \times n}) \leq min { m,n }
+\end{equation}
+$$&lt;/p&gt;
+&lt;p&gt;所以它的秩很小，即不为零的特征根很少($r \leq N$)。于是先求出 $$Image^ T Image$$ 这个维数较小的矩阵的所有特征值和特征向量 $$ V_{N \times N} $$，再通过 $$ U_{M^ 2 \times N}=Image \times V $$,即可求出原矩阵 $$ImageImage^ T $$ 的特征向量。通过特征值我们可以看出来，大量的特征集中在很少的几个特征值上。而大部分特征值都很小，表示了他们携带的数据特征很小。把这些特征向量规范后以后，这些单位特征向量可以作为一组基底张成一个空间，即是特征脸方法中的特征空间，最后，把原图像向量向这个特征空间中投影，即可以得到我们所需的特征脸。&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="c"&gt;% zero-mean&lt;/span&gt;
+&lt;span class="n"&gt;average&lt;/span&gt;&lt;span class="p"&gt;=&lt;/span&gt;&lt;span class="n"&gt;average&lt;/span&gt;&lt;span class="o"&gt;/&lt;/span&gt;&lt;span class="n"&gt;N&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+&lt;span class="k"&gt;for&lt;/span&gt; &lt;span class="nb"&gt;i&lt;/span&gt; &lt;span class="p"&gt;=&lt;/span&gt; &lt;span class="mi"&gt;1&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;&lt;span class="n"&gt;N&lt;/span&gt;
+    &lt;span class="n"&gt;Image&lt;/span&gt;&lt;span class="p"&gt;(:,&lt;/span&gt;&lt;span class="nb"&gt;i&lt;/span&gt;&lt;span class="p"&gt;)=&lt;/span&gt;&lt;span class="n"&gt;Image&lt;/span&gt;&lt;span class="p"&gt;(:,&lt;/span&gt;&lt;span class="nb"&gt;i&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;&lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="n"&gt;average&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+&lt;span class="k"&gt;end&lt;/span&gt;
+
+&lt;span class="c"&gt;% Calc the vector&lt;/span&gt;
+&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="n"&gt;V&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="n"&gt;D&lt;/span&gt;&lt;span class="p"&gt;]=&lt;/span&gt;&lt;span class="n"&gt;eig&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;Image&lt;/span&gt;&lt;span class="o"&gt;&amp;#39;*&lt;/span&gt;&lt;span class="n"&gt;Image&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;
+&lt;span class="n"&gt;D&lt;/span&gt;&lt;span class="p"&gt;=&lt;/span&gt;&lt;span class="nb"&gt;diag&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;D&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;
+&lt;span class="n"&gt;figure&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="mi"&gt;1&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;
+&lt;span class="n"&gt;bar&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;D&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+&lt;span class="n"&gt;sum_d&lt;/span&gt;&lt;span class="p"&gt;=&lt;/span&gt;&lt;span class="n"&gt;sum&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;D&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;
+&lt;span class="n"&gt;U&lt;/span&gt;&lt;span class="p"&gt;=&lt;/span&gt;&lt;span class="n"&gt;Image&lt;/span&gt;&lt;span class="o"&gt;*&lt;/span&gt;&lt;span class="n"&gt;V&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+&lt;span class="k"&gt;for&lt;/span&gt; &lt;span class="nb"&gt;i&lt;/span&gt; &lt;span class="p"&gt;=&lt;/span&gt; &lt;span class="mi"&gt;1&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;&lt;span class="n"&gt;N&lt;/span&gt;
+    &lt;span class="n"&gt;U&lt;/span&gt;&lt;span class="p"&gt;(:,&lt;/span&gt;&lt;span class="nb"&gt;i&lt;/span&gt;&lt;span class="p"&gt;)=&lt;/span&gt;&lt;span class="n"&gt;U&lt;/span&gt;&lt;span class="p"&gt;(:,&lt;/span&gt;&lt;span class="nb"&gt;i&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;&lt;span class="o"&gt;/&lt;/span&gt;&lt;span class="nb"&gt;sqrt&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;U&lt;/span&gt;&lt;span class="p"&gt;(:,&lt;/span&gt;&lt;span class="nb"&gt;i&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;&lt;span class="o"&gt;&amp;#39;*&lt;/span&gt;&lt;span class="n"&gt;U&lt;/span&gt;&lt;span class="p"&gt;(:,&lt;/span&gt;&lt;span class="nb"&gt;i&lt;/span&gt;&lt;span class="p"&gt;));&lt;/span&gt;
+&lt;span class="k"&gt;end&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;h5&gt;人脸重建&lt;/h5&gt;
+&lt;p&gt;人脸重建实验的目的是为了测试特征脸所携带的人脸信息。由于特征值的大小代表了其所对应的特征向量所携带的信息量，通过将最大的一些特征值对应的特征向量叠加就可以获得原图像中的大部分信息量，也就是所谓的主成分。这里先将所有特征值按从大到小的顺序排列。通过叠加特征向量的方式，就可以得到一组对原人脸的逼近特征脸。而将特征值加起来，正是总的信息量，也可以求出重构误差。&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="c"&gt;%% Form a face&lt;/span&gt;
+&lt;span class="n"&gt;selected&lt;/span&gt;&lt;span class="p"&gt;=&lt;/span&gt;&lt;span class="mi"&gt;131&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+&lt;span class="n"&gt;subplot&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="mi"&gt;1&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="mi"&gt;2&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="mi"&gt;1&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;
+&lt;span class="n"&gt;imshow&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;uint8&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nb"&gt;reshape&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt; &lt;span class="n"&gt;Image&lt;/span&gt;&lt;span class="p"&gt;(:,&lt;/span&gt;&lt;span class="n"&gt;selected&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;&lt;span class="o"&gt;+&lt;/span&gt;&lt;span class="n"&gt;average&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="n"&gt;M&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="n"&gt;M&lt;/span&gt;&lt;span class="p"&gt;)))&lt;/span&gt;
+&lt;span class="n"&gt;subplot&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="mi"&gt;1&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="mi"&gt;2&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="mi"&gt;2&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;
+&lt;span class="n"&gt;k&lt;/span&gt;&lt;span class="p"&gt;=&lt;/span&gt;&lt;span class="mi"&gt;100&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+
+&lt;span class="n"&gt;p&lt;/span&gt;&lt;span class="p"&gt;=&lt;/span&gt;&lt;span class="nb"&gt;zeros&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;M&lt;/span&gt;&lt;span class="o"&gt;*&lt;/span&gt;&lt;span class="n"&gt;M&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="mi"&gt;1&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;
+&lt;span class="n"&gt;err&lt;/span&gt;&lt;span class="p"&gt;=&lt;/span&gt;&lt;span class="mi"&gt;0&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+&lt;span class="k"&gt;for&lt;/span&gt; &lt;span class="nb"&gt;i&lt;/span&gt;&lt;span class="p"&gt;=&lt;/span&gt;&lt;span class="nb"&gt;fliplr&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;N&lt;/span&gt;&lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="n"&gt;k&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;&lt;span class="n"&gt;N&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+     &lt;span class="n"&gt;w&lt;/span&gt;&lt;span class="p"&gt;=&lt;/span&gt;&lt;span class="n"&gt;U&lt;/span&gt;&lt;span class="p"&gt;(:,&lt;/span&gt;&lt;span class="nb"&gt;i&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;&lt;span class="o"&gt;&amp;#39;*&lt;/span&gt;&lt;span class="n"&gt;Image&lt;/span&gt;&lt;span class="p"&gt;(:,&lt;/span&gt;&lt;span class="n"&gt;selected&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;
+     &lt;span class="n"&gt;err&lt;/span&gt;&lt;span class="p"&gt;=&lt;/span&gt;&lt;span class="n"&gt;err&lt;/span&gt;&lt;span class="o"&gt;+&lt;/span&gt;&lt;span class="n"&gt;D&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nb"&gt;i&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;
+     &lt;span class="mi"&gt;1&lt;/span&gt;&lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="n"&gt;err&lt;/span&gt;&lt;span class="o"&gt;/&lt;/span&gt;&lt;span class="n"&gt;sum_d&lt;/span&gt;
+     &lt;span class="n"&gt;p&lt;/span&gt;&lt;span class="p"&gt;=&lt;/span&gt;&lt;span class="n"&gt;p&lt;/span&gt;&lt;span class="o"&gt;+&lt;/span&gt;&lt;span class="n"&gt;w&lt;/span&gt;&lt;span class="o"&gt;*&lt;/span&gt;&lt;span class="n"&gt;U&lt;/span&gt;&lt;span class="p"&gt;(:,&lt;/span&gt;&lt;span class="nb"&gt;i&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;
+     &lt;span class="n"&gt;imshow&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;uint8&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nb"&gt;reshape&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;p&lt;/span&gt;&lt;span class="o"&gt;+&lt;/span&gt;&lt;span class="n"&gt;average&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="n"&gt;M&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="n"&gt;M&lt;/span&gt;&lt;span class="p"&gt;)))&lt;/span&gt;
+     &lt;span class="n"&gt;pause&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="mf"&gt;0.2&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+&lt;span class="k"&gt;end&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;h5&gt;人脸识别&lt;/h5&gt;
+&lt;p&gt;人脸识别是先给出一张待识别的图像，在已经训练好的人脸特征空间中，计算待识别图像与已有的人脸之间的距离。当这个距离小于一定程度时，就认为该图像是一张人脸图像，否则就不是人脸图像。到这一步，属于人脸检测的过程。要识别出它是哪一张人脸，就需要进一步降低距离阈值。这两个阈值由实验测试出来。由此，实验过程为：
+设:&lt;/p&gt;
+&lt;p&gt;$$
+\begin{equation}
+dis(x)=\min {\|x-I_i \| } ,i=1,2 \ldots n
+\end{equation}
+$$&lt;/p&gt;
+&lt;p&gt;其中$x_{M^2 \times 1}$表示待识别的人脸向量，$I_i$表示第$i$个已知人脸图像。则检测结果如下：&lt;/p&gt;
+&lt;p&gt;$$&lt;/p&gt;
+&lt;p&gt;result = \begin{cases}
+   NotFace &amp;amp; dis(x)&amp;gt; T_f \\
+   FaceNotMeet &amp;amp; T_r \leq dis(x) \leq T_f \\
+   FaceMeet &amp;amp; 0\leq dis(x) &amp;lt;T_r
+   \end{cases}&lt;/p&gt;
+&lt;p&gt;$$&lt;/p&gt;
+&lt;p&gt;其中$T_r$和$T_f$为判断阈值且大于$0$。在实际实验中，$T_r$可以省略，因为如果未知人脸是见过的，那么它到自身的距离一定是最小的（趋于零）。
+由于按照Equ(2)直接计算距离十分耗时间，在这里PCA降维的意义就显现了出来。我们取前$k$个特征向量$(k \leq N)$作为投影坐标系，通过比较待定人脸向量在这个坐标系上的投影权值，与原人脸图像组的投影权值，即可计算出距离，即:&lt;/p&gt;
+&lt;p&gt;$$
+\begin{equation}
+dis(x)=\min {\|W_x-W_{Ij} \| } , j=1,2 \ldots n
+\end{equation}
+$$&lt;/p&gt;
+&lt;p&gt;其中 $$ W_x=W_{k\times 1} $$，为待识别图像的权值向量, $$W_{Ij} $$ 为第 $$j $$ 个原图像的权值向量。由此可以看出，每次计算距离的范围从 $M^2$ 下降到了 $k$ ，使得计算量极大的缩减了，从而提高了运算速度。这正是使用&lt;code&gt;PCA&lt;/code&gt;方法降维的目的。MATLAB代码如下：&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="c"&gt;%% Detect a face&lt;/span&gt;
+&lt;span class="n"&gt;unknown&lt;/span&gt;&lt;span class="p"&gt;=&lt;/span&gt;&lt;span class="mi"&gt;201&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+&lt;span class="n"&gt;k&lt;/span&gt;&lt;span class="p"&gt;=&lt;/span&gt;&lt;span class="mi"&gt;140&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+&lt;span class="n"&gt;w&lt;/span&gt;&lt;span class="p"&gt;=&lt;/span&gt;&lt;span class="nb"&gt;zeros&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;k&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="n"&gt;N&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;
+&lt;span class="k"&gt;for&lt;/span&gt; &lt;span class="nb"&gt;i&lt;/span&gt;&lt;span class="p"&gt;=&lt;/span&gt;&lt;span class="mi"&gt;1&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;&lt;span class="n"&gt;N&lt;/span&gt;
+    &lt;span class="k"&gt;for&lt;/span&gt; &lt;span class="nb"&gt;j&lt;/span&gt;&lt;span class="p"&gt;=&lt;/span&gt;&lt;span class="nb"&gt;fliplr&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;N&lt;/span&gt;&lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="n"&gt;k&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;&lt;span class="n"&gt;N&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+        &lt;span class="n"&gt;w&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nb"&gt;j&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="nb"&gt;i&lt;/span&gt;&lt;span class="p"&gt;)=&lt;/span&gt;&lt;span class="n"&gt;U&lt;/span&gt;&lt;span class="p"&gt;(:,&lt;/span&gt;&lt;span class="nb"&gt;j&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;&lt;span class="o"&gt;&amp;#39;*&lt;/span&gt;&lt;span class="n"&gt;Image&lt;/span&gt;&lt;span class="p"&gt;(:,&lt;/span&gt;&lt;span class="nb"&gt;i&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;
+    &lt;span class="k"&gt;end&lt;/span&gt;
+&lt;span class="k"&gt;end&lt;/span&gt;
+&lt;span class="n"&gt;subplot&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="mi"&gt;2&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="mi"&gt;2&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="mi"&gt;1&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;
+&lt;span class="n"&gt;t&lt;/span&gt;&lt;span class="p"&gt;=&lt;/span&gt;&lt;span class="n"&gt;imread&lt;/span&gt;&lt;span class="p"&gt;([&lt;/span&gt;&lt;span class="n"&gt;file&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="n"&gt;num2str&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;unknown&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="s"&gt;&amp;#39;%03d&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;),&lt;/span&gt;&lt;span class="s"&gt;&amp;#39;.tif&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;]);&lt;/span&gt;
+&lt;span class="n"&gt;imshow&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;t&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;
+&lt;span class="n"&gt;t&lt;/span&gt;&lt;span class="p"&gt;=(&lt;/span&gt;&lt;span class="nb"&gt;reshape&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;t&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="n"&gt;M&lt;/span&gt;&lt;span class="o"&gt;*&lt;/span&gt;&lt;span class="n"&gt;M&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="mi"&gt;1&lt;/span&gt;&lt;span class="p"&gt;));&lt;/span&gt;
+&lt;span class="n"&gt;t&lt;/span&gt;&lt;span class="p"&gt;=&lt;/span&gt;&lt;span class="n"&gt;double&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;t&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;
+&lt;span class="n"&gt;t&lt;/span&gt;&lt;span class="p"&gt;=&lt;/span&gt;&lt;span class="n"&gt;t&lt;/span&gt;&lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="n"&gt;average&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+
+&lt;span class="n"&gt;wt&lt;/span&gt;&lt;span class="p"&gt;=&lt;/span&gt;&lt;span class="nb"&gt;zeros&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;k&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="mi"&gt;1&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;
+&lt;span class="n"&gt;p&lt;/span&gt;&lt;span class="p"&gt;=&lt;/span&gt;&lt;span class="nb"&gt;zeros&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;M&lt;/span&gt;&lt;span class="o"&gt;*&lt;/span&gt;&lt;span class="n"&gt;M&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="mi"&gt;1&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;
+&lt;span class="k"&gt;for&lt;/span&gt; &lt;span class="nb"&gt;j&lt;/span&gt;&lt;span class="p"&gt;=&lt;/span&gt;&lt;span class="nb"&gt;fliplr&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;N&lt;/span&gt;&lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="n"&gt;k&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;&lt;span class="n"&gt;N&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+        &lt;span class="n"&gt;wt&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nb"&gt;j&lt;/span&gt;&lt;span class="p"&gt;)=&lt;/span&gt;&lt;span class="n"&gt;U&lt;/span&gt;&lt;span class="p"&gt;(:,&lt;/span&gt;&lt;span class="nb"&gt;j&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;&lt;span class="o"&gt;&amp;#39;*&lt;/span&gt;&lt;span class="n"&gt;t&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+&lt;span class="k"&gt;end&lt;/span&gt;
+
+&lt;span class="n"&gt;index&lt;/span&gt;&lt;span class="p"&gt;=&lt;/span&gt;&lt;span class="mi"&gt;0&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+&lt;span class="n"&gt;e_min&lt;/span&gt;&lt;span class="p"&gt;=&lt;/span&gt;&lt;span class="mi"&gt;1000000&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+&lt;span class="k"&gt;for&lt;/span&gt; &lt;span class="nb"&gt;i&lt;/span&gt;&lt;span class="p"&gt;=&lt;/span&gt;&lt;span class="mi"&gt;1&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;&lt;span class="n"&gt;N&lt;/span&gt;
+    &lt;span class="n"&gt;e&lt;/span&gt;&lt;span class="p"&gt;=&lt;/span&gt;&lt;span class="nb"&gt;sqrt&lt;/span&gt;&lt;span class="p"&gt;((&lt;/span&gt;&lt;span class="n"&gt;wt&lt;/span&gt;&lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="n"&gt;w&lt;/span&gt;&lt;span class="p"&gt;(:,&lt;/span&gt;&lt;span class="nb"&gt;i&lt;/span&gt;&lt;span class="p"&gt;))&lt;/span&gt;&lt;span class="o"&gt;&amp;#39;*&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;wt&lt;/span&gt;&lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="n"&gt;w&lt;/span&gt;&lt;span class="p"&gt;(:,&lt;/span&gt;&lt;span class="nb"&gt;i&lt;/span&gt;&lt;span class="p"&gt;)))&lt;/span&gt;&lt;span class="o"&gt;/&lt;/span&gt;&lt;span class="n"&gt;k&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+
+    &lt;span class="k"&gt;if&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt; &lt;span class="n"&gt;e&lt;/span&gt;&lt;span class="o"&gt;&amp;lt;&lt;/span&gt;&lt;span class="n"&gt;e_min&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+        &lt;span class="n"&gt;e_min&lt;/span&gt;&lt;span class="p"&gt;=&lt;/span&gt;&lt;span class="n"&gt;e&lt;/span&gt;
+        &lt;span class="n"&gt;index&lt;/span&gt;&lt;span class="p"&gt;=&lt;/span&gt;&lt;span class="nb"&gt;i&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+    &lt;span class="k"&gt;end&lt;/span&gt;
+&lt;span class="k"&gt;end&lt;/span&gt;
+
+&lt;span class="n"&gt;subplot&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="mi"&gt;2&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="mi"&gt;2&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="mi"&gt;3&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;
+&lt;span class="k"&gt;if&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;e_min&lt;/span&gt;&lt;span class="o"&gt;&amp;lt;&lt;/span&gt;&lt;span class="mi"&gt;20&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+    &lt;span class="n"&gt;imshow&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;uint8&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nb"&gt;reshape&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt; &lt;span class="n"&gt;Image&lt;/span&gt;&lt;span class="p"&gt;(:,&lt;/span&gt;&lt;span class="n"&gt;index&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;&lt;span class="o"&gt;+&lt;/span&gt;&lt;span class="n"&gt;average&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="n"&gt;M&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="n"&gt;M&lt;/span&gt;&lt;span class="p"&gt;)))&lt;/span&gt;
+&lt;span class="k"&gt;else&lt;/span&gt;
+    &lt;span class="n"&gt;imshow&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;uint8&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nb"&gt;zeros&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;M&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="n"&gt;M&lt;/span&gt;&lt;span class="p"&gt;)))&lt;/span&gt;
+&lt;span class="k"&gt;end&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;h3&gt;实验结果&lt;/h3&gt;
+&lt;h5&gt;计算协方差矩阵的特征值&lt;/h5&gt;
+&lt;p&gt;由下图可知，协方差矩阵的特征值分布十分不均匀。只有少量的特征值很大，大部分特征值都非常小。说明数据由少量的特征值就可以代表大部分的原数据。&lt;/p&gt;
+&lt;p&gt;&lt;img alt="协方差矩阵的特征值直方图" src="/image/ml-1/1.png" /&gt;&lt;/p&gt;
+&lt;h5&gt;人脸重建&lt;/h5&gt;
+&lt;p&gt;第一幅是人脸重建过程的开始，可以看出来左右两边的图像还相差很远。从第二幅可以看出来，特征脸叠加出来的人脸和原人脸已经十分的相似。同理之后的两图也展现了同样的过程。由此可以知道，通过抽取大特征值对应的特征向量的确可以得到原数据的主要成分。而重构误差也很小。&lt;/p&gt;
+&lt;p&gt;&lt;img alt="人脸重建1：还不像" src="/image/ml-1/2.png" /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img alt="人脸重建1：很像" src="/image/ml-1/3.png" /&gt;
+&lt;img alt="人脸重建2：还不像" src="/image/ml-1/4.png" /&gt;
+&lt;img alt="人脸重建2：很像" src="/image/ml-1/5.png" /&gt;&lt;/p&gt;
+&lt;h5&gt;人脸识别&lt;/h5&gt;
+&lt;p&gt;如果见过的话，直接给出那个人，否则的话，就给出最相近的人，如下图&lt;/p&gt;
+&lt;p&gt;&lt;img alt="见过的" src="/image/ml-1/8.png" /&gt;
+&lt;img alt="没见过，但是很像的" src="/image/ml-1/7.png" /&gt;
+&lt;img alt="没见过，但是很像的" src="/image/ml-1/6.png" /&gt;&lt;/p&gt;
+&lt;p&gt;由此可知,&lt;code&gt;PCA&lt;/code&gt; 方法成功的应用在了人脸识别上。同时该结果也验证了我的实现过程的正确性。&lt;/p&gt;</description><dc:creator xmlns:dc="http://purl.org/dc/elements/1.1/">清风未明</dc:creator><pubDate>Sun, 02 Dec 2012 20:22:00 +0800</pubDate><guid>tag:,2012-12-02:ji-qi-xue-xi-zuo-ye-1-ji-yu-pcafang-fa-de-ren-lian-shi-bie.html</guid><category>机器学习</category><category>Codes</category></item><item><title>"为ARM平台交叉编译GDB"</title><link>/wei-armping-tai-jiao-cha-bian-yi-gdb.html</link><description>&lt;p&gt;为了方便调试嵌入式程序，需要移植一份&lt;em&gt;GDB&lt;/em&gt;到ARM平台。&lt;/p&gt;
+&lt;h2&gt;GDB之前需要先准备的一个库&lt;/h2&gt;
+&lt;p&gt;编译ＧＤＢ时首先会提示一个错误，就是缺少一个库:&lt;a href="http://en.wikipedia.org/wiki/Ncurses"&gt;ncurses&lt;/a&gt;。编译的时候会需要它的一些头文件和库。所以还需要在&lt;a href="http://www.gnu.org/software/ncurses/"&gt;这里&lt;/a&gt;下载一份它的源码。下载好后，解压到需要的路径。为了便于区分，可以在源代码文件夹中，新建一个文件夹&lt;em&gt;release&lt;/em&gt;来放编译完成后的文件。进入源码文件夹，执行以下命令，即可完成编译工作：&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;./configure --host&lt;span class="o"&gt;=&lt;/span&gt;arm-none-linux-gnueabi  --prefix&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;$PWD/release&amp;quot;&lt;/span&gt; --without-ada --enable-termcap --with-shared
+make
+make install
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;h4&gt;解释&lt;/h4&gt;
+&lt;ol&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;em&gt;--host&lt;/em&gt; 指定了这份源码将要编译到哪个平台上，&lt;em&gt;configure&lt;/em&gt;会按照这个参数来寻找编译器，比如我的编译器是&lt;em&gt;arm-none-linux-gnueabi-gcc&lt;/em&gt;，所以我就写&lt;em&gt;arm-none-linux-gnueabi&lt;/em&gt;&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;em&gt;--prefix&lt;/em&gt; 指定了编译好的文件将要存放的地方&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;编译GDB的时候提示缺少的库就是&lt;em&gt;termcap&lt;/em&gt;，所以需要&lt;em&gt;--enable-termcap&lt;/em&gt; 。 &lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;其余的选项可以通过&lt;em&gt;./configure --help&lt;/em&gt;命令来查找，按需分配。&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ol&gt;
+&lt;h2&gt;编译GDB&lt;/h2&gt;
+&lt;p&gt;在&lt;a href="http://sources.redhat.com/gdb/download/"&gt;这里&lt;/a&gt;下载一份GDB的源码准备交叉编译。虽然最新版本是7.4.1，但是我这里一直没有成功编译过去，于是选择了低一点的版本7.3.1。下载后解压到需要的路径。同样为了方便起见我在源代码目录里新建了&lt;em&gt;release&lt;/em&gt;文件夹来存放结果。之后使用如下命令来进行编译：&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;/configure --host&lt;span class="o"&gt;=&lt;/span&gt;arm-none-linux-gnueabi --enable-shared --prefix&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;$PWD/release&amp;quot;&lt;/span&gt; --without-x --disable-gdbtk --without-included-regex --without-included-gettext --disable-tui &lt;span class="nv"&gt;LDFLAGS&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;-L/home/ghdawn/develop/ncurses-5.9/release/lib&amp;quot;&lt;/span&gt; &lt;span class="nv"&gt;CPPFLAGS&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;-I/home/ghdawn/develop/ncurses-5.9/release/include&amp;quot;&lt;/span&gt;
+make
+make install
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;h4&gt;解释&lt;/h4&gt;
+&lt;ol&gt;
+&lt;li&gt;
+&lt;p&gt;前三个参数和上面是一样的。&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;在编译的过程中，会出现好多好多的编译错误，无非就是缺少这个缺少那个。而正好我所需要的功能就是最简单的调试，所以其他的我就都不要了。之后的所有&lt;em&gt;without&lt;/em&gt;和&lt;em&gt;disable&lt;/em&gt;就是每次编译错误后，我关掉的功能。可以察看&lt;em&gt;./configure --help&lt;/em&gt;命令中的解释&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;最后两个指定了&lt;em&gt;ncurses&lt;/em&gt;的库和头文件存放的位置，指定给GCC&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;经过这几步以后，就会在&lt;em&gt;release/bin&lt;/em&gt;文件夹下生成所需要的&lt;em&gt;gdb&lt;/em&gt;文件，把这个文件复制到开发板上就可以运行了。&lt;/p&gt;
+&lt;h3&gt;注意&lt;/h3&gt;
+&lt;p&gt;交叉编译的时候会出现这样一个问题：交叉编译器使用的&lt;em&gt;GLIBC&lt;/em&gt;版本高于嵌入式Linux里的版本，这会导致可执行文件在开发板里无法运行。而给开发板里更新&lt;em&gt;GLIBC&lt;/em&gt;是一个十分困难的事情，目前我没有找到相关的资料，所以最好还是选择和开发板匹配的交叉编译器。&lt;/p&gt;</description><dc:creator xmlns:dc="http://purl.org/dc/elements/1.1/">清风未明</dc:creator><pubDate>Mon, 30 Jul 2012 20:53:00 +0800</pubDate><guid>tag:,2012-07-30:wei-armping-tai-jiao-cha-bian-yi-gdb.html</guid><category>嵌入式</category><category>Linux</category></item><item><title>"我的木碗中的宇宙"</title><link>/wo-de-mu-wan-zhong-de-yu-zhou.html</link><description>&lt;p&gt;某天上网，突然看到豆瓣的推荐里有&lt;a href="http://www.douban.com/group/topic/28764390/"&gt;这样&lt;/a&gt;一篇文章，讲了在碗里画一个很好看的宇宙的方法。我感觉很好看，就想做一个给女朋友。&lt;/p&gt;
+&lt;p&gt;先在淘宝上买一些设备：&lt;a href="http://trade.taobao.com/trade/detail/tradeSnap.htm?tradeID=169551961541722"&gt;木碗&lt;/a&gt;，&lt;a href="http://trade.taobao.com/trade/detail/tradeSnap.htm?tradeID=133675131561722"&gt;颜料&lt;/a&gt;,会送颜料盘和画笔,和&lt;a href="http://trade.taobao.com/trade/detail/tradeSnap.htm?tradeID=169545961751722"&gt;水晶滴胶&lt;/a&gt;,会送量杯。&lt;/p&gt;
+&lt;p&gt;我是参照网上的一副银河系想象图来画的：
+&lt;img alt="银河系图" src="http://scitech.people.com.cn/mediafile/200901/08/F200901080855162169116821.jpg" /&gt;&lt;/p&gt;
+&lt;h3&gt;涂背景层&lt;/h3&gt;
+&lt;p&gt;首先用黑色的颜料涂满碗内部，作为宇宙的背景，然后用牙签点着白色的颜料来画星星。这里最好用水稀释一点儿，一点就够了。直接图颜料会变得和山一样，不好看，多了以后颜色会太稀。等颜料完全干了就可以灌水晶胶了。&lt;/p&gt;
+&lt;p&gt;水晶胶可以滴的厚一点，这样后面的立体感才会强。但是太厚的话在胶变干的时候会产生很大的热量，据商家说会对颜料有损坏，所以说不能滴的太厚。这个自己斟酌。
+大约二十小时左右胶会干透，变硬。效果如图：
+&lt;img alt="背景层" src="/image/WP_000194.jpg" /&gt;&lt;/p&gt;
+&lt;h3&gt;底色&lt;/h3&gt;
+&lt;p&gt;首先选择银核的位置，用白色-黄色-肉色的顺序向外渐变的画。白色是主要的颜色，黄色的作用是让银核变得非常亮，肉色只是为了让边沿变暗，以和紫色相接。&lt;br /&gt;
+涂好银核后，从边界开始向外刷底色紫。我的涂法是在画笔的一边涂上紫色，中间沾一点白色，然后一圈一圈的涂，让颜色尽量淡一点。这样底层的星星就变成有紫色有白色的了。&lt;/p&gt;
+&lt;p&gt;最后还是等颜色干了上胶。&lt;/p&gt;
+&lt;p&gt;&lt;img alt="第二层的效果" src="/image/WP_000200.jpg" /&gt;&lt;/p&gt;
+&lt;h3&gt;主颜色层&lt;/h3&gt;
+&lt;p&gt;主颜色层由蓝色，紫色组成。不过还是先涂一下白色的银核，可以淡一点，透过这一层还能看到下一层的银核。&lt;/p&gt;
+&lt;p&gt;画好后，还是从中心向外涂色。先在画笔的一边上沾一些紫色，涂几圈。这时候不用洗掉，在灵另一边直接涂上蓝色，让笔上同时有两种颜色，接着涂几圈。最后以蓝色为主收场。不过颜色只要一点就好，让水多一些。颜料太浓会很难看，比如： &lt;br /&gt;
+&lt;img alt="颜色浓了点" src="/image/WP_000211.jpg" /&gt;&lt;/p&gt;
+&lt;p&gt;这样涂好了以后，在画笔上沾很多水，从中心用水涂出去，把颜色混合起来，这样就会产生渐变色的效果。同时颜色变淡以后，就可以看到下一次的星星有很多的颜色。&lt;/p&gt;
+&lt;p&gt;然后上胶覆盖了。&lt;/p&gt;
+&lt;h5&gt;注意！&lt;/h5&gt;
+&lt;p&gt;渐变色是需要混合的，但是不能用水把两中颜色调和在一起，这样只会产生一种新的颜色，而不是两个颜色的渐变。渐变色就需要在画笔上同时涂一些颜色，然后混合在一起，反复刷上去。&lt;/p&gt;
+&lt;p&gt;&lt;img alt="半成品" src="/image/WP_000220.jpg" /&gt;&lt;/p&gt;
+&lt;h3&gt;最后一次上色&lt;/h3&gt;
+&lt;p&gt;这样的颜色还是有一些浓，所以最后一层上用非常非常淡的紫色和蓝色加一个虚无缥缈的雾层，当然要把银核的位置空过去。然后用牙签点上白色的旋转的旋臂，从小到大的旋转起来。&lt;/p&gt;
+&lt;p&gt;&lt;img alt="最后一层" src="/image/WP_000226.jpg" /&gt;&lt;/p&gt;
+&lt;p&gt;我没有加夜光层，因为我买来的夜光涂料颜色一点也不好看，涂上只会让效果变差。&lt;/p&gt;</description><dc:creator xmlns:dc="http://purl.org/dc/elements/1.1/">清风未明</dc:creator><pubDate>Tue, 26 Jun 2012 12:57:00 +0800</pubDate><guid>tag:,2012-06-26:wo-de-mu-wan-zhong-de-yu-zhou.html</guid><category>life</category></item><item><title>"使用单片机Arduino(AVR)与Android设备通讯"</title><link>/shi-yong-dan-pian-ji-arduinoavryu-androidshe-bei-tong-xun.html</link><description>&lt;h3&gt;简述需求&lt;/h3&gt;
+&lt;p&gt;现在的Android设备，像手机，平板等，有很多的资源，比如照相机，音箱等,同时CPU已经很好，运算能力很强。功能十分丰富，但是必须得人手操控才能使用。这么丰富的资源，如果能自动做点事情，或者作为一个控制核心控制其它的东西就更好了，所以Google官方提供了一种方法，将Android设备按附件模式与一个有&lt;a href="http://baike.baidu.com/view/1402520.htm?fromTaglist"&gt;USB Host&lt;/a&gt;的设备相连，两者通过USB接口相连传输数据，从而实现通过单片机操控手机。（&lt;a href="http://zh.wikipedia.org/zh-cn/USB"&gt;USB&lt;/a&gt;是主从结构的总线，这里要求Android设备作为从机，单片机作为主机，而一般的开发板附带的usb口都是client，如果需要做这个实验，则需要买&lt;a href="http://item.taobao.com/item.htm?id=12892248805"&gt;有USB Host的开发板&lt;/a&gt;，或者买专门的 USB host shield模块放在开发板上。）&lt;/p&gt;
+&lt;p&gt;在这里，Google要求Android平台的版本至少为2.3.3，单片机要求实现了&lt;em&gt;Android Accessory Protocol&lt;/em&gt;协议。其中Google官方支持了一个开源硬件平台&lt;a href="http://www.arduino.cc/"&gt;Arduino&lt;/a&gt;。现阶段，Android只能支持一个USB设备，不过能满足大部分需求了。&lt;/p&gt;
+&lt;p&gt;Google官方提供了一个简洁的教程（&lt;a href="http://developer.android.com/guide/topics/usb/adk.html"&gt;Arduino&lt;/a&gt;部分，与&lt;a href="http://developer.android.com/guide/topics/usb/accessory.html"&gt;Android&lt;/a&gt;部分，以及一份代码示例（包括Android与Arduino部分，在对应的网页里下）。但是教程过于简洁而示例过于复杂：直接按照教程做，很多地方无从下手。按照代码改，代码结构又过于复杂，依然不好下手。于是我在这里耽误了一天多的时间。&lt;/p&gt;
+&lt;h3&gt;Arduino部分&lt;/h3&gt;
+&lt;ol&gt;
+&lt;li&gt;在&lt;a href="http://www.arduino.cc/"&gt;Arduino&lt;/a&gt;下载最新的IDE，它是用JAVA开发的，跨平台。同时几乎所有底层的驱动全部写好，开发的时候只要调用即可，完全感觉不到是在开发单片机，实在很爽。&lt;/li&gt;
+&lt;li&gt;下载&lt;a href="https://dl-ssl.google.com/android/adk/adk_release_0512.zip"&gt;Google 提供的协议实现代码&lt;/a&gt;。解压出来后，将&lt;em&gt;firmware/arduino_libs/&lt;/em&gt;下的&lt;em&gt;AndroidAccessory&lt;/em&gt;和&lt;em&gt;USB_Host_Shield&lt;/em&gt;复制到&lt;em&gt;Arduino IDE&lt;/em&gt;的&lt;em&gt;libraries&lt;/em&gt;目录下。这两个分别是Android附件协议的实现和USB的驱动。&lt;/li&gt;
+&lt;li&gt;如果按照教程，现在只需要打开&lt;em&gt;firmware/demokit/demokit.pde&lt;/em&gt;并烧写进开发板，就可以和教程配套的Android程序进行通讯并控制电机之类的驱动了。&lt;/li&gt;
+&lt;li&gt;但是自己做开发的话就不要用上面的代码了，太复杂太麻烦。在IDE里新建一个文件，包含&lt;em&gt;USB&lt;/em&gt;驱动和&lt;em&gt;AndroidAccessory&lt;/em&gt;的头文件，并新建一个&lt;em&gt;AndroidAccessory&lt;/em&gt;对象，比如叫acc。在&lt;em&gt;setup()&lt;/em&gt;函数中，调用acc.powerOn()方法，即可开始试探链接Android设备。&lt;/li&gt;
+&lt;li&gt;在我的应用中，我需要做的是把Android设备中计算的结果以串口的形式发给飞控模块，所以我只需要不断的把Android设备发送来的数据发给串口，再把串口接受到的数据发给Android设备。于是，代码如下：&lt;/li&gt;
+&lt;/ol&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="cp"&gt;#include &amp;lt;Usb.h&amp;gt;&lt;/span&gt;
+&lt;span class="cp"&gt;#include &amp;lt;AndroidAccessory.h&amp;gt;&lt;/span&gt;
+
+
+
+&lt;span class="n"&gt;AndroidAccessory&lt;/span&gt; &lt;span class="nf"&gt;acc&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s"&gt;&amp;quot;BuaaITR&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;
+             &lt;span class="s"&gt;&amp;quot;Demo&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;
+             &lt;span class="s"&gt;&amp;quot;DemoKit Arduino Board&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;
+             &lt;span class="s"&gt;&amp;quot;1.0&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;
+             &lt;span class="s"&gt;&amp;quot;http://www.android.com&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;
+             &lt;span class="s"&gt;&amp;quot;0000000012345678&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;
+
+
+&lt;span class="kt"&gt;void&lt;/span&gt; &lt;span class="nf"&gt;setup&lt;/span&gt;&lt;span class="p"&gt;()&lt;/span&gt;
+&lt;span class="p"&gt;{&lt;/span&gt;
+    &lt;span class="n"&gt;Serial&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;begin&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="mi"&gt;115200&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;
+    &lt;span class="n"&gt;Serial&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;print&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s"&gt;&amp;quot;&lt;/span&gt;&lt;span class="se"&gt;\r\n&lt;/span&gt;&lt;span class="s"&gt;Start&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;
+
+    &lt;span class="n"&gt;acc&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;powerOn&lt;/span&gt;&lt;span class="p"&gt;();&lt;/span&gt;
+&lt;span class="p"&gt;}&lt;/span&gt;
+
+&lt;span class="kt"&gt;void&lt;/span&gt; &lt;span class="nf"&gt;loop&lt;/span&gt;&lt;span class="p"&gt;()&lt;/span&gt;
+&lt;span class="p"&gt;{&lt;/span&gt;
+
+    &lt;span class="n"&gt;byte&lt;/span&gt; &lt;span class="n"&gt;msg&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="mi"&gt;1024&lt;/span&gt;&lt;span class="p"&gt;];&lt;/span&gt;
+
+    &lt;span class="k"&gt;if&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;acc&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;isConnected&lt;/span&gt;&lt;span class="p"&gt;())&lt;/span&gt; 
+        &lt;span class="p"&gt;{&lt;/span&gt;
+                &lt;span class="k"&gt;while&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;Serial&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;available&lt;/span&gt;&lt;span class="p"&gt;()&lt;/span&gt;&lt;span class="o"&gt;&amp;gt;&lt;/span&gt;&lt;span class="mi"&gt;0&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+                &lt;span class="p"&gt;{&lt;/span&gt;
+                  &lt;span class="n"&gt;msg&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="mi"&gt;0&lt;/span&gt;&lt;span class="p"&gt;]&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="n"&gt;Serial&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;read&lt;/span&gt;&lt;span class="p"&gt;();&lt;/span&gt;
+                  &lt;span class="n"&gt;acc&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;write&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;msg&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="mi"&gt;1&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;
+                &lt;span class="p"&gt;}&lt;/span&gt;
+                &lt;span class="kt"&gt;int&lt;/span&gt; &lt;span class="n"&gt;len&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;acc&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;read&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;msg&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="k"&gt;sizeof&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;msg&lt;/span&gt;&lt;span class="p"&gt;),&lt;/span&gt; &lt;span class="mi"&gt;1&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;
+                &lt;span class="k"&gt;if&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;len&lt;/span&gt; &lt;span class="o"&gt;&amp;gt;&lt;/span&gt; &lt;span class="mi"&gt;0&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; 
+                &lt;span class="p"&gt;{&lt;/span&gt;
+                  &lt;span class="n"&gt;Serial&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;write&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;msg&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="n"&gt;len&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;
+                &lt;span class="p"&gt;}&lt;/span&gt;
+        &lt;span class="p"&gt;}&lt;/span&gt;
+    &lt;span class="n"&gt;delay&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="mi"&gt;200&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;
+&lt;span class="p"&gt;}&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;h5&gt;一些解释&lt;/h5&gt;
+&lt;p&gt;按照这样的方法，单片机这部分就很容易能搞定了，只要Android程序写好了，两个就能匹配工作了。&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;Arduino简化了开发流程，去掉了主函数，只留下 &lt;em&gt;setup()&lt;/em&gt;作为初始化，&lt;em&gt;loop()&lt;/em&gt;不断循环。所以把初始化的部分写在&lt;em&gt;setup()&lt;/em&gt;里，工作的部分写在&lt;em&gt;loop()&lt;/em&gt;中。  &lt;/li&gt;
+&lt;li&gt;&lt;em&gt;AndroidAccessory&lt;/em&gt;对象的构造函数有6个参数，分别为：设备制造商，设备模型，设备描述，设备版本，网址和序列号。其中制造商，模型和版本必须与Android设备上的软件匹配。即开发Android设备上运行的软件时，也需要制定这三个参数，只有这三个参数相同的设备才能互相连接。  &lt;/li&gt;
+&lt;li&gt;调用&lt;em&gt;acc.powerOn();&lt;/em&gt;来使单片机开始工作  &lt;/li&gt;
+&lt;li&gt;单片机与Android设备不一定会匹配，所以需要&lt;em&gt;acc.isConnected()&lt;/em&gt;判断是否已经成功的连接。  &lt;/li&gt;
+&lt;li&gt;读写方法分别为&lt;code&gt;acc.write(char* msg,int length)&lt;/code&gt; 和&lt;code&gt;acc.read(char* msg,int length ,int nakLimit)&lt;/code&gt;。其中msg和length分别为存放数据的数组和期望读写的数据长度。读取函数的第三个参数&lt;em&gt;nakLimit&lt;/em&gt;，目前我在网上还没找到有人知道是做什么用的，反正设为1就能用。   &lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3&gt;Android部分&lt;/h3&gt;
+&lt;p&gt;首先声明，这里我是参考了Google的官方文档，同时在Google给的示例代码中改成的，代码已经十分精简，可以直接修改以完成所需的任务。如果有时间，完全可以读Google的代码，从那一大堆代码里修改。&lt;br /&gt;
+操作USB的时候，SDK版本为&lt;em&gt;2.3.3，即API 10&lt;/em&gt;时是一种操作，版本为那之上的是另一种操作。&lt;em&gt;API 10&lt;/em&gt;需要装&lt;a href="http://code.google.com/android/add-ons/google-apis/installing.html"&gt;add-on library&lt;/a&gt;，我用的是&lt;em&gt;API 10&lt;/em&gt;。装好之后，在项目属性中，点选&lt;em&gt;Android&lt;/em&gt;，把&lt;em&gt;Build Target&lt;/em&gt;改为&lt;em&gt;Google APIs&lt;/em&gt;。&lt;/p&gt;
+&lt;p&gt;要想使&lt;em&gt;Accessory&lt;/em&gt;工作，需要在&lt;em&gt;AndroidManifest.xml&lt;/em&gt;中声明支持&lt;em&gt;UsbManager.ACTION_USB_ACCESSORY_DETACHED&lt;/em&gt;，并添加一个过滤器，来过滤设备。如下：&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="cp"&gt;&amp;lt;?xml version=&amp;quot;1.0&amp;quot; encoding=&amp;quot;utf-8&amp;quot;?&amp;gt;&lt;/span&gt;
+&lt;span class="nt"&gt;&amp;lt;manifest&lt;/span&gt; &lt;span class="na"&gt;xmlns:android=&lt;/span&gt;&lt;span class="s"&gt;&amp;quot;http://schemas.android.com/apk/res/android&amp;quot;&lt;/span&gt;
+    &lt;span class="na"&gt;package=&lt;/span&gt;&lt;span class="s"&gt;&amp;quot;me.ghdawn&amp;quot;&lt;/span&gt;
+    &lt;span class="na"&gt;android:versionCode=&lt;/span&gt;&lt;span class="s"&gt;&amp;quot;1&amp;quot;&lt;/span&gt;
+    &lt;span class="na"&gt;android:versionName=&lt;/span&gt;&lt;span class="s"&gt;&amp;quot;1.0&amp;quot;&lt;/span&gt; &lt;span class="nt"&gt;&amp;gt;&lt;/span&gt;
+
+    &lt;span class="nt"&gt;&amp;lt;uses-feature&lt;/span&gt; &lt;span class="na"&gt;android:name=&lt;/span&gt;&lt;span class="s"&gt;&amp;quot;android.hardware.usb.accessory&amp;quot;&lt;/span&gt; &lt;span class="nt"&gt;/&amp;gt;&lt;/span&gt;
+
+    &lt;span class="nt"&gt;&amp;lt;uses-sdk&lt;/span&gt; &lt;span class="na"&gt;android:minSdkVersion=&lt;/span&gt;&lt;span class="s"&gt;&amp;quot;10&amp;quot;&lt;/span&gt; &lt;span class="nt"&gt;/&amp;gt;&lt;/span&gt;
+
+    &lt;span class="nt"&gt;&amp;lt;application&lt;/span&gt;
+        &lt;span class="na"&gt;android:icon=&lt;/span&gt;&lt;span class="s"&gt;&amp;quot;@drawable/ic_launcher&amp;quot;&lt;/span&gt;
+        &lt;span class="na"&gt;android:label=&lt;/span&gt;&lt;span class="s"&gt;&amp;quot;@string/app_name&amp;quot;&lt;/span&gt; &lt;span class="nt"&gt;&amp;gt;&lt;/span&gt;
+        &lt;span class="nt"&gt;&amp;lt;uses-library&lt;/span&gt; &lt;span class="na"&gt;android:name=&lt;/span&gt;&lt;span class="s"&gt;&amp;quot;com.android.future.usb.accessory&amp;quot;&lt;/span&gt; &lt;span class="nt"&gt;/&amp;gt;&lt;/span&gt;
+
+        &lt;span class="nt"&gt;&amp;lt;activity&lt;/span&gt;
+            &lt;span class="na"&gt;android:name=&lt;/span&gt;&lt;span class="s"&gt;&amp;quot;.UsbAccActivity&amp;quot;&lt;/span&gt;
+            &lt;span class="na"&gt;android:label=&lt;/span&gt;&lt;span class="s"&gt;&amp;quot;@string/app_name&amp;quot;&lt;/span&gt; &lt;span class="nt"&gt;&amp;gt;&lt;/span&gt;
+            &lt;span class="nt"&gt;&amp;lt;intent-filter&amp;gt;&lt;/span&gt;
+                &lt;span class="nt"&gt;&amp;lt;action&lt;/span&gt; &lt;span class="na"&gt;android:name=&lt;/span&gt;&lt;span class="s"&gt;&amp;quot;android.intent.action.MAIN&amp;quot;&lt;/span&gt; &lt;span class="nt"&gt;/&amp;gt;&lt;/span&gt;
+
+                &lt;span class="nt"&gt;&amp;lt;category&lt;/span&gt; &lt;span class="na"&gt;android:name=&lt;/span&gt;&lt;span class="s"&gt;&amp;quot;android.intent.category.LAUNCHER&amp;quot;&lt;/span&gt; &lt;span class="nt"&gt;/&amp;gt;&lt;/span&gt;
+            &lt;span class="nt"&gt;&amp;lt;/intent-filter&amp;gt;&lt;/span&gt;
+            &lt;span class="nt"&gt;&amp;lt;intent-filter&amp;gt;&lt;/span&gt;
+                &lt;span class="nt"&gt;&amp;lt;action&lt;/span&gt; &lt;span class="na"&gt;android:name=&lt;/span&gt;&lt;span class="s"&gt;&amp;quot;android.hardware.usb.action.USB_ACCESSORY_ATTACHED&amp;quot;&lt;/span&gt; &lt;span class="nt"&gt;/&amp;gt;&lt;/span&gt;
+            &lt;span class="nt"&gt;&amp;lt;/intent-filter&amp;gt;&lt;/span&gt;
+
+            &lt;span class="nt"&gt;&amp;lt;meta-data&lt;/span&gt;
+                &lt;span class="na"&gt;android:name=&lt;/span&gt;&lt;span class="s"&gt;&amp;quot;android.hardware.usb.action.USB_ACCESSORY_ATTACHED&amp;quot;&lt;/span&gt;
+                &lt;span class="na"&gt;android:resource=&lt;/span&gt;&lt;span class="s"&gt;&amp;quot;@xml/accessory_filter&amp;quot;&lt;/span&gt; &lt;span class="nt"&gt;/&amp;gt;&lt;/span&gt;
+        &lt;span class="nt"&gt;&amp;lt;/activity&amp;gt;&lt;/span&gt;
+    &lt;span class="nt"&gt;&amp;lt;/application&amp;gt;&lt;/span&gt;
+
+&lt;span class="nt"&gt;&amp;lt;/manifest&amp;gt;&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;h5&gt;一些说明&lt;/h5&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;em&gt;API 10&lt;/em&gt;使用的是&lt;em&gt;Addon library&lt;/em&gt;,需要注明：&lt;em&gt;&lt;uses-library android:name="com.android.future.usb.accessory" /&gt;&lt;/em&gt;  &lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;要说明支持&lt;em&gt;USB_ACCESSORY_ATTACHED&lt;/em&gt;模式，所以加上&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="nt"&gt;&amp;lt;intent-filter&amp;gt;&lt;/span&gt;
+        &lt;span class="nt"&gt;&amp;lt;action&lt;/span&gt; &lt;span class="na"&gt;android:name=&lt;/span&gt;&lt;span class="s"&gt;&amp;quot;android.hardware.usb.action.USB_ACCESSORY_ATTACHED&amp;quot;&lt;/span&gt; &lt;span class="nt"&gt;/&amp;gt;&lt;/span&gt;
+&lt;span class="nt"&gt;&amp;lt;/intent-filter&amp;gt;&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;可能会有很多USB接口的设备，所以我们还需要筛选一下此程序能接的单片机，所以增加一个&lt;em&gt;accessory_filter.xml&lt;/em&gt;来筛选设备。在&lt;em&gt;res&lt;/em&gt;文件夹下新建文件夹&lt;em&gt;xml&lt;/em&gt;，在其中新建文件&lt;em&gt;accessory_filter.xml&lt;/em&gt;，在这里增加需要的单片机的条件。&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt; &lt;span class="o"&gt;&amp;lt;&lt;/span&gt;&lt;span class="n"&gt;meta&lt;/span&gt;&lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="n"&gt;data&lt;/span&gt;
+        &lt;span class="nl"&gt;android:&lt;/span&gt;&lt;span class="n"&gt;name&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s"&gt;&amp;quot;android.hardware.usb.action.USB_ACCESSORY_ATTACHED&amp;quot;&lt;/span&gt;
+        &lt;span class="nl"&gt;android:&lt;/span&gt;&lt;span class="n"&gt;resource&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s"&gt;&amp;quot;@xml/accessory_filter&amp;quot;&lt;/span&gt; &lt;span class="o"&gt;/&amp;gt;&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;上面这段代码就是注册这个筛选器的。下面这段就是筛选器的内容。还记得上面的&lt;em&gt;Arduino&lt;/em&gt;部分中，新建的&lt;em&gt;AndroidAccessory&lt;/em&gt;对象吗？那里的第1，2，4个参数正是这里筛选的参数。只有这几个参数匹配的设备才能建立连接。当然，这里筛选条件是可以选的，那几个参数都可以作为筛选条件，只要加在下面就可以。&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="cp"&gt;&amp;lt;?xml version=&amp;quot;1.0&amp;quot; encoding=&amp;quot;utf-8&amp;quot;?&amp;gt;&lt;/span&gt;
+
+&lt;span class="nt"&gt;&amp;lt;resources&amp;gt;&lt;/span&gt;
+    &lt;span class="nt"&gt;&amp;lt;usb-accessory&lt;/span&gt; &lt;span class="na"&gt;manufacturer=&lt;/span&gt;&lt;span class="s"&gt;&amp;quot;BuaaITR&amp;quot;&lt;/span&gt; &lt;span class="na"&gt;model=&lt;/span&gt;&lt;span class="s"&gt;&amp;quot;Demo&amp;quot;&lt;/span&gt; &lt;span class="na"&gt;version=&lt;/span&gt;&lt;span class="s"&gt;&amp;quot;1.0&amp;quot;&lt;/span&gt; &lt;span class="nt"&gt;/&amp;gt;&lt;/span&gt;
+&lt;span class="nt"&gt;&amp;lt;/resources&amp;gt;&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;注：下文的所有&lt;em&gt;设备&lt;/em&gt;一词，均指代&lt;em&gt;Arduino设备&lt;/em&gt;，程序则代表&lt;em&gt;Android设备&lt;/em&gt;。&lt;br /&gt;
+这样，就可以开始写代码了。首先需要一个&lt;em&gt;UsbManager&lt;/em&gt;对象来管理USB设备，需要一个广播接收器，当系统有广播时，来判断是否为USB附件，并询问是否提供权限。广播的过滤器使用&lt;em&gt;UsbManager.ACTION_USB_ACCESSORY_DETACHED&lt;/em&gt;作为&lt;em&gt;action&lt;/em&gt;。当接受到一个满足过滤条件的广播时，并且获得了访问的权限，就可以获得该设备的信息，并进行读写了。&lt;/p&gt;
+&lt;p&gt;广播接收器的代码：&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="kd"&gt;private&lt;/span&gt; &lt;span class="kd"&gt;final&lt;/span&gt; &lt;span class="n"&gt;BroadcastReceiver&lt;/span&gt; &lt;span class="n"&gt;mUsbReceiver&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="k"&gt;new&lt;/span&gt; &lt;span class="n"&gt;BroadcastReceiver&lt;/span&gt;&lt;span class="o"&gt;()&lt;/span&gt;
+    &lt;span class="o"&gt;{&lt;/span&gt;
+        &lt;span class="nd"&gt;@Override&lt;/span&gt;
+        &lt;span class="kd"&gt;public&lt;/span&gt; &lt;span class="kt"&gt;void&lt;/span&gt; &lt;span class="nf"&gt;onReceive&lt;/span&gt;&lt;span class="o"&gt;(&lt;/span&gt;&lt;span class="n"&gt;Context&lt;/span&gt; &lt;span class="n"&gt;context&lt;/span&gt;&lt;span class="o"&gt;,&lt;/span&gt; &lt;span class="n"&gt;Intent&lt;/span&gt; &lt;span class="n"&gt;intent&lt;/span&gt;&lt;span class="o"&gt;)&lt;/span&gt;
+        &lt;span class="o"&gt;{&lt;/span&gt;
+            &lt;span class="n"&gt;String&lt;/span&gt; &lt;span class="n"&gt;action&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;intent&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="na"&gt;getAction&lt;/span&gt;&lt;span class="o"&gt;();&lt;/span&gt;
+            &lt;span class="k"&gt;if&lt;/span&gt; &lt;span class="o"&gt;(&lt;/span&gt;&lt;span class="n"&gt;ACTION_USB_PERMISSION&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="na"&gt;equals&lt;/span&gt;&lt;span class="o"&gt;(&lt;/span&gt;&lt;span class="n"&gt;action&lt;/span&gt;&lt;span class="o"&gt;))&lt;/span&gt;
+            &lt;span class="o"&gt;{&lt;/span&gt;
+                &lt;span class="kd"&gt;synchronized&lt;/span&gt; &lt;span class="o"&gt;(&lt;/span&gt;&lt;span class="k"&gt;this&lt;/span&gt;&lt;span class="o"&gt;)&lt;/span&gt;
+                &lt;span class="o"&gt;{&lt;/span&gt;
+                    &lt;span class="n"&gt;UsbAccessory&lt;/span&gt; &lt;span class="n"&gt;accessory&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;UsbManager&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="na"&gt;getAccessory&lt;/span&gt;&lt;span class="o"&gt;(&lt;/span&gt;&lt;span class="n"&gt;intent&lt;/span&gt;&lt;span class="o"&gt;);&lt;/span&gt;
+                    &lt;span class="k"&gt;if&lt;/span&gt; &lt;span class="o"&gt;(&lt;/span&gt;&lt;span class="n"&gt;intent&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="na"&gt;getBooleanExtra&lt;/span&gt;&lt;span class="o"&gt;(&lt;/span&gt;
+                            &lt;span class="n"&gt;UsbManager&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="na"&gt;EXTRA_PERMISSION_GRANTED&lt;/span&gt;&lt;span class="o"&gt;,&lt;/span&gt; &lt;span class="kc"&gt;false&lt;/span&gt;&lt;span class="o"&gt;))&lt;/span&gt;
+                    &lt;span class="o"&gt;{&lt;/span&gt;
+                        &lt;span class="n"&gt;openAccessory&lt;/span&gt;&lt;span class="o"&gt;(&lt;/span&gt;&lt;span class="n"&gt;accessory&lt;/span&gt;&lt;span class="o"&gt;);&lt;/span&gt;
+                    &lt;span class="o"&gt;}&lt;/span&gt;
+                    &lt;span class="k"&gt;else&lt;/span&gt;
+                    &lt;span class="o"&gt;{&lt;/span&gt;
+                        &lt;span class="n"&gt;Log&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="na"&gt;d&lt;/span&gt;&lt;span class="o"&gt;(&lt;/span&gt;&lt;span class="n"&gt;TAG&lt;/span&gt;&lt;span class="o"&gt;,&lt;/span&gt; &lt;span class="s"&gt;&amp;quot;permission denied for accessory &amp;quot;&lt;/span&gt;
+                                &lt;span class="o"&gt;+&lt;/span&gt; &lt;span class="n"&gt;accessory&lt;/span&gt;&lt;span class="o"&gt;);&lt;/span&gt;
+                    &lt;span class="o"&gt;}&lt;/span&gt;
+                    &lt;span class="n"&gt;mPermissionRequestPending&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="kc"&gt;false&lt;/span&gt;&lt;span class="o"&gt;;&lt;/span&gt;
+                &lt;span class="o"&gt;}&lt;/span&gt;
+            &lt;span class="o"&gt;}&lt;/span&gt;
+            &lt;span class="k"&gt;else&lt;/span&gt; &lt;span class="nf"&gt;if&lt;/span&gt; &lt;span class="o"&gt;(&lt;/span&gt;&lt;span class="n"&gt;UsbManager&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="na"&gt;ACTION_USB_ACCESSORY_DETACHED&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="na"&gt;equals&lt;/span&gt;&lt;span class="o"&gt;(&lt;/span&gt;&lt;span class="n"&gt;action&lt;/span&gt;&lt;span class="o"&gt;))&lt;/span&gt;
+            &lt;span class="o"&gt;{&lt;/span&gt;
+                &lt;span class="n"&gt;UsbAccessory&lt;/span&gt; &lt;span class="n"&gt;accessory&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;UsbManager&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="na"&gt;getAccessory&lt;/span&gt;&lt;span class="o"&gt;(&lt;/span&gt;&lt;span class="n"&gt;intent&lt;/span&gt;&lt;span class="o"&gt;);&lt;/span&gt;
+                &lt;span class="k"&gt;if&lt;/span&gt; &lt;span class="o"&gt;(&lt;/span&gt;&lt;span class="n"&gt;accessory&lt;/span&gt; &lt;span class="o"&gt;!=&lt;/span&gt; &lt;span class="kc"&gt;null&lt;/span&gt; &lt;span class="o"&gt;&amp;amp;&amp;amp;&lt;/span&gt; &lt;span class="n"&gt;accessory&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="na"&gt;equals&lt;/span&gt;&lt;span class="o"&gt;(&lt;/span&gt;&lt;span class="n"&gt;mAccessory&lt;/span&gt;&lt;span class="o"&gt;))&lt;/span&gt;
+                &lt;span class="o"&gt;{&lt;/span&gt;
+                    &lt;span class="n"&gt;closeAccessory&lt;/span&gt;&lt;span class="o"&gt;();&lt;/span&gt;
+                &lt;span class="o"&gt;}&lt;/span&gt;
+            &lt;span class="o"&gt;}&lt;/span&gt;
+        &lt;span class="o"&gt;}&lt;/span&gt;
+    &lt;span class="o"&gt;};&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;建立连接：&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;    &lt;span class="kd"&gt;private&lt;/span&gt; &lt;span class="kt"&gt;void&lt;/span&gt; &lt;span class="nf"&gt;openAccessory&lt;/span&gt;&lt;span class="o"&gt;(&lt;/span&gt;&lt;span class="n"&gt;UsbAccessory&lt;/span&gt; &lt;span class="n"&gt;accessory&lt;/span&gt;&lt;span class="o"&gt;)&lt;/span&gt;
+    &lt;span class="o"&gt;{&lt;/span&gt;
+        &lt;span class="n"&gt;mFileDescriptor&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;mUsbManager&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="na"&gt;openAccessory&lt;/span&gt;&lt;span class="o"&gt;(&lt;/span&gt;&lt;span class="n"&gt;accessory&lt;/span&gt;&lt;span class="o"&gt;);&lt;/span&gt;
+        &lt;span class="k"&gt;if&lt;/span&gt; &lt;span class="o"&gt;(&lt;/span&gt;&lt;span class="n"&gt;mFileDescriptor&lt;/span&gt; &lt;span class="o"&gt;!=&lt;/span&gt; &lt;span class="kc"&gt;null&lt;/span&gt;&lt;span class="o"&gt;)&lt;/span&gt;
+        &lt;span class="o"&gt;{&lt;/span&gt;
+            &lt;span class="n"&gt;mAccessory&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;accessory&lt;/span&gt;&lt;span class="o"&gt;;&lt;/span&gt;
+            &lt;span class="c1"&gt;//获得该设备的输入输出流&lt;/span&gt;
+            &lt;span class="n"&gt;FileDescriptor&lt;/span&gt; &lt;span class="n"&gt;fd&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;mFileDescriptor&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="na"&gt;getFileDescriptor&lt;/span&gt;&lt;span class="o"&gt;();&lt;/span&gt;
+            &lt;span class="n"&gt;mInputStream&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="k"&gt;new&lt;/span&gt; &lt;span class="n"&gt;FileInputStream&lt;/span&gt;&lt;span class="o"&gt;(&lt;/span&gt;&lt;span class="n"&gt;fd&lt;/span&gt;&lt;span class="o"&gt;);&lt;/span&gt;
+            &lt;span class="n"&gt;mOutputStream&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="k"&gt;new&lt;/span&gt; &lt;span class="n"&gt;FileOutputStream&lt;/span&gt;&lt;span class="o"&gt;(&lt;/span&gt;&lt;span class="n"&gt;fd&lt;/span&gt;&lt;span class="o"&gt;);&lt;/span&gt;
+            &lt;span class="c1"&gt;//是否能对设备进行读写操作&lt;/span&gt;
+            &lt;span class="n"&gt;canIO&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="kc"&gt;true&lt;/span&gt;&lt;span class="o"&gt;;&lt;/span&gt;
+            &lt;span class="c1"&gt;//定时查询是否有数据可以接收&lt;/span&gt;
+            &lt;span class="n"&gt;timer&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="na"&gt;scheduleAtFixedRate&lt;/span&gt;&lt;span class="o"&gt;(&lt;/span&gt;&lt;span class="k"&gt;new&lt;/span&gt; &lt;span class="n"&gt;TimerTask&lt;/span&gt;&lt;span class="o"&gt;()&lt;/span&gt;
+            &lt;span class="o"&gt;{&lt;/span&gt;
+                &lt;span class="nd"&gt;@Override&lt;/span&gt;
+                &lt;span class="kd"&gt;public&lt;/span&gt; &lt;span class="kt"&gt;void&lt;/span&gt; &lt;span class="nf"&gt;run&lt;/span&gt;&lt;span class="o"&gt;()&lt;/span&gt;
+                &lt;span class="o"&gt;{&lt;/span&gt;
+                    &lt;span class="c1"&gt;// TODO Auto-generated method stub&lt;/span&gt;
+                    &lt;span class="kt"&gt;int&lt;/span&gt; &lt;span class="n"&gt;length&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="mi"&gt;0&lt;/span&gt;&lt;span class="o"&gt;;&lt;/span&gt;
+                    &lt;span class="kt"&gt;byte&lt;/span&gt;&lt;span class="o"&gt;[]&lt;/span&gt; &lt;span class="n"&gt;buffer&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="k"&gt;new&lt;/span&gt; &lt;span class="kt"&gt;byte&lt;/span&gt;&lt;span class="o"&gt;[&lt;/span&gt;&lt;span class="n"&gt;maxBuffer&lt;/span&gt;&lt;span class="o"&gt;];&lt;/span&gt;
+                    &lt;span class="k"&gt;try&lt;/span&gt;
+                    &lt;span class="o"&gt;{&lt;/span&gt;
+                        &lt;span class="c1"&gt;//如果有数据来，则接受数据。&lt;/span&gt;
+                        &lt;span class="k"&gt;if&lt;/span&gt;&lt;span class="o"&gt;(&lt;/span&gt;&lt;span class="n"&gt;mInputStream&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="na"&gt;available&lt;/span&gt;&lt;span class="o"&gt;()&amp;gt;&lt;/span&gt;&lt;span class="mi"&gt;0&lt;/span&gt;&lt;span class="o"&gt;)&lt;/span&gt;
+                        &lt;span class="o"&gt;{&lt;/span&gt;
+                            &lt;span class="n"&gt;length&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="n"&gt;mInputStream&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="na"&gt;read&lt;/span&gt;&lt;span class="o"&gt;(&lt;/span&gt;&lt;span class="n"&gt;buffer&lt;/span&gt;&lt;span class="o"&gt;);&lt;/span&gt;
+                            &lt;span class="c1"&gt;//处理接收到的数据，按需要自己改。&lt;/span&gt;
+                            &lt;span class="n"&gt;usbuart&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="na"&gt;onReceive&lt;/span&gt;&lt;span class="o"&gt;(&lt;/span&gt;&lt;span class="n"&gt;buffer&lt;/span&gt;&lt;span class="o"&gt;);&lt;/span&gt;
+                        &lt;span class="o"&gt;}&lt;/span&gt;
+
+                    &lt;span class="o"&gt;}&lt;/span&gt;
+                    &lt;span class="k"&gt;catch&lt;/span&gt; &lt;span class="o"&gt;(&lt;/span&gt;&lt;span class="n"&gt;IOException&lt;/span&gt; &lt;span class="n"&gt;e&lt;/span&gt;&lt;span class="o"&gt;)&lt;/span&gt;
+                    &lt;span class="o"&gt;{&lt;/span&gt;
+                        &lt;span class="c1"&gt;// tbhello.setText(&amp;quot;IO error\n&amp;quot; + e.getMessage());&lt;/span&gt;
+
+                    &lt;span class="o"&gt;}&lt;/span&gt;
+
+                &lt;span class="o"&gt;}&lt;/span&gt;
+
+            &lt;span class="o"&gt;},&lt;/span&gt; &lt;span class="mi"&gt;0&lt;/span&gt;&lt;span class="o"&gt;,&lt;/span&gt; &lt;span class="n"&gt;delaytime&lt;/span&gt;&lt;span class="o"&gt;);&lt;/span&gt;
+            &lt;span class="n"&gt;Log&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="na"&gt;d&lt;/span&gt;&lt;span class="o"&gt;(&lt;/span&gt;&lt;span class="n"&gt;TAG&lt;/span&gt;&lt;span class="o"&gt;,&lt;/span&gt; &lt;span class="s"&gt;&amp;quot;accessory opened&amp;quot;&lt;/span&gt;&lt;span class="o"&gt;);&lt;/span&gt;
+
+        &lt;span class="o"&gt;}&lt;/span&gt;
+        &lt;span class="k"&gt;else&lt;/span&gt;
+        &lt;span class="o"&gt;{&lt;/span&gt;
+            &lt;span class="n"&gt;Log&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="na"&gt;d&lt;/span&gt;&lt;span class="o"&gt;(&lt;/span&gt;&lt;span class="n"&gt;TAG&lt;/span&gt;&lt;span class="o"&gt;,&lt;/span&gt; &lt;span class="s"&gt;&amp;quot;accessory open fail&amp;quot;&lt;/span&gt;&lt;span class="o"&gt;);&lt;/span&gt;
+        &lt;span class="o"&gt;}&lt;/span&gt;
+    &lt;span class="o"&gt;}&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;这样，大部分功能就实现完了，现在需要注册广播接收器，并让程序监视USB设备。&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;    &lt;span class="nd"&gt;@Override&lt;/span&gt;
+    &lt;span class="kd"&gt;public&lt;/span&gt; &lt;span class="kt"&gt;void&lt;/span&gt; &lt;span class="nf"&gt;onCreate&lt;/span&gt;&lt;span class="o"&gt;(&lt;/span&gt;&lt;span class="n"&gt;Bundle&lt;/span&gt; &lt;span class="n"&gt;savedInstanceState&lt;/span&gt;&lt;span class="o"&gt;)&lt;/span&gt;
+    &lt;span class="o"&gt;{&lt;/span&gt;
+        &lt;span class="kd"&gt;super&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="na"&gt;onCreate&lt;/span&gt;&lt;span class="o"&gt;(&lt;/span&gt;&lt;span class="n"&gt;savedInstanceState&lt;/span&gt;&lt;span class="o"&gt;);&lt;/span&gt;
+        &lt;span class="c1"&gt;//使用add-on library时，必须这样定义usbmanager对象&lt;/span&gt;
+        &lt;span class="n"&gt;mUsbManager&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;UsbManager&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="na"&gt;getInstance&lt;/span&gt;&lt;span class="o"&gt;(&lt;/span&gt;&lt;span class="k"&gt;this&lt;/span&gt;&lt;span class="o"&gt;);&lt;/span&gt;
+        &lt;span class="n"&gt;mPermissionIntent&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;PendingIntent&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="na"&gt;getBroadcast&lt;/span&gt;&lt;span class="o"&gt;(&lt;/span&gt;&lt;span class="k"&gt;this&lt;/span&gt;&lt;span class="o"&gt;,&lt;/span&gt; &lt;span class="mi"&gt;0&lt;/span&gt;&lt;span class="o"&gt;,&lt;/span&gt; &lt;span class="k"&gt;new&lt;/span&gt; &lt;span class="n"&gt;Intent&lt;/span&gt;&lt;span class="o"&gt;(&lt;/span&gt;
+                &lt;span class="n"&gt;ACTION_USB_PERMISSION&lt;/span&gt;&lt;span class="o"&gt;),&lt;/span&gt; &lt;span class="mi"&gt;0&lt;/span&gt;&lt;span class="o"&gt;);&lt;/span&gt;
+        &lt;span class="c1"&gt;//注册接收器和过滤器&lt;/span&gt;
+        &lt;span class="n"&gt;IntentFilter&lt;/span&gt; &lt;span class="n"&gt;filter&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="k"&gt;new&lt;/span&gt; &lt;span class="n"&gt;IntentFilter&lt;/span&gt;&lt;span class="o"&gt;(&lt;/span&gt;&lt;span class="n"&gt;ACTION_USB_PERMISSION&lt;/span&gt;&lt;span class="o"&gt;);&lt;/span&gt;
+        &lt;span class="n"&gt;filter&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="na"&gt;addAction&lt;/span&gt;&lt;span class="o"&gt;(&lt;/span&gt;&lt;span class="n"&gt;UsbManager&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="na"&gt;ACTION_USB_ACCESSORY_DETACHED&lt;/span&gt;&lt;span class="o"&gt;);&lt;/span&gt;
+        &lt;span class="n"&gt;registerReceiver&lt;/span&gt;&lt;span class="o"&gt;(&lt;/span&gt;&lt;span class="n"&gt;mUsbReceiver&lt;/span&gt;&lt;span class="o"&gt;,&lt;/span&gt; &lt;span class="n"&gt;filter&lt;/span&gt;&lt;span class="o"&gt;);&lt;/span&gt;
+
+        &lt;span class="n"&gt;setContentView&lt;/span&gt;&lt;span class="o"&gt;(&lt;/span&gt;&lt;span class="n"&gt;R&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="na"&gt;layout&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="na"&gt;main&lt;/span&gt;&lt;span class="o"&gt;);&lt;/span&gt;
+
+    &lt;span class="o"&gt;}&lt;/span&gt;
+
+    &lt;span class="nd"&gt;@Override&lt;/span&gt;
+    &lt;span class="kd"&gt;public&lt;/span&gt; &lt;span class="kt"&gt;void&lt;/span&gt; &lt;span class="nf"&gt;onResume&lt;/span&gt;&lt;span class="o"&gt;()&lt;/span&gt;
+    &lt;span class="o"&gt;{&lt;/span&gt;
+        &lt;span class="kd"&gt;super&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="na"&gt;onResume&lt;/span&gt;&lt;span class="o"&gt;();&lt;/span&gt;
+
+        &lt;span class="n"&gt;Intent&lt;/span&gt; &lt;span class="n"&gt;intent&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;getIntent&lt;/span&gt;&lt;span class="o"&gt;();&lt;/span&gt;
+        &lt;span class="c1"&gt;//如果已经打开了一个设备，就不再查询&lt;/span&gt;
+        &lt;span class="k"&gt;if&lt;/span&gt; &lt;span class="o"&gt;(&lt;/span&gt;&lt;span class="n"&gt;mInputStream&lt;/span&gt; &lt;span class="o"&gt;!=&lt;/span&gt; &lt;span class="kc"&gt;null&lt;/span&gt; &lt;span class="o"&gt;&amp;amp;&amp;amp;&lt;/span&gt; &lt;span class="n"&gt;mOutputStream&lt;/span&gt; &lt;span class="o"&gt;!=&lt;/span&gt; &lt;span class="kc"&gt;null&lt;/span&gt;&lt;span class="o"&gt;)&lt;/span&gt;
+        &lt;span class="o"&gt;{&lt;/span&gt;
+            &lt;span class="k"&gt;return&lt;/span&gt;&lt;span class="o"&gt;;&lt;/span&gt;
+        &lt;span class="o"&gt;}&lt;/span&gt;
+        &lt;span class="c1"&gt;//只能支持一个设备，如果发现了一个USB设备并且有权限访问，就打开&lt;/span&gt;
+        &lt;span class="n"&gt;UsbAccessory&lt;/span&gt;&lt;span class="o"&gt;[]&lt;/span&gt; &lt;span class="n"&gt;accessories&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;mUsbManager&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="na"&gt;getAccessoryList&lt;/span&gt;&lt;span class="o"&gt;();&lt;/span&gt;
+        &lt;span class="n"&gt;UsbAccessory&lt;/span&gt; &lt;span class="n"&gt;accessory&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="o"&gt;(&lt;/span&gt;&lt;span class="n"&gt;accessories&lt;/span&gt; &lt;span class="o"&gt;==&lt;/span&gt; &lt;span class="kc"&gt;null&lt;/span&gt; &lt;span class="o"&gt;?&lt;/span&gt; &lt;span class="kc"&gt;null&lt;/span&gt; &lt;span class="o"&gt;:&lt;/span&gt; &lt;span class="n"&gt;accessories&lt;/span&gt;&lt;span class="o"&gt;[&lt;/span&gt;&lt;span class="mi"&gt;0&lt;/span&gt;&lt;span class="o"&gt;]);&lt;/span&gt;
+        &lt;span class="k"&gt;if&lt;/span&gt; &lt;span class="o"&gt;(&lt;/span&gt;&lt;span class="n"&gt;accessory&lt;/span&gt; &lt;span class="o"&gt;!=&lt;/span&gt; &lt;span class="kc"&gt;null&lt;/span&gt;&lt;span class="o"&gt;)&lt;/span&gt;
+        &lt;span class="o"&gt;{&lt;/span&gt;
+            &lt;span class="k"&gt;if&lt;/span&gt; &lt;span class="o"&gt;(&lt;/span&gt;&lt;span class="n"&gt;mUsbManager&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="na"&gt;hasPermission&lt;/span&gt;&lt;span class="o"&gt;(&lt;/span&gt;&lt;span class="n"&gt;accessory&lt;/span&gt;&lt;span class="o"&gt;))&lt;/span&gt;
+            &lt;span class="o"&gt;{&lt;/span&gt;
+                &lt;span class="n"&gt;openAccessory&lt;/span&gt;&lt;span class="o"&gt;(&lt;/span&gt;&lt;span class="n"&gt;accessory&lt;/span&gt;&lt;span class="o"&gt;);&lt;/span&gt;
+            &lt;span class="o"&gt;}&lt;/span&gt;
+
+        &lt;span class="o"&gt;}&lt;/span&gt;
+        &lt;span class="k"&gt;else&lt;/span&gt;
+        &lt;span class="o"&gt;{&lt;/span&gt;
+            &lt;span class="n"&gt;Log&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="na"&gt;d&lt;/span&gt;&lt;span class="o"&gt;(&lt;/span&gt;&lt;span class="n"&gt;TAG&lt;/span&gt;&lt;span class="o"&gt;,&lt;/span&gt; &lt;span class="s"&gt;&amp;quot;mAccessory is null&amp;quot;&lt;/span&gt;&lt;span class="o"&gt;);&lt;/span&gt;
+        &lt;span class="o"&gt;}&lt;/span&gt;
+    &lt;span class="o"&gt;}&lt;/span&gt;
+
+    &lt;span class="nd"&gt;@Override&lt;/span&gt;
+    &lt;span class="kd"&gt;public&lt;/span&gt; &lt;span class="kt"&gt;void&lt;/span&gt; &lt;span class="nf"&gt;onPause&lt;/span&gt;&lt;span class="o"&gt;()&lt;/span&gt;
+    &lt;span class="o"&gt;{&lt;/span&gt;
+        &lt;span class="kd"&gt;super&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="na"&gt;onPause&lt;/span&gt;&lt;span class="o"&gt;();&lt;/span&gt;
+        &lt;span class="n"&gt;closeAccessory&lt;/span&gt;&lt;span class="o"&gt;();&lt;/span&gt;
+    &lt;span class="o"&gt;}&lt;/span&gt;
+
+    &lt;span class="nd"&gt;@Override&lt;/span&gt;
+    &lt;span class="kd"&gt;public&lt;/span&gt; &lt;span class="kt"&gt;void&lt;/span&gt; &lt;span class="nf"&gt;onDestroy&lt;/span&gt;&lt;span class="o"&gt;()&lt;/span&gt;
+    &lt;span class="o"&gt;{&lt;/span&gt;
+        &lt;span class="n"&gt;unregisterReceiver&lt;/span&gt;&lt;span class="o"&gt;(&lt;/span&gt;&lt;span class="n"&gt;mUsbReceiver&lt;/span&gt;&lt;span class="o"&gt;);&lt;/span&gt;
+        &lt;span class="kd"&gt;super&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="na"&gt;onDestroy&lt;/span&gt;&lt;span class="o"&gt;();&lt;/span&gt;
+    &lt;span class="o"&gt;}&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;如果需要发送数据，就这样：&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;    &lt;span class="n"&gt;public&lt;/span&gt; &lt;span class="kt"&gt;void&lt;/span&gt; &lt;span class="nf"&gt;send&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;byte&lt;/span&gt;&lt;span class="p"&gt;[]&lt;/span&gt; &lt;span class="n"&gt;data&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+    &lt;span class="p"&gt;{&lt;/span&gt;
+        &lt;span class="k"&gt;if&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;canIO&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+        &lt;span class="p"&gt;{&lt;/span&gt;
+            &lt;span class="n"&gt;try&lt;/span&gt;
+            &lt;span class="p"&gt;{&lt;/span&gt;
+                &lt;span class="n"&gt;mOutputStream&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;write&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;data&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;
+            &lt;span class="p"&gt;}&lt;/span&gt;
+            &lt;span class="n"&gt;catch&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;IOException&lt;/span&gt; &lt;span class="n"&gt;e&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+            &lt;span class="p"&gt;{&lt;/span&gt;   
+                &lt;span class="c1"&gt;// TODO Auto-generated catch block&lt;/span&gt;
+                &lt;span class="n"&gt;e&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;printStackTrace&lt;/span&gt;&lt;span class="p"&gt;();&lt;/span&gt;
+            &lt;span class="p"&gt;}&lt;/span&gt;
+        &lt;span class="p"&gt;}&lt;/span&gt;
+    &lt;span class="p"&gt;}&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;用到的对象如下：&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="kd"&gt;private&lt;/span&gt; &lt;span class="kd"&gt;static&lt;/span&gt; &lt;span class="kd"&gt;final&lt;/span&gt; &lt;span class="n"&gt;String&lt;/span&gt; &lt;span class="n"&gt;TAG&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="s"&gt;&amp;quot;DemoKit&amp;quot;&lt;/span&gt;&lt;span class="o"&gt;;&lt;/span&gt;
+
+    &lt;span class="kd"&gt;private&lt;/span&gt; &lt;span class="kd"&gt;static&lt;/span&gt; &lt;span class="kd"&gt;final&lt;/span&gt; &lt;span class="n"&gt;String&lt;/span&gt; &lt;span class="n"&gt;ACTION_USB_PERMISSION&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="s"&gt;&amp;quot;com.google.android.DemoKit.action.USB_PERMISSION&amp;quot;&lt;/span&gt;&lt;span class="o"&gt;;&lt;/span&gt;
+
+    &lt;span class="kd"&gt;private&lt;/span&gt; &lt;span class="n"&gt;UsbManager&lt;/span&gt; &lt;span class="n"&gt;mUsbManager&lt;/span&gt;&lt;span class="o"&gt;;&lt;/span&gt;
+    &lt;span class="kd"&gt;private&lt;/span&gt; &lt;span class="n"&gt;PendingIntent&lt;/span&gt; &lt;span class="n"&gt;mPermissionIntent&lt;/span&gt;&lt;span class="o"&gt;;&lt;/span&gt;
+
+
+    &lt;span class="kd"&gt;private&lt;/span&gt; &lt;span class="kt"&gt;int&lt;/span&gt; &lt;span class="n"&gt;maxBuffer&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="mi"&gt;1024&lt;/span&gt;&lt;span class="o"&gt;;&lt;/span&gt;
+    &lt;span class="kd"&gt;private&lt;/span&gt; &lt;span class="kt"&gt;boolean&lt;/span&gt; &lt;span class="n"&gt;canIO&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="kc"&gt;false&lt;/span&gt;&lt;span class="o"&gt;;&lt;/span&gt;
+    &lt;span class="n"&gt;UsbAccessory&lt;/span&gt; &lt;span class="n"&gt;mAccessory&lt;/span&gt;&lt;span class="o"&gt;;&lt;/span&gt;
+    &lt;span class="n"&gt;ParcelFileDescriptor&lt;/span&gt; &lt;span class="n"&gt;mFileDescriptor&lt;/span&gt;&lt;span class="o"&gt;;&lt;/span&gt;
+    &lt;span class="n"&gt;FileInputStream&lt;/span&gt; &lt;span class="n"&gt;mInputStream&lt;/span&gt;&lt;span class="o"&gt;;&lt;/span&gt;
+    &lt;span class="n"&gt;FileOutputStream&lt;/span&gt; &lt;span class="n"&gt;mOutputStream&lt;/span&gt;&lt;span class="o"&gt;;&lt;/span&gt;
+
+    &lt;span class="n"&gt;Timer&lt;/span&gt; &lt;span class="n"&gt;timer&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="k"&gt;new&lt;/span&gt; &lt;span class="n"&gt;Timer&lt;/span&gt;&lt;span class="o"&gt;();&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;如果步骤没出错的话，至此，把Arduino开发板插到Android设备上，应该就能互相传数据了。&lt;/p&gt;</description><dc:creator xmlns:dc="http://purl.org/dc/elements/1.1/">清风未明</dc:creator><pubDate>Fri, 04 May 2012 21:57:00 +0800</pubDate><guid>tag:,2012-05-04:shi-yong-dan-pian-ji-arduinoavryu-androidshe-bei-tong-xun.html</guid><category>Codes</category><category>Linux</category><category>Android</category><category>嵌入式</category></item><item><title>"学习Android开发-用canvas绘图"</title><link>/xue-xi-androidkai-fa-yong-canvashui-tu.html</link><description>&lt;p&gt;接着&lt;a href="/blog/2012/03/15/study-android-1/"&gt;上一篇&lt;/a&gt;所说，我们已经从SVG文件中得到了基本图形的定义信息，如圆的圆心坐标与半径，直线段的端点坐标，所以可以开始绘图了。我的想法是，一张SVG图片解析完成后，把所有图片画进一个&lt;em&gt;Bitmap&lt;/em&gt;里，这样以后所有的对图片的操作都可以用&lt;em&gt;Android&lt;/em&gt;自带的方法操作，应该会简单一些。&lt;em&gt;Bitmap&lt;/em&gt;对象需要用工厂方法来创建。创建好空的bitmap后，将它传给一个&lt;em&gt;Canvas&lt;/em&gt;对象，即可以通过&lt;em&gt;canvas&lt;/em&gt;的方法，在该bitmap上绘制图形。如下：&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;    &lt;span class="n"&gt;bitmap&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;Bitmap&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;createBitmap&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="mi"&gt;1024&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="mi"&gt;768&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;Config&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;ALPHA_8&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;
+    &lt;span class="n"&gt;Canvas&lt;/span&gt; &lt;span class="n"&gt;canvas&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;new&lt;/span&gt; &lt;span class="n"&gt;Canvas&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;bitmap&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;h4&gt;画直线和圆&lt;/h4&gt;
+&lt;p&gt;&lt;em&gt;canvas&lt;/em&gt;绘制直线的方法调用方法如下：&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;    &lt;span class="n"&gt;canvas&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;drawLine&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;x1&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;y1&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;x2&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;y2&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;paint&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;其中&lt;code&gt;(x1,y1)&lt;/code&gt;,&lt;code&gt;(x2,y2)&lt;/code&gt;为直线的起始，终止点坐标，&lt;em&gt;paint&lt;/em&gt;为画笔类型&lt;em&gt;Paint&lt;/em&gt;的对象，画出来图形的样式由它的参数来决定。这里我只在其中设置了颜色为蓝色。&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;    &lt;span class="n"&gt;paint&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;setColor&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;Color&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;BLUE&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;绘制圆的方法如下：&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;    &lt;span class="n"&gt;canvas&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;drawCircle&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;cx&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;cy&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;r&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;paint&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;其中&lt;code&gt;(cx,cy)&lt;/code&gt;为圆心坐标，&lt;code&gt;r&lt;/code&gt;为半径。这样画出来的圆是实心的，如果想要空心圆，则需要设置&lt;em&gt;paint&lt;/em&gt;的类型：&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;    &lt;span class="n"&gt;paint&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;setStyle&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;Style&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;STROKE&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;写全一个就是如下：&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;    &lt;span class="kd"&gt;public&lt;/span&gt; &lt;span class="kt"&gt;void&lt;/span&gt; &lt;span class="nf"&gt;draw&lt;/span&gt;&lt;span class="o"&gt;(&lt;/span&gt;&lt;span class="n"&gt;Canvas&lt;/span&gt; &lt;span class="n"&gt;canvas&lt;/span&gt;&lt;span class="o"&gt;)&lt;/span&gt;
+    &lt;span class="o"&gt;{&lt;/span&gt;
+        &lt;span class="c1"&gt;// TODO Auto-generated method stub&lt;/span&gt;
+        &lt;span class="n"&gt;Paint&lt;/span&gt; &lt;span class="n"&gt;paint&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="k"&gt;new&lt;/span&gt; &lt;span class="n"&gt;Paint&lt;/span&gt;&lt;span class="o"&gt;();&lt;/span&gt;
+        &lt;span class="n"&gt;paint&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="na"&gt;setStyle&lt;/span&gt;&lt;span class="o"&gt;(&lt;/span&gt;&lt;span class="n"&gt;Style&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="na"&gt;STROKE&lt;/span&gt;&lt;span class="o"&gt;);&lt;/span&gt;
+        &lt;span class="n"&gt;paint&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="na"&gt;setColor&lt;/span&gt;&lt;span class="o"&gt;(&lt;/span&gt;&lt;span class="n"&gt;Color&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="na"&gt;BLACK&lt;/span&gt;&lt;span class="o"&gt;);&lt;/span&gt;
+        &lt;span class="n"&gt;canvas&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="na"&gt;drawCircle&lt;/span&gt;&lt;span class="o"&gt;(&lt;/span&gt;&lt;span class="n"&gt;_cx&lt;/span&gt;&lt;span class="o"&gt;,&lt;/span&gt; &lt;span class="n"&gt;_cy&lt;/span&gt;&lt;span class="o"&gt;,&lt;/span&gt; &lt;span class="n"&gt;_r&lt;/span&gt;&lt;span class="o"&gt;,&lt;/span&gt; &lt;span class="n"&gt;paint&lt;/span&gt;&lt;span class="o"&gt;);&lt;/span&gt;
+
+    &lt;span class="o"&gt;}&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;</description><dc:creator xmlns:dc="http://purl.org/dc/elements/1.1/">清风未明</dc:creator><pubDate>Fri, 06 Apr 2012 15:32:00 +0800</pubDate><guid>tag:,2012-04-06:xue-xi-androidkai-fa-yong-canvashui-tu.html</guid><category>Codes</category><category>Android</category><category>Linux</category></item><item><title>"学习机器视觉1--检测圆心"</title><link>/xue-xi-ji-qi-shi-jue-1-jian-ce-yuan-xin.html</link><description>&lt;h3&gt;任务描述及环境&lt;/h3&gt;
+&lt;p&gt;打开摄像头，识别出画面中的圆，并标出圆心，输出圆心的像空间坐标。&lt;br /&gt;
+Intel(R) Core(TM)2 Duo CPU     T8100  @ 2.10GHz / 2GB&lt;br /&gt;
+Linux Mint 12 （64bit）&lt;br /&gt;
+OpenCV 2.3.1&lt;br /&gt;
+Code Blocks 10.05  &lt;/p&gt;
+&lt;h3&gt;用OpenCV从摄像头获取视频流&lt;/h3&gt;
+&lt;p&gt;后来版本的OpenCV可以用C++的语法，从而去掉了指针，使用起来十分方便。&lt;/p&gt;
+&lt;p&gt;所有视频流的操作都是通过&lt;em&gt;VideoCapture&lt;/em&gt;类完成。可以通过给它的构造函数，或&lt;em&gt;open&lt;/em&gt;函数传递参数完成打开视频的操作。其中如果参数为整数i，则打开第i个摄像头（如果存在的话）。如果参数是字符串，则认为是视频文件的路径。&lt;/p&gt;
+&lt;p&gt;&lt;em&gt;VideoCapture&lt;/em&gt;重载了&lt;em&gt;&amp;gt;&amp;gt;&lt;/em&gt;操作符，所以可以直接当输入流来用。或者使用&lt;em&gt;read(Mat&amp;amp; image)&lt;/em&gt;函数来读取也行。&lt;/p&gt;
+&lt;p&gt;得到图片之后再用&lt;em&gt;imshow&lt;/em&gt;就可以显示图片了。代码如下&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="kt"&gt;int&lt;/span&gt; &lt;span class="nf"&gt;main&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="kt"&gt;int&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="kt"&gt;char&lt;/span&gt;&lt;span class="o"&gt;**&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+&lt;span class="p"&gt;{&lt;/span&gt;
+    &lt;span class="n"&gt;VideoCapture&lt;/span&gt; &lt;span class="n"&gt;cap&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="mi"&gt;0&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt; 
+    &lt;span class="k"&gt;if&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="o"&gt;!&lt;/span&gt;&lt;span class="n"&gt;cap&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;isOpened&lt;/span&gt;&lt;span class="p"&gt;())&lt;/span&gt; 
+        &lt;span class="k"&gt;return&lt;/span&gt; &lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="mi"&gt;1&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+
+    &lt;span class="n"&gt;Mat&lt;/span&gt; &lt;span class="n"&gt;frame&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+    &lt;span class="n"&gt;namedWindow&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s"&gt;&amp;quot;frame&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="mi"&gt;1&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;
+
+    &lt;span class="k"&gt;while&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="mi"&gt;1&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+    &lt;span class="p"&gt;{&lt;/span&gt;
+        &lt;span class="n"&gt;cap&lt;/span&gt; &lt;span class="o"&gt;&amp;gt;&amp;gt;&lt;/span&gt; &lt;span class="n"&gt;frame&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt; &lt;span class="c1"&gt;// get a new frame from camera&lt;/span&gt;
+        &lt;span class="n"&gt;imshow&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s"&gt;&amp;quot;frame&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="n"&gt;frame&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;
+        &lt;span class="k"&gt;if&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;waitKey&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="mi"&gt;30&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="o"&gt;&amp;gt;=&lt;/span&gt; &lt;span class="mi"&gt;0&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="k"&gt;break&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+    &lt;span class="p"&gt;}&lt;/span&gt;
+
+    &lt;span class="k"&gt;return&lt;/span&gt; &lt;span class="mi"&gt;0&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+&lt;span class="p"&gt;}&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;h3&gt;用OpenCV的函数提取边界&lt;/h3&gt;
+&lt;p&gt;这里我用的是&lt;em&gt;canny&lt;/em&gt;算子提取边界。&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;
+&lt;p&gt;将摄像头获得的图片转换成灰度图以方便以后运算。其实RGB图也是可以做的，但是由于我不需要颜色识别，只要找到图形就行了，所以用灰度图。&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="n"&gt;cvtColor&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;frame&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;edges&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;CV_BGR2GRAY&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;进行滤波，去掉高频噪声的部分。任何图像可以看作是一个函数的图像，而我们需要的图形是静止，或者有慢速的移动。而图片中可能会出现各种噪声，是不稳定的。也就是说我们需要图像中低频的部分，而希望过滤掉高频的部分。所以需要滤波，也会让图像变得模糊一点。高斯滤波函数就是正态分布（高斯分布）的概率密度函数，将每一点及其周围的点做了加权平均，其中该点占的比重最大，周围越远比重越小，而各个方向的变化是均匀的。  &lt;/p&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;一维公式为：&lt;img alt="高斯函数" src="http://upload.wikimedia.org/wikipedia/zh/math/7/4/a/74a7dd469476d59a561174131eca644e.png" /&gt;
+其函数图像为：&lt;img alt="函数图像" src="http://upload.wikimedia.org/wikipedia/commons/thumb/1/1b/Normal_distribution_pdf.png/325px-Normal_distribution_pdf.png" /&gt;&lt;br /&gt;
+我们的图像是二维的，所以用的是二维的高斯函数。详情请见维基百科的&lt;a href="http://zh.wikipedia.org/wiki/%E9%AB%98%E6%96%AF%E6%A8%A1%E7%B3%8A"&gt;这里&lt;/a&gt;，&lt;a href="http://zh.wikipedia.org/wiki/%E6%AD%A3%E6%80%81%E5%88%86%E5%B8%83"&gt;这里&lt;/a&gt;。&lt;br /&gt;
+OpenCV的函数如下，其中第一个参数是源图片，第二个是目标图片，这两个可以相同。第三个参数是每一点模糊的范围，需要是正奇数。最后两个参数是联合分布的两个方差，方差越大，周围点占的比重越高，图片越模糊。&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;    &lt;span class="n"&gt;GaussianBlur&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;edges&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;edges&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;Size&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="mi"&gt;7&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="mi"&gt;7&lt;/span&gt;&lt;span class="p"&gt;),&lt;/span&gt; &lt;span class="mf"&gt;2.5&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="mf"&gt;2.5&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;ul&gt;
+&lt;li&gt;
+&lt;p&gt;用canny算子提取边界。canny算子主要通过计算图像中的亮度梯度来判定边界，我们需要给定两个阀值low,high（其实一个也行，但是不够灵活）。当某点的梯度大于 high的时候，确定是边界点。如果梯度小于low则不是边界点。如果在他们之间，则需要通过连通域内的其他点的一起判断。一般建议两个阀值的比例为2：1或者3：1。
+详情请见维基百科的&lt;a href="http://zh.wikipedia.org/wiki/Canny%E7%AE%97%E5%AD%90"&gt;这里&lt;/a&gt; &lt;br /&gt;
+OpenCV的函数如下，前两个参数和高斯滤波一样，第3，4个参数分别是低，高阀值。canny函数中调用了Sobel方法计算微分，第5个参数就是给Sobel函数的，必须是1，3，5，7。&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="n"&gt;Canny&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;edges&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;edges&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="mi"&gt;15&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="mi"&gt;45&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="mi"&gt;3&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;至此，&lt;em&gt;edges&lt;/em&gt;对象里的图像就已经是二值化之后的边界图像了，可以用&lt;em&gt;imshow&lt;/em&gt;显示察看。&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3&gt;找到图像中的圆并标出圆心&lt;/h3&gt;
+&lt;p&gt;这一部分最基本的算法就是种子染色法（FloodFill），OpenCV自带了这个方法，但是由于我以前实现过相关的算法，所以这里就不用OpenCV了，把自己写的贴过来直接用，反正算法也十分简单短小。&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;在全图像范围扫描，搜索所有的&lt;a href="http://zh.wikipedia.org/wiki/%E8%BF%9E%E9%80%9A%E5%9B%BE"&gt;连通分量&lt;/a&gt;。 方法是搜索图像上的每一个点，如果该点未访问，并且该点为我探测到的边界点（边界检测后，图像已经被二值化了，边界点即其灰度值大于&lt;em&gt;maxvalue&lt;/em&gt;点），则在该点开始染色。全图像染色结束后，可以通过对连通分量进行筛选，大概找到其中的圆。&lt;em&gt;room&lt;/em&gt;代表当前搜索的连通分量的序号，&lt;em&gt;f数组&lt;/em&gt;储存每个点的访问情况（值为0代表未访问，值为整数i代表该点属于第i个连通分量）代码如下&lt;/li&gt;
+&lt;/ul&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="c1"&gt;// find&lt;/span&gt;
+&lt;span class="kt"&gt;void&lt;/span&gt; &lt;span class="nf"&gt;search&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;Mat&lt;/span&gt; &lt;span class="o"&gt;&amp;amp;&lt;/span&gt; &lt;span class="n"&gt;img_bin&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+&lt;span class="p"&gt;{&lt;/span&gt;
+    &lt;span class="c1"&gt;//  out(f);&lt;/span&gt;
+    &lt;span class="kt"&gt;int&lt;/span&gt; &lt;span class="n"&gt;room&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="mi"&gt;0&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+    &lt;span class="k"&gt;while&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="o"&gt;++&lt;/span&gt;&lt;span class="n"&gt;room&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+    &lt;span class="p"&gt;{&lt;/span&gt;
+        &lt;span class="kt"&gt;int&lt;/span&gt; &lt;span class="n"&gt;x&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="mi"&gt;0&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="n"&gt;y&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="mi"&gt;0&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+        &lt;span class="k"&gt;for&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="kt"&gt;int&lt;/span&gt; &lt;span class="n"&gt;i&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="mi"&gt;1&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt; &lt;span class="n"&gt;i&lt;/span&gt;&lt;span class="o"&gt;&amp;lt;&lt;/span&gt;&lt;span class="n"&gt;m&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt; &lt;span class="n"&gt;i&lt;/span&gt;&lt;span class="o"&gt;++&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+        &lt;span class="p"&gt;{&lt;/span&gt;
+            &lt;span class="k"&gt;for&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="kt"&gt;int&lt;/span&gt; &lt;span class="n"&gt;j&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="mi"&gt;1&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt; &lt;span class="n"&gt;j&lt;/span&gt;&lt;span class="o"&gt;&amp;lt;&lt;/span&gt;&lt;span class="n"&gt;n&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt; &lt;span class="n"&gt;j&lt;/span&gt;&lt;span class="o"&gt;++&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+                &lt;span class="k"&gt;if&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;img_bin&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;at&lt;/span&gt;&lt;span class="o"&gt;&amp;lt;&lt;/span&gt;&lt;span class="n"&gt;uchar&lt;/span&gt;&lt;span class="o"&gt;&amp;gt;&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;i&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="n"&gt;j&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;&lt;span class="o"&gt;&amp;gt;&lt;/span&gt;&lt;span class="mi"&gt;200&lt;/span&gt; &lt;span class="o"&gt;&amp;amp;&amp;amp;&lt;/span&gt; &lt;span class="n"&gt;f&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="n"&gt;i&lt;/span&gt;&lt;span class="p"&gt;][&lt;/span&gt;&lt;span class="n"&gt;j&lt;/span&gt;&lt;span class="p"&gt;]&lt;/span&gt;&lt;span class="o"&gt;==&lt;/span&gt;&lt;span class="mi"&gt;0&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+                &lt;span class="p"&gt;{&lt;/span&gt;
+                    &lt;span class="n"&gt;x&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="n"&gt;i&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="n"&gt;y&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="n"&gt;j&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+
+                    &lt;span class="k"&gt;break&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+                &lt;span class="p"&gt;}&lt;/span&gt;
+            &lt;span class="k"&gt;if&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;x&lt;/span&gt;&lt;span class="o"&gt;!=&lt;/span&gt;&lt;span class="mi"&gt;0&lt;/span&gt;&lt;span class="o"&gt;||&lt;/span&gt;&lt;span class="n"&gt;y&lt;/span&gt;&lt;span class="o"&gt;!=&lt;/span&gt;&lt;span class="mi"&gt;0&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="k"&gt;break&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+        &lt;span class="p"&gt;}&lt;/span&gt;
+
+        &lt;span class="k"&gt;if&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;x&lt;/span&gt;&lt;span class="o"&gt;==&lt;/span&gt;&lt;span class="mi"&gt;0&lt;/span&gt;&lt;span class="o"&gt;&amp;amp;&amp;amp;&lt;/span&gt;&lt;span class="n"&gt;y&lt;/span&gt;&lt;span class="o"&gt;==&lt;/span&gt;&lt;span class="mi"&gt;0&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+        &lt;span class="p"&gt;{&lt;/span&gt;
+            &lt;span class="o"&gt;--&lt;/span&gt;&lt;span class="n"&gt;room&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+            &lt;span class="n"&gt;output&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;img_bin&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="n"&gt;room&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;
+            &lt;span class="k"&gt;return&lt;/span&gt; &lt;span class="p"&gt;;&lt;/span&gt;
+        &lt;span class="p"&gt;}&lt;/span&gt;
+        &lt;span class="n"&gt;fill&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;img_bin&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="n"&gt;x&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="n"&gt;y&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="n"&gt;room&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;
+    &lt;span class="p"&gt;}&lt;/span&gt;
+&lt;span class="p"&gt;}&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;ul&gt;
+&lt;li&gt;其中，我的种子染色法就是用深度优先搜索的方法，对每个点判断其周围的8个方向是否可走，如果可走，就走过去并染上颜色，直到该连通域内所有点都被染色，算法退出。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="kt"&gt;int&lt;/span&gt; &lt;span class="n"&gt;dx&lt;/span&gt;&lt;span class="p"&gt;[]&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="p"&gt;{&lt;/span&gt;&lt;span class="mi"&gt;0&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="mi"&gt;1&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="mi"&gt;1&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="mi"&gt;1&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="mi"&gt;0&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="mi"&gt;1&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="mi"&gt;1&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="mi"&gt;1&lt;/span&gt;&lt;span class="p"&gt;},&lt;/span&gt;
+    &lt;span class="n"&gt;dy&lt;/span&gt;&lt;span class="p"&gt;[]&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="p"&gt;{&lt;/span&gt;&lt;span class="mi"&gt;1&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="mi"&gt;1&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="mi"&gt;0&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="mi"&gt;1&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="mi"&gt;1&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="mi"&gt;1&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="mi"&gt;0&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="mi"&gt;1&lt;/span&gt;&lt;span class="p"&gt;};&lt;/span&gt;
+&lt;span class="kt"&gt;void&lt;/span&gt; &lt;span class="nf"&gt;fill&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="k"&gt;const&lt;/span&gt; &lt;span class="n"&gt;Mat&lt;/span&gt; &lt;span class="o"&gt;&amp;amp;&lt;/span&gt; &lt;span class="n"&gt;img_bin&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="kt"&gt;int&lt;/span&gt; &lt;span class="n"&gt;x&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="kt"&gt;int&lt;/span&gt; &lt;span class="n"&gt;y&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="kt"&gt;int&lt;/span&gt; &lt;span class="n"&gt;room&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+&lt;span class="p"&gt;{&lt;/span&gt;
+
+    &lt;span class="n"&gt;f&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="n"&gt;x&lt;/span&gt;&lt;span class="p"&gt;][&lt;/span&gt;&lt;span class="n"&gt;y&lt;/span&gt;&lt;span class="p"&gt;]&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="n"&gt;room&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+&lt;span class="c1"&gt;//cout&amp;lt;&amp;lt;x&amp;lt;&amp;lt;&amp;#39; &amp;#39;&amp;lt;&amp;lt;y&amp;lt;&amp;lt;endl;&lt;/span&gt;
+&lt;span class="c1"&gt;//cin.get();&lt;/span&gt;
+    &lt;span class="k"&gt;for&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="kt"&gt;int&lt;/span&gt; &lt;span class="n"&gt;i&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="mi"&gt;0&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt; &lt;span class="n"&gt;i&lt;/span&gt;&lt;span class="o"&gt;&amp;lt;&lt;/span&gt;&lt;span class="mi"&gt;8&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt; &lt;span class="n"&gt;i&lt;/span&gt;&lt;span class="o"&gt;++&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+    &lt;span class="p"&gt;{&lt;/span&gt;
+        &lt;span class="kt"&gt;int&lt;/span&gt; &lt;span class="n"&gt;newx&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="n"&gt;x&lt;/span&gt;&lt;span class="o"&gt;+&lt;/span&gt;&lt;span class="n"&gt;dx&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="n"&gt;i&lt;/span&gt;&lt;span class="p"&gt;],&lt;/span&gt;&lt;span class="n"&gt;newy&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="n"&gt;y&lt;/span&gt;&lt;span class="o"&gt;+&lt;/span&gt;&lt;span class="n"&gt;dy&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="n"&gt;i&lt;/span&gt;&lt;span class="p"&gt;];&lt;/span&gt;
+        &lt;span class="k"&gt;if&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt; &lt;span class="n"&gt;newx&lt;/span&gt;&lt;span class="o"&gt;&amp;lt;&lt;/span&gt;&lt;span class="mi"&gt;0&lt;/span&gt; &lt;span class="o"&gt;||&lt;/span&gt; &lt;span class="n"&gt;newx&lt;/span&gt; &lt;span class="o"&gt;&amp;gt;=&lt;/span&gt;&lt;span class="n"&gt;m&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;&lt;span class="k"&gt;continue&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+        &lt;span class="k"&gt;if&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt; &lt;span class="n"&gt;newy&lt;/span&gt;&lt;span class="o"&gt;&amp;lt;&lt;/span&gt;&lt;span class="mi"&gt;0&lt;/span&gt; &lt;span class="o"&gt;||&lt;/span&gt; &lt;span class="n"&gt;newy&lt;/span&gt; &lt;span class="o"&gt;&amp;gt;=&lt;/span&gt;&lt;span class="n"&gt;n&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="k"&gt;continue&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+        &lt;span class="k"&gt;if&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;img_bin&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;at&lt;/span&gt;&lt;span class="o"&gt;&amp;lt;&lt;/span&gt;&lt;span class="n"&gt;uchar&lt;/span&gt;&lt;span class="o"&gt;&amp;gt;&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;newx&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="n"&gt;newy&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;&lt;span class="o"&gt;&amp;gt;&lt;/span&gt;&lt;span class="n"&gt;maxValue&lt;/span&gt; &lt;span class="o"&gt;&amp;amp;&amp;amp;&lt;/span&gt; &lt;span class="n"&gt;f&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="n"&gt;newx&lt;/span&gt;&lt;span class="p"&gt;][&lt;/span&gt;&lt;span class="n"&gt;newy&lt;/span&gt;&lt;span class="p"&gt;]&lt;/span&gt; &lt;span class="o"&gt;==&lt;/span&gt; &lt;span class="mi"&gt;0&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+            &lt;span class="n"&gt;fill&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;img_bin&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="n"&gt;newx&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="n"&gt;newy&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="n"&gt;room&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;
+    &lt;span class="p"&gt;}&lt;/span&gt;
+&lt;span class="p"&gt;}&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;ul&gt;
+&lt;li&gt;当所有点都染色结束后，就需要筛选其中的圆了。我的想法是，对每个连通分量进行判断：  &lt;/li&gt;
+&lt;li&gt;如果该连通分量内的点少于&lt;em&gt;min_pixel&lt;/em&gt;，我就认为这是噪声点，肯定不是我的圆，将它排除&lt;/li&gt;
+&lt;li&gt;将每一个点的坐标&lt;code&gt;(x,y)&lt;/code&gt;看作两个随机变量&lt;em&gt;X，Y&lt;/em&gt;，由于我们知道圆，及椭圆的方程为二次方程，即如果这些点满足圆的方程，则他们为平方关系，完全无线性关系。所以如果我们求这两个随机变量的相关系数，其值应该十分趋近于零。反之，如果大于一个很小的值&lt;em&gt;eps&lt;/em&gt;，则认为这不是圆&lt;/li&gt;
+&lt;li&gt;到这里大部分的干扰应该都能除去了，但是可能还会有少部分不是圆的形状满足这个逻辑，目前我没有更好的办法解决它~~所以只好输出它了，我在找到的圆心上画了十字叉和正圆，效果见最底下&lt;/li&gt;
+&lt;/ul&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="kt"&gt;void&lt;/span&gt; &lt;span class="nf"&gt;output&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;Mat&lt;/span&gt; &lt;span class="o"&gt;&amp;amp;&lt;/span&gt; &lt;span class="n"&gt;img_bin&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="kt"&gt;int&lt;/span&gt; &lt;span class="n"&gt;room&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+&lt;span class="p"&gt;{&lt;/span&gt;
+
+    &lt;span class="k"&gt;const&lt;/span&gt; &lt;span class="kt"&gt;int&lt;/span&gt; &lt;span class="n"&gt;min_pixel&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="mi"&gt;250&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+    &lt;span class="k"&gt;const&lt;/span&gt; &lt;span class="kt"&gt;float&lt;/span&gt; &lt;span class="n"&gt;eps&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="mf"&gt;0.05&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+    &lt;span class="n"&gt;printf&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s"&gt;&amp;quot;Number=%d&lt;/span&gt;&lt;span class="se"&gt;\n&lt;/span&gt;&lt;span class="s"&gt;&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="n"&gt;room&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;
+    &lt;span class="k"&gt;for&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="kt"&gt;int&lt;/span&gt; &lt;span class="n"&gt;k&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="mi"&gt;1&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt; &lt;span class="n"&gt;k&lt;/span&gt;&lt;span class="o"&gt;&amp;lt;=&lt;/span&gt;&lt;span class="n"&gt;room&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt; &lt;span class="n"&gt;k&lt;/span&gt;&lt;span class="o"&gt;++&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+    &lt;span class="p"&gt;{&lt;/span&gt;
+        &lt;span class="n"&gt;Linevec&lt;/span&gt; &lt;span class="n"&gt;x&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="n"&gt;y&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+        &lt;span class="kt"&gt;int&lt;/span&gt; &lt;span class="n"&gt;num&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="mi"&gt;0&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+        &lt;span class="k"&gt;for&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="kt"&gt;int&lt;/span&gt; &lt;span class="n"&gt;i&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="mi"&gt;1&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt; &lt;span class="n"&gt;i&lt;/span&gt;&lt;span class="o"&gt;&amp;lt;&lt;/span&gt;&lt;span class="n"&gt;m&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt; &lt;span class="n"&gt;i&lt;/span&gt;&lt;span class="o"&gt;++&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+            &lt;span class="k"&gt;for&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="kt"&gt;int&lt;/span&gt; &lt;span class="n"&gt;j&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="mi"&gt;1&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt; &lt;span class="n"&gt;j&lt;/span&gt;&lt;span class="o"&gt;&amp;lt;&lt;/span&gt;&lt;span class="n"&gt;n&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt; &lt;span class="n"&gt;j&lt;/span&gt;&lt;span class="o"&gt;++&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+            &lt;span class="p"&gt;{&lt;/span&gt;
+                &lt;span class="k"&gt;if&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt; &lt;span class="n"&gt;f&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="n"&gt;i&lt;/span&gt;&lt;span class="p"&gt;][&lt;/span&gt;&lt;span class="n"&gt;j&lt;/span&gt;&lt;span class="p"&gt;]&lt;/span&gt;&lt;span class="o"&gt;==&lt;/span&gt;&lt;span class="n"&gt;k&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+                &lt;span class="p"&gt;{&lt;/span&gt;
+                    &lt;span class="n"&gt;x&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;add&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;i&lt;/span&gt;&lt;span class="p"&gt;),&lt;/span&gt;&lt;span class="n"&gt;y&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;add&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;j&lt;/span&gt;&lt;span class="p"&gt;),&lt;/span&gt;&lt;span class="o"&gt;++&lt;/span&gt;&lt;span class="n"&gt;num&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+
+                &lt;span class="p"&gt;}&lt;/span&gt;
+            &lt;span class="p"&gt;}&lt;/span&gt;
+        &lt;span class="k"&gt;if&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;num&lt;/span&gt;&lt;span class="o"&gt;&amp;lt;&lt;/span&gt;&lt;span class="n"&gt;min_pixel&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+        &lt;span class="p"&gt;{&lt;/span&gt;
+            &lt;span class="n"&gt;clean&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;img_bin&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="n"&gt;x&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="n"&gt;y&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;
+            &lt;span class="k"&gt;continue&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+        &lt;span class="p"&gt;}&lt;/span&gt;
+
+
+        &lt;span class="k"&gt;if&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt; &lt;span class="n"&gt;fabs&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;Factor&lt;/span&gt;&lt;span class="o"&gt;::&lt;/span&gt;&lt;span class="n"&gt;Corr&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;x&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="n"&gt;y&lt;/span&gt;&lt;span class="p"&gt;))&lt;/span&gt;&lt;span class="o"&gt;&amp;gt;&lt;/span&gt;&lt;span class="n"&gt;eps&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+        &lt;span class="p"&gt;{&lt;/span&gt;
+            &lt;span class="n"&gt;clean&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;img_bin&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="n"&gt;x&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="n"&gt;y&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;
+            &lt;span class="k"&gt;continue&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+        &lt;span class="p"&gt;}&lt;/span&gt;
+
+        &lt;span class="n"&gt;printf&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s"&gt;&amp;quot;No.%d:x=%f,y=%f&lt;/span&gt;&lt;span class="se"&gt;\n&lt;/span&gt;&lt;span class="s"&gt;&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="n"&gt;k&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="n"&gt;x&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;getAverage&lt;/span&gt;&lt;span class="p"&gt;(),&lt;/span&gt;&lt;span class="n"&gt;y&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;getAverage&lt;/span&gt;&lt;span class="p"&gt;());&lt;/span&gt;
+        &lt;span class="n"&gt;printf&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s"&gt;&amp;quot;Corr=%f,Cov=%f&lt;/span&gt;&lt;span class="se"&gt;\n&lt;/span&gt;&lt;span class="s"&gt;&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="n"&gt;Factor&lt;/span&gt;&lt;span class="o"&gt;::&lt;/span&gt;&lt;span class="n"&gt;Corr&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;x&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="n"&gt;y&lt;/span&gt;&lt;span class="p"&gt;),&lt;/span&gt;&lt;span class="n"&gt;Factor&lt;/span&gt;&lt;span class="o"&gt;::&lt;/span&gt;&lt;span class="n"&gt;Cov&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;x&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="n"&gt;y&lt;/span&gt;&lt;span class="p"&gt;));&lt;/span&gt;
+        &lt;span class="n"&gt;DrawTarget&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;img_bin&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="n"&gt;y&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;getAverage&lt;/span&gt;&lt;span class="p"&gt;(),&lt;/span&gt;&lt;span class="n"&gt;x&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;getAverage&lt;/span&gt;&lt;span class="p"&gt;());&lt;/span&gt;
+    &lt;span class="p"&gt;}&lt;/span&gt;
+    &lt;span class="c1"&gt;//cin.get();&lt;/span&gt;
+&lt;span class="p"&gt;}&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;上述代码中的&lt;em&gt;Linevec&lt;/em&gt;用于单个随机变量的数字特征计算，&lt;em&gt;Factor&lt;/em&gt;类用于计算两个随机变量的协方差及相关系数，这里不考虑软件工程里的封装之类的东西，仅仅作为简单的工具，所以一切都是&lt;em&gt;public&lt;/em&gt;。分别定义如下：&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="k"&gt;class&lt;/span&gt; &lt;span class="nc"&gt;Linevec&lt;/span&gt;
+&lt;span class="p"&gt;{&lt;/span&gt;
+&lt;span class="nl"&gt;public:&lt;/span&gt;
+
+    &lt;span class="n"&gt;vector&lt;/span&gt;&lt;span class="o"&gt;&amp;lt;&lt;/span&gt;&lt;span class="kt"&gt;float&lt;/span&gt;&lt;span class="o"&gt;&amp;gt;&lt;/span&gt; &lt;span class="n"&gt;data&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+
+    &lt;span class="kt"&gt;float&lt;/span&gt; &lt;span class="n"&gt;sum&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+    &lt;span class="kt"&gt;float&lt;/span&gt; &lt;span class="n"&gt;x_average&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+    &lt;span class="kt"&gt;float&lt;/span&gt; &lt;span class="n"&gt;x2_average&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+    &lt;span class="kt"&gt;float&lt;/span&gt; &lt;span class="n"&gt;var&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+
+    &lt;span class="n"&gt;Linevec&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="k"&gt;const&lt;/span&gt; &lt;span class="n"&gt;Linevec&lt;/span&gt;&lt;span class="o"&gt;&amp;amp;&lt;/span&gt; &lt;span class="n"&gt;temp&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+    &lt;span class="p"&gt;{&lt;/span&gt;
+
+        &lt;span class="n"&gt;data&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="n"&gt;temp&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;data&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+        &lt;span class="n"&gt;sum&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="n"&gt;temp&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;sum&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+        &lt;span class="n"&gt;x_average&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="n"&gt;temp&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;x_average&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+        &lt;span class="n"&gt;x2_average&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="n"&gt;temp&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;x2_average&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+    &lt;span class="p"&gt;}&lt;/span&gt;
+    &lt;span class="n"&gt;Linevec&lt;/span&gt;&lt;span class="p"&gt;()&lt;/span&gt;
+    &lt;span class="p"&gt;{&lt;/span&gt;
+        &lt;span class="n"&gt;sum&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="n"&gt;x_average&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="n"&gt;x2_average&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="mi"&gt;0&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+    &lt;span class="p"&gt;}&lt;/span&gt;
+    &lt;span class="n"&gt;Linevec&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="kt"&gt;int&lt;/span&gt; &lt;span class="n"&gt;N&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+    &lt;span class="p"&gt;{&lt;/span&gt;
+
+        &lt;span class="n"&gt;data&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;resize&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;N&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;
+    &lt;span class="p"&gt;}&lt;/span&gt;
+    &lt;span class="kt"&gt;void&lt;/span&gt; &lt;span class="n"&gt;readData&lt;/span&gt;&lt;span class="p"&gt;()&lt;/span&gt;
+    &lt;span class="p"&gt;{&lt;/span&gt;
+        &lt;span class="k"&gt;for&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="kt"&gt;unsigned&lt;/span&gt; &lt;span class="kt"&gt;int&lt;/span&gt; &lt;span class="n"&gt;i&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="mi"&gt;1&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt; &lt;span class="n"&gt;i&lt;/span&gt;&lt;span class="o"&gt;&amp;lt;=&lt;/span&gt;&lt;span class="n"&gt;data&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;size&lt;/span&gt;&lt;span class="p"&gt;();&lt;/span&gt; &lt;span class="n"&gt;i&lt;/span&gt;&lt;span class="o"&gt;++&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+        &lt;span class="p"&gt;{&lt;/span&gt;
+            &lt;span class="n"&gt;cin&lt;/span&gt;&lt;span class="o"&gt;&amp;gt;&amp;gt;&lt;/span&gt;&lt;span class="n"&gt;data&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="n"&gt;i&lt;/span&gt;&lt;span class="p"&gt;];&lt;/span&gt;
+            &lt;span class="n"&gt;sum&lt;/span&gt;&lt;span class="o"&gt;+=&lt;/span&gt;&lt;span class="n"&gt;data&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="n"&gt;i&lt;/span&gt;&lt;span class="p"&gt;];&lt;/span&gt;
+            &lt;span class="n"&gt;x2_average&lt;/span&gt;&lt;span class="o"&gt;+=&lt;/span&gt;&lt;span class="n"&gt;data&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="n"&gt;i&lt;/span&gt;&lt;span class="p"&gt;]&lt;/span&gt;&lt;span class="o"&gt;*&lt;/span&gt;&lt;span class="n"&gt;data&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="n"&gt;i&lt;/span&gt;&lt;span class="p"&gt;];&lt;/span&gt;
+        &lt;span class="p"&gt;}&lt;/span&gt;
+        &lt;span class="n"&gt;cout&lt;/span&gt;&lt;span class="o"&gt;&amp;lt;&amp;lt;&lt;/span&gt;&lt;span class="s"&gt;&amp;quot;Read Finished&amp;quot;&lt;/span&gt;&lt;span class="o"&gt;&amp;lt;&amp;lt;&lt;/span&gt;&lt;span class="n"&gt;endl&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+        &lt;span class="n"&gt;x_average&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="n"&gt;sum&lt;/span&gt;&lt;span class="o"&gt;/&lt;/span&gt;&lt;span class="n"&gt;data&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;size&lt;/span&gt;&lt;span class="p"&gt;();&lt;/span&gt;
+        &lt;span class="n"&gt;x2_average&lt;/span&gt;&lt;span class="o"&gt;/=&lt;/span&gt;&lt;span class="n"&gt;data&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;size&lt;/span&gt;&lt;span class="p"&gt;();&lt;/span&gt;
+    &lt;span class="p"&gt;}&lt;/span&gt;
+    &lt;span class="kt"&gt;void&lt;/span&gt; &lt;span class="n"&gt;add&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="kt"&gt;float&lt;/span&gt; &lt;span class="n"&gt;t&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+    &lt;span class="p"&gt;{&lt;/span&gt;
+        &lt;span class="n"&gt;data&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;push_back&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;t&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;
+
+    &lt;span class="p"&gt;}&lt;/span&gt;
+    &lt;span class="kt"&gt;float&lt;/span&gt; &lt;span class="n"&gt;getSum&lt;/span&gt;&lt;span class="p"&gt;()&lt;/span&gt;
+    &lt;span class="p"&gt;{&lt;/span&gt;
+
+        &lt;span class="n"&gt;sum&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="mi"&gt;0&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+        &lt;span class="k"&gt;for&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;vector&lt;/span&gt;&lt;span class="o"&gt;&amp;lt;&lt;/span&gt;&lt;span class="kt"&gt;float&lt;/span&gt;&lt;span class="o"&gt;&amp;gt;::&lt;/span&gt;&lt;span class="n"&gt;iterator&lt;/span&gt; &lt;span class="n"&gt;i&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="n"&gt;data&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;begin&lt;/span&gt;&lt;span class="p"&gt;();&lt;/span&gt; &lt;span class="n"&gt;i&lt;/span&gt;&lt;span class="o"&gt;!=&lt;/span&gt;&lt;span class="n"&gt;data&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;end&lt;/span&gt;&lt;span class="p"&gt;();&lt;/span&gt; &lt;span class="n"&gt;i&lt;/span&gt;&lt;span class="o"&gt;++&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+            &lt;span class="n"&gt;sum&lt;/span&gt;&lt;span class="o"&gt;+=*&lt;/span&gt;&lt;span class="n"&gt;i&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+        &lt;span class="k"&gt;return&lt;/span&gt; &lt;span class="n"&gt;sum&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+    &lt;span class="p"&gt;}&lt;/span&gt;
+    &lt;span class="kt"&gt;float&lt;/span&gt; &lt;span class="n"&gt;getAverage&lt;/span&gt;&lt;span class="p"&gt;()&lt;/span&gt;
+    &lt;span class="p"&gt;{&lt;/span&gt;
+
+        &lt;span class="k"&gt;return&lt;/span&gt; &lt;span class="n"&gt;x_average&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="n"&gt;getSum&lt;/span&gt;&lt;span class="p"&gt;()&lt;/span&gt;&lt;span class="o"&gt;/&lt;/span&gt;&lt;span class="n"&gt;data&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;size&lt;/span&gt;&lt;span class="p"&gt;();&lt;/span&gt;
+    &lt;span class="p"&gt;}&lt;/span&gt;
+    &lt;span class="kt"&gt;float&lt;/span&gt; &lt;span class="n"&gt;getAverage2&lt;/span&gt;&lt;span class="p"&gt;()&lt;/span&gt;
+    &lt;span class="p"&gt;{&lt;/span&gt;
+
+        &lt;span class="n"&gt;x2_average&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="mi"&gt;0&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+        &lt;span class="k"&gt;for&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;vector&lt;/span&gt;&lt;span class="o"&gt;&amp;lt;&lt;/span&gt;&lt;span class="kt"&gt;float&lt;/span&gt;&lt;span class="o"&gt;&amp;gt;::&lt;/span&gt;&lt;span class="n"&gt;iterator&lt;/span&gt; &lt;span class="n"&gt;i&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="n"&gt;data&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;begin&lt;/span&gt;&lt;span class="p"&gt;();&lt;/span&gt; &lt;span class="n"&gt;i&lt;/span&gt;&lt;span class="o"&gt;!=&lt;/span&gt;&lt;span class="n"&gt;data&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;end&lt;/span&gt;&lt;span class="p"&gt;();&lt;/span&gt; &lt;span class="n"&gt;i&lt;/span&gt;&lt;span class="o"&gt;++&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+            &lt;span class="n"&gt;x2_average&lt;/span&gt;&lt;span class="o"&gt;+=&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="o"&gt;*&lt;/span&gt;&lt;span class="n"&gt;i&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;&lt;span class="o"&gt;*&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="o"&gt;*&lt;/span&gt;&lt;span class="n"&gt;i&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;
+        &lt;span class="k"&gt;return&lt;/span&gt; &lt;span class="n"&gt;x2_average&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="n"&gt;x2_average&lt;/span&gt;&lt;span class="o"&gt;/&lt;/span&gt;&lt;span class="n"&gt;data&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;size&lt;/span&gt;&lt;span class="p"&gt;();&lt;/span&gt;
+    &lt;span class="p"&gt;}&lt;/span&gt;
+    &lt;span class="kt"&gt;int&lt;/span&gt; &lt;span class="n"&gt;getCount&lt;/span&gt;&lt;span class="p"&gt;()&lt;/span&gt;
+    &lt;span class="p"&gt;{&lt;/span&gt;
+        &lt;span class="k"&gt;return&lt;/span&gt; &lt;span class="n"&gt;data&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;size&lt;/span&gt;&lt;span class="p"&gt;();&lt;/span&gt;
+    &lt;span class="p"&gt;}&lt;/span&gt;
+    &lt;span class="kt"&gt;float&lt;/span&gt; &lt;span class="n"&gt;E&lt;/span&gt;&lt;span class="p"&gt;()&lt;/span&gt;
+    &lt;span class="p"&gt;{&lt;/span&gt;
+        &lt;span class="k"&gt;return&lt;/span&gt; &lt;span class="n"&gt;getAverage&lt;/span&gt;&lt;span class="p"&gt;();&lt;/span&gt;
+    &lt;span class="p"&gt;}&lt;/span&gt;
+    &lt;span class="kt"&gt;float&lt;/span&gt; &lt;span class="n"&gt;E2&lt;/span&gt;&lt;span class="p"&gt;()&lt;/span&gt;
+    &lt;span class="p"&gt;{&lt;/span&gt;
+        &lt;span class="k"&gt;return&lt;/span&gt; &lt;span class="n"&gt;getAverage2&lt;/span&gt;&lt;span class="p"&gt;();&lt;/span&gt;
+    &lt;span class="p"&gt;}&lt;/span&gt;
+    &lt;span class="kt"&gt;float&lt;/span&gt; &lt;span class="n"&gt;Var&lt;/span&gt;&lt;span class="p"&gt;()&lt;/span&gt;
+    &lt;span class="p"&gt;{&lt;/span&gt;
+
+        &lt;span class="n"&gt;var&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="mf"&gt;0.0f&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+        &lt;span class="n"&gt;getAverage&lt;/span&gt;&lt;span class="p"&gt;();&lt;/span&gt;
+        &lt;span class="k"&gt;for&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="kt"&gt;unsigned&lt;/span&gt; &lt;span class="kt"&gt;int&lt;/span&gt; &lt;span class="n"&gt;i&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="mi"&gt;0&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt; &lt;span class="n"&gt;i&lt;/span&gt;&lt;span class="o"&gt;&amp;lt;&lt;/span&gt;&lt;span class="n"&gt;data&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;size&lt;/span&gt;&lt;span class="p"&gt;();&lt;/span&gt; &lt;span class="n"&gt;i&lt;/span&gt;&lt;span class="o"&gt;++&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+            &lt;span class="n"&gt;var&lt;/span&gt;&lt;span class="o"&gt;+=&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;data&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="n"&gt;i&lt;/span&gt;&lt;span class="p"&gt;]&lt;/span&gt;&lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="n"&gt;x_average&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;&lt;span class="o"&gt;*&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;data&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="n"&gt;i&lt;/span&gt;&lt;span class="p"&gt;]&lt;/span&gt;&lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="n"&gt;x_average&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;
+        &lt;span class="n"&gt;var&lt;/span&gt;&lt;span class="o"&gt;/=&lt;/span&gt;&lt;span class="n"&gt;data&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;size&lt;/span&gt;&lt;span class="p"&gt;()&lt;/span&gt;&lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="mi"&gt;1&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+        &lt;span class="k"&gt;return&lt;/span&gt; &lt;span class="n"&gt;var&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+    &lt;span class="p"&gt;}&lt;/span&gt;
+&lt;span class="p"&gt;};&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="k"&gt;class&lt;/span&gt; &lt;span class="nc"&gt;Factor&lt;/span&gt;
+&lt;span class="p"&gt;{&lt;/span&gt;
+&lt;span class="nl"&gt;public:&lt;/span&gt;
+
+    &lt;span class="k"&gt;static&lt;/span&gt; &lt;span class="kt"&gt;float&lt;/span&gt; &lt;span class="n"&gt;Cov&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;Linevec&lt;/span&gt; &lt;span class="o"&gt;&amp;amp;&lt;/span&gt;&lt;span class="n"&gt;x&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="n"&gt;Linevec&lt;/span&gt; &lt;span class="o"&gt;&amp;amp;&lt;/span&gt;&lt;span class="n"&gt;y&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+    &lt;span class="p"&gt;{&lt;/span&gt;
+        &lt;span class="kt"&gt;float&lt;/span&gt; &lt;span class="n"&gt;xy_average&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="mf"&gt;0.0f&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+        &lt;span class="k"&gt;for&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="kt"&gt;int&lt;/span&gt; &lt;span class="n"&gt;i&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="mi"&gt;0&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt; &lt;span class="n"&gt;i&lt;/span&gt;&lt;span class="o"&gt;&amp;lt;&lt;/span&gt;&lt;span class="n"&gt;x&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;getCount&lt;/span&gt;&lt;span class="p"&gt;();&lt;/span&gt; &lt;span class="n"&gt;i&lt;/span&gt;&lt;span class="o"&gt;++&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+            &lt;span class="n"&gt;xy_average&lt;/span&gt;&lt;span class="o"&gt;+=&lt;/span&gt;&lt;span class="n"&gt;x&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;data&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="n"&gt;i&lt;/span&gt;&lt;span class="p"&gt;]&lt;/span&gt;&lt;span class="o"&gt;*&lt;/span&gt;&lt;span class="n"&gt;y&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;data&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="n"&gt;i&lt;/span&gt;&lt;span class="p"&gt;];&lt;/span&gt;
+        &lt;span class="n"&gt;xy_average&lt;/span&gt;&lt;span class="o"&gt;/=&lt;/span&gt;&lt;span class="n"&gt;x&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;getCount&lt;/span&gt;&lt;span class="p"&gt;();&lt;/span&gt;
+        &lt;span class="k"&gt;return&lt;/span&gt; &lt;span class="n"&gt;xy_average&lt;/span&gt;&lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="n"&gt;x&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;E&lt;/span&gt;&lt;span class="p"&gt;()&lt;/span&gt;&lt;span class="o"&gt;*&lt;/span&gt;&lt;span class="n"&gt;y&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;E&lt;/span&gt;&lt;span class="p"&gt;();&lt;/span&gt;
+    &lt;span class="p"&gt;}&lt;/span&gt;
+    &lt;span class="k"&gt;static&lt;/span&gt; &lt;span class="kt"&gt;float&lt;/span&gt; &lt;span class="n"&gt;Corr&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;Linevec&lt;/span&gt; &lt;span class="o"&gt;&amp;amp;&lt;/span&gt;&lt;span class="n"&gt;x&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="n"&gt;Linevec&lt;/span&gt; &lt;span class="o"&gt;&amp;amp;&lt;/span&gt;&lt;span class="n"&gt;y&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+    &lt;span class="p"&gt;{&lt;/span&gt;
+        &lt;span class="k"&gt;return&lt;/span&gt; &lt;span class="n"&gt;Cov&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;x&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="n"&gt;y&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;&lt;span class="o"&gt;/&lt;/span&gt;&lt;span class="n"&gt;sqrt&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;x&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;Var&lt;/span&gt;&lt;span class="p"&gt;()&lt;/span&gt;&lt;span class="o"&gt;*&lt;/span&gt;&lt;span class="n"&gt;y&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;Var&lt;/span&gt;&lt;span class="p"&gt;());&lt;/span&gt;
+    &lt;span class="p"&gt;}&lt;/span&gt;
+&lt;span class="p"&gt;};&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;由于图省事，有一些变量我设置了全局，我列在下面,&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="kt"&gt;int&lt;/span&gt; &lt;span class="n"&gt;n&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="n"&gt;m&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+&lt;span class="k"&gt;const&lt;/span&gt; &lt;span class="kt"&gt;int&lt;/span&gt; &lt;span class="n"&gt;width&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="mi"&gt;800&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="n"&gt;height&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="mi"&gt;800&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+&lt;span class="kt"&gt;int&lt;/span&gt; &lt;span class="n"&gt;f&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="n"&gt;height&lt;/span&gt;&lt;span class="p"&gt;][&lt;/span&gt;&lt;span class="n"&gt;width&lt;/span&gt;&lt;span class="p"&gt;];&lt;/span&gt;
+&lt;span class="k"&gt;const&lt;/span&gt; &lt;span class="kt"&gt;int&lt;/span&gt; &lt;span class="n"&gt;maxValue&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="mi"&gt;200&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;最终效果如下：
+&lt;img alt="没找到圆" src="/image/nocirclefound.png" /&gt;
+&lt;img alt="找到圆" src="/image/findcircle.png" /&gt;&lt;/p&gt;</description><dc:creator xmlns:dc="http://purl.org/dc/elements/1.1/">清风未明</dc:creator><pubDate>Sun, 18 Mar 2012 16:12:00 +0800</pubDate><guid>tag:,2012-03-18:xue-xi-ji-qi-shi-jue-1-jian-ce-yuan-xin.html</guid><category>Codes</category><category>OpenCV</category><category>Linux</category></item><item><title>"学习Android开发-SVG文件解析"</title><link>/xue-xi-androidkai-fa-svgwen-jian-jie-xi.html</link><description>&lt;p&gt;我毕业设计的题目是在安卓平台上开发一个工程图的浏览器。需要从服务器中读取用户选择的图纸，并在终端上显示。我所接收到的图纸的类型是SVG格式。&lt;/p&gt;
+&lt;p&gt;Android并没有直接支持渲染SVG格式，而CodeProject和GitHub上的那些SVG库又都很不靠谱，所以我需要自己解析并绘图。SVG格式的图片是基于XML的，所以图片相当于一个文档，可以用解析XML文档的方式来解析图片。关于SVG图片的详情请见&lt;a href="http://www.w3school.com.cn/svg/svg_intro.asp"&gt;这里&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;由于SVG是基于XML的，即需要解析的是一个XML文件，所以需要一个&lt;em&gt;Document&lt;/em&gt;对象。这里我使用了JAVA自带的DOM（Document Object Model）方式解析，所以需要一个&lt;em&gt;DocumentBuilder&lt;/em&gt;对象来从XML文件中获取DOM文档的实例,然后将解析出的文档传给&lt;em&gt;Document&lt;/em&gt;对象。而这个&lt;em&gt;DocumentBuilder&lt;/em&gt;对象的初始化又需要用&lt;em&gt;DocumentBuilderFactory&lt;/em&gt;的工厂方法。所以初始化的代码如下：&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="kd"&gt;private&lt;/span&gt; &lt;span class="n"&gt;InputStream&lt;/span&gt; &lt;span class="n"&gt;_svgFile&lt;/span&gt;&lt;span class="o"&gt;;&lt;/span&gt;
+&lt;span class="n"&gt;Document&lt;/span&gt; &lt;span class="n"&gt;doc&lt;/span&gt;&lt;span class="o"&gt;;&lt;/span&gt;
+&lt;span class="n"&gt;NodeList&lt;/span&gt; &lt;span class="n"&gt;nList&lt;/span&gt;&lt;span class="o"&gt;;&lt;/span&gt;
+&lt;span class="kd"&gt;public&lt;/span&gt; &lt;span class="nf"&gt;SVGParase&lt;/span&gt;&lt;span class="o"&gt;(&lt;/span&gt;&lt;span class="n"&gt;InputStream&lt;/span&gt; &lt;span class="n"&gt;svgFile&lt;/span&gt;&lt;span class="o"&gt;)&lt;/span&gt; &lt;span class="kd"&gt;throws&lt;/span&gt; &lt;span class="n"&gt;SAXException&lt;/span&gt;&lt;span class="o"&gt;,&lt;/span&gt; &lt;span class="n"&gt;IOException&lt;/span&gt;
+&lt;span class="o"&gt;{&lt;/span&gt;
+    &lt;span class="n"&gt;_svgFile&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="n"&gt;svgFile&lt;/span&gt;&lt;span class="o"&gt;;&lt;/span&gt;
+    &lt;span class="n"&gt;DocumentBuilderFactory&lt;/span&gt; &lt;span class="n"&gt;dbFactory&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;DocumentBuilderFactory&lt;/span&gt;
+            &lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="na"&gt;newInstance&lt;/span&gt;&lt;span class="o"&gt;();&lt;/span&gt;
+    &lt;span class="n"&gt;DocumentBuilder&lt;/span&gt; &lt;span class="n"&gt;dBuilder&lt;/span&gt;&lt;span class="o"&gt;;&lt;/span&gt;
+       &lt;span class="k"&gt;try&lt;/span&gt;
+       &lt;span class="o"&gt;{&lt;/span&gt;
+        &lt;span class="n"&gt;dBuilder&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;dbFactory&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="na"&gt;newDocumentBuilder&lt;/span&gt;&lt;span class="o"&gt;();&lt;/span&gt;
+        &lt;span class="n"&gt;doc&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;dBuilder&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="na"&gt;parse&lt;/span&gt;&lt;span class="o"&gt;(&lt;/span&gt;&lt;span class="n"&gt;_svgFile&lt;/span&gt;&lt;span class="o"&gt;);&lt;/span&gt;        
+    &lt;span class="n"&gt;doc&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="na"&gt;getDocumentElement&lt;/span&gt;&lt;span class="o"&gt;().&lt;/span&gt;&lt;span class="na"&gt;normalize&lt;/span&gt;&lt;span class="o"&gt;();&lt;/span&gt;
+       &lt;span class="o"&gt;}&lt;/span&gt;
+       &lt;span class="k"&gt;catch&lt;/span&gt; &lt;span class="o"&gt;(&lt;/span&gt;&lt;span class="n"&gt;ParserConfigurationException&lt;/span&gt; &lt;span class="n"&gt;e&lt;/span&gt;&lt;span class="o"&gt;)&lt;/span&gt;
+       &lt;span class="o"&gt;{&lt;/span&gt;
+        &lt;span class="c1"&gt;// TODO Auto-generated catch block&lt;/span&gt;
+        &lt;span class="n"&gt;e&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="na"&gt;printStackTrace&lt;/span&gt;&lt;span class="o"&gt;();&lt;/span&gt;
+       &lt;span class="o"&gt;}&lt;/span&gt;
+&lt;span class="o"&gt;}&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;SVG中图形的形式主要有直线段，圆，椭圆，文本等，标签名为polyline，circile，eclipse，text等。所以要解析某一种图形，先查找所有拥有该标签的节点。下面以圆为例：
+首先查找有circle标签的结点，其中查到的每一个结点如果类型为element，则它代表了一个圆。每一个圆通过 &lt;em&gt;圆心坐标和半径&lt;/em&gt; 三个属性来定义，所以在其中查找属性：&lt;em&gt;cx&lt;/em&gt;,&lt;em&gt;cy&lt;/em&gt;,&lt;em&gt;r&lt;/em&gt;即为圆的参数。代码如下：&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="kd"&gt;public&lt;/span&gt; &lt;span class="n"&gt;ArrayList&lt;/span&gt;&lt;span class="o"&gt;&amp;lt;&lt;/span&gt;&lt;span class="n"&gt;Circle&lt;/span&gt;&lt;span class="o"&gt;&amp;gt;&lt;/span&gt; &lt;span class="nf"&gt;getCircles&lt;/span&gt;&lt;span class="o"&gt;()&lt;/span&gt;
+    &lt;span class="o"&gt;{&lt;/span&gt;
+        &lt;span class="n"&gt;ArrayList&lt;/span&gt;&lt;span class="o"&gt;&amp;lt;&lt;/span&gt;&lt;span class="n"&gt;Circle&lt;/span&gt;&lt;span class="o"&gt;&amp;gt;&lt;/span&gt; &lt;span class="n"&gt;circles&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="k"&gt;new&lt;/span&gt; &lt;span class="n"&gt;ArrayList&lt;/span&gt;&lt;span class="o"&gt;&amp;lt;&lt;/span&gt;&lt;span class="n"&gt;Circle&lt;/span&gt;&lt;span class="o"&gt;&amp;gt;(&lt;/span&gt;&lt;span class="mi"&gt;100&lt;/span&gt;&lt;span class="o"&gt;);&lt;/span&gt;
+        &lt;span class="n"&gt;Circle&lt;/span&gt; &lt;span class="n"&gt;circle&lt;/span&gt;&lt;span class="o"&gt;;&lt;/span&gt;
+        &lt;span class="n"&gt;nList&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;doc&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="na"&gt;getElementsByTagName&lt;/span&gt;&lt;span class="o"&gt;(&lt;/span&gt;&lt;span class="s"&gt;&amp;quot;circle&amp;quot;&lt;/span&gt;&lt;span class="o"&gt;);&lt;/span&gt;
+        &lt;span class="k"&gt;for&lt;/span&gt; &lt;span class="o"&gt;(&lt;/span&gt;&lt;span class="kt"&gt;int&lt;/span&gt; &lt;span class="n"&gt;temp&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="mi"&gt;0&lt;/span&gt;&lt;span class="o"&gt;;&lt;/span&gt; &lt;span class="n"&gt;temp&lt;/span&gt; &lt;span class="o"&gt;&amp;lt;&lt;/span&gt; &lt;span class="n"&gt;nList&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="na"&gt;getLength&lt;/span&gt;&lt;span class="o"&gt;();&lt;/span&gt; &lt;span class="n"&gt;temp&lt;/span&gt;&lt;span class="o"&gt;++)&lt;/span&gt;
+        &lt;span class="o"&gt;{&lt;/span&gt;
+
+            &lt;span class="n"&gt;Node&lt;/span&gt; &lt;span class="n"&gt;nNode&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;nList&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="na"&gt;item&lt;/span&gt;&lt;span class="o"&gt;(&lt;/span&gt;&lt;span class="n"&gt;temp&lt;/span&gt;&lt;span class="o"&gt;);&lt;/span&gt;
+
+            &lt;span class="k"&gt;if&lt;/span&gt; &lt;span class="o"&gt;(&lt;/span&gt;&lt;span class="n"&gt;nNode&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="na"&gt;getNodeType&lt;/span&gt;&lt;span class="o"&gt;()&lt;/span&gt; &lt;span class="o"&gt;==&lt;/span&gt; &lt;span class="n"&gt;Node&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="na"&gt;ELEMENT_NODE&lt;/span&gt;&lt;span class="o"&gt;)&lt;/span&gt;
+            &lt;span class="o"&gt;{&lt;/span&gt;
+
+                &lt;span class="n"&gt;Element&lt;/span&gt; &lt;span class="n"&gt;eElement&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="o"&gt;(&lt;/span&gt;&lt;span class="n"&gt;Element&lt;/span&gt;&lt;span class="o"&gt;)&lt;/span&gt; &lt;span class="n"&gt;nNode&lt;/span&gt;&lt;span class="o"&gt;;&lt;/span&gt;
+                &lt;span class="n"&gt;String&lt;/span&gt; &lt;span class="n"&gt;cx&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;eElement&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="na"&gt;getAttribute&lt;/span&gt;&lt;span class="o"&gt;(&lt;/span&gt;&lt;span class="s"&gt;&amp;quot;cx&amp;quot;&lt;/span&gt;&lt;span class="o"&gt;);&lt;/span&gt;
+                &lt;span class="n"&gt;String&lt;/span&gt; &lt;span class="n"&gt;cy&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;eElement&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="na"&gt;getAttribute&lt;/span&gt;&lt;span class="o"&gt;(&lt;/span&gt;&lt;span class="s"&gt;&amp;quot;cy&amp;quot;&lt;/span&gt;&lt;span class="o"&gt;);&lt;/span&gt;
+                &lt;span class="n"&gt;String&lt;/span&gt; &lt;span class="n"&gt;r&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;eElement&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="na"&gt;getAttribute&lt;/span&gt;&lt;span class="o"&gt;(&lt;/span&gt;&lt;span class="s"&gt;&amp;quot;r&amp;quot;&lt;/span&gt;&lt;span class="o"&gt;);&lt;/span&gt;
+                &lt;span class="n"&gt;circle&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="k"&gt;new&lt;/span&gt; &lt;span class="n"&gt;Circle&lt;/span&gt;&lt;span class="o"&gt;(&lt;/span&gt;&lt;span class="n"&gt;cx&lt;/span&gt;&lt;span class="o"&gt;,&lt;/span&gt; &lt;span class="n"&gt;cy&lt;/span&gt;&lt;span class="o"&gt;,&lt;/span&gt; &lt;span class="n"&gt;r&lt;/span&gt;&lt;span class="o"&gt;);&lt;/span&gt;
+                &lt;span class="n"&gt;circles&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="na"&gt;add&lt;/span&gt;&lt;span class="o"&gt;(&lt;/span&gt;&lt;span class="n"&gt;circle&lt;/span&gt;&lt;span class="o"&gt;);&lt;/span&gt;
+            &lt;span class="o"&gt;}&lt;/span&gt;
+        &lt;span class="o"&gt;}&lt;/span&gt;
+        &lt;span class="k"&gt;return&lt;/span&gt; &lt;span class="n"&gt;circles&lt;/span&gt;&lt;span class="o"&gt;;&lt;/span&gt;
+    &lt;span class="o"&gt;}&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;对于直线等其他的图形，也是同样的解析方式，只要把所有图形存下来就可以绘制了~~&lt;/p&gt;</description><dc:creator xmlns:dc="http://purl.org/dc/elements/1.1/">清风未明</dc:creator><pubDate>Thu, 15 Mar 2012 18:57:00 +0800</pubDate><guid>tag:,2012-03-15:xue-xi-androidkai-fa-svgwen-jian-jie-xi.html</guid><category>Codes</category><category>Android</category><category>Linux</category></item><item><title>"我关于考研的一点经验"</title><link>/wo-guan-yu-kao-yan-de-dian-jing-yan.html</link><description>&lt;p&gt;从昨天下午开始查分起，身边就不断爆出各种400+的分数，最高有430+，本班也有420+。我的分数是398，其中政治57，英语66，数学145，专业课130。不知道在总体排名怎么样，但是对我来说这是一个很让我满意的分数。我也不怕丢人，就抛砖引玉说一点我的考研经验，望后人能有所借鉴。&lt;/p&gt;
+&lt;h3&gt;关于时间安排&lt;/h3&gt;
+&lt;p&gt;我是从8月底开始准备的，但是很不认真，一直到10月开始真正非常认真的做准备。虽然时间倒是够了，我心态也还可以，但是凭心而论，这个时间太紧了。在十月十一月的时候，我每天时间安排的非常满，生怕到考前还复习不完。这样的感觉很不舒服，要不是我对数学和专业课比较感兴趣，恐怕没法保持这么好的心态。毕竟身子后面一个大石头追着的感觉不好。建议大家从8月就开始认真点儿的准备。&lt;/p&gt;
+&lt;p&gt;我的同学有复习到很晚，早上起的很早的。我不认真的时候每天10点回宿舍，早上10点出发，中午要睡觉。认真的时候早上9点出发，中午还要睡一会儿，晚上11点半回宿舍。其区别不在时间长短，而在学习的状态。我个人感觉睡觉是很重要的，十分不建议大家晚上太晚，十二点多也就够了，可别熬着过，太痛苦了。中午我也要睡一会儿，图书馆很多中午不会宿舍的同学，但是他们也会撑不住，趴在桌子上睡觉。所以还是回宿舍睡觉比较舒服。&lt;/p&gt;
+&lt;h3&gt;关于辅导班&lt;/h3&gt;
+&lt;p&gt;我很重视这个考试，上了不少辅导班：海天政治强化，海天政治冲刺，新东方英语强化，和新东方英语强化班附赠的 政治，数学，英语串讲班。我的政治非常差，所以上完海天政治班，我从一点不知道变成知道了一些，感觉还有所收获，就又报了海天的政治冲刺。但是海天的教学环境，无法让人感觉是一个正规的教育机构，课都是几千人在大礼堂，在体育馆上的。后来听了上了新东方送的政治课，我感觉新东方还是略胜一筹，老师讲课有板书，上课有桌子，这样的感觉才是在上课，才像一个正规的教育机构。
+所以我的感想是，新东方真的是教育机构，且不说老师的情况，新东方是在上课，有桌子有凳子，让你感觉是在学习。海天则像个骗子，把学生放到大礼堂，体育馆，好几千号人坐着听大喇叭里传出来的声音：这个划一下，这个是重点……所以我极其不推荐大家报海天，那感觉，真心差&lt;/p&gt;
+&lt;h3&gt;关于政治&lt;/h3&gt;
+&lt;p&gt;我比较差才57，大家千万好好学习啊！要好好背，至于上什么辅导班买什么书，其实都一样，内容就那些，关键是买回来了要背，反复背。。。我就是不好好背的前车之鉴&lt;/p&gt;
+&lt;h3&gt;关于数学&lt;/h3&gt;
+&lt;p&gt;这个才是重点，要知道得数学专业课者得天下，这是豆瓣经验帖里我看来的。我的复习过程是：看课本-&amp;gt; 做复习全书 -&amp;gt;做真题专项 -&amp;gt; 做真题卷。我感觉最重要的步骤就是做全书和真题卷。我在第一步复习的时候走了误区，课本看的太细，甚至借了几本外文教材细扣线性代数，看了一些群、环论的东西。但是后来发现，准备考试不能这样，就做了李永乐的&lt;a href="http://book.douban.com/subject/4398150/"&gt;数学复习全书&lt;/a&gt;，这个书很厚，做起来很痛苦，刚做也有点难度，因为里边不少真题，和真题的改编版。但是希望大家能认真做一遍，确实有效果。至于看网上人说的做好几遍，我觉得没有必要了，这个书还是以学习为主，而不是巩固。而且时间不允许，除非从2，3月份开始复习。第三步，我借的是一本西交大出的&lt;a href="http://book.douban.com/subject/6394719/"&gt;历年真题分类解析&lt;/a&gt;。其实我感觉是这样，如果不愿意做那么厚的复习全书，完全可以通过这一步来代替。先看一遍课本相关的部分，然后开始做一个分类，这里收录了从84开始的历年数学真题，绝对有实战价值。我因为做了全书，在做这个就不那么痛苦了，也就再没看课本，直接刷题。到12月左右就做完了高数和线代，概率实在做不下去了，就停止了。&lt;/p&gt;
+&lt;p&gt;这期间我找过我的数学老师lhy，她绝对是一个非常好的老师，很热情的给我讲了一些题，并给我提出了一个高效率的复习方法，就是我最后一步，分享给大家：就是反复做真题卷，成套的做。历年的真题卷叠加在一起，正好就是考研的重点内容的合辑。很容易可以知道那里是重点，那里掌握的不好。一遍又一遍的做。刚开始可能每天只能做一份，分析，查错，然后改错，学习。后来每天就能三五份，再就10多份，反正就轮着来，一遍又一遍，让所有方法，定理，概念，公式烂熟于心。而且考研的时候，最大的问题并不是不会做，而是根本做不完。要知道考研数学基础题占近130分，这些都是不那么难，但是需要计算量的题目。根据我的亲身经历，考研数学结束的时候，很多同学都还没有做完卷子，而最后的几道概率题全是典型题，丢了太可惜。所以反复做真题，熟悉卷子结构，也了解自己的速度，这样在考场上就能把握好时间，不至于做不完卷子。今年考试的时候，我就提前了近一个小时做完第一遍，有充分的时间再检查几遍。所以数学才能考145的成绩，我个人十分满意。&lt;/p&gt;
+&lt;h3&gt;关于英语&lt;/h3&gt;
+&lt;p&gt;每年都有同学英语单科不过线，从而饮恨。用新东方老师的话说，考研英语的目的就是刷人，没别的，所以题目很恶心。这个一定要重视起来，最好能很早开始背单词。我就是因为时间不够，没有背单词，词汇表才背了3个list，所以很吃亏。英语的一切都可以归结为翻译，无论是完形，阅读，还是写作，都是英汉互译的过程，所以可以通过翻译来练。我用的新东方唐静的&lt;a href="http://book.douban.com/subject/5991129/"&gt;考研英语拆分与组合翻译法:2012&lt;/a&gt;，保证每天至少练一句，积少成多，从96年到11年的翻译题我全都做了 一遍，这对我做阅读和写作都很有帮助，因为翻译的句子都是长难句。建议大家先看看语法书，然后练习练习拆分句子结构，对英语考试很有帮助。只要每天坚持做翻译，这10分大部分都能到手。阅读也必须每天做，随便找一本真题，就开始做把，先读一遍，然后做题，做完不对答案，直接开始翻译文章，查字典，顺便记几个单词。不管读的时候看懂了没有，翻译过后应该都能懂了，再做一遍，看看有没有不一样，然后再对答案。这样读一段时间以后，阅读也会提高的。可惜我复习的时间太短了，达不到我其他同学的水平。但是对自己来说，从平均错10个到后来的5个，后来的3个，已经让我很满意了。至于写作，我不建议大家背模版，根本就是扯淡，我建议大家找一些优秀真题作文，去翻译他们的作文，然后看着译文再翻译成英文，这样来几篇，自己的思路就会出现了。然后可以开始写作，每周坚持至少一篇应该够了。&lt;/p&gt;
+&lt;h3&gt;关于专业课&lt;/h3&gt;
+&lt;p&gt;专业课都是我比较喜欢的课，我就翻来覆去看书，做真题卷子，不断往现实项目里对比，很快就搞定了。重点就在真题卷子，不管考哪个学校，想办法要到真题卷和对应的课本，出题必在其中，多做几套就很清楚了。&lt;/p&gt;
+&lt;p&gt;愿大家都考研成功，最后给大家一句话：秦人不暇自哀，而后人哀之。后人哀之而不鉴之，亦使后人而复哀后人也。&lt;/p&gt;</description><dc:creator xmlns:dc="http://purl.org/dc/elements/1.1/">清风未明</dc:creator><pubDate>Tue, 28 Feb 2012 15:42:00 +0800</pubDate><guid>tag:,2012-02-28:wo-guan-yu-kao-yan-de-dian-jing-yan.html</guid><category>考研</category></item><item><title>"考研一学期的感想"</title><link>/kao-yan-xue-qi-de-gan-xiang.html</link><description>&lt;p&gt;我从一开始就希望上研究生，但是又不愿意三年的时间全部花在课本之上去争取保研资格，而学校的冯如杯又不是那么靠谱，那么考研就是我唯一的方式了。从大四开学以后到昨天下午查分，我终于经历了一次完整的大考历程。&lt;/p&gt;
+&lt;p&gt;刚开始准备考研的时候，总听说考自己学校容易，开学了再准备也来得及，于是我从8月底开始，很悠闲的度过了考研的第一个月。开学了我也不着急，每天按时上课，按时写作业，和保研了的女朋友一起自习，时不时再打会儿游戏。每周的生活节奏真是不错，唯一能看出来我是准备考研的，就是周末我需要去上新东方的英语强化班。&lt;/p&gt;
+&lt;p&gt;这样的情况持续到了十一，我的政治差到无极限，我很害怕政治单科不过线，所以慕名报了海天酱油的政治班。这期间我才开始感受到了考研的气氛，因为其政治班是在社院大礼堂内，足足坐了一千多号人，过道里都挤满了人。我才反应过来，考研的人很多，不是我想想的那么没有竞争~~连续7天每天从早上到下午的政治课，让我都快吐血了，我开始觉得考研不是那么容易了。回学校以后我找了学长，和一起考研的同学们聊天，我才知道反应过来：&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;我认识的学长们，没有考上的研究生。因为要么他们是保送的，要么是考研没考上。考自己的学校，还没有一个考上的。而具学长透漏，每年考上我们院的学生中，有三分之一北航的同学，就是多的了。我不禁觉得有点恐怖了，这可怕的事情。&lt;/li&gt;
+&lt;li&gt;我找到了机器人所的招生信息，去年的分数线是355，而最后一名考上的则是360+。换句话说考不上370就很悬。而且每年的招生名额不到30人，还包括已经保送的十几个同学。&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;我这才反应过来，难怪其他同学都那么刻苦，我每天10点多回宿舍，他们都还在自习。我一贯自习的三号楼二楼只开到10点，然后我就和女朋友回宿舍了。而我的同学都在11点半关门的新主楼，和通宵的三号楼三楼自习，和考研的人一起自习，互相监督。我当时就觉得，这样下去我必然是考不上的。还好我亲爱的女朋友给了我很大的支持，她说之后这段时间不需要我陪她，让我去和考研的人一起，自己安排时间，不等她，不陪她。于是那天起，我开始第一轮认真复习。几天后，由于数学已经大概过了一遍课本，自我感觉还不错，我做了一套2001年的数学真题。结果却是，只会做六十多分的题，还没全做对。我不敢说我是忘了，我知道我从一开始就没学好。&lt;/p&gt;
+&lt;p&gt;之后每天我去图书馆自习，开始做&lt;a href="http://book.douban.com/subject/4398150/"&gt;数学复习全书&lt;/a&gt;，个人感觉这个书还不错，就是太厚了，做的人很痛苦。另外根据新东方老师的建议，专门拿一个本子每天做真题翻译，每周做真题阅读的翻译。还好我个人对数学比较有好感，这段时间并没有像其他人说的那么痛苦，倒是不断的发现数学很有意思，并且自省当初为何不认真学数学。周边的同学大都是考研的，有的人很认真一直在看书做题，有的人则经常玩手机，一玩就是一上午一下午。我就尽量挑印象里很认真的同学，想办法坐到他们旁边，因为我一向容易思想跑毛，希望这样来互相监督。实在不想学习了，我就去借一本计算机的书看看~~~有个兴趣爱好真不错。不过到后来，座位渐渐很难找到了。图书馆的座位一向紧张，我一直以为只是因为人多。但是经过我的观察，很多同学一个人要占两个座位，并不是给同学，而是方便自己放书，衣服，包。我观察到很多同学这里有个座位，坐着学习，过一会儿去旁边的一个堆满了书的座位换个书，再回来。更有甚者，只是为了防止下午太阳太晒，就占两个座位，有太阳了可以方便离开。实在太过分了！&lt;/p&gt;
+&lt;p&gt;到了十一十二月，我听从老师的建议开始刷数学真题，一遍一遍做，把课本的所有知识点全部过了几遍。同时开始准备专业课。我的专业课是动力学，自动控制和微机原理，都是很实用的课，我学的时候感觉也很好，反复看几遍书都觉得很有意思。唯一不好的就是政治，怎么也记不住。后来同学推荐，我买了一个海天出的小册子，没事就拿出来背一背，倒是还有些用处。起码不太担心过不了线了。再加上其他的几课也看的腻歪了，考前半个月就有点不想看的感觉。我就每天在宿舍打一盘dota，或者看会儿电影，放松一下心情。&lt;/p&gt;
+&lt;p&gt;其实考研的整个过程，除了政治学的比较痛苦，其他的感觉还可以，我也没有太紧张，我的爸妈女朋友也都在安慰我，再加上自我感觉复习的还不错，我心态保持的很好。由于每天刚开始过的太悠闲，中间看上去貌似悠闲（没有太早起，中午照常睡觉），加上后来玩游戏，我的舍友说我要是能考上，那就是个奇迹~~看来，还不错！&lt;/p&gt;</description><dc:creator xmlns:dc="http://purl.org/dc/elements/1.1/">清风未明</dc:creator><pubDate>Tue, 28 Feb 2012 14:40:00 +0800</pubDate><guid>tag:,2012-02-28:kao-yan-xue-qi-de-gan-xiang.html</guid><category>考研</category></item><item><title>"关于在64位Linux上编译安装OpenCV的问题"</title><link>/guan-yu-zai-64wei-linuxshang-bian-yi-an-zhuang-opencvde-wen-ti.html</link><description>&lt;p&gt;出于某些需要，我想装个OpenCV做一下图像相关的试验，于是我在&lt;a href="http://sourceforge.net/projects/opencvlibrary/"&gt;SourceForge&lt;/a&gt;中下载了最新的OpenCV2.3.1，并找到这个非常详细的&lt;a href="http://www.ozbotz.org/opencv-installation/"&gt;安装教程&lt;/a&gt;编译安装。但是这里出了两个问题。&lt;/p&gt;
+&lt;h3&gt;第一个问题&lt;/h3&gt;
+&lt;p&gt;OpenCV2.3.1要求ffmpeg0.8的版本，这个版本高了或者低了我都出现了编译错误。OpenCV2.3和以前的则需要低一点，系统自带的版本是低版本，需要卸载老版本，重新编译安装x264和ffmpeg。网上总是有很多坑爹的完全一样的安装指导，可惜都不能用。  &lt;/p&gt;
+&lt;h3&gt;第二个问题&lt;/h3&gt;
+&lt;p&gt;这个是64位的问题（我的计算机是Linux Mint12 64bit，如果有人用64位系统，可能也会出类似问题）。我的方法和大家的安装方法都一样，但是我做的时候在很多地方编译不通过，各种编译错误。错误提示大概就是我是x86_64的平台，链接库的时候会出问题。不过还好，在刚才教程底下大家的讨论里我找到了解决方案：&lt;/p&gt;
+&lt;p&gt;其他的不变，按照教程输入命令即可，只是在安装x264和ffmpeg的时候，第一步&lt;em&gt;configure&lt;/em&gt;中加入&lt;strong&gt;--enable-pic&lt;/strong&gt;和&lt;strong&gt;--enable-shared&lt;/strong&gt;（两个减号）,然后编译安装x264和ffmpeg。在前两个都安装好之后，再重新编译OpenCV，这就可以编译通过了。&lt;/p&gt;
+&lt;h3&gt;第三个问题&lt;/h3&gt;
+&lt;p&gt;即使cmake的时候选择了支持&lt;em&gt;python&lt;/em&gt;，安装完成后，&lt;em&gt;python&lt;/em&gt;里也找不到相关的库。在官网上找到，在cmake之前，需要先安装&lt;em&gt;python-dev&lt;/em&gt;。&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;    &lt;span class="n"&gt;sudo&lt;/span&gt; &lt;span class="n"&gt;apt&lt;/span&gt;&lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="n"&gt;get&lt;/span&gt; &lt;span class="n"&gt;install&lt;/span&gt; &lt;span class="n"&gt;python&lt;/span&gt;&lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="n"&gt;dev&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;然后&lt;em&gt;cmake&lt;/em&gt;时，可以选择&lt;em&gt;Python-OpenCV&lt;/em&gt;的安装位置，然后再编译安装OpenCV。安装时可以看到输出信息中出现了正在安装&lt;em&gt;python&lt;/em&gt;的库。装好以后，修改.bashrc，增加环境变量&lt;em&gt;PYTHONPATH&lt;/em&gt;,并把值设置为刚才选择的安装位置。这样就可以完成安装了。&lt;/p&gt;
+&lt;p&gt;安装好以后，我不能用如下这个命令来编译，会出现找不到引用的错误。&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;    &lt;span class="n"&gt;g&lt;/span&gt;&lt;span class="o"&gt;++&lt;/span&gt; &lt;span class="err"&gt;`&lt;/span&gt;&lt;span class="n"&gt;pkg&lt;/span&gt;&lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="n"&gt;config&lt;/span&gt; &lt;span class="n"&gt;opencv&lt;/span&gt; &lt;span class="o"&gt;--&lt;/span&gt;&lt;span class="n"&gt;cflags&lt;/span&gt;&lt;span class="err"&gt;`&lt;/span&gt; &lt;span class="err"&gt;`&lt;/span&gt;&lt;span class="n"&gt;pkg&lt;/span&gt;&lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="n"&gt;config&lt;/span&gt; &lt;span class="n"&gt;opencv&lt;/span&gt; &lt;span class="o"&gt;--&lt;/span&gt;&lt;span class="n"&gt;libs&lt;/span&gt;&lt;span class="err"&gt;`&lt;/span&gt; &lt;span class="n"&gt;my_code&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;cpp&lt;/span&gt;  &lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="n"&gt;o&lt;/span&gt; &lt;span class="n"&gt;my_code&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;要想顺利编译通过，这里需要把源代码文件放在第一个参数，即&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;    &lt;span class="n"&gt;g&lt;/span&gt;&lt;span class="o"&gt;++&lt;/span&gt; &lt;span class="n"&gt;my_code&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;cpp&lt;/span&gt; &lt;span class="err"&gt;`&lt;/span&gt;&lt;span class="n"&gt;pkg&lt;/span&gt;&lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="n"&gt;config&lt;/span&gt; &lt;span class="n"&gt;opencv&lt;/span&gt; &lt;span class="o"&gt;--&lt;/span&gt;&lt;span class="n"&gt;cflags&lt;/span&gt;&lt;span class="err"&gt;`&lt;/span&gt; &lt;span class="err"&gt;`&lt;/span&gt;&lt;span class="n"&gt;pkg&lt;/span&gt;&lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="n"&gt;config&lt;/span&gt; &lt;span class="n"&gt;opencv&lt;/span&gt; &lt;span class="o"&gt;--&lt;/span&gt;&lt;span class="n"&gt;libs&lt;/span&gt;&lt;span class="err"&gt;`&lt;/span&gt;  &lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="n"&gt;o&lt;/span&gt; &lt;span class="n"&gt;my_code&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;然后编译就正常了。&lt;/p&gt;
+&lt;h3&gt;在Code Blocks里配置OpenCV环境&lt;/h3&gt;
+&lt;ol&gt;
+&lt;li&gt;新建一个工程&lt;/li&gt;
+&lt;li&gt;在左侧的Projects区里，右键点击工程，选择&lt;strong&gt;Build Option&lt;/strong&gt;&lt;/li&gt;
+&lt;li&gt;在&lt;strong&gt;Compiler settings&lt;/strong&gt; 的 &lt;strong&gt;Other options&lt;/strong&gt;中，加入 &lt;strong&gt;&lt;code&gt;pkg-config opencv  --cflags&lt;/code&gt;&lt;/strong&gt;&lt;/li&gt;
+&lt;li&gt;在&lt;strong&gt;Linker setting&lt;/strong&gt; 的&lt;strong&gt;Other Linker options&lt;/strong&gt;中，加入&lt;strong&gt;&lt;code&gt;pkg-config opencv --libs&lt;/code&gt;&lt;/strong&gt;&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;这时候编译运行就应该没问题了&lt;/p&gt;
+&lt;p&gt;希望大家出了类似问题的能安然度过~~~另外如果有人能告诉我为什么，感激不尽！&lt;/p&gt;</description><dc:creator xmlns:dc="http://purl.org/dc/elements/1.1/">清风未明</dc:creator><pubDate>Sat, 25 Feb 2012 15:04:00 +0800</pubDate><guid>tag:,2012-02-25:guan-yu-zai-64wei-linuxshang-bian-yi-an-zhuang-opencvde-wen-ti.html</guid><category>Codes</category><category>OpenCV</category><category>Linux</category></item><item><title>"学习在自动控制中应用MATLAB-1"</title><link>/xue-xi-zai-zi-dong-kong-zhi-zhong-ying-yong-matlab-1.html</link><description>&lt;h2&gt;建立系统传递函数&lt;/h2&gt;
+&lt;p&gt;设系统的传递函数为：
+$$
+\frac{s+1}{2s^3+3s^2+4s+5}
+$$
+则在matlab中输入如下命令，可得到其传递函数：   &lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="n"&gt;num&lt;/span&gt;&lt;span class="p"&gt;=[&lt;/span&gt;&lt;span class="mi"&gt;1&lt;/span&gt; &lt;span class="mi"&gt;2&lt;/span&gt;&lt;span class="p"&gt;];&lt;/span&gt;&lt;span class="n"&gt;den&lt;/span&gt;&lt;span class="p"&gt;=[&lt;/span&gt;&lt;span class="mi"&gt;2&lt;/span&gt; &lt;span class="mi"&gt;3&lt;/span&gt; &lt;span class="mi"&gt;4&lt;/span&gt; &lt;span class="mi"&gt;5&lt;/span&gt;&lt;span class="p"&gt;];&lt;/span&gt;&lt;span class="n"&gt;G&lt;/span&gt;&lt;span class="p"&gt;=&lt;/span&gt;&lt;span class="n"&gt;tf&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;num&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="n"&gt;den&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+
+&lt;span class="n"&gt;Transfer&lt;/span&gt; &lt;span class="k"&gt;function&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;
+         &lt;span class="n"&gt;s&lt;/span&gt; &lt;span class="o"&gt;+&lt;/span&gt; &lt;span class="mi"&gt;2&lt;/span&gt;
+&lt;span class="o"&gt;-----------------------&lt;/span&gt;
+&lt;span class="mi"&gt;2&lt;/span&gt; &lt;span class="n"&gt;s&lt;/span&gt;^&lt;span class="mi"&gt;3&lt;/span&gt; &lt;span class="o"&gt;+&lt;/span&gt; &lt;span class="mi"&gt;3&lt;/span&gt; &lt;span class="n"&gt;s&lt;/span&gt;^&lt;span class="mi"&gt;2&lt;/span&gt; &lt;span class="o"&gt;+&lt;/span&gt; &lt;span class="mi"&gt;4&lt;/span&gt; &lt;span class="n"&gt;s&lt;/span&gt; &lt;span class="o"&gt;+&lt;/span&gt; &lt;span class="mi"&gt;5&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;令：&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="o"&gt;&amp;gt;&amp;gt;&lt;/span&gt; &lt;span class="n"&gt;G1&lt;/span&gt;&lt;span class="p"&gt;=&lt;/span&gt;&lt;span class="n"&gt;tf&lt;/span&gt;&lt;span class="p"&gt;([&lt;/span&gt;&lt;span class="mi"&gt;1&lt;/span&gt; &lt;span class="mi"&gt;2&lt;/span&gt;&lt;span class="p"&gt;],[&lt;/span&gt;&lt;span class="mi"&gt;1&lt;/span&gt; &lt;span class="mi"&gt;2&lt;/span&gt; &lt;span class="mi"&gt;3&lt;/span&gt;&lt;span class="p"&gt;])&lt;/span&gt;
+
+&lt;span class="n"&gt;Transfer&lt;/span&gt; &lt;span class="k"&gt;function&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;
+    &lt;span class="n"&gt;s&lt;/span&gt; &lt;span class="o"&gt;+&lt;/span&gt; &lt;span class="mi"&gt;2&lt;/span&gt;
+&lt;span class="o"&gt;-------------&lt;/span&gt;
+&lt;span class="n"&gt;s&lt;/span&gt;^&lt;span class="mi"&gt;2&lt;/span&gt; &lt;span class="o"&gt;+&lt;/span&gt; &lt;span class="mi"&gt;2&lt;/span&gt; &lt;span class="n"&gt;s&lt;/span&gt; &lt;span class="o"&gt;+&lt;/span&gt; &lt;span class="mi"&gt;3&lt;/span&gt;
+
+&lt;span class="o"&gt;&amp;gt;&amp;gt;&lt;/span&gt; &lt;span class="n"&gt;G2&lt;/span&gt;&lt;span class="p"&gt;=&lt;/span&gt;&lt;span class="n"&gt;tf&lt;/span&gt;&lt;span class="p"&gt;([&lt;/span&gt;&lt;span class="mi"&gt;1&lt;/span&gt;&lt;span class="p"&gt;],[&lt;/span&gt;&lt;span class="mi"&gt;1&lt;/span&gt; &lt;span class="mi"&gt;0&lt;/span&gt;&lt;span class="p"&gt;])&lt;/span&gt;
+
+&lt;span class="n"&gt;Transfer&lt;/span&gt; &lt;span class="k"&gt;function&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;
+&lt;span class="mi"&gt;1&lt;/span&gt;
+&lt;span class="o"&gt;-&lt;/span&gt;
+&lt;span class="n"&gt;s&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;ul&gt;
+&lt;li&gt;如果需要串联两个模块G1，G2，则用命令：   &lt;/li&gt;
+&lt;/ul&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="o"&gt;&amp;gt;&amp;gt;&lt;/span&gt;&lt;span class="n"&gt;G1&lt;/span&gt;&lt;span class="o"&gt;*&lt;/span&gt;&lt;span class="n"&gt;G2&lt;/span&gt;
+
+&lt;span class="n"&gt;Transfer&lt;/span&gt; &lt;span class="k"&gt;function&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;
+      &lt;span class="n"&gt;s&lt;/span&gt; &lt;span class="o"&gt;+&lt;/span&gt; &lt;span class="mi"&gt;2&lt;/span&gt;
+&lt;span class="o"&gt;-----------------&lt;/span&gt;
+&lt;span class="n"&gt;s&lt;/span&gt;^&lt;span class="mi"&gt;3&lt;/span&gt; &lt;span class="o"&gt;+&lt;/span&gt; &lt;span class="mi"&gt;2&lt;/span&gt; &lt;span class="n"&gt;s&lt;/span&gt;^&lt;span class="mi"&gt;2&lt;/span&gt; &lt;span class="o"&gt;+&lt;/span&gt; &lt;span class="mi"&gt;3&lt;/span&gt; &lt;span class="n"&gt;s&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;ul&gt;
+&lt;li&gt;需要并联两个模块G1，G2，则用命令：&lt;/li&gt;
+&lt;/ul&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="o"&gt;&amp;gt;&amp;gt;&lt;/span&gt;&lt;span class="n"&gt;G1&lt;/span&gt;&lt;span class="o"&gt;+&lt;/span&gt;&lt;span class="n"&gt;G2&lt;/span&gt;
+
+&lt;span class="n"&gt;Transfer&lt;/span&gt; &lt;span class="k"&gt;function&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;
+ &lt;span class="mi"&gt;2&lt;/span&gt; &lt;span class="n"&gt;s&lt;/span&gt;^&lt;span class="mi"&gt;2&lt;/span&gt; &lt;span class="o"&gt;+&lt;/span&gt; &lt;span class="mi"&gt;4&lt;/span&gt; &lt;span class="n"&gt;s&lt;/span&gt; &lt;span class="o"&gt;+&lt;/span&gt; &lt;span class="mi"&gt;3&lt;/span&gt;
+&lt;span class="o"&gt;-----------------&lt;/span&gt;
+&lt;span class="n"&gt;s&lt;/span&gt;^&lt;span class="mi"&gt;3&lt;/span&gt; &lt;span class="o"&gt;+&lt;/span&gt; &lt;span class="mi"&gt;2&lt;/span&gt; &lt;span class="n"&gt;s&lt;/span&gt;^&lt;span class="mi"&gt;2&lt;/span&gt; &lt;span class="o"&gt;+&lt;/span&gt; &lt;span class="mi"&gt;3&lt;/span&gt; &lt;span class="n"&gt;s&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;ul&gt;
+&lt;li&gt;需要反馈链接，则用：&lt;/li&gt;
+&lt;/ul&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="o"&gt;&amp;gt;&amp;gt;&lt;/span&gt; &lt;span class="n"&gt;G&lt;/span&gt;&lt;span class="p"&gt;=&lt;/span&gt;&lt;span class="n"&gt;feedback&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;G1&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="n"&gt;G2&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="mi"&gt;1&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+
+&lt;span class="n"&gt;Transfer&lt;/span&gt; &lt;span class="k"&gt;function&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;
+      &lt;span class="n"&gt;s&lt;/span&gt;^&lt;span class="mi"&gt;2&lt;/span&gt; &lt;span class="o"&gt;+&lt;/span&gt; &lt;span class="mi"&gt;2&lt;/span&gt; &lt;span class="n"&gt;s&lt;/span&gt;
+&lt;span class="o"&gt;---------------------&lt;/span&gt;
+&lt;span class="n"&gt;s&lt;/span&gt;^&lt;span class="mi"&gt;3&lt;/span&gt; &lt;span class="o"&gt;+&lt;/span&gt; &lt;span class="mi"&gt;2&lt;/span&gt; &lt;span class="n"&gt;s&lt;/span&gt;^&lt;span class="mi"&gt;2&lt;/span&gt; &lt;span class="o"&gt;+&lt;/span&gt; &lt;span class="mi"&gt;4&lt;/span&gt; &lt;span class="n"&gt;s&lt;/span&gt; &lt;span class="o"&gt;+&lt;/span&gt; &lt;span class="mi"&gt;2&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;其中-1表示单位负反馈&lt;/p&gt;
+&lt;h2&gt;判断系统稳定性&lt;/h2&gt;
+&lt;p&gt;设系统传递函数为：
+$$
+G(s)=\frac{s^3+7s^2+24s+24}{s^8+2s^7+3s^6+4^s5+6s^3+7s^2+8s+9}
+$$&lt;/p&gt;
+&lt;p&gt;在matlab中输入如下命令：&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="n"&gt;den&lt;/span&gt;&lt;span class="p"&gt;=[&lt;/span&gt;&lt;span class="mi"&gt;1&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;&lt;span class="mi"&gt;9&lt;/span&gt;&lt;span class="p"&gt;];&lt;/span&gt; &lt;span class="c"&gt;%建立特征多项式&lt;/span&gt;
+&lt;span class="n"&gt;roots&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;den&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="c"&gt;%求根，通过根的正负判定系统是否稳定&lt;/span&gt;
+
+&lt;span class="nb"&gt;ans&lt;/span&gt; &lt;span class="p"&gt;=&lt;/span&gt;
+
+  &lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="mf"&gt;1.2888&lt;/span&gt; &lt;span class="o"&gt;+&lt;/span&gt; &lt;span class="mf"&gt;0.4477&lt;/span&gt;&lt;span class="nb"&gt;i&lt;/span&gt;
+  &lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="mf"&gt;1.2888&lt;/span&gt; &lt;span class="o"&gt;-&lt;/span&gt; &lt;span class="mf"&gt;0.4477&lt;/span&gt;&lt;span class="nb"&gt;i&lt;/span&gt;
+  &lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="mf"&gt;0.7244&lt;/span&gt; &lt;span class="o"&gt;+&lt;/span&gt; &lt;span class="mf"&gt;1.1370&lt;/span&gt;&lt;span class="nb"&gt;i&lt;/span&gt;
+  &lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="mf"&gt;0.7244&lt;/span&gt; &lt;span class="o"&gt;-&lt;/span&gt; &lt;span class="mf"&gt;1.1370&lt;/span&gt;&lt;span class="nb"&gt;i&lt;/span&gt;
+   &lt;span class="mf"&gt;0.1364&lt;/span&gt; &lt;span class="o"&gt;+&lt;/span&gt; &lt;span class="mf"&gt;1.3050&lt;/span&gt;&lt;span class="nb"&gt;i&lt;/span&gt;
+   &lt;span class="mf"&gt;0.1364&lt;/span&gt; &lt;span class="o"&gt;-&lt;/span&gt; &lt;span class="mf"&gt;1.3050&lt;/span&gt;&lt;span class="nb"&gt;i&lt;/span&gt;
+   &lt;span class="mf"&gt;0.8767&lt;/span&gt; &lt;span class="o"&gt;+&lt;/span&gt; &lt;span class="mf"&gt;0.8814&lt;/span&gt;&lt;span class="nb"&gt;i&lt;/span&gt;
+   &lt;span class="mf"&gt;0.8767&lt;/span&gt; &lt;span class="o"&gt;-&lt;/span&gt; &lt;span class="mf"&gt;0.8814&lt;/span&gt;&lt;span class="nb"&gt;i&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;由4个极点有正实部可知，系统不稳定。&lt;/p&gt;
+&lt;h2&gt;求系统响应&lt;/h2&gt;
+&lt;p&gt;$$
+G(s)=\frac{s+24}{s^2+4s+9}
+$$
+新建.m文件，在编辑器里输入：&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="n"&gt;num&lt;/span&gt;&lt;span class="p"&gt;=[&lt;/span&gt;&lt;span class="mi"&gt;1&lt;/span&gt; &lt;span class="mi"&gt;24&lt;/span&gt;&lt;span class="p"&gt;];&lt;/span&gt;
+&lt;span class="n"&gt;den&lt;/span&gt;&lt;span class="p"&gt;=[&lt;/span&gt;&lt;span class="mi"&gt;1&lt;/span&gt; &lt;span class="mi"&gt;4&lt;/span&gt; &lt;span class="mi"&gt;9&lt;/span&gt;&lt;span class="p"&gt;];&lt;/span&gt;
+&lt;span class="n"&gt;G&lt;/span&gt;&lt;span class="p"&gt;=&lt;/span&gt;&lt;span class="n"&gt;tf&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;num&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="n"&gt;den&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;
+&lt;span class="n"&gt;t&lt;/span&gt;&lt;span class="p"&gt;=&lt;/span&gt;&lt;span class="mi"&gt;0&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;&lt;span class="mf"&gt;0.1&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;&lt;span class="mi"&gt;10&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+&lt;span class="n"&gt;y&lt;/span&gt;&lt;span class="p"&gt;=&lt;/span&gt;&lt;span class="n"&gt;step&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;G&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="n"&gt;t&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;
+&lt;span class="n"&gt;plot&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;t&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="n"&gt;y&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+&lt;span class="n"&gt;Y&lt;/span&gt;&lt;span class="p"&gt;=&lt;/span&gt;&lt;span class="n"&gt;dcgain&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;G&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;运行可得结果：&lt;/p&gt;
+&lt;p&gt;&lt;img alt="阶跃响应" src="/image/2jiestep.png" /&gt;&lt;/p&gt;
+&lt;h3&gt;指令解释&lt;/h3&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;em&gt;step&lt;/em&gt; 给出了系统的阶跃响应，y保存了每个t时刻的响应&lt;/li&gt;
+&lt;li&gt;如果用_impulse()_代替_step_则可求得系统的脉冲响应&lt;/li&gt;
+&lt;li&gt;&lt;em&gt;plot&lt;/em&gt; 以t为自变量，y为函数值画出图像&lt;/li&gt;
+&lt;li&gt;_dcgain_得出系统的稳态值&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2&gt;绘制跟轨迹&lt;/h2&gt;
+&lt;p&gt;设系统闭环传递函数为： &lt;br /&gt;
+$$
+\Phi (s)=\frac{K(s+1)(s+3)}{s(s+2)(s+3)+K(s+1)}
+$$&lt;/p&gt;
+&lt;p&gt;特征方程可写为 &lt;br /&gt;
+$$
+1+K\frac{s+1}{s(s+2)(s+3)}=1+K\frac{s+1}{s^3+5s^2+6s}=0
+$$
+新建.m文件，输入如下语句：&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="n"&gt;num&lt;/span&gt;&lt;span class="p"&gt;=[&lt;/span&gt;&lt;span class="mi"&gt;1&lt;/span&gt; &lt;span class="mi"&gt;1&lt;/span&gt;&lt;span class="p"&gt;];&lt;/span&gt;
+&lt;span class="n"&gt;den&lt;/span&gt;&lt;span class="p"&gt;=[&lt;/span&gt;&lt;span class="mi"&gt;1&lt;/span&gt; &lt;span class="mi"&gt;5&lt;/span&gt; &lt;span class="mi"&gt;6&lt;/span&gt; &lt;span class="mi"&gt;0&lt;/span&gt;&lt;span class="p"&gt;];&lt;/span&gt;
+&lt;span class="n"&gt;G&lt;/span&gt;&lt;span class="p"&gt;=&lt;/span&gt;&lt;span class="n"&gt;tf&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;num&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="n"&gt;den&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;
+&lt;span class="n"&gt;hold&lt;/span&gt; &lt;span class="n"&gt;on&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+&lt;span class="n"&gt;rlocus&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;G&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;
+&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="n"&gt;K&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="n"&gt;P&lt;/span&gt;&lt;span class="p"&gt;]=&lt;/span&gt;&lt;span class="n"&gt;rlocfind&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;G&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;运行可得结果：&lt;/p&gt;
+&lt;p&gt;&lt;img alt="根轨迹" src="/image/rootlocus.png" /&gt;&lt;/p&gt;
+&lt;h3&gt;指令解释&lt;/h3&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;em&gt;hold on&lt;/em&gt; 使得多次次绘图可以在一个Figure窗口中叠加展出&lt;/li&gt;
+&lt;li&gt;&lt;em&gt;rlocus&lt;/em&gt; 绘制给定系统的根轨迹&lt;/li&gt;
+&lt;li&gt;&lt;em&gt;rlocufind&lt;/em&gt; 函数允许用户求取根轨迹上指定点处的开环增益，K为选定点对应的开环增益，P为该增益下的闭环极点位置。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;感谢参考书：&lt;a href="http://book.douban.com/subject/1655949/"&gt;《自动控制原理》&lt;/a&gt;&lt;/p&gt;</description><dc:creator xmlns:dc="http://purl.org/dc/elements/1.1/">清风未明</dc:creator><pubDate>Fri, 17 Feb 2012 17:20:00 +0800</pubDate><guid>tag:,2012-02-17:xue-xi-zai-zi-dong-kong-zhi-zhong-ying-yong-matlab-1.html</guid><category>matlab</category><category>automatic</category></item><item><title>"为OMAP4430安装Linux/Android系统"</title><link>/wei-omap4430an-zhuang-linuxandroidxi-tong.html</link><description>&lt;p&gt;这块开发板没有板载flash，所以操作系统从SD卡引导。这样，我们的操作系统就需要安装在SD卡上。&lt;/p&gt;
+&lt;h2&gt;准备sd卡&lt;/h2&gt;
+&lt;ol&gt;
+&lt;li&gt;插入sd卡，运行如下命令察看sd卡是否已经挂载&lt;/li&gt;
+&lt;/ol&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;df -h
+文件系统            容量  已用  可用 已用%% 挂载点
+/dev/sda7              30G   15G   14G  52% /
+udev                  1.5G  4.0K  1.5G   1% /dev
+tmpfs                 602M  1.1M  601M   1% /run
+none                  5.0M     0  5.0M   0% /run/lock
+none                  1.5G  472K  1.5G   1% /run/shm
+/dev/mmcblk0p1        1.8G   35M  1.7G   3% /media/KINGSTON
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;ol&gt;
+&lt;li&gt;
+&lt;p&gt;如果已挂载，就卸载它(我的sd卡,设备为/dev/mmcblk0,分区为/dev/mmcblk0p1,挂载在/media/KINGSTON下了）&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="n"&gt;sudo&lt;/span&gt; &lt;span class="n"&gt;umount&lt;/span&gt; &lt;span class="o"&gt;/&lt;/span&gt;&lt;span class="n"&gt;media&lt;/span&gt;&lt;span class="o"&gt;/&lt;/span&gt;&lt;span class="n"&gt;KINGSTON&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;/li&gt;
+&lt;/ol&gt;
+&lt;h2&gt;将sd卡格式化成双分区&lt;/h2&gt;
+&lt;h4&gt;先说点别的&lt;/h4&gt;
+&lt;p&gt;如果有兴趣，请仔细阅读&lt;a href="http://code.google.com/p/beagleboard/wiki/LinuxBootDiskFormat"&gt;这篇&lt;/a&gt;文档，在网上能找到的所有关于SD双分区的教程，几乎全部和他一样，比如&lt;a href="http://blog.csdn.net/lqf785435771/article/details/7096320"&gt;这里&lt;/a&gt;，&lt;a href="http://www.fengfly.com/plus/view-163969-1.html"&gt;这里&lt;/a&gt;，和&lt;a href="http://www.anddev.org/zoom-mdk-f25/part-5-booting-x-loader-and-u-boot-from-sd-card-t2500.html"&gt;这里&lt;/a&gt;。当然，如果懒得看英文，不看也无妨。我认为其重点如下&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;
+&lt;p&gt;记住sd卡的格式化目标格式，即磁头数255，每个磁道上有63个扇区，以及计算出来的柱面数。原文如下：
+    #cylinders = FLOOR (the number of Bytes on the SD Card (from above) / 255 / 63 / 512 )
+    总的字节数，即运行如下命令，看到的bytes&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="n"&gt;sudo&lt;/span&gt; &lt;span class="n"&gt;fdisk&lt;/span&gt; &lt;span class="o"&gt;/&lt;/span&gt;&lt;span class="n"&gt;dev&lt;/span&gt;&lt;span class="o"&gt;/&lt;/span&gt;&lt;span class="n"&gt;mmcblk0&lt;/span&gt; &lt;span class="err"&gt;#换成你的设备，切记是设备不是分区，如&lt;/span&gt;&lt;span class="n"&gt;mmcblk0p1&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="err"&gt;或&lt;/span&gt;&lt;span class="n"&gt;sdb1&lt;/span&gt;&lt;span class="err"&gt;等为分区，&lt;/span&gt;&lt;span class="n"&gt;mmcblk0&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="n"&gt;sdb&lt;/span&gt;&lt;span class="err"&gt;为设备&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;这样即可获得这h,s,c这三个参数&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;第一分区的系统类型的十六进制代码，我已经查过了，可以告诉你是 c (W95 FAT32 (LBA))&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;有了这两个信息（虽然不知道为什么要这样设定h,s,c这三个信息），有兴趣的同学可以按照上述文章进行格式化。&lt;/p&gt;
+&lt;p&gt;注意注意！！首先，这些地方写的fdisk命令中，单位都是cylinder，而这是已经废弃了的单位，现在用的都是sector。所以这些文档的内容，都太太太老了，即使文章是新发的。其次，我也不知道为什么，反正我这样做完，没有用，fdisk可以格式化的的sd卡，却不能指定上述信息。所以在格式化完以后，我的开发板不能用这个sd卡启动，会出现这么几个错误：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;找不到sd卡&lt;/li&gt;
+&lt;li&gt;无法执行MLO&lt;/li&gt;
+&lt;li&gt;执行MLO，找不到分区表&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;我还是想不通为什么，反正我这样做没有用，不知道他们是怎么做到的，能成功引导。
+我很奇怪，这么这么多人都用了这个方法并写了出来，为什么我就是做不成功？&lt;/p&gt;
+&lt;h4&gt;开始格式化sd卡&lt;/h4&gt;
+&lt;p&gt;我的解决方案是：使用sfdisk，另一个分区程序。用&lt;em&gt;man&lt;/em&gt;得到的这两个程序的信息差不多，但是fdisk的界面要友好很多，操作也简单，只是，没用。sfdisk的用户界面和操作恶心到了极致，但是将就一下能给我把活干了。&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;
+&lt;p&gt;在命令行内执行如下命令，清除sd卡开头的1024个字节（这里似乎存放的分区表，fdisk和sfdisk都不会清除那块信息，但是如果不清空，还是有问题）&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="n"&gt;sudo&lt;/span&gt; &lt;span class="n"&gt;dd&lt;/span&gt; &lt;span class="k"&gt;if&lt;/span&gt;&lt;span class="o"&gt;=/&lt;/span&gt;&lt;span class="n"&gt;dev&lt;/span&gt;&lt;span class="o"&gt;/&lt;/span&gt;&lt;span class="n"&gt;zero&lt;/span&gt; &lt;span class="n"&gt;of&lt;/span&gt;&lt;span class="o"&gt;=/&lt;/span&gt;&lt;span class="n"&gt;dev&lt;/span&gt;&lt;span class="o"&gt;/&lt;/span&gt;&lt;span class="n"&gt;mmcblk0&lt;/span&gt; &lt;span class="n"&gt;bs&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="mi"&gt;1024&lt;/span&gt; &lt;span class="n"&gt;count&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="mi"&gt;1024&lt;/span&gt; &lt;span class="err"&gt;#&lt;/span&gt;&lt;span class="n"&gt;of&lt;/span&gt;&lt;span class="err"&gt;后换成你的设备&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;执行命令，其中h，s，c为上一步说的信息，请提前算好。-D表示支持dos方式。因为要格式的双分区，第一个分区是fat格式的。&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt; &lt;span class="n"&gt;sudo&lt;/span&gt; &lt;span class="n"&gt;sfdisk&lt;/span&gt; &lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="n"&gt;D&lt;/span&gt; &lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="n"&gt;H&lt;/span&gt; &lt;span class="mi"&gt;255&lt;/span&gt; &lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="n"&gt;S&lt;/span&gt; &lt;span class="mi"&gt;63&lt;/span&gt; &lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="n"&gt;C&lt;/span&gt; &lt;span class="mi"&gt;243&lt;/span&gt; &lt;span class="o"&gt;/&lt;/span&gt;&lt;span class="n"&gt;dev&lt;/span&gt;&lt;span class="o"&gt;/&lt;/span&gt;&lt;span class="n"&gt;mmcblk0&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;这时应该会提示找不到分区（第一步已经清除了），并让你输入分区信息。这里会需要设定四个分区。我们只要前两个分区把空间填满，后两个设置为empty就好了。输入如下&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="mi"&gt;0&lt;/span&gt; &lt;span class="mi"&gt;9&lt;/span&gt; &lt;span class="n"&gt;c&lt;/span&gt; &lt;span class="o"&gt;*&lt;/span&gt; &lt;span class="err"&gt;回车&lt;/span&gt;      
+&lt;span class="mi"&gt;9&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="err"&gt;你的&lt;/span&gt;&lt;span class="n"&gt;c&lt;/span&gt;&lt;span class="err"&gt;数&lt;/span&gt;&lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="mi"&gt;9&lt;/span&gt;&lt;span class="err"&gt;）&lt;/span&gt; &lt;span class="n"&gt;L&lt;/span&gt; &lt;span class="err"&gt;回车&lt;/span&gt;          
+&lt;span class="err"&gt;回车&lt;/span&gt;           
+&lt;span class="err"&gt;回车&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;解释：此处输入格式为起始柱面，柱面数，系统类型，是否可启动。第一个分区用于引导启动，大小不用太大，于是给了9个柱面的空间，c表示fat32（见上一块），*表示可引导启动。第二个分区使用剩下所有空间，系统类型为Linux。其余的均为空&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;这样设置完后，会提示是否写入，输入y即可完成设置，得到两个分区mmcblk0p1,mmcblk0p2。如果用USB口的读卡器，则可能是sdb1,sdb2。&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;输入以下命令，将两个分区格式化。&lt;em&gt;mkfs.vfat&lt;/em&gt;用于格式化fat系列分区，&lt;em&gt;-F 32&lt;/em&gt;指定分区表为32位。&lt;em&gt;-n&lt;/em&gt; 给分区起名字为boot。&lt;em&gt;mkfs.ext3&lt;/em&gt;用于格式化ext3分区，&lt;em&gt;-L&lt;/em&gt; 也是起名字(我叫它 linux_fs）&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="n"&gt;sudo&lt;/span&gt; &lt;span class="n"&gt;mkfs&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;vfat&lt;/span&gt; &lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="n"&gt;F&lt;/span&gt; &lt;span class="mi"&gt;32&lt;/span&gt; &lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="n"&gt;n&lt;/span&gt; &lt;span class="n"&gt;boot&lt;/span&gt; &lt;span class="o"&gt;/&lt;/span&gt;&lt;span class="n"&gt;dev&lt;/span&gt;&lt;span class="o"&gt;/&lt;/span&gt;&lt;span class="n"&gt;mmcblk0p1&lt;/span&gt;          
+&lt;span class="n"&gt;sudo&lt;/span&gt; &lt;span class="n"&gt;mkfs&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;ext3&lt;/span&gt; &lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="n"&gt;L&lt;/span&gt; &lt;span class="n"&gt;linux_fs&lt;/span&gt; &lt;span class="o"&gt;/&lt;/span&gt;&lt;span class="n"&gt;dev&lt;/span&gt;&lt;span class="o"&gt;/&lt;/span&gt;&lt;span class="n"&gt;mmcblk0p2&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;至此，最令人头疼的部分就解决了。&lt;/p&gt;
+&lt;p&gt;在头疼这么久以后，我发现&lt;a href="http://git.openembedded.org/openembedded/tree/contrib/angstrom/omap3-mkcard.sh"&gt;这里&lt;/a&gt;有一个脚本可以很好的做完这些事情，只要以管理员身份执行，并将你的设备路径作为第一个参数即可。&lt;/p&gt;
+&lt;h2&gt;安装系统&lt;/h2&gt;
+&lt;h3&gt;安装Linux&lt;/h3&gt;
+&lt;ol&gt;
+&lt;li&gt;挂载SD卡&lt;/li&gt;
+&lt;li&gt;在&lt;a href="https://gforge.ti.com/gf/download/frsrelease/387/4170/L24.9-PandaBoard_minimal-fs.tar.gz"&gt;这里&lt;/a&gt;下载linux最小系统，并解压缩（可能需要sudo）。&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;把其中的&lt;em&gt;boot&lt;/em&gt;文件夹下的&lt;em&gt;MLO&lt;/em&gt;，&lt;em&gt;u-boot.bin&lt;/em&gt;,&lt;em&gt;uImage&lt;/em&gt;复制进boot分区&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="n"&gt;sudo&lt;/span&gt; &lt;span class="n"&gt;cp&lt;/span&gt; &lt;span class="n"&gt;boot&lt;/span&gt;&lt;span class="o"&gt;/*&lt;/span&gt; &lt;span class="o"&gt;/&lt;/span&gt;&lt;span class="n"&gt;media&lt;/span&gt;&lt;span class="o"&gt;/&lt;/span&gt;&lt;span class="n"&gt;boot&lt;/span&gt;&lt;span class="o"&gt;/&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;把&lt;em&gt;angstrom_minimal-fs&lt;/em&gt;内的文件和文件夹复制进第二个分区 &lt;em&gt;linux_fs&lt;/em&gt; （可能需要sudo）&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="n"&gt;sudo&lt;/span&gt; &lt;span class="n"&gt;cp&lt;/span&gt; &lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="n"&gt;rf&lt;/span&gt; &lt;span class="n"&gt;angstrom&lt;/span&gt;&lt;span class="o"&gt;/*&lt;/span&gt; &lt;span class="o"&gt;/&lt;/span&gt;&lt;span class="n"&gt;media&lt;/span&gt;&lt;span class="o"&gt;/&lt;/span&gt;&lt;span class="n"&gt;linux_fs&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;刷新文件缓冲，确认文件都已经复制进去（如果不执行这句，有可能文件没拷进分区内）&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="n"&gt;sync&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;把卡插进开发板，开机实验吧！&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ol&gt;
+&lt;h3&gt;安装Android&lt;/h3&gt;
+&lt;p&gt;其实方法都一样，只是格式化的时候建议把第二个分区名字改成类似android_fs之类的好认的名字，并且在&lt;a href="http://code.google.com/p/pandroid/downloads/list"&gt;这里&lt;/a&gt;下载android文件系统，其余操作同上。&lt;/p&gt;</description><dc:creator xmlns:dc="http://purl.org/dc/elements/1.1/">清风未明</dc:creator><pubDate>Mon, 13 Feb 2012 12:33:00 +0800</pubDate><guid>tag:,2012-02-13:wei-omap4430an-zhuang-linuxandroidxi-tong.html</guid><category>Codes</category><category>嵌入式</category><category>Linux</category></item><item><title>"OMAP4430 开发环境配置手记"</title><link>/omap4430-kai-fa-huan-jing-pei-zhi-shou-ji.html</link><description>&lt;p&gt;由于学习的内容与嵌入式开发有关，所以在这里记录一下学习过程。这次为开箱后的开发环境配置。&lt;/p&gt;
+&lt;p&gt;我这块OMAP4430开发板配双核Cortex-A9处理器，运行系统为Ubuntu，具体信息见&lt;a href="http://pandaboard.org/"&gt;官网PandaBoard&lt;/a&gt;。&lt;/p&gt;
+&lt;p&gt;我的计算机环境：Linux Mint 12&lt;/p&gt;
+&lt;h1&gt;安装GCC交叉编译环境&lt;/h1&gt;
+&lt;h2&gt;通过软件包管理器自动安装&lt;/h2&gt;
+&lt;p&gt;打开新立得包管理器，搜索_binutils-arm-linux-gnueabi_，选中以下软件包：  &lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;binutils-arm-linux-gnueabi&lt;/li&gt;
+&lt;li&gt;g++-arm-linux-gnueabi&lt;/li&gt;
+&lt;li&gt;gcc-arm-linux-gnueabi&lt;/li&gt;
+&lt;li&gt;cpp-arm-linux-gnueabi&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2&gt;自己下载，手动安装&lt;/h2&gt;
+&lt;ul&gt;
+&lt;li&gt;在&lt;a href="http://blog.chinaunix.net/link.php?url=http://www.codesourcery.com%2Fsgpp%2Flite%2Farm%2Fportal%2Frelease1293"&gt;这里&lt;/a&gt;下载最新的&lt;em&gt;ARM-GCC交叉编译器&lt;/em&gt;&lt;/li&gt;
+&lt;li&gt;将压缩包解压到某个位置（可以改个名字，这个文件名太长了。如我这里放在~/develop/arm-linux-gnueabi）&lt;/li&gt;
+&lt;/ul&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt; tar xvf arm-2010q1-202-arm-none-linux-gnueabi-i686-pc-linux-gnu.tar.bz2
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;ul&gt;
+&lt;li&gt;将其中的&lt;em&gt;bin&lt;/em&gt;文件夹加入环境变量&lt;/li&gt;
+&lt;/ul&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt; vim .bashrc &lt;span class="c"&gt;#打开配置文件，加入如下内容&lt;/span&gt;
+ PATH+&lt;span class="o"&gt;=&lt;/span&gt;:~/develop/arm-linux-gnueabi/bin &lt;span class="c"&gt;#切记加上：以和其他路径分开&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;ul&gt;
+&lt;li&gt;保存重启&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;安装完成以后，在终端里运行：&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;arm-linux-gnueabi-g++ -mcpu&lt;span class="o"&gt;=&lt;/span&gt;cortex-a9 -mfpu&lt;span class="o"&gt;=&lt;/span&gt;neon test.cpp -o &lt;span class="nb"&gt;test&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;编译成功说明环境已经安装好了，可得到&lt;em&gt;test&lt;/em&gt;文件&lt;/p&gt;
+&lt;h3&gt;一些指令&lt;/h3&gt;
+&lt;p&gt;&lt;a href="http://gcc.gnu.org/onlinedocs/gcc/ARM-Options.html"&gt;这里&lt;/a&gt;有GCC关于ARM的全部指令&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;em&gt;-mcpu=&lt;/em&gt; 指定目标机的类型，可以选择类似cortex-a9,arm7tdmi等各种型号，只要确定你的GCC支持。我的是corte-a9&lt;/li&gt;
+&lt;li&gt;&lt;em&gt;-mfpu=&lt;/em&gt; 选择浮点运算设备，我的开发板有neon&lt;/li&gt;
+&lt;li&gt;&lt;em&gt;-o&lt;/em&gt; 指定编译结果名称&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h1&gt;运行测试程序&lt;/h1&gt;
+&lt;ul&gt;
+&lt;li&gt;插好鼠标键盘，接电开机。以前使用的开发板需要用串口和PC机相连，板子通过PC终端来控制，并输出信息，所以需要配置&lt;em&gt;minicom&lt;/em&gt;来访问串口。但是这块板子在解压缩Linux内核后就不再向串口输出信息，也无法通过串口输入指令，所以接不接串口都无所谓。  &lt;/li&gt;
+&lt;li&gt;在开发板中运行测试程序，可以通过配置TFTP或NFS的方式，也可以用可移动设备拷进去。我用的是后者，将test文件拷入U盘。但是板上的Ubuntu不能自动挂载U盘。所以：  &lt;/li&gt;
+&lt;li&gt;打开开发板的终端，输入如下指令：&lt;/li&gt;
+&lt;/ul&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;ls /dev | grep sda  &lt;span class="c"&gt;#察看是否已经识别U盘，如果结果里没有类似sda1的字样，请检查U盘是否连接好了&lt;/span&gt;
+sudo mkdir /media/usb
+sudo mount -t vfat -o rw /dev/sda /media/usb
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;ul&gt;
+&lt;li&gt;这时U盘应该已经挂载到&lt;em&gt;/media/usb&lt;/em&gt;，进入该目录，运行测试程序&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3&gt;mount指令的一些参数&lt;/h3&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;em&gt;mount&lt;/em&gt;的字面解释为：用某方式把某设备或文件挂载到某目录下&lt;/li&gt;
+&lt;li&gt;&lt;em&gt;-t&lt;/em&gt; 选择要挂载的文件系统，如ntfs(NTFS),vfat(FAT32),iso9660(光盘)&lt;/li&gt;
+&lt;li&gt;&lt;em&gt;-o&lt;/em&gt; 选择设备的挂载方式，如rw(可读可写),ro(只读),loop(挂载的是文件)&lt;/li&gt;
+&lt;/ul&gt;</description><dc:creator xmlns:dc="http://purl.org/dc/elements/1.1/">清风未明</dc:creator><pubDate>Thu, 09 Feb 2012 15:25:00 +0800</pubDate><guid>tag:,2012-02-09:omap4430-kai-fa-huan-jing-pei-zhi-shou-ji.html</guid><category>Codes</category><category>嵌入式</category><category>Linux</category></item><item><title>"配置博客的时候碰到的一些问题"</title><link>/pei-zhi-bo-ke-de-shi-hou-peng-dao-de-xie-wen-ti.html</link><description>&lt;p&gt;我在配置这个博客的时候遇到了各种各样的问题，在这里分享一下
+最初我按照 &lt;a href="http://http://dangfan.me/"&gt;DF大牛牛&lt;/a&gt;的博客，以及&lt;a href="http://jekyllbootstrap.com"&gt;jekyllbootstrap&lt;/a&gt;提供的教程配置,但是没有成功，出现了各种各种的问题，实在无法解决，只好作罢。比如：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;bundle install的时候显示安装了某某，运行的时候提示找不到某某&lt;/li&gt;
+&lt;li&gt;不sudo执行命令说没有权限，sudo执行说没有该命令&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;接着我按照&lt;a href="http://octopress.org/docs/setup/"&gt;Octopress&lt;/a&gt;提供的教程一步一步的做。发现:&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;
+&lt;p&gt;我用&lt;em&gt;apt-get&lt;/em&gt;安装的ruby环境不能用，在每一步都会出问题，上一段说的问题应该就是这个缘故。&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;于是我使用&lt;em&gt;rvm&lt;/em&gt;管理版本。首先卸载掉之前&lt;em&gt;apt-get&lt;/em&gt;装的一切ruby有关的内容，然后用rvm重新安装，见&lt;a href="http://octopress.org/docs/setup/"&gt;Octopress&lt;/a&gt;,在这里按说明安装好ruby,gem,bundle等包&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;官网上说使用&lt;em&gt;rake&lt;/em&gt;，但是在依赖安装完之后我并没有rake可以使用，linux提示使用apt-get，但是这里如果用了就会出问题。原因见1. 网上有人说可以gem install rake，于是我就这么做了。结果是，依然错误。&lt;em&gt;gem install&lt;/em&gt; 装的rake 版本为0.9.2，它需要0.9。解决方法是，卸载掉它们，进.rvm/bin发现，有一个&lt;em&gt;rake-ruby-1.9.2-p290&lt;/em&gt; ,是ruby-1.9.2带的。用这个当rake，就可以继续进行了。&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;删掉&lt;em&gt;/source/_includes/custom/head.html&lt;/em&gt;中引用Google字体的部分，否则会因为GFW的问题导致博客访问速度极低&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;继续更新：
+如果碰到了这个问题：&lt;/p&gt;
+&lt;p&gt;ERROR:  Loading command: install (LoadError)
+      cannot load such file -- zlib&lt;/p&gt;
+&lt;p&gt;ERROR:  While executing gem ... (NameError)
+      uninitialized constant Gem::Commands::InstallCommand&lt;/p&gt;
+&lt;p&gt;就这样：&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;sudo apt-get install zlib1g-dev
+sudo apt-get install openssl
+sudo apt-get install libssl-dev
+sudo apt-get install libssl0.9.8
+&lt;span class="nb"&gt;cd&lt;/span&gt; /ext/openssl/
+ruby extconf.rb
+&lt;span class="nb"&gt;cd&lt;/span&gt; ../..
+make
+make install
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;应该就好了吧&lt;/p&gt;</description><dc:creator xmlns:dc="http://purl.org/dc/elements/1.1/">清风未明</dc:creator><pubDate>Wed, 08 Feb 2012 15:54:00 +0800</pubDate><guid>tag:,2012-02-08:pei-zhi-bo-ke-de-shi-hou-peng-dao-de-xie-wen-ti.html</guid><category>Boring</category><category>blog</category></item><item><title>Hello world!</title><link>/hello-world.html</link><description>&lt;p&gt;费了好大的劲，重装了无数次ruby环境，还重装了一次系统，终于把这个博客给弄好了，真是不容易啊！我要养成写博客的好习惯，记录下该记住的一些事情，方便我的学习。&lt;/p&gt;
+&lt;p&gt;这个系统真是不错，代码块高亮自动就有了&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="cp"&gt;#include&amp;lt;iostream&amp;gt;&lt;/span&gt;
+&lt;span class="k"&gt;using&lt;/span&gt; &lt;span class="k"&gt;namespace&lt;/span&gt; &lt;span class="n"&gt;std&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+&lt;span class="kt"&gt;int&lt;/span&gt; &lt;span class="nf"&gt;main&lt;/span&gt;&lt;span class="p"&gt;()&lt;/span&gt;
+&lt;span class="p"&gt;{&lt;/span&gt;
+    &lt;span class="n"&gt;cout&lt;/span&gt;&lt;span class="o"&gt;&amp;lt;&amp;lt;&lt;/span&gt;&lt;span class="s"&gt;&amp;quot;Hello&amp;quot;&lt;/span&gt;&lt;span class="o"&gt;&amp;lt;&amp;lt;&lt;/span&gt;&lt;span class="n"&gt;endl&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+    &lt;span class="k"&gt;return&lt;/span&gt; &lt;span class="mi"&gt;0&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+&lt;span class="p"&gt;}&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;</description><dc:creator xmlns:dc="http://purl.org/dc/elements/1.1/">清风未明</dc:creator><pubDate>Wed, 08 Feb 2012 00:00:00 +0800</pubDate><guid>tag:,2012-02-08:hello-world.html</guid><category>Boring</category><category>blog</category></item></channel></rss>

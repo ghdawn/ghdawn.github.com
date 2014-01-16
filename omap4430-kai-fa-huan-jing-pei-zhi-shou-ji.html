@@ -1,0 +1,358 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <title>"OMAP4430 开发环境配置手记"</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="">
+    <meta name="author" content="清风未明">
+
+    <!-- Le styles -->
+    <link rel="stylesheet" href="./theme/css/bootstrap.min.css" type="text/css" />
+    <style type="text/css">
+      body {
+        padding-top: 60px;
+        padding-bottom: 40px;
+      }
+      .sidebar-nav {
+        padding: 9px 0;
+      }
+      .tag-1 {
+        font-size: 13pt;
+      }
+      .tag-2 {
+        font-size: 10pt;
+      }
+      .tag-2 {
+        font-size: 8pt;
+      }
+      .tag-4 {
+        font-size: 6pt;
+     }
+    </style>
+    <link href="./theme/css/bootstrap-responsive.min.css" rel="stylesheet">
+        <link href="./theme/css/font-awesome.css" rel="stylesheet">
+
+    <link href="./theme/css/pygments.css" rel="stylesheet">
+
+    <!-- Le HTML5 shim, for IE6-8 support of HTML5 elements -->
+    <!--[if lt IE 9]>
+      <script src="//html5shim.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+
+    <!-- Le fav and touch icons -->
+    <link rel="shortcut icon" href="./theme/images/favicon.ico">
+    <link rel="apple-touch-icon" href="./theme/images/apple-touch-icon.png">
+    <link rel="apple-touch-icon" sizes="72x72" href="./theme/images/apple-touch-icon-72x72.png">
+    <link rel="apple-touch-icon" sizes="114x114" href="./theme/images/apple-touch-icon-114x114.png">
+
+    <link href="./" type="application/atom+xml" rel="alternate" title="记录 ATOM Feed" />
+    <link href="./feeds/all.rss.xml" type="application/atom+xml" rel="alternate" title="记录 RSS Feed" />
+    
+    <script type= "text/javascript">
+        var s = document.createElement('script');
+        s.type = 'text/javascript';
+        s.src = 'https:' == document.location.protocol ? 'https://c328740.ssl.cf1.rackcdn.com/mathjax/latest/MathJax.js' : 'http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML'; 
+        s[(window.opera ? "innerHTML" : "text")] =
+            "MathJax.Hub.Config({" + 
+            "    config: ['MMLorHTML.js']," + 
+            "    jax: ['input/TeX','input/MathML','output/HTML-CSS','output/NativeMML']," +
+            "    TeX: { extensions: ['AMSmath.js','AMSsymbols.js','noErrors.js','noUndefined.js'], equationNumbers: { autoNumber: 'AMS' } }," + 
+            "    extensions: ['tex2jax.js','mml2jax.js','MathMenu.js','MathZoom.js']," +
+            "    tex2jax: { " +
+            "        inlineMath: [ ['$','$'] ], " +
+            "        displayMath: [ ['$$','$$'] ]," +
+            "        processEscapes: true }, " +
+            "    'HTML-CSS': { " +
+            "        styles: { '.MathJax .mo, .MathJax .mi': {color: 'black ! important'}} " +
+            "    } " +
+            "}); ";
+        (document.body || document.getElementsByTagName('head')[0]).appendChild(s);
+    </script>
+
+  </head>
+
+  <body>
+
+    <div class="navbar navbar-fixed-top">
+      <div class="navbar-inner">
+        <div class="container-fluid">
+          <a class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </a>
+          <a class="brand" href="./index.html">记录 </a>
+          <div class="nav-collapse">
+            <ul class="nav">
+                          <li class="divider-vertical"></li>
+                  <li >
+                    <a href="./category/life.html">
+						<i class="icon-folder-open icon-large"></i>Life
+					</a>
+                  </li>
+                  <li class="active">
+                    <a href="./category/study.html">
+						<i class="icon-folder-open icon-large"></i>Study
+					</a>
+                  </li>
+
+                          <ul class="nav pull-right">
+                                <li><a href="./archives.html"><i class="icon-th-list"></i>Archives</a></li>
+                          </ul>
+
+            </ul>
+            <!--<p class="navbar-text pull-right">Logged in as <a href="#">username</a></p>-->
+          </div><!--/.nav-collapse -->
+        </div>
+      </div>
+    </div>
+
+    <div class="container-fluid">
+      <div class="row">
+        <div class="span9" id="content">
+<section id="content">
+        <article>
+                <header>
+                        <h1>
+                                <a href=""
+                                        rel="bookmark"
+                                        title="Permalink to "OMAP4430 开发环境配置手记"">
+                                        "OMAP4430 开发环境配置手记"
+                                </a>
+                        </h1>
+                </header>
+                <div class="entry-content">
+                <div class="well">
+<footer class="post-info">
+<span class="label">Date</span>
+<abbr class="published" title="2012-02-09T15:25:00">
+        <i class="icon-calendar"></i>四 09 二月 2012
+</abbr>
+<span class="label">By</span>
+<a href="./author/qing-feng-wei-ming.html"><i class="icon-user"></i>清风未明</a>
+<span class="label">Category</span>
+<a href="./category/study.html"><i class="icon-folder-open"></i>Study</a>.
+
+
+<span class="label">Tags</span>
+	<a href="./tag/codes.html"><i class="icon-tag"></i>Codes</a>
+	<a href="./tag/qian-ru-shi.html"><i class="icon-tag"></i>嵌入式</a>
+	<a href="./tag/linux.html"><i class="icon-tag"></i>Linux</a>
+</footer><!-- /.post-info -->                </div>
+                <p>由于学习的内容与嵌入式开发有关，所以在这里记录一下学习过程。这次为开箱后的开发环境配置。</p>
+<p>我这块OMAP4430开发板配双核Cortex-A9处理器，运行系统为Ubuntu，具体信息见<a href="http://pandaboard.org/">官网PandaBoard</a>。</p>
+<p>我的计算机环境：Linux Mint 12</p>
+<h1>安装GCC交叉编译环境</h1>
+<h2>通过软件包管理器自动安装</h2>
+<p>打开新立得包管理器，搜索_binutils-arm-linux-gnueabi_，选中以下软件包：  </p>
+<ul>
+<li>binutils-arm-linux-gnueabi</li>
+<li>g++-arm-linux-gnueabi</li>
+<li>gcc-arm-linux-gnueabi</li>
+<li>cpp-arm-linux-gnueabi</li>
+</ul>
+<h2>自己下载，手动安装</h2>
+<ul>
+<li>在<a href="http://blog.chinaunix.net/link.php?url=http://www.codesourcery.com%2Fsgpp%2Flite%2Farm%2Fportal%2Frelease1293">这里</a>下载最新的<em>ARM-GCC交叉编译器</em></li>
+<li>将压缩包解压到某个位置（可以改个名字，这个文件名太长了。如我这里放在~/develop/arm-linux-gnueabi）</li>
+</ul>
+<div class="highlight"><pre> tar xvf arm-2010q1-202-arm-none-linux-gnueabi-i686-pc-linux-gnu.tar.bz2
+</pre></div>
+
+
+<ul>
+<li>将其中的<em>bin</em>文件夹加入环境变量</li>
+</ul>
+<div class="highlight"><pre> vim .bashrc <span class="c">#打开配置文件，加入如下内容</span>
+ PATH+<span class="o">=</span>:~/develop/arm-linux-gnueabi/bin <span class="c">#切记加上：以和其他路径分开</span>
+</pre></div>
+
+
+<ul>
+<li>保存重启</li>
+</ul>
+<p>安装完成以后，在终端里运行：</p>
+<div class="highlight"><pre>arm-linux-gnueabi-g++ -mcpu<span class="o">=</span>cortex-a9 -mfpu<span class="o">=</span>neon test.cpp -o <span class="nb">test</span>
+</pre></div>
+
+
+<p>编译成功说明环境已经安装好了，可得到<em>test</em>文件</p>
+<h3>一些指令</h3>
+<p><a href="http://gcc.gnu.org/onlinedocs/gcc/ARM-Options.html">这里</a>有GCC关于ARM的全部指令</p>
+<ul>
+<li><em>-mcpu=</em> 指定目标机的类型，可以选择类似cortex-a9,arm7tdmi等各种型号，只要确定你的GCC支持。我的是corte-a9</li>
+<li><em>-mfpu=</em> 选择浮点运算设备，我的开发板有neon</li>
+<li><em>-o</em> 指定编译结果名称</li>
+</ul>
+<h1>运行测试程序</h1>
+<ul>
+<li>插好鼠标键盘，接电开机。以前使用的开发板需要用串口和PC机相连，板子通过PC终端来控制，并输出信息，所以需要配置<em>minicom</em>来访问串口。但是这块板子在解压缩Linux内核后就不再向串口输出信息，也无法通过串口输入指令，所以接不接串口都无所谓。  </li>
+<li>在开发板中运行测试程序，可以通过配置TFTP或NFS的方式，也可以用可移动设备拷进去。我用的是后者，将test文件拷入U盘。但是板上的Ubuntu不能自动挂载U盘。所以：  </li>
+<li>打开开发板的终端，输入如下指令：</li>
+</ul>
+<div class="highlight"><pre>ls /dev | grep sda  <span class="c">#察看是否已经识别U盘，如果结果里没有类似sda1的字样，请检查U盘是否连接好了</span>
+sudo mkdir /media/usb
+sudo mount -t vfat -o rw /dev/sda /media/usb
+</pre></div>
+
+
+<ul>
+<li>这时U盘应该已经挂载到<em>/media/usb</em>，进入该目录，运行测试程序</li>
+</ul>
+<h3>mount指令的一些参数</h3>
+<ul>
+<li><em>mount</em>的字面解释为：用某方式把某设备或文件挂载到某目录下</li>
+<li><em>-t</em> 选择要挂载的文件系统，如ntfs(NTFS),vfat(FAT32),iso9660(光盘)</li>
+<li><em>-o</em> 选择设备的挂载方式，如rw(可读可写),ro(只读),loop(挂载的是文件)</li>
+</ul>
+                </div><!-- /.entry-content -->
+                <div class="comments">
+                <h2>Comments !</h2>
+                        <div id="disqus_thread"></div>
+                        <script type="text/javascript">
+                           var disqus_identifier = "omap4430-kai-fa-huan-jing-pei-zhi-shou-ji.html";
+                           (function() {
+                                var dsq = document.createElement('script');
+                                dsq.type = 'text/javascript'; dsq.async = true;
+                                dsq.src = 'http://ghdawn.disqus.com/embed.js';
+                                (document.getElementsByTagName('head')[0] ||
+                                 document.getElementsByTagName('body')[0]).appendChild(dsq);
+                          })();
+                        </script>
+                </div>
+        </article>
+</section>
+        </div><!--/span-->
+
+                <div class="span3 well sidebar-nav" id="sidebar">
+<ul class="nav nav-list">
+<li class="nav-header"><h4><i class="icon-external-link"></i>blogroll</h4></li>
+    <li><a href="https://dangfan.me/zhs"><i class="icon-external-link"></i>DFDNN</a></li>
+    <li><a href="http://dumbear.com/"><i class="icon-external-link"></i>Dumbear</a></li>
+    <li><a href="http://www.tomtung.com/"><i class="icon-external-link"></i>逆铭</a></li>
+<li class="nav-header"><h4><i class="icon-home icon-large"></i> social</h4></li>
+<li><a href="./" rel="alternate"><i class="icon-bookmark icon-large"></i>atom feed</a></li>
+<li><a href="./feeds/all.rss.xml" rel="alternate"><i class="icon-bookmark icon-large"></i>rss feed</a></li>
+    <li><a href="https://github.com/ghdawn"><i class="icon-github-sign icon-large"></i>github</a></li>
+    <li><a href="http://fanfou.com/home"><i class="icon-饭否-sign icon-large"></i>饭否</a></li>
+
+<li class="nav-header"><h4><i class="icon-folder-close icon-large"></i>Categories</h4></li>
+<li>
+<a href="./category/life.html">
+    <i class="icon-folder-open icon-large"></i>Life
+</a>
+</li>
+<li>
+<a href="./category/study.html">
+    <i class="icon-folder-open icon-large"></i>Study
+</a>
+</li>
+
+<li class="nav-header"><h4><i class="icon-tags icon-large"></i>Tags</h4></li>
+<li class="tag-4">
+    <a href="./tag/automatic.html">
+        <i class="icon-tag icon-large"></i>automatic
+    </a>
+</li>
+<li class="tag-1">
+    <a href="./tag/codes.html">
+        <i class="icon-tag icon-large"></i>Codes
+    </a>
+</li>
+<li class="tag-3">
+    <a href="./tag/opencv.html">
+        <i class="icon-tag icon-large"></i>OpenCV
+    </a>
+</li>
+<li class="tag-4">
+    <a href="./tag/ji-qi-xue-xi.html">
+        <i class="icon-tag icon-large"></i>机器学习
+    </a>
+</li>
+<li class="tag-2">
+    <a href="./tag/blog.html">
+        <i class="icon-tag icon-large"></i>blog
+    </a>
+</li>
+<li class="tag-1">
+    <a href="./tag/linux.html">
+        <i class="icon-tag icon-large"></i>Linux
+    </a>
+</li>
+<li class="tag-2">
+    <a href="./tag/boring.html">
+        <i class="icon-tag icon-large"></i>Boring
+    </a>
+</li>
+<li class="tag-2">
+    <a href="./tag/qian-ru-shi.html">
+        <i class="icon-tag icon-large"></i>嵌入式
+    </a>
+</li>
+<li class="tag-4">
+    <a href="./tag/matlab.html">
+        <i class="icon-tag icon-large"></i>matlab
+    </a>
+</li>
+<li class="tag-2">
+    <a href="./tag/android.html">
+        <i class="icon-tag icon-large"></i>Android
+    </a>
+</li>
+<li class="tag-4">
+    <a href="./tag/life.html">
+        <i class="icon-tag icon-large"></i>life
+    </a>
+</li>
+<li class="tag-3">
+    <a href="./tag/kao-yan.html">
+        <i class="icon-tag icon-large"></i>考研
+    </a>
+</li>
+
+
+</ul>        </div><!--/.well -->
+
+      </div><!--/row-->
+
+      <hr>
+
+      <footer>
+        <address id="about">
+                Proudly powered by <a href="http://pelican.notmyidea.org/">Pelican <i class="icon-external-link"></i></a>,
+                                which takes great advantage of <a href="http://python.org">Python <i class="icon-external-link"></i></a>.
+        </address><!-- /#about -->
+
+        <p>The theme is from <a href="http://twitter.github.com/bootstrap/">Bootstrap from Twitter <i class="icon-external-link"></i></a>,
+                   and <a href="http://fortawesome.github.com/Font-Awesome/">Font-Awesome <i class="icon-external-link"></i></a>, thanks!</p>
+      </footer>
+
+    </div><!--/.fluid-container-->
+
+
+<script type="text/javascript">
+var gaJsHost = (("https:" == document.location.protocol) ? "https://ssl." : "http://www.");
+document.write(unescape("%3Cscript src='" + gaJsHost + "google-analytics.com/ga.js' type='text/javascript'%3E%3C/script%3E"));
+</script>
+<script type="text/javascript">
+try {
+	var pageTracker = _gat._getTracker("UA-29027763-1");
+pageTracker._trackPageview();
+} catch(err) {}</script>
+<script type="text/javascript">
+    var disqus_shortname = 'ghdawn';
+    (function () {
+        var s = document.createElement('script'); s.async = true;
+        s.type = 'text/javascript';
+        s.src = 'http://' + disqus_shortname + '.disqus.com/count.js';
+        (document.getElementsByTagName('HEAD')[0] || document.getElementsByTagName('BODY')[0]).appendChild(s);
+    }());
+</script>
+
+    <!-- Le javascript -->
+    <!-- Placed at the end of the document so the pages load faster -->
+    <script src="./theme/js/jquery-1.7.2.min.js"></script>
+    <script src="./theme/js/bootstrap.min.js"></script>
+  </body>
+</html>

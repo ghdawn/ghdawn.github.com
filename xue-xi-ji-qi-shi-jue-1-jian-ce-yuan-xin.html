@@ -1,0 +1,591 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <title>"学习机器视觉1--检测圆心"</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="">
+    <meta name="author" content="清风未明">
+
+    <!-- Le styles -->
+    <link rel="stylesheet" href="./theme/css/bootstrap.min.css" type="text/css" />
+    <style type="text/css">
+      body {
+        padding-top: 60px;
+        padding-bottom: 40px;
+      }
+      .sidebar-nav {
+        padding: 9px 0;
+      }
+      .tag-1 {
+        font-size: 13pt;
+      }
+      .tag-2 {
+        font-size: 10pt;
+      }
+      .tag-2 {
+        font-size: 8pt;
+      }
+      .tag-4 {
+        font-size: 6pt;
+     }
+    </style>
+    <link href="./theme/css/bootstrap-responsive.min.css" rel="stylesheet">
+        <link href="./theme/css/font-awesome.css" rel="stylesheet">
+
+    <link href="./theme/css/pygments.css" rel="stylesheet">
+
+    <!-- Le HTML5 shim, for IE6-8 support of HTML5 elements -->
+    <!--[if lt IE 9]>
+      <script src="//html5shim.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+
+    <!-- Le fav and touch icons -->
+    <link rel="shortcut icon" href="./theme/images/favicon.ico">
+    <link rel="apple-touch-icon" href="./theme/images/apple-touch-icon.png">
+    <link rel="apple-touch-icon" sizes="72x72" href="./theme/images/apple-touch-icon-72x72.png">
+    <link rel="apple-touch-icon" sizes="114x114" href="./theme/images/apple-touch-icon-114x114.png">
+
+    <link href="./" type="application/atom+xml" rel="alternate" title="记录 ATOM Feed" />
+    <link href="./feeds/all.rss.xml" type="application/atom+xml" rel="alternate" title="记录 RSS Feed" />
+    
+    <script type= "text/javascript">
+        var s = document.createElement('script');
+        s.type = 'text/javascript';
+        s.src = 'https:' == document.location.protocol ? 'https://c328740.ssl.cf1.rackcdn.com/mathjax/latest/MathJax.js' : 'http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML'; 
+        s[(window.opera ? "innerHTML" : "text")] =
+            "MathJax.Hub.Config({" + 
+            "    config: ['MMLorHTML.js']," + 
+            "    jax: ['input/TeX','input/MathML','output/HTML-CSS','output/NativeMML']," +
+            "    TeX: { extensions: ['AMSmath.js','AMSsymbols.js','noErrors.js','noUndefined.js'], equationNumbers: { autoNumber: 'AMS' } }," + 
+            "    extensions: ['tex2jax.js','mml2jax.js','MathMenu.js','MathZoom.js']," +
+            "    tex2jax: { " +
+            "        inlineMath: [ ['$','$'] ], " +
+            "        displayMath: [ ['$$','$$'] ]," +
+            "        processEscapes: true }, " +
+            "    'HTML-CSS': { " +
+            "        styles: { '.MathJax .mo, .MathJax .mi': {color: 'black ! important'}} " +
+            "    } " +
+            "}); ";
+        (document.body || document.getElementsByTagName('head')[0]).appendChild(s);
+    </script>
+
+  </head>
+
+  <body>
+
+    <div class="navbar navbar-fixed-top">
+      <div class="navbar-inner">
+        <div class="container-fluid">
+          <a class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </a>
+          <a class="brand" href="./index.html">记录 </a>
+          <div class="nav-collapse">
+            <ul class="nav">
+                          <li class="divider-vertical"></li>
+                  <li >
+                    <a href="./category/life.html">
+						<i class="icon-folder-open icon-large"></i>Life
+					</a>
+                  </li>
+                  <li class="active">
+                    <a href="./category/study.html">
+						<i class="icon-folder-open icon-large"></i>Study
+					</a>
+                  </li>
+
+                          <ul class="nav pull-right">
+                                <li><a href="./archives.html"><i class="icon-th-list"></i>Archives</a></li>
+                          </ul>
+
+            </ul>
+            <!--<p class="navbar-text pull-right">Logged in as <a href="#">username</a></p>-->
+          </div><!--/.nav-collapse -->
+        </div>
+      </div>
+    </div>
+
+    <div class="container-fluid">
+      <div class="row">
+        <div class="span9" id="content">
+<section id="content">
+        <article>
+                <header>
+                        <h1>
+                                <a href=""
+                                        rel="bookmark"
+                                        title="Permalink to "学习机器视觉1--检测圆心"">
+                                        "学习机器视觉1--检测圆心"
+                                </a>
+                        </h1>
+                </header>
+                <div class="entry-content">
+                <div class="well">
+<footer class="post-info">
+<span class="label">Date</span>
+<abbr class="published" title="2012-03-18T16:12:00">
+        <i class="icon-calendar"></i>日 18 三月 2012
+</abbr>
+<span class="label">By</span>
+<a href="./author/qing-feng-wei-ming.html"><i class="icon-user"></i>清风未明</a>
+<span class="label">Category</span>
+<a href="./category/study.html"><i class="icon-folder-open"></i>Study</a>.
+
+
+<span class="label">Tags</span>
+	<a href="./tag/codes.html"><i class="icon-tag"></i>Codes</a>
+	<a href="./tag/opencv.html"><i class="icon-tag"></i>OpenCV</a>
+	<a href="./tag/linux.html"><i class="icon-tag"></i>Linux</a>
+</footer><!-- /.post-info -->                </div>
+                <h3>任务描述及环境</h3>
+<p>打开摄像头，识别出画面中的圆，并标出圆心，输出圆心的像空间坐标。<br />
+Intel(R) Core(TM)2 Duo CPU     T8100  @ 2.10GHz / 2GB<br />
+Linux Mint 12 （64bit）<br />
+OpenCV 2.3.1<br />
+Code Blocks 10.05  </p>
+<h3>用OpenCV从摄像头获取视频流</h3>
+<p>后来版本的OpenCV可以用C++的语法，从而去掉了指针，使用起来十分方便。</p>
+<p>所有视频流的操作都是通过<em>VideoCapture</em>类完成。可以通过给它的构造函数，或<em>open</em>函数传递参数完成打开视频的操作。其中如果参数为整数i，则打开第i个摄像头（如果存在的话）。如果参数是字符串，则认为是视频文件的路径。</p>
+<p><em>VideoCapture</em>重载了<em>&gt;&gt;</em>操作符，所以可以直接当输入流来用。或者使用<em>read(Mat&amp; image)</em>函数来读取也行。</p>
+<p>得到图片之后再用<em>imshow</em>就可以显示图片了。代码如下</p>
+<div class="highlight"><pre><span class="kt">int</span> <span class="nf">main</span><span class="p">(</span><span class="kt">int</span><span class="p">,</span> <span class="kt">char</span><span class="o">**</span><span class="p">)</span>
+<span class="p">{</span>
+    <span class="n">VideoCapture</span> <span class="n">cap</span><span class="p">(</span><span class="mi">0</span><span class="p">);</span> 
+    <span class="k">if</span><span class="p">(</span><span class="o">!</span><span class="n">cap</span><span class="p">.</span><span class="n">isOpened</span><span class="p">())</span> 
+        <span class="k">return</span> <span class="o">-</span><span class="mi">1</span><span class="p">;</span>
+
+    <span class="n">Mat</span> <span class="n">frame</span><span class="p">;</span>
+    <span class="n">namedWindow</span><span class="p">(</span><span class="s">&quot;frame&quot;</span><span class="p">,</span><span class="mi">1</span><span class="p">);</span>
+
+    <span class="k">while</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+    <span class="p">{</span>
+        <span class="n">cap</span> <span class="o">&gt;&gt;</span> <span class="n">frame</span><span class="p">;</span> <span class="c1">// get a new frame from camera</span>
+        <span class="n">imshow</span><span class="p">(</span><span class="s">&quot;frame&quot;</span><span class="p">,</span><span class="n">frame</span><span class="p">);</span>
+        <span class="k">if</span><span class="p">(</span><span class="n">waitKey</span><span class="p">(</span><span class="mi">30</span><span class="p">)</span> <span class="o">&gt;=</span> <span class="mi">0</span><span class="p">)</span> <span class="k">break</span><span class="p">;</span>
+    <span class="p">}</span>
+
+    <span class="k">return</span> <span class="mi">0</span><span class="p">;</span>
+<span class="p">}</span>
+</pre></div>
+
+
+<h3>用OpenCV的函数提取边界</h3>
+<p>这里我用的是<em>canny</em>算子提取边界。</p>
+<ul>
+<li>
+<p>将摄像头获得的图片转换成灰度图以方便以后运算。其实RGB图也是可以做的，但是由于我不需要颜色识别，只要找到图形就行了，所以用灰度图。</p>
+<div class="highlight"><pre><span class="n">cvtColor</span><span class="p">(</span><span class="n">frame</span><span class="p">,</span> <span class="n">edges</span><span class="p">,</span> <span class="n">CV_BGR2GRAY</span><span class="p">);</span>
+</pre></div>
+
+
+</li>
+<li>
+<p>进行滤波，去掉高频噪声的部分。任何图像可以看作是一个函数的图像，而我们需要的图形是静止，或者有慢速的移动。而图片中可能会出现各种噪声，是不稳定的。也就是说我们需要图像中低频的部分，而希望过滤掉高频的部分。所以需要滤波，也会让图像变得模糊一点。高斯滤波函数就是正态分布（高斯分布）的概率密度函数，将每一点及其周围的点做了加权平均，其中该点占的比重最大，周围越远比重越小，而各个方向的变化是均匀的。  </p>
+</li>
+</ul>
+<p>一维公式为：<img alt="高斯函数" src="http://upload.wikimedia.org/wikipedia/zh/math/7/4/a/74a7dd469476d59a561174131eca644e.png" />
+其函数图像为：<img alt="函数图像" src="http://upload.wikimedia.org/wikipedia/commons/thumb/1/1b/Normal_distribution_pdf.png/325px-Normal_distribution_pdf.png" /><br />
+我们的图像是二维的，所以用的是二维的高斯函数。详情请见维基百科的<a href="http://zh.wikipedia.org/wiki/%E9%AB%98%E6%96%AF%E6%A8%A1%E7%B3%8A">这里</a>，<a href="http://zh.wikipedia.org/wiki/%E6%AD%A3%E6%80%81%E5%88%86%E5%B8%83">这里</a>。<br />
+OpenCV的函数如下，其中第一个参数是源图片，第二个是目标图片，这两个可以相同。第三个参数是每一点模糊的范围，需要是正奇数。最后两个参数是联合分布的两个方差，方差越大，周围点占的比重越高，图片越模糊。</p>
+<div class="highlight"><pre>    <span class="n">GaussianBlur</span><span class="p">(</span><span class="n">edges</span><span class="p">,</span> <span class="n">edges</span><span class="p">,</span> <span class="n">Size</span><span class="p">(</span><span class="mi">7</span><span class="p">,</span><span class="mi">7</span><span class="p">),</span> <span class="mf">2.5</span><span class="p">,</span> <span class="mf">2.5</span><span class="p">);</span>
+</pre></div>
+
+
+<ul>
+<li>
+<p>用canny算子提取边界。canny算子主要通过计算图像中的亮度梯度来判定边界，我们需要给定两个阀值low,high（其实一个也行，但是不够灵活）。当某点的梯度大于 high的时候，确定是边界点。如果梯度小于low则不是边界点。如果在他们之间，则需要通过连通域内的其他点的一起判断。一般建议两个阀值的比例为2：1或者3：1。
+详情请见维基百科的<a href="http://zh.wikipedia.org/wiki/Canny%E7%AE%97%E5%AD%90">这里</a> <br />
+OpenCV的函数如下，前两个参数和高斯滤波一样，第3，4个参数分别是低，高阀值。canny函数中调用了Sobel方法计算微分，第5个参数就是给Sobel函数的，必须是1，3，5，7。</p>
+<div class="highlight"><pre><span class="n">Canny</span><span class="p">(</span><span class="n">edges</span><span class="p">,</span> <span class="n">edges</span><span class="p">,</span> <span class="mi">15</span><span class="p">,</span> <span class="mi">45</span><span class="p">,</span> <span class="mi">3</span><span class="p">);</span>
+</pre></div>
+
+
+</li>
+<li>
+<p>至此，<em>edges</em>对象里的图像就已经是二值化之后的边界图像了，可以用<em>imshow</em>显示察看。</p>
+</li>
+</ul>
+<h3>找到图像中的圆并标出圆心</h3>
+<p>这一部分最基本的算法就是种子染色法（FloodFill），OpenCV自带了这个方法，但是由于我以前实现过相关的算法，所以这里就不用OpenCV了，把自己写的贴过来直接用，反正算法也十分简单短小。</p>
+<ul>
+<li>在全图像范围扫描，搜索所有的<a href="http://zh.wikipedia.org/wiki/%E8%BF%9E%E9%80%9A%E5%9B%BE">连通分量</a>。 方法是搜索图像上的每一个点，如果该点未访问，并且该点为我探测到的边界点（边界检测后，图像已经被二值化了，边界点即其灰度值大于<em>maxvalue</em>点），则在该点开始染色。全图像染色结束后，可以通过对连通分量进行筛选，大概找到其中的圆。<em>room</em>代表当前搜索的连通分量的序号，<em>f数组</em>储存每个点的访问情况（值为0代表未访问，值为整数i代表该点属于第i个连通分量）代码如下</li>
+</ul>
+<div class="highlight"><pre><span class="c1">// find</span>
+<span class="kt">void</span> <span class="nf">search</span><span class="p">(</span><span class="n">Mat</span> <span class="o">&amp;</span> <span class="n">img_bin</span><span class="p">)</span>
+<span class="p">{</span>
+    <span class="c1">//  out(f);</span>
+    <span class="kt">int</span> <span class="n">room</span><span class="o">=</span><span class="mi">0</span><span class="p">;</span>
+    <span class="k">while</span><span class="p">(</span><span class="o">++</span><span class="n">room</span><span class="p">)</span>
+    <span class="p">{</span>
+        <span class="kt">int</span> <span class="n">x</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span><span class="n">y</span><span class="o">=</span><span class="mi">0</span><span class="p">;</span>
+        <span class="k">for</span><span class="p">(</span><span class="kt">int</span> <span class="n">i</span><span class="o">=</span><span class="mi">1</span><span class="p">;</span> <span class="n">i</span><span class="o">&lt;</span><span class="n">m</span><span class="p">;</span> <span class="n">i</span><span class="o">++</span><span class="p">)</span>
+        <span class="p">{</span>
+            <span class="k">for</span><span class="p">(</span><span class="kt">int</span> <span class="n">j</span><span class="o">=</span><span class="mi">1</span><span class="p">;</span> <span class="n">j</span><span class="o">&lt;</span><span class="n">n</span><span class="p">;</span> <span class="n">j</span><span class="o">++</span><span class="p">)</span>
+                <span class="k">if</span><span class="p">(</span><span class="n">img_bin</span><span class="p">.</span><span class="n">at</span><span class="o">&lt;</span><span class="n">uchar</span><span class="o">&gt;</span><span class="p">(</span><span class="n">i</span><span class="p">,</span><span class="n">j</span><span class="p">)</span><span class="o">&gt;</span><span class="mi">200</span> <span class="o">&amp;&amp;</span> <span class="n">f</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="n">j</span><span class="p">]</span><span class="o">==</span><span class="mi">0</span><span class="p">)</span>
+                <span class="p">{</span>
+                    <span class="n">x</span><span class="o">=</span><span class="n">i</span><span class="p">,</span><span class="n">y</span><span class="o">=</span><span class="n">j</span><span class="p">;</span>
+
+                    <span class="k">break</span><span class="p">;</span>
+                <span class="p">}</span>
+            <span class="k">if</span><span class="p">(</span><span class="n">x</span><span class="o">!=</span><span class="mi">0</span><span class="o">||</span><span class="n">y</span><span class="o">!=</span><span class="mi">0</span><span class="p">)</span> <span class="k">break</span><span class="p">;</span>
+        <span class="p">}</span>
+
+        <span class="k">if</span><span class="p">(</span><span class="n">x</span><span class="o">==</span><span class="mi">0</span><span class="o">&amp;&amp;</span><span class="n">y</span><span class="o">==</span><span class="mi">0</span><span class="p">)</span>
+        <span class="p">{</span>
+            <span class="o">--</span><span class="n">room</span><span class="p">;</span>
+            <span class="n">output</span><span class="p">(</span><span class="n">img_bin</span><span class="p">,</span><span class="n">room</span><span class="p">);</span>
+            <span class="k">return</span> <span class="p">;</span>
+        <span class="p">}</span>
+        <span class="n">fill</span><span class="p">(</span><span class="n">img_bin</span><span class="p">,</span><span class="n">x</span><span class="p">,</span><span class="n">y</span><span class="p">,</span><span class="n">room</span><span class="p">);</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+</pre></div>
+
+
+<ul>
+<li>其中，我的种子染色法就是用深度优先搜索的方法，对每个点判断其周围的8个方向是否可走，如果可走，就走过去并染上颜色，直到该连通域内所有点都被染色，算法退出。</li>
+</ul>
+<div class="highlight"><pre><span class="kt">int</span> <span class="n">dx</span><span class="p">[]</span><span class="o">=</span> <span class="p">{</span><span class="mi">0</span><span class="p">,</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">},</span>
+    <span class="n">dy</span><span class="p">[]</span><span class="o">=</span> <span class="p">{</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">};</span>
+<span class="kt">void</span> <span class="nf">fill</span><span class="p">(</span><span class="k">const</span> <span class="n">Mat</span> <span class="o">&amp;</span> <span class="n">img_bin</span><span class="p">,</span><span class="kt">int</span> <span class="n">x</span><span class="p">,</span><span class="kt">int</span> <span class="n">y</span><span class="p">,</span><span class="kt">int</span> <span class="n">room</span><span class="p">)</span>
+<span class="p">{</span>
+
+    <span class="n">f</span><span class="p">[</span><span class="n">x</span><span class="p">][</span><span class="n">y</span><span class="p">]</span><span class="o">=</span><span class="n">room</span><span class="p">;</span>
+<span class="c1">//cout&lt;&lt;x&lt;&lt;&#39; &#39;&lt;&lt;y&lt;&lt;endl;</span>
+<span class="c1">//cin.get();</span>
+    <span class="k">for</span><span class="p">(</span><span class="kt">int</span> <span class="n">i</span><span class="o">=</span><span class="mi">0</span><span class="p">;</span> <span class="n">i</span><span class="o">&lt;</span><span class="mi">8</span><span class="p">;</span> <span class="n">i</span><span class="o">++</span><span class="p">)</span>
+    <span class="p">{</span>
+        <span class="kt">int</span> <span class="n">newx</span><span class="o">=</span><span class="n">x</span><span class="o">+</span><span class="n">dx</span><span class="p">[</span><span class="n">i</span><span class="p">],</span><span class="n">newy</span><span class="o">=</span><span class="n">y</span><span class="o">+</span><span class="n">dy</span><span class="p">[</span><span class="n">i</span><span class="p">];</span>
+        <span class="k">if</span><span class="p">(</span> <span class="n">newx</span><span class="o">&lt;</span><span class="mi">0</span> <span class="o">||</span> <span class="n">newx</span> <span class="o">&gt;=</span><span class="n">m</span><span class="p">)</span><span class="k">continue</span><span class="p">;</span>
+        <span class="k">if</span><span class="p">(</span> <span class="n">newy</span><span class="o">&lt;</span><span class="mi">0</span> <span class="o">||</span> <span class="n">newy</span> <span class="o">&gt;=</span><span class="n">n</span><span class="p">)</span> <span class="k">continue</span><span class="p">;</span>
+        <span class="k">if</span><span class="p">(</span><span class="n">img_bin</span><span class="p">.</span><span class="n">at</span><span class="o">&lt;</span><span class="n">uchar</span><span class="o">&gt;</span><span class="p">(</span><span class="n">newx</span><span class="p">,</span><span class="n">newy</span><span class="p">)</span><span class="o">&gt;</span><span class="n">maxValue</span> <span class="o">&amp;&amp;</span> <span class="n">f</span><span class="p">[</span><span class="n">newx</span><span class="p">][</span><span class="n">newy</span><span class="p">]</span> <span class="o">==</span> <span class="mi">0</span><span class="p">)</span>
+            <span class="n">fill</span><span class="p">(</span><span class="n">img_bin</span><span class="p">,</span><span class="n">newx</span><span class="p">,</span><span class="n">newy</span><span class="p">,</span><span class="n">room</span><span class="p">);</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+</pre></div>
+
+
+<ul>
+<li>当所有点都染色结束后，就需要筛选其中的圆了。我的想法是，对每个连通分量进行判断：  </li>
+<li>如果该连通分量内的点少于<em>min_pixel</em>，我就认为这是噪声点，肯定不是我的圆，将它排除</li>
+<li>将每一个点的坐标<code>(x,y)</code>看作两个随机变量<em>X，Y</em>，由于我们知道圆，及椭圆的方程为二次方程，即如果这些点满足圆的方程，则他们为平方关系，完全无线性关系。所以如果我们求这两个随机变量的相关系数，其值应该十分趋近于零。反之，如果大于一个很小的值<em>eps</em>，则认为这不是圆</li>
+<li>到这里大部分的干扰应该都能除去了，但是可能还会有少部分不是圆的形状满足这个逻辑，目前我没有更好的办法解决它~~所以只好输出它了，我在找到的圆心上画了十字叉和正圆，效果见最底下</li>
+</ul>
+<div class="highlight"><pre><span class="kt">void</span> <span class="nf">output</span><span class="p">(</span><span class="n">Mat</span> <span class="o">&amp;</span> <span class="n">img_bin</span><span class="p">,</span><span class="kt">int</span> <span class="n">room</span><span class="p">)</span>
+<span class="p">{</span>
+
+    <span class="k">const</span> <span class="kt">int</span> <span class="n">min_pixel</span><span class="o">=</span><span class="mi">250</span><span class="p">;</span>
+    <span class="k">const</span> <span class="kt">float</span> <span class="n">eps</span><span class="o">=</span><span class="mf">0.05</span><span class="p">;</span>
+    <span class="n">printf</span><span class="p">(</span><span class="s">&quot;Number=%d</span><span class="se">\n</span><span class="s">&quot;</span><span class="p">,</span><span class="n">room</span><span class="p">);</span>
+    <span class="k">for</span><span class="p">(</span><span class="kt">int</span> <span class="n">k</span><span class="o">=</span><span class="mi">1</span><span class="p">;</span> <span class="n">k</span><span class="o">&lt;=</span><span class="n">room</span><span class="p">;</span> <span class="n">k</span><span class="o">++</span><span class="p">)</span>
+    <span class="p">{</span>
+        <span class="n">Linevec</span> <span class="n">x</span><span class="p">,</span><span class="n">y</span><span class="p">;</span>
+        <span class="kt">int</span> <span class="n">num</span><span class="o">=</span><span class="mi">0</span><span class="p">;</span>
+        <span class="k">for</span><span class="p">(</span><span class="kt">int</span> <span class="n">i</span><span class="o">=</span><span class="mi">1</span><span class="p">;</span> <span class="n">i</span><span class="o">&lt;</span><span class="n">m</span><span class="p">;</span> <span class="n">i</span><span class="o">++</span><span class="p">)</span>
+            <span class="k">for</span><span class="p">(</span><span class="kt">int</span> <span class="n">j</span><span class="o">=</span><span class="mi">1</span><span class="p">;</span> <span class="n">j</span><span class="o">&lt;</span><span class="n">n</span><span class="p">;</span> <span class="n">j</span><span class="o">++</span><span class="p">)</span>
+            <span class="p">{</span>
+                <span class="k">if</span><span class="p">(</span> <span class="n">f</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="n">j</span><span class="p">]</span><span class="o">==</span><span class="n">k</span><span class="p">)</span>
+                <span class="p">{</span>
+                    <span class="n">x</span><span class="p">.</span><span class="n">add</span><span class="p">(</span><span class="n">i</span><span class="p">),</span><span class="n">y</span><span class="p">.</span><span class="n">add</span><span class="p">(</span><span class="n">j</span><span class="p">),</span><span class="o">++</span><span class="n">num</span><span class="p">;</span>
+
+                <span class="p">}</span>
+            <span class="p">}</span>
+        <span class="k">if</span><span class="p">(</span><span class="n">num</span><span class="o">&lt;</span><span class="n">min_pixel</span><span class="p">)</span>
+        <span class="p">{</span>
+            <span class="n">clean</span><span class="p">(</span><span class="n">img_bin</span><span class="p">,</span><span class="n">x</span><span class="p">,</span><span class="n">y</span><span class="p">);</span>
+            <span class="k">continue</span><span class="p">;</span>
+        <span class="p">}</span>
+
+
+        <span class="k">if</span><span class="p">(</span> <span class="n">fabs</span><span class="p">(</span><span class="n">Factor</span><span class="o">::</span><span class="n">Corr</span><span class="p">(</span><span class="n">x</span><span class="p">,</span><span class="n">y</span><span class="p">))</span><span class="o">&gt;</span><span class="n">eps</span><span class="p">)</span>
+        <span class="p">{</span>
+            <span class="n">clean</span><span class="p">(</span><span class="n">img_bin</span><span class="p">,</span><span class="n">x</span><span class="p">,</span><span class="n">y</span><span class="p">);</span>
+            <span class="k">continue</span><span class="p">;</span>
+        <span class="p">}</span>
+
+        <span class="n">printf</span><span class="p">(</span><span class="s">&quot;No.%d:x=%f,y=%f</span><span class="se">\n</span><span class="s">&quot;</span><span class="p">,</span><span class="n">k</span><span class="p">,</span><span class="n">x</span><span class="p">.</span><span class="n">getAverage</span><span class="p">(),</span><span class="n">y</span><span class="p">.</span><span class="n">getAverage</span><span class="p">());</span>
+        <span class="n">printf</span><span class="p">(</span><span class="s">&quot;Corr=%f,Cov=%f</span><span class="se">\n</span><span class="s">&quot;</span><span class="p">,</span><span class="n">Factor</span><span class="o">::</span><span class="n">Corr</span><span class="p">(</span><span class="n">x</span><span class="p">,</span><span class="n">y</span><span class="p">),</span><span class="n">Factor</span><span class="o">::</span><span class="n">Cov</span><span class="p">(</span><span class="n">x</span><span class="p">,</span><span class="n">y</span><span class="p">));</span>
+        <span class="n">DrawTarget</span><span class="p">(</span><span class="n">img_bin</span><span class="p">,</span><span class="n">y</span><span class="p">.</span><span class="n">getAverage</span><span class="p">(),</span><span class="n">x</span><span class="p">.</span><span class="n">getAverage</span><span class="p">());</span>
+    <span class="p">}</span>
+    <span class="c1">//cin.get();</span>
+<span class="p">}</span>
+</pre></div>
+
+
+<p>上述代码中的<em>Linevec</em>用于单个随机变量的数字特征计算，<em>Factor</em>类用于计算两个随机变量的协方差及相关系数，这里不考虑软件工程里的封装之类的东西，仅仅作为简单的工具，所以一切都是<em>public</em>。分别定义如下：</p>
+<div class="highlight"><pre><span class="k">class</span> <span class="nc">Linevec</span>
+<span class="p">{</span>
+<span class="nl">public:</span>
+
+    <span class="n">vector</span><span class="o">&lt;</span><span class="kt">float</span><span class="o">&gt;</span> <span class="n">data</span><span class="p">;</span>
+
+    <span class="kt">float</span> <span class="n">sum</span><span class="p">;</span>
+    <span class="kt">float</span> <span class="n">x_average</span><span class="p">;</span>
+    <span class="kt">float</span> <span class="n">x2_average</span><span class="p">;</span>
+    <span class="kt">float</span> <span class="n">var</span><span class="p">;</span>
+
+    <span class="n">Linevec</span><span class="p">(</span><span class="k">const</span> <span class="n">Linevec</span><span class="o">&amp;</span> <span class="n">temp</span><span class="p">)</span>
+    <span class="p">{</span>
+
+        <span class="n">data</span><span class="o">=</span><span class="n">temp</span><span class="p">.</span><span class="n">data</span><span class="p">;</span>
+        <span class="n">sum</span><span class="o">=</span><span class="n">temp</span><span class="p">.</span><span class="n">sum</span><span class="p">;</span>
+        <span class="n">x_average</span><span class="o">=</span><span class="n">temp</span><span class="p">.</span><span class="n">x_average</span><span class="p">;</span>
+        <span class="n">x2_average</span><span class="o">=</span><span class="n">temp</span><span class="p">.</span><span class="n">x2_average</span><span class="p">;</span>
+    <span class="p">}</span>
+    <span class="n">Linevec</span><span class="p">()</span>
+    <span class="p">{</span>
+        <span class="n">sum</span><span class="o">=</span><span class="n">x_average</span><span class="o">=</span><span class="n">x2_average</span><span class="o">=</span><span class="mi">0</span><span class="p">;</span>
+    <span class="p">}</span>
+    <span class="n">Linevec</span><span class="p">(</span><span class="kt">int</span> <span class="n">N</span><span class="p">)</span>
+    <span class="p">{</span>
+
+        <span class="n">data</span><span class="p">.</span><span class="n">resize</span><span class="p">(</span><span class="n">N</span><span class="p">);</span>
+    <span class="p">}</span>
+    <span class="kt">void</span> <span class="n">readData</span><span class="p">()</span>
+    <span class="p">{</span>
+        <span class="k">for</span><span class="p">(</span><span class="kt">unsigned</span> <span class="kt">int</span> <span class="n">i</span><span class="o">=</span><span class="mi">1</span><span class="p">;</span> <span class="n">i</span><span class="o">&lt;=</span><span class="n">data</span><span class="p">.</span><span class="n">size</span><span class="p">();</span> <span class="n">i</span><span class="o">++</span><span class="p">)</span>
+        <span class="p">{</span>
+            <span class="n">cin</span><span class="o">&gt;&gt;</span><span class="n">data</span><span class="p">[</span><span class="n">i</span><span class="p">];</span>
+            <span class="n">sum</span><span class="o">+=</span><span class="n">data</span><span class="p">[</span><span class="n">i</span><span class="p">];</span>
+            <span class="n">x2_average</span><span class="o">+=</span><span class="n">data</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">*</span><span class="n">data</span><span class="p">[</span><span class="n">i</span><span class="p">];</span>
+        <span class="p">}</span>
+        <span class="n">cout</span><span class="o">&lt;&lt;</span><span class="s">&quot;Read Finished&quot;</span><span class="o">&lt;&lt;</span><span class="n">endl</span><span class="p">;</span>
+        <span class="n">x_average</span><span class="o">=</span><span class="n">sum</span><span class="o">/</span><span class="n">data</span><span class="p">.</span><span class="n">size</span><span class="p">();</span>
+        <span class="n">x2_average</span><span class="o">/=</span><span class="n">data</span><span class="p">.</span><span class="n">size</span><span class="p">();</span>
+    <span class="p">}</span>
+    <span class="kt">void</span> <span class="n">add</span><span class="p">(</span><span class="kt">float</span> <span class="n">t</span><span class="p">)</span>
+    <span class="p">{</span>
+        <span class="n">data</span><span class="p">.</span><span class="n">push_back</span><span class="p">(</span><span class="n">t</span><span class="p">);</span>
+
+    <span class="p">}</span>
+    <span class="kt">float</span> <span class="n">getSum</span><span class="p">()</span>
+    <span class="p">{</span>
+
+        <span class="n">sum</span><span class="o">=</span><span class="mi">0</span><span class="p">;</span>
+        <span class="k">for</span><span class="p">(</span><span class="n">vector</span><span class="o">&lt;</span><span class="kt">float</span><span class="o">&gt;::</span><span class="n">iterator</span> <span class="n">i</span><span class="o">=</span><span class="n">data</span><span class="p">.</span><span class="n">begin</span><span class="p">();</span> <span class="n">i</span><span class="o">!=</span><span class="n">data</span><span class="p">.</span><span class="n">end</span><span class="p">();</span> <span class="n">i</span><span class="o">++</span><span class="p">)</span>
+            <span class="n">sum</span><span class="o">+=*</span><span class="n">i</span><span class="p">;</span>
+        <span class="k">return</span> <span class="n">sum</span><span class="p">;</span>
+    <span class="p">}</span>
+    <span class="kt">float</span> <span class="n">getAverage</span><span class="p">()</span>
+    <span class="p">{</span>
+
+        <span class="k">return</span> <span class="n">x_average</span><span class="o">=</span><span class="n">getSum</span><span class="p">()</span><span class="o">/</span><span class="n">data</span><span class="p">.</span><span class="n">size</span><span class="p">();</span>
+    <span class="p">}</span>
+    <span class="kt">float</span> <span class="n">getAverage2</span><span class="p">()</span>
+    <span class="p">{</span>
+
+        <span class="n">x2_average</span><span class="o">=</span><span class="mi">0</span><span class="p">;</span>
+        <span class="k">for</span><span class="p">(</span><span class="n">vector</span><span class="o">&lt;</span><span class="kt">float</span><span class="o">&gt;::</span><span class="n">iterator</span> <span class="n">i</span><span class="o">=</span><span class="n">data</span><span class="p">.</span><span class="n">begin</span><span class="p">();</span> <span class="n">i</span><span class="o">!=</span><span class="n">data</span><span class="p">.</span><span class="n">end</span><span class="p">();</span> <span class="n">i</span><span class="o">++</span><span class="p">)</span>
+            <span class="n">x2_average</span><span class="o">+=</span><span class="p">(</span><span class="o">*</span><span class="n">i</span><span class="p">)</span><span class="o">*</span><span class="p">(</span><span class="o">*</span><span class="n">i</span><span class="p">);</span>
+        <span class="k">return</span> <span class="n">x2_average</span><span class="o">=</span><span class="n">x2_average</span><span class="o">/</span><span class="n">data</span><span class="p">.</span><span class="n">size</span><span class="p">();</span>
+    <span class="p">}</span>
+    <span class="kt">int</span> <span class="n">getCount</span><span class="p">()</span>
+    <span class="p">{</span>
+        <span class="k">return</span> <span class="n">data</span><span class="p">.</span><span class="n">size</span><span class="p">();</span>
+    <span class="p">}</span>
+    <span class="kt">float</span> <span class="n">E</span><span class="p">()</span>
+    <span class="p">{</span>
+        <span class="k">return</span> <span class="n">getAverage</span><span class="p">();</span>
+    <span class="p">}</span>
+    <span class="kt">float</span> <span class="n">E2</span><span class="p">()</span>
+    <span class="p">{</span>
+        <span class="k">return</span> <span class="n">getAverage2</span><span class="p">();</span>
+    <span class="p">}</span>
+    <span class="kt">float</span> <span class="n">Var</span><span class="p">()</span>
+    <span class="p">{</span>
+
+        <span class="n">var</span><span class="o">=</span><span class="mf">0.0f</span><span class="p">;</span>
+        <span class="n">getAverage</span><span class="p">();</span>
+        <span class="k">for</span><span class="p">(</span><span class="kt">unsigned</span> <span class="kt">int</span> <span class="n">i</span><span class="o">=</span><span class="mi">0</span><span class="p">;</span> <span class="n">i</span><span class="o">&lt;</span><span class="n">data</span><span class="p">.</span><span class="n">size</span><span class="p">();</span> <span class="n">i</span><span class="o">++</span><span class="p">)</span>
+            <span class="n">var</span><span class="o">+=</span><span class="p">(</span><span class="n">data</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">-</span><span class="n">x_average</span><span class="p">)</span><span class="o">*</span><span class="p">(</span><span class="n">data</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">-</span><span class="n">x_average</span><span class="p">);</span>
+        <span class="n">var</span><span class="o">/=</span><span class="n">data</span><span class="p">.</span><span class="n">size</span><span class="p">()</span><span class="o">-</span><span class="mi">1</span><span class="p">;</span>
+        <span class="k">return</span> <span class="n">var</span><span class="p">;</span>
+    <span class="p">}</span>
+<span class="p">};</span>
+</pre></div>
+
+
+<div class="highlight"><pre><span class="k">class</span> <span class="nc">Factor</span>
+<span class="p">{</span>
+<span class="nl">public:</span>
+
+    <span class="k">static</span> <span class="kt">float</span> <span class="n">Cov</span><span class="p">(</span><span class="n">Linevec</span> <span class="o">&amp;</span><span class="n">x</span><span class="p">,</span><span class="n">Linevec</span> <span class="o">&amp;</span><span class="n">y</span><span class="p">)</span>
+    <span class="p">{</span>
+        <span class="kt">float</span> <span class="n">xy_average</span><span class="o">=</span><span class="mf">0.0f</span><span class="p">;</span>
+        <span class="k">for</span><span class="p">(</span><span class="kt">int</span> <span class="n">i</span><span class="o">=</span><span class="mi">0</span><span class="p">;</span> <span class="n">i</span><span class="o">&lt;</span><span class="n">x</span><span class="p">.</span><span class="n">getCount</span><span class="p">();</span> <span class="n">i</span><span class="o">++</span><span class="p">)</span>
+            <span class="n">xy_average</span><span class="o">+=</span><span class="n">x</span><span class="p">.</span><span class="n">data</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">*</span><span class="n">y</span><span class="p">.</span><span class="n">data</span><span class="p">[</span><span class="n">i</span><span class="p">];</span>
+        <span class="n">xy_average</span><span class="o">/=</span><span class="n">x</span><span class="p">.</span><span class="n">getCount</span><span class="p">();</span>
+        <span class="k">return</span> <span class="n">xy_average</span><span class="o">-</span><span class="n">x</span><span class="p">.</span><span class="n">E</span><span class="p">()</span><span class="o">*</span><span class="n">y</span><span class="p">.</span><span class="n">E</span><span class="p">();</span>
+    <span class="p">}</span>
+    <span class="k">static</span> <span class="kt">float</span> <span class="n">Corr</span><span class="p">(</span><span class="n">Linevec</span> <span class="o">&amp;</span><span class="n">x</span><span class="p">,</span><span class="n">Linevec</span> <span class="o">&amp;</span><span class="n">y</span><span class="p">)</span>
+    <span class="p">{</span>
+        <span class="k">return</span> <span class="n">Cov</span><span class="p">(</span><span class="n">x</span><span class="p">,</span><span class="n">y</span><span class="p">)</span><span class="o">/</span><span class="n">sqrt</span><span class="p">(</span><span class="n">x</span><span class="p">.</span><span class="n">Var</span><span class="p">()</span><span class="o">*</span><span class="n">y</span><span class="p">.</span><span class="n">Var</span><span class="p">());</span>
+    <span class="p">}</span>
+<span class="p">};</span>
+</pre></div>
+
+
+<p>由于图省事，有一些变量我设置了全局，我列在下面,</p>
+<div class="highlight"><pre><span class="kt">int</span> <span class="n">n</span><span class="p">,</span><span class="n">m</span><span class="p">;</span>
+<span class="k">const</span> <span class="kt">int</span> <span class="n">width</span><span class="o">=</span><span class="mi">800</span><span class="p">,</span><span class="n">height</span><span class="o">=</span><span class="mi">800</span><span class="p">;</span>
+<span class="kt">int</span> <span class="n">f</span><span class="p">[</span><span class="n">height</span><span class="p">][</span><span class="n">width</span><span class="p">];</span>
+<span class="k">const</span> <span class="kt">int</span> <span class="n">maxValue</span><span class="o">=</span><span class="mi">200</span><span class="p">;</span>
+</pre></div>
+
+
+<p>最终效果如下：
+<img alt="没找到圆" src="/image/nocirclefound.png" />
+<img alt="找到圆" src="/image/findcircle.png" /></p>
+                </div><!-- /.entry-content -->
+                <div class="comments">
+                <h2>Comments !</h2>
+                        <div id="disqus_thread"></div>
+                        <script type="text/javascript">
+                           var disqus_identifier = "xue-xi-ji-qi-shi-jue-1-jian-ce-yuan-xin.html";
+                           (function() {
+                                var dsq = document.createElement('script');
+                                dsq.type = 'text/javascript'; dsq.async = true;
+                                dsq.src = 'http://ghdawn.disqus.com/embed.js';
+                                (document.getElementsByTagName('head')[0] ||
+                                 document.getElementsByTagName('body')[0]).appendChild(dsq);
+                          })();
+                        </script>
+                </div>
+        </article>
+</section>
+        </div><!--/span-->
+
+                <div class="span3 well sidebar-nav" id="sidebar">
+<ul class="nav nav-list">
+<li class="nav-header"><h4><i class="icon-external-link"></i>blogroll</h4></li>
+    <li><a href="https://dangfan.me/zhs"><i class="icon-external-link"></i>DFDNN</a></li>
+    <li><a href="http://dumbear.com/"><i class="icon-external-link"></i>Dumbear</a></li>
+    <li><a href="http://www.tomtung.com/"><i class="icon-external-link"></i>逆铭</a></li>
+<li class="nav-header"><h4><i class="icon-home icon-large"></i> social</h4></li>
+<li><a href="./" rel="alternate"><i class="icon-bookmark icon-large"></i>atom feed</a></li>
+<li><a href="./feeds/all.rss.xml" rel="alternate"><i class="icon-bookmark icon-large"></i>rss feed</a></li>
+    <li><a href="https://github.com/ghdawn"><i class="icon-github-sign icon-large"></i>github</a></li>
+    <li><a href="http://fanfou.com/home"><i class="icon-饭否-sign icon-large"></i>饭否</a></li>
+
+<li class="nav-header"><h4><i class="icon-folder-close icon-large"></i>Categories</h4></li>
+<li>
+<a href="./category/life.html">
+    <i class="icon-folder-open icon-large"></i>Life
+</a>
+</li>
+<li>
+<a href="./category/study.html">
+    <i class="icon-folder-open icon-large"></i>Study
+</a>
+</li>
+
+<li class="nav-header"><h4><i class="icon-tags icon-large"></i>Tags</h4></li>
+<li class="tag-4">
+    <a href="./tag/automatic.html">
+        <i class="icon-tag icon-large"></i>automatic
+    </a>
+</li>
+<li class="tag-1">
+    <a href="./tag/codes.html">
+        <i class="icon-tag icon-large"></i>Codes
+    </a>
+</li>
+<li class="tag-3">
+    <a href="./tag/opencv.html">
+        <i class="icon-tag icon-large"></i>OpenCV
+    </a>
+</li>
+<li class="tag-4">
+    <a href="./tag/ji-qi-xue-xi.html">
+        <i class="icon-tag icon-large"></i>机器学习
+    </a>
+</li>
+<li class="tag-2">
+    <a href="./tag/blog.html">
+        <i class="icon-tag icon-large"></i>blog
+    </a>
+</li>
+<li class="tag-1">
+    <a href="./tag/linux.html">
+        <i class="icon-tag icon-large"></i>Linux
+    </a>
+</li>
+<li class="tag-2">
+    <a href="./tag/boring.html">
+        <i class="icon-tag icon-large"></i>Boring
+    </a>
+</li>
+<li class="tag-2">
+    <a href="./tag/qian-ru-shi.html">
+        <i class="icon-tag icon-large"></i>嵌入式
+    </a>
+</li>
+<li class="tag-4">
+    <a href="./tag/matlab.html">
+        <i class="icon-tag icon-large"></i>matlab
+    </a>
+</li>
+<li class="tag-2">
+    <a href="./tag/android.html">
+        <i class="icon-tag icon-large"></i>Android
+    </a>
+</li>
+<li class="tag-4">
+    <a href="./tag/life.html">
+        <i class="icon-tag icon-large"></i>life
+    </a>
+</li>
+<li class="tag-3">
+    <a href="./tag/kao-yan.html">
+        <i class="icon-tag icon-large"></i>考研
+    </a>
+</li>
+
+
+</ul>        </div><!--/.well -->
+
+      </div><!--/row-->
+
+      <hr>
+
+      <footer>
+        <address id="about">
+                Proudly powered by <a href="http://pelican.notmyidea.org/">Pelican <i class="icon-external-link"></i></a>,
+                                which takes great advantage of <a href="http://python.org">Python <i class="icon-external-link"></i></a>.
+        </address><!-- /#about -->
+
+        <p>The theme is from <a href="http://twitter.github.com/bootstrap/">Bootstrap from Twitter <i class="icon-external-link"></i></a>,
+                   and <a href="http://fortawesome.github.com/Font-Awesome/">Font-Awesome <i class="icon-external-link"></i></a>, thanks!</p>
+      </footer>
+
+    </div><!--/.fluid-container-->
+
+
+<script type="text/javascript">
+var gaJsHost = (("https:" == document.location.protocol) ? "https://ssl." : "http://www.");
+document.write(unescape("%3Cscript src='" + gaJsHost + "google-analytics.com/ga.js' type='text/javascript'%3E%3C/script%3E"));
+</script>
+<script type="text/javascript">
+try {
+	var pageTracker = _gat._getTracker("UA-29027763-1");
+pageTracker._trackPageview();
+} catch(err) {}</script>
+<script type="text/javascript">
+    var disqus_shortname = 'ghdawn';
+    (function () {
+        var s = document.createElement('script'); s.async = true;
+        s.type = 'text/javascript';
+        s.src = 'http://' + disqus_shortname + '.disqus.com/count.js';
+        (document.getElementsByTagName('HEAD')[0] || document.getElementsByTagName('BODY')[0]).appendChild(s);
+    }());
+</script>
+
+    <!-- Le javascript -->
+    <!-- Placed at the end of the document so the pages load faster -->
+    <script src="./theme/js/jquery-1.7.2.min.js"></script>
+    <script src="./theme/js/bootstrap.min.js"></script>
+  </body>
+</html>
