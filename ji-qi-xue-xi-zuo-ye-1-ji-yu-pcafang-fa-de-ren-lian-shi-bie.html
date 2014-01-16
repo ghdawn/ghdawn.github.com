@@ -206,7 +206,7 @@ $$</p>
 r(A_{m \times n}) \leq min { m,n }
 \end{equation}
 $$</p>
-<p>所以它的秩很小，即不为零的特征根很少($r \leq N$)。于是先求出 $$Image^ T Image$$ 这个维数较小的矩阵的所有特征值和特征向量 $$ V_{N \times N} $$，再通过 $$ U_{M^ 2 \times N}=Image \times V $$,即可求出原矩阵 $$ImageImage^ T $$ 的特征向量。通过特征值我们可以看出来，大量的特征集中在很少的几个特征值上。而大部分特征值都很小，表示了他们携带的数据特征很小。把这些特征向量规范后以后，这些单位特征向量可以作为一组基底张成一个空间，即是特征脸方法中的特征空间，最后，把原图像向量向这个特征空间中投影，即可以得到我们所需的特征脸。</p>
+<p>所以它的秩很小，即不为零的特征根很少($r \leq N$)。于是先求出 $$Image^ T Image$$ 这个维数较小的矩阵的所有特征值和特征向量 $ V_{N \times N} $，再通过 $$ U_{M^ 2 \times N}=Image \times V $$,即可求出原矩阵 $ImageImage^ T $ 的特征向量。通过特征值我们可以看出来，大量的特征集中在很少的几个特征值上。而大部分特征值都很小，表示了他们携带的数据特征很小。把这些特征向量规范后以后，这些单位特征向量可以作为一组基底张成一个空间，即是特征脸方法中的特征空间，最后，把原图像向量向这个特征空间中投影，即可以得到我们所需的特征脸。</p>
 <div class="highlight"><pre><span class="c">% zero-mean</span>
 <span class="n">average</span><span class="p">=</span><span class="n">average</span><span class="o">/</span><span class="n">N</span><span class="p">;</span>
 <span class="k">for</span> <span class="nb">i</span> <span class="p">=</span> <span class="mi">1</span><span class="p">:</span><span class="n">N</span>
@@ -257,13 +257,13 @@ dis(x)=\min {\|x-I_i \| } ,i=1,2 \ldots n
 \end{equation}
 $$</p>
 <p>其中$x_{M^2 \times 1}$表示待识别的人脸向量，$I_i$表示第$i$个已知人脸图像。则检测结果如下：</p>
-<p>$$</p>
-<p>result = \begin{cases}
+<p>$$
+result = \begin{cases}
    NotFace &amp; dis(x)&gt; T_f \\
    FaceNotMeet &amp; T_r \leq dis(x) \leq T_f \\
    FaceMeet &amp; 0\leq dis(x) &lt;T_r
-   \end{cases}</p>
-<p>$$</p>
+   \end{cases}
+$$</p>
 <p>其中$T_r$和$T_f$为判断阈值且大于$0$。在实际实验中，$T_r$可以省略，因为如果未知人脸是见过的，那么它到自身的距离一定是最小的（趋于零）。
 由于按照Equ(2)直接计算距离十分耗时间，在这里PCA降维的意义就显现了出来。我们取前$k$个特征向量$(k \leq N)$作为投影坐标系，通过比较待定人脸向量在这个坐标系上的投影权值，与原人脸图像组的投影权值，即可计算出距离，即:</p>
 <p>$$
@@ -271,7 +271,7 @@ $$</p>
 dis(x)=\min {\|W_x-W_{Ij} \| } , j=1,2 \ldots n
 \end{equation}
 $$</p>
-<p>其中 $$ W_x=W_{k\times 1} $$，为待识别图像的权值向量, $$W_{Ij} $$ 为第 $$j $$ 个原图像的权值向量。由此可以看出，每次计算距离的范围从 $M^2$ 下降到了 $k$ ，使得计算量极大的缩减了，从而提高了运算速度。这正是使用<code>PCA</code>方法降维的目的。MATLAB代码如下：</p>
+<p>其中 $ W_x=W_{k\times 1} $，为待识别图像的权值向量, $W_{Ij} $ 为第 $j $ 个原图像的权值向量。由此可以看出，每次计算距离的范围从 $M^2$ 下降到了 $k$ ，使得计算量极大的缩减了，从而提高了运算速度。这正是使用<code>PCA</code>方法降维的目的。MATLAB代码如下：</p>
 <div class="highlight"><pre><span class="c">%% Detect a face</span>
 <span class="n">unknown</span><span class="p">=</span><span class="mi">201</span><span class="p">;</span>
 <span class="n">k</span><span class="p">=</span><span class="mi">140</span><span class="p">;</span>
@@ -379,29 +379,19 @@ $$</p>
         <i class="icon-tag icon-large"></i>automatic
     </a>
 </li>
-<li class="tag-1">
-    <a href="./tag/codes.html">
-        <i class="icon-tag icon-large"></i>Codes
+<li class="tag-4">
+    <a href="./tag/matlab.html">
+        <i class="icon-tag icon-large"></i>matlab
     </a>
 </li>
 <li class="tag-3">
-    <a href="./tag/opencv.html">
-        <i class="icon-tag icon-large"></i>OpenCV
-    </a>
-</li>
-<li class="tag-4">
-    <a href="./tag/ji-qi-xue-xi.html">
-        <i class="icon-tag icon-large"></i>机器学习
+    <a href="./tag/kao-yan.html">
+        <i class="icon-tag icon-large"></i>考研
     </a>
 </li>
 <li class="tag-2">
     <a href="./tag/blog.html">
         <i class="icon-tag icon-large"></i>blog
-    </a>
-</li>
-<li class="tag-1">
-    <a href="./tag/linux.html">
-        <i class="icon-tag icon-large"></i>Linux
     </a>
 </li>
 <li class="tag-2">
@@ -410,18 +400,18 @@ $$</p>
     </a>
 </li>
 <li class="tag-2">
+    <a href="./tag/android.html">
+        <i class="icon-tag icon-large"></i>Android
+    </a>
+</li>
+<li class="tag-2">
     <a href="./tag/qian-ru-shi.html">
         <i class="icon-tag icon-large"></i>嵌入式
     </a>
 </li>
-<li class="tag-4">
-    <a href="./tag/matlab.html">
-        <i class="icon-tag icon-large"></i>matlab
-    </a>
-</li>
-<li class="tag-2">
-    <a href="./tag/android.html">
-        <i class="icon-tag icon-large"></i>Android
+<li class="tag-3">
+    <a href="./tag/opencv.html">
+        <i class="icon-tag icon-large"></i>OpenCV
     </a>
 </li>
 <li class="tag-4">
@@ -429,9 +419,19 @@ $$</p>
         <i class="icon-tag icon-large"></i>life
     </a>
 </li>
-<li class="tag-3">
-    <a href="./tag/kao-yan.html">
-        <i class="icon-tag icon-large"></i>考研
+<li class="tag-1">
+    <a href="./tag/codes.html">
+        <i class="icon-tag icon-large"></i>Codes
+    </a>
+</li>
+<li class="tag-1">
+    <a href="./tag/linux.html">
+        <i class="icon-tag icon-large"></i>Linux
+    </a>
+</li>
+<li class="tag-4">
+    <a href="./tag/ji-qi-xue-xi.html">
+        <i class="icon-tag icon-large"></i>机器学习
     </a>
 </li>
 
