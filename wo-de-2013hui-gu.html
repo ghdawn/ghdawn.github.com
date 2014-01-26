@@ -2,7 +2,7 @@
 <html lang="en">
   <head>
     <meta charset="utf-8">
-    <title>"为OMAP4430安装Linux/Android系统"</title>
+    <title>我的2013回顾</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="">
     <meta name="author" content="清风未明">
@@ -101,12 +101,12 @@ document.write(unescape("%3Cscript src='" + _bdhmProtocol + "hm.baidu.com/h.js%3
           <div class="nav-collapse">
             <ul class="nav">
                           <li class="divider-vertical"></li>
-                  <li >
+                  <li class="active">
                     <a href="./category/life.html">
 						<i class="icon-folder-open icon-large"></i>Life
 					</a>
                   </li>
-                  <li class="active">
+                  <li >
                     <a href="./category/study.html">
 						<i class="icon-folder-open icon-large"></i>Study
 					</a>
@@ -132,8 +132,8 @@ document.write(unescape("%3Cscript src='" + _bdhmProtocol + "hm.baidu.com/h.js%3
                         <h1>
                                 <a href=""
                                         rel="bookmark"
-                                        title="Permalink to "为OMAP4430安装Linux/Android系统"">
-                                        "为OMAP4430安装Linux/Android系统"
+                                        title="Permalink to 我的2013回顾">
+                                        我的2013回顾
                                 </a>
                         </h1>
                 </header>
@@ -141,154 +141,49 @@ document.write(unescape("%3Cscript src='" + _bdhmProtocol + "hm.baidu.com/h.js%3
                 <div class="well">
 <footer class="post-info">
 <span class="label">Date</span>
-<abbr class="published" title="2012-02-13T12:33:00">
-        <i class="icon-calendar"></i>一 13 二月 2012
+<abbr class="published" title="2014-01-26T00:00:00">
+        <i class="icon-calendar"></i>日 26 一月 2014
 </abbr>
 <span class="label">By</span>
 <a href="./author/qing-feng-wei-ming.html"><i class="icon-user"></i>清风未明</a>
 <span class="label">Category</span>
-<a href="./category/study.html"><i class="icon-folder-open"></i>Study</a>.
+<a href="./category/life.html"><i class="icon-folder-open"></i>Life</a>.
 
 
 <span class="label">Tags</span>
-	<a href="./tag/codes.html"><i class="icon-tag"></i>Codes</a>
-	<a href="./tag/qian-ru-shi.html"><i class="icon-tag"></i>嵌入式</a>
-	<a href="./tag/linux.html"><i class="icon-tag"></i>Linux</a>
+	<a href="./tag/life.html"><i class="icon-tag"></i>life</a>
 </footer><!-- /.post-info -->                </div>
-                <p>这块开发板没有板载flash，所以操作系统从SD卡引导。这样，我们的操作系统就需要安装在SD卡上。</p>
-<h2>准备sd卡</h2>
-<ol>
-<li>插入sd卡，运行如下命令察看sd卡是否已经挂载</li>
-</ol>
-<div class="highlight"><pre>df -h
-文件系统            容量  已用  可用 已用%% 挂载点
-/dev/sda7              30G   15G   14G  52% /
-udev                  1.5G  4.0K  1.5G   1% /dev
-tmpfs                 602M  1.1M  601M   1% /run
-none                  5.0M     0  5.0M   0% /run/lock
-none                  1.5G  472K  1.5G   1% /run/shm
-/dev/mmcblk0p1        1.8G   35M  1.7G   3% /media/KINGSTON
-</pre></div>
-
-
-<ol>
-<li>
-<p>如果已挂载，就卸载它(我的sd卡,设备为/dev/mmcblk0,分区为/dev/mmcblk0p1,挂载在/media/KINGSTON下了）</p>
-<div class="highlight"><pre><span class="n">sudo</span> <span class="n">umount</span> <span class="o">/</span><span class="n">media</span><span class="o">/</span><span class="n">KINGSTON</span>
-</pre></div>
-
-
-</li>
-</ol>
-<h2>将sd卡格式化成双分区</h2>
-<h4>先说点别的</h4>
-<p>如果有兴趣，请仔细阅读<a href="http://code.google.com/p/beagleboard/wiki/LinuxBootDiskFormat">这篇</a>文档，在网上能找到的所有关于SD双分区的教程，几乎全部和他一样，比如<a href="http://blog.csdn.net/lqf785435771/article/details/7096320">这里</a>，<a href="http://www.fengfly.com/plus/view-163969-1.html">这里</a>，和<a href="http://www.anddev.org/zoom-mdk-f25/part-5-booting-x-loader-and-u-boot-from-sd-card-t2500.html">这里</a>。当然，如果懒得看英文，不看也无妨。我认为其重点如下</p>
-<ol>
-<li>
-<p>记住sd卡的格式化目标格式，即磁头数255，每个磁道上有63个扇区，以及计算出来的柱面数。原文如下：
-    #cylinders = FLOOR (the number of Bytes on the SD Card (from above) / 255 / 63 / 512 )
-    总的字节数，即运行如下命令，看到的bytes</p>
-<div class="highlight"><pre><span class="n">sudo</span> <span class="n">fdisk</span> <span class="o">/</span><span class="n">dev</span><span class="o">/</span><span class="n">mmcblk0</span> <span class="err">#换成你的设备，切记是设备不是分区，如</span><span class="n">mmcblk0p1</span><span class="p">,</span><span class="err">或</span><span class="n">sdb1</span><span class="err">等为分区，</span><span class="n">mmcblk0</span><span class="p">,</span><span class="n">sdb</span><span class="err">为设备</span>
-</pre></div>
-
-
-</li>
-</ol>
-<p>这样即可获得这h,s,c这三个参数</p>
-<ol>
-<li>第一分区的系统类型的十六进制代码，我已经查过了，可以告诉你是 c (W95 FAT32 (LBA))</li>
-</ol>
-<p>有了这两个信息（虽然不知道为什么要这样设定h,s,c这三个信息），有兴趣的同学可以按照上述文章进行格式化。</p>
-<p>注意注意！！首先，这些地方写的fdisk命令中，单位都是cylinder，而这是已经废弃了的单位，现在用的都是sector。所以这些文档的内容，都太太太老了，即使文章是新发的。其次，我也不知道为什么，反正我这样做完，没有用，fdisk可以格式化的的sd卡，却不能指定上述信息。所以在格式化完以后，我的开发板不能用这个sd卡启动，会出现这么几个错误：</p>
-<ul>
-<li>找不到sd卡</li>
-<li>无法执行MLO</li>
-<li>执行MLO，找不到分区表</li>
-</ul>
-<p>我还是想不通为什么，反正我这样做没有用，不知道他们是怎么做到的，能成功引导。
-我很奇怪，这么这么多人都用了这个方法并写了出来，为什么我就是做不成功？</p>
-<h4>开始格式化sd卡</h4>
-<p>我的解决方案是：使用sfdisk，另一个分区程序。用<em>man</em>得到的这两个程序的信息差不多，但是fdisk的界面要友好很多，操作也简单，只是，没用。sfdisk的用户界面和操作恶心到了极致，但是将就一下能给我把活干了。</p>
-<ol>
-<li>
-<p>在命令行内执行如下命令，清除sd卡开头的1024个字节（这里似乎存放的分区表，fdisk和sfdisk都不会清除那块信息，但是如果不清空，还是有问题）</p>
-<div class="highlight"><pre><span class="n">sudo</span> <span class="n">dd</span> <span class="k">if</span><span class="o">=/</span><span class="n">dev</span><span class="o">/</span><span class="n">zero</span> <span class="n">of</span><span class="o">=/</span><span class="n">dev</span><span class="o">/</span><span class="n">mmcblk0</span> <span class="n">bs</span><span class="o">=</span><span class="mi">1024</span> <span class="n">count</span><span class="o">=</span><span class="mi">1024</span> <span class="err">#</span><span class="n">of</span><span class="err">后换成你的设备</span>
-</pre></div>
-
-
-</li>
-<li>
-<p>执行命令，其中h，s，c为上一步说的信息，请提前算好。-D表示支持dos方式。因为要格式的双分区，第一个分区是fat格式的。</p>
-<div class="highlight"><pre> <span class="n">sudo</span> <span class="n">sfdisk</span> <span class="o">-</span><span class="n">D</span> <span class="o">-</span><span class="n">H</span> <span class="mi">255</span> <span class="o">-</span><span class="n">S</span> <span class="mi">63</span> <span class="o">-</span><span class="n">C</span> <span class="mi">243</span> <span class="o">/</span><span class="n">dev</span><span class="o">/</span><span class="n">mmcblk0</span>
-</pre></div>
-
-
-</li>
-<li>
-<p>这时应该会提示找不到分区（第一步已经清除了），并让你输入分区信息。这里会需要设定四个分区。我们只要前两个分区把空间填满，后两个设置为empty就好了。输入如下</p>
-<div class="highlight"><pre><span class="mi">0</span> <span class="mi">9</span> <span class="n">c</span> <span class="o">*</span> <span class="err">回车</span>      
-<span class="mi">9</span> <span class="p">(</span><span class="err">你的</span><span class="n">c</span><span class="err">数</span><span class="o">-</span><span class="mi">9</span><span class="err">）</span> <span class="n">L</span> <span class="err">回车</span>          
-<span class="err">回车</span>           
-<span class="err">回车</span>
-</pre></div>
-
-
-</li>
-<li>
-<p>解释：此处输入格式为起始柱面，柱面数，系统类型，是否可启动。第一个分区用于引导启动，大小不用太大，于是给了9个柱面的空间，c表示fat32（见上一块），*表示可引导启动。第二个分区使用剩下所有空间，系统类型为Linux。其余的均为空</p>
-</li>
-<li>
-<p>这样设置完后，会提示是否写入，输入y即可完成设置，得到两个分区mmcblk0p1,mmcblk0p2。如果用USB口的读卡器，则可能是sdb1,sdb2。</p>
-</li>
-<li>
-<p>输入以下命令，将两个分区格式化。<em>mkfs.vfat</em>用于格式化fat系列分区，<em>-F 32</em>指定分区表为32位。<em>-n</em> 给分区起名字为boot。<em>mkfs.ext3</em>用于格式化ext3分区，<em>-L</em> 也是起名字(我叫它 linux_fs）</p>
-<div class="highlight"><pre><span class="n">sudo</span> <span class="n">mkfs</span><span class="p">.</span><span class="n">vfat</span> <span class="o">-</span><span class="n">F</span> <span class="mi">32</span> <span class="o">-</span><span class="n">n</span> <span class="n">boot</span> <span class="o">/</span><span class="n">dev</span><span class="o">/</span><span class="n">mmcblk0p1</span>          
-<span class="n">sudo</span> <span class="n">mkfs</span><span class="p">.</span><span class="n">ext3</span> <span class="o">-</span><span class="n">L</span> <span class="n">linux_fs</span> <span class="o">/</span><span class="n">dev</span><span class="o">/</span><span class="n">mmcblk0p2</span>
-</pre></div>
-
-
-</li>
-</ol>
-<p>至此，最令人头疼的部分就解决了。</p>
-<p>在头疼这么久以后，我发现<a href="http://git.openembedded.org/openembedded/tree/contrib/angstrom/omap3-mkcard.sh">这里</a>有一个脚本可以很好的做完这些事情，只要以管理员身份执行，并将你的设备路径作为第一个参数即可。</p>
-<h2>安装系统</h2>
-<h3>安装Linux</h3>
-<ol>
-<li>挂载SD卡</li>
-<li>在<a href="https://gforge.ti.com/gf/download/frsrelease/387/4170/L24.9-PandaBoard_minimal-fs.tar.gz">这里</a>下载linux最小系统，并解压缩（可能需要sudo）。</li>
-<li>
-<p>把其中的<em>boot</em>文件夹下的<em>MLO</em>，<em>u-boot.bin</em>,<em>uImage</em>复制进boot分区</p>
-<div class="highlight"><pre><span class="n">sudo</span> <span class="n">cp</span> <span class="n">boot</span><span class="o">/*</span> <span class="o">/</span><span class="n">media</span><span class="o">/</span><span class="n">boot</span><span class="o">/</span>
-</pre></div>
-
-
-</li>
-<li>
-<p>把<em>angstrom_minimal-fs</em>内的文件和文件夹复制进第二个分区 <em>linux_fs</em> （可能需要sudo）</p>
-<div class="highlight"><pre><span class="n">sudo</span> <span class="n">cp</span> <span class="o">-</span><span class="n">rf</span> <span class="n">angstrom</span><span class="o">/*</span> <span class="o">/</span><span class="n">media</span><span class="o">/</span><span class="n">linux_fs</span>
-</pre></div>
-
-
-</li>
-<li>
-<p>刷新文件缓冲，确认文件都已经复制进去（如果不执行这句，有可能文件没拷进分区内）</p>
-<div class="highlight"><pre><span class="n">sync</span>
-</pre></div>
-
-
-</li>
-<li>
-<p>把卡插进开发板，开机实验吧！</p>
-</li>
-</ol>
-<h3>安装Android</h3>
-<p>其实方法都一样，只是格式化的时候建议把第二个分区名字改成类似android_fs之类的好认的名字，并且在<a href="http://code.google.com/p/pandroid/downloads/list">这里</a>下载android文件系统，其余操作同上。</p>
+                <p>转眼又到了新的一年，我的研究生也读了一年半了。从很久以前我就打算经常写写总结，但总是一懒就不动笔了，这算是我第一次对一年做一个流水账式的总结。</p>
+<p>总体评价，今年是我上大学以来过的最丰富的一年。所谓丰富，应该是指有很多事情可以做，而且是各种各样的有意思的事情。相比而言，本科的生活只能说是充实，除了在实验室的工作和学习，就是参加学校的冯如杯比赛。虽然每天很忙，做的很多项目中收获也很大，但是现在回想起来，特别有意思的事情却不多，这个皮影戏倒是能算一个。我现在来机器人研究所读研究生，和这个项目也有很大的关系。它让我第一次从软件走到了硬件，通过机电结合的方式实现了这个比赛，也让我对程序和电路，机械有了新的认识。</p>
+<p><embed src="http://player.youku.com/player.php/sid/XNjY2MzQyODQw/v.swf" allowFullScreen="true" quality="high" width="480" height="400" align="middle" allowScriptAccess="always" type="application/x-shockwave-flash"></embed></p>
+<h3>年初：论文被录用</h3>
+<p>不说本科了，2013年最早的一个好消息，应该是年初的时候收到了论文被录用的消息。这篇论文的前身是我冯如杯比赛的作品，当时花了很多时间和心血。在研究生第一学期的时候，我把当时的作品资料整理起来，写了这样<a href="http://ieeexplore.ieee.org/xpl/login.jsp?tp=&amp;arnumber=6566387&amp;url=http%3A%2F%2Fieeexplore.ieee.org%2Fxpls%2Fabs_all.jsp%3Farnumber%3D6566387">一篇论文</a>。写论文的过程中，明显能感觉到当时有很多想法还不清晰，一些问题没有想明白。当我一笔一笔的写论文的时候，所有的这些问题都汇总在我的脑子里，和搜集的资料，看的论文一起，慢慢的就都想明白了。这时候我也真正理解到，为什么那么多人都说总结是学习的最好方式。写论文就是对自己工作的一个完整总结，同时为了能够发布，不仅要完整还要清晰明了。我总是以为一个项目是自己做出来的，那么自己就应该会对每个细节都非常了解。事实上，脑子里思考的东西都是非常模糊的没有细节的东西，当写下来每一个步骤的时候，就会发现自己思维的遗漏。所以这种分享式的记录也变得重要起来。下面是比赛时的做的视频，还是很有意思的：</p>
+<p><embed src="http://player.youku.com/player.php/sid/XNjY2MzQ1NTY4/v.swf" allowFullScreen="true" quality="high" width="480" height="400" align="middle" allowScriptAccess="always" type="application/x-shockwave-flash"></embed></p>
+<h3>清明前后：香港+欧洲</h3>
+<p>感谢学校的课程都很水，我在研究生第一学期的时候，已经把需要的学分几乎修够了。第二学期只有必修的政治课和一门实验课，也多亏了第二学期没什么课。为了扩展学校学生的视野，让更多的学生能够和世界其他国家的学生一起交流，北航的校长提出了一个UPS计划，从大学，到教授，再到学生，全方位的交流。计划实施的第一步，是校长带队，让一些老师和学生组成访问团去欧洲的几个学校进行交流和访问，以便洽谈日后的交流合作问题。我很荣幸的，成为了学校十名学生代表之一，带着我们的机器鱼跟随校长去欧洲进行<a href="http://i.buaa.edu.cn/space.php?uid=19673&amp;do=blog&amp;id=18291">交流</a>。这是非常有收获的一次交流，我见识了国外的学校，学生还有普通人。</p>
+<p>在准备出国签证的那段时间，刚好赶上了清明节，我还抽空去香港玩了一圈。这是我第一次和女朋友一起旅游，当然还有我的好朋友和他的女朋友。。。香港是个神奇的地方，就好像把北京的几条街全都挤到一起，就是香港的一条街。最好玩的还是迪士尼乐园，我们去的那天已经过完节（这就是学生的优势，不用请假可以多在外面呆几天），园里大部分都是外国人。几乎不需要排队，任何游乐设施过去就能玩。我们一天把所有能玩的地方都玩了个遍，像过山车什么的平时人特别多的，我们玩了好几遍。最终，一天的游乐以迪士尼美丽的烟花告终，可以没有一个能拍出美丽烟花的相机，分享不了。</p>
+<h3>生日礼物</h3>
+<p>女朋友的生日是很重要的。我一般情况下会送一些奇奇怪怪的东西，比如旋转LED,自己<a href="http://ghdawn.me/wo-de-mu-wan-zhong-de-yu-zhou.html">画的小宇宙</a>。
+今年一个巧合，惊讶的发现学校的冯如创新中心居然提供了激光切割机，我就决定用它做个小型摩天轮，插上电就可以转动。虽然我总是自称程序员，可毕竟是机械学院的，于是我画了工程图，利用木板加工了一个类似工艺品的架子，可以拼装在一起，最后用502紧固一下。其他材料我去了中发电子城，买了两个LED灯，一个面包板，一些导线和一个减速电机。虽然叫减速电机，但是它的转速对我来说还是很快，还好我选择了USB供电，而它的额定电压高于5V，所以在电压不足的情况下，转速就可以足够慢了。拼装好了的样子大概是下面这样的，可惜我设计功底太差，做完了看着像个风车，而不是摩天轮
+<embed src="http://player.youku.com/player.php/sid/XNjY2MzQ0MDg4/v.swf" allowFullScreen="true" quality="high" width="480" height="400" align="middle" allowScriptAccess="always" type="application/x-shockwave-flash"></embed></p>
+<h3>暑假：四川</h3>
+<p>暑假刚开始时，实验室的四个男同胞决定一起去四川旅游，爬峨眉山，游九寨沟。到了我们临走的那段时间，每天成都都会有大雨，暴雨等各种新闻和预警，听的我们胆战心惊，但最终还是决定去碰碰运气。我们都到了火车上，听到的都是暴雨红色，橙色预警，峨眉山封山，九寨沟滞留等消息，只能说我们淡淡的有些愁。不过幸运的是，在我们计划中去峨眉山的前一天晚上7点钟，四川新闻里报道了峨眉山开始迎接旅客的消息。这样的结果就是，第二天我们在爬山的过程中，一路都看不到几个游客。我们的游览路线是从山脚下一路爬山到金顶，全程需要两天多的时间。路上我们背着所有的干粮，巧克力，还有洗漱用品和换洗衣服。都说成都一年见不到几天太阳，我们在山脚下还是阴天，爬到下午的时候就看到了太阳，往下看则什么也看不到，说明我们爬到了一片云的上面了。峨眉山的猴子远近闻名，刚开始爬山的时候大家还在讨论能不能看到猴子。中途有一个旅游景点，就是专门看猴子的，有工作人员喂猴子，游客拍照。从这个旅游景点，我们对猴子的美好印象彻底没了。我们走着走着，就有一只猴子过来抢我的背包，当然它没抢走，只是撕烂了我的包，然后把一瓶可口可乐拿走喝掉了。我的拿剪刀都不那么好弄破的背包，就这么被它轻松的撕了个大口子。再往前走，路上都没什么游客了，就听着上面有人大叫。走进一看，又一个人的包被猴子抢走了。几只猴子挡在路中间，把他包里的东西都翻了出来，拿着方便面什么的就开始吃。包里的手机，衣服什么的散落了一地。猴子们看我们一群人在一起，就又叫了点猴子来把我们围了起来。多亏我们中的一个游客带了个高级的手电，可以放电，噼里啪啦的吓走了猴子们。之后的行程中，总能看到一只两只的猴子来路上盯着我们。根据工作人员讲，它们对男的不会太敢下手，一般见到女的就会去抢了。到第一天结束的时候，我们感觉腿都要断了，肩膀也快折了，还好路上看到了一家寺庙，就进去借宿了一宿。虽然是夏天，但是山上非常冷，尤其住进一个漏风的禅房里，我不得不把带的衣服全都穿上才能睡着。一直爬到第二天晚上我们才接近了山顶，住在了太子坪的寺庙。路上又起雾了，空气湿度达到了100%,都可以看到雨滴在眼前形成，从眼前开始下雨。这个庙里的住持人很好，还叫我们有兴趣的一起去做功课，一大群人一起念经很有意思，我还和住持聊了一会儿天，感觉很好。</p>
+<p>第三天要登金顶看日出，5点我们就出发了，一路上黑的伸手不见五指。等6点多天蒙蒙亮，我就发现，雾大的伸手不见五指。于是看日出的美好愿望就泡汤了。峨眉山之旅以2天海拔3千米，山路70公里告一段落。
+回到成都以后，九寨沟依然封路不能进，而我们已经爬山爬废了，不可能再去青城山走一圈，地图找来找去就决定去康定玩一玩。草原很美，不过一路只是观景没什么特别的事情。</p>
+<p><img alt="师兄和漏风的禅房" src="/image/2013review/1.JPG" />
+<img alt="走着走着天晴了" src="/image/2013review/2.JPG" />
+<img alt="师兄和第二天更惨的禅房" src="/image/2013review/3.JPG" />
+<img alt="能看到那个大佛吗" src="/image/2013review/4.JPG" />
+<img alt="草原很美" src="/image/2013review/5.JPG" /></p>
+<h3>第二学期</h3>
+<p>第二学期就无聊一些了，刚开始的大部分时间在读论文，准备硕士开题，我的毕设主要是做视觉目标跟踪。好日子两个月就结束了。从11月开始，我的大老板和小老板不加沟通的一起给我安排了好多任务。小老板要我突击给一个项目做软件，其实做的软件并不复杂，只是时间太紧了，突击的很痛苦。同时大老板要求做一个用于机电控制课程的教学工具，初期是一个通过摄像头自主巡线的小车，要求通过手机来采集数据并输出控制量，第二阶段是把小车换成四旋翼，简单的通过视觉跟踪地面上的一个简单的目标。这两件事情外加开题答辩的事情，让我焦头烂额，最后还去上海出了差。这期间我还评选上了优秀研究生，有种痛并快乐着的感觉。</p>
+<p>总体来说，今年很有意思，干了好多好多的事情。而且现在女朋友加我的师兄弟们一起打dota成了项目组的娱乐活动，每天生活还是很开心的。</p>
                 </div><!-- /.entry-content -->
                 <div class="comments">
                 <h2>Comments !</h2>
                         <div id="disqus_thread"></div>
                         <script type="text/javascript">
-                           var disqus_identifier = "wei-omap4430an-zhuang-linuxandroidxi-tong.html";
+                           var disqus_identifier = "wo-de-2013hui-gu.html";
                            (function() {
                                 var dsq = document.createElement('script');
                                 dsq.type = 'text/javascript'; dsq.async = true;

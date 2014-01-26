@@ -6,6 +6,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="">
     <meta name="author" content="清风未明">
+    <script type="text/javascript">
+var _bdhmProtocol = (("https:" == document.location.protocol) ? " https://" : " http://");
+document.write(unescape("%3Cscript src='" + _bdhmProtocol + "hm.baidu.com/h.js%3F411747de00f33a70faa9301dc251ce77' type='text/javascript'%3E%3C/script%3E"));
+</script>
+
     <script>
   (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
   (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
@@ -16,6 +21,7 @@
   ga('send', 'pageview');
 
 </script>
+
     <!-- Le styles -->
     <link rel="stylesheet" href="../theme/css/bootstrap.min.css" type="text/css" />
     <style type="text/css">
@@ -99,6 +105,54 @@
       <div class="row">
         <div class="span9" id="content">
         <div class="article">
+                <h1><a href="../omap4430-kai-fa-huan-jing-pei-zhi-shou-ji.html">"OMAP4430 开发环境配置手记"</a></h1>
+                <div class="well small"><footer class="post-info">
+<span class="label">Date</span>
+<abbr class="published" title="2012-02-09T15:25:00">
+        <i class="icon-calendar"></i>四 09 二月 2012
+</abbr>
+<span class="label">By</span>
+<a href="../author/qing-feng-wei-ming.html"><i class="icon-user"></i>清风未明</a>
+<span class="label">Category</span>
+<a href="../category/study.html"><i class="icon-folder-open"></i>Study</a>.
+
+
+<span class="label">Tags</span>
+	<a href="../tag/codes.html"><i class="icon-tag"></i>Codes</a>
+	<a href="../tag/qian-ru-shi.html"><i class="icon-tag"></i>嵌入式</a>
+	<a href="../tag/linux.html"><i class="icon-tag"></i>Linux</a>
+</footer><!-- /.post-info --></div>
+                <div class="summary"><p>由于学习的内容与嵌入式开发有关，所以在这里记录一下学习过程。这次为开箱后的开发环境配置。</p>
+<p>我这块OMAP4430开发板配双核Cortex-A9处理器，运行系统为Ubuntu，具体信息见<a href="http://pandaboard.org/">官网PandaBoard</a>。</p>
+<p>我的计算机环境：Linux Mint 12</p>
+<h1>安装GCC交叉编译环境</h1>
+<h2>通过软件包管理器自动安装</h2>
+<p>打开新立得包管理器，搜索_binutils-arm-linux-gnueabi_，选中以下软件包：  </p>
+<ul>
+<li>binutils-arm-linux-gnueabi</li>
+<li>g++-arm-linux-gnueabi</li>
+<li>gcc-arm-linux-gnueabi</li>
+<li>cpp-arm-linux-gnueabi</li>
+</ul>
+<h2>自己下载，手动安装</h2>
+<ul>
+<li>在<a href="http://blog.chinaunix.net/link.php?url=http://www.codesourcery.com%2Fsgpp%2Flite%2Farm%2Fportal%2Frelease1293">这里</a>下载最新的<em>ARM-GCC交叉编译器</em></li>
+<li>将压缩包解压到某个位置（可以改个名字，这个文件名太长了。如我这里放在~/develop/arm-linux-gnueabi）</li>
+</ul>
+<div class="highlight"><pre> tar xvf arm-2010q1-202-arm-none-linux-gnueabi-i686-pc-linux-gnu.tar.bz2
+</pre></div>
+
+
+<ul>
+<li>将其中的<em>bin</em>文件夹加入环境变量</li>
+</ul>
+<div class="highlight"><pre> vim .bashrc <span class="c">#打开配置文件，加入如下内容</span>
+ PATH+<span class="o">=</span>:~/develop/arm-linux-gnueabi/bin <span class="c">#切记加上 ...</span></pre></div>
+                        <a class="btn primary xsmall" href="../omap4430-kai-fa-huan-jing-pei-zhi-shou-ji.html">more ...</a>
+                </div>
+        </div>
+        <hr />
+        <div class="article">
                 <h1><a href="../pei-zhi-bo-ke-de-shi-hou-peng-dao-de-xie-wen-ti.html">"配置博客的时候碰到的一些问题"</a></h1>
                 <div class="well small"><footer class="post-info">
 <span class="label">Date</span>
@@ -180,6 +234,7 @@
         </div><!--/span-->
 
                 <div class="span3 well sidebar-nav" id="sidebar">
+<a href="javascript:void(function(){var d=document,e=encodeURIComponent,s1=window.getSelection,s2=d.getSelection,s3=d.selection,s=s1?s1():s2?s2():s3?s3.createRange().text:'',r='http://www.douban.com/recommend/?url='+e(d.location.href)+'&title='+e(d.title)+'&sel='+e(s)+'&v=1',w=450,h=330,x=function(){if(!window.open(r,'douban','toolbar=0,resizable=1,scrollbars=yes,status=1,width='+w+',height='+h+',left='5+(screen.width-w)/2+',top='+(screen.height-h)/2))location.href=r+'&r=1'};if(/Firefox/.test(navigator.userAgent)){setTimeout(x,0)}else{x()}})()"><img src="http://img2.douban.com/pics/fw2douban1.png" alt="推荐到豆瓣" /></a>
 <ul class="nav nav-list">
 <li class="nav-header"><h4><i class="icon-external-link"></i>blogroll</h4></li>
     <li><a href="https://dangfan.me/zhs"><i class="icon-external-link"></i>DFDNN</a></li>
@@ -188,8 +243,8 @@
 <li class="nav-header"><h4><i class="icon-home icon-large"></i> social</h4></li>
 <li><a href="../" rel="alternate"><i class="icon-bookmark icon-large"></i>atom feed</a></li>
 <li><a href="../feeds/all.rss.xml" rel="alternate"><i class="icon-bookmark icon-large"></i>rss feed</a></li>
-    <li><a href="https://github.com/ghdawn"><i class="icon-github-sign icon-large"></i>github</a></li>
-    <li><a href="http://fanfou.com/home"><i class="icon-饭否-sign icon-large"></i>饭否</a></li>
+    <li><a href="https://github.com/ghdawn"><i class="icon-@github-sign icon-large"></i>@github</a></li>
+    <li><a href="http://fanfou.com/home"><i class="icon-@饭否-sign icon-large"></i>@饭否</a></li>
 
 <li class="nav-header"><h4><i class="icon-folder-close icon-large"></i>Categories</h4></li>
 <li>
@@ -204,19 +259,24 @@
 </li>
 
 <li class="nav-header"><h4><i class="icon-tags icon-large"></i>Tags</h4></li>
+<li class="tag-3">
+    <a href="../tag/opencv.html">
+        <i class="icon-tag icon-large"></i>OpenCV
+    </a>
+</li>
 <li class="tag-1">
     <a href="../tag/codes.html">
         <i class="icon-tag icon-large"></i>Codes
     </a>
 </li>
-<li class="tag-2">
-    <a href="../tag/qian-ru-shi.html">
-        <i class="icon-tag icon-large"></i>嵌入式
+<li class="tag-4">
+    <a href="../tag/ji-qi-xue-xi.html">
+        <i class="icon-tag icon-large"></i>机器学习
     </a>
 </li>
-<li class="tag-4">
-    <a href="../tag/automatic.html">
-        <i class="icon-tag icon-large"></i>automatic
+<li class="tag-1">
+    <a href="../tag/linux.html">
+        <i class="icon-tag icon-large"></i>Linux
     </a>
 </li>
 <li class="tag-3">
@@ -224,9 +284,14 @@
         <i class="icon-tag icon-large"></i>考研
     </a>
 </li>
-<li class="tag-1">
-    <a href="../tag/linux.html">
-        <i class="icon-tag icon-large"></i>Linux
+<li class="tag-4">
+    <a href="../tag/matlab.html">
+        <i class="icon-tag icon-large"></i>matlab
+    </a>
+</li>
+<li class="tag-2">
+    <a href="../tag/android.html">
+        <i class="icon-tag icon-large"></i>Android
     </a>
 </li>
 <li class="tag-2">
@@ -239,32 +304,22 @@
         <i class="icon-tag icon-large"></i>Boring
     </a>
 </li>
-<li class="tag-2">
-    <a href="../tag/android.html">
-        <i class="icon-tag icon-large"></i>Android
+<li class="tag-4">
+    <a href="../tag/automatic.html">
+        <i class="icon-tag icon-large"></i>automatic
     </a>
 </li>
-<li class="tag-4">
+<li class="tag-3">
     <a href="../tag/life.html">
         <i class="icon-tag icon-large"></i>life
     </a>
 </li>
-<li class="tag-3">
-    <a href="../tag/opencv.html">
-        <i class="icon-tag icon-large"></i>OpenCV
+<li class="tag-2">
+    <a href="../tag/qian-ru-shi.html">
+        <i class="icon-tag icon-large"></i>嵌入式
     </a>
 </li>
-<li class="tag-4">
-    <a href="../tag/ji-qi-xue-xi.html">
-        <i class="icon-tag icon-large"></i>机器学习
-    </a>
-</li>
-<li class="tag-4">
-    <a href="../tag/matlab.html">
-        <i class="icon-tag icon-large"></i>matlab
-    </a>
-</li>
-
+    <script type="text/javascript" src="http://www.douban.com/service/badge/dream29831/?selection=latest&amp;picsize=small&amp;show=collection&amp;n=8&amp;cat=drama%7Cmovie%7Cbook%7Cmusic&amp;columns=2"></script>
 
 </ul>        </div><!--/.well -->
 
