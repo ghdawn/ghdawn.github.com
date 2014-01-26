@@ -2,7 +2,7 @@
 <html lang="en">
   <head>
     <meta charset="utf-8">
-    <title>记录 - 机器学习</title>
+    <title>更换了博客生成系统</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="">
     <meta name="author" content="清风未明">
@@ -23,7 +23,7 @@ document.write(unescape("%3Cscript src='" + _bdhmProtocol + "hm.baidu.com/h.js%3
 </script>
 
     <!-- Le styles -->
-    <link rel="stylesheet" href="../theme/css/bootstrap.min.css" type="text/css" />
+    <link rel="stylesheet" href="./theme/css/bootstrap.min.css" type="text/css" />
     <style type="text/css">
       body {
         padding-top: 60px;
@@ -45,10 +45,10 @@ document.write(unescape("%3Cscript src='" + _bdhmProtocol + "hm.baidu.com/h.js%3
         font-size: 6pt;
      }
     </style>
-    <link href="../theme/css/bootstrap-responsive.min.css" rel="stylesheet">
-        <link href="../theme/css/font-awesome.css" rel="stylesheet">
+    <link href="./theme/css/bootstrap-responsive.min.css" rel="stylesheet">
+        <link href="./theme/css/font-awesome.css" rel="stylesheet">
 
-    <link href="../theme/css/pygments.css" rel="stylesheet">
+    <link href="./theme/css/pygments.css" rel="stylesheet">
 
     <!-- Le HTML5 shim, for IE6-8 support of HTML5 elements -->
     <!--[if lt IE 9]>
@@ -56,13 +56,35 @@ document.write(unescape("%3Cscript src='" + _bdhmProtocol + "hm.baidu.com/h.js%3
     <![endif]-->
 
     <!-- Le fav and touch icons -->
-    <link rel="shortcut icon" href="../theme/images/favicon.ico">
-    <link rel="apple-touch-icon" href="../theme/images/apple-touch-icon.png">
-    <link rel="apple-touch-icon" sizes="72x72" href="../theme/images/apple-touch-icon-72x72.png">
-    <link rel="apple-touch-icon" sizes="114x114" href="../theme/images/apple-touch-icon-114x114.png">
+    <link rel="shortcut icon" href="./theme/images/favicon.ico">
+    <link rel="apple-touch-icon" href="./theme/images/apple-touch-icon.png">
+    <link rel="apple-touch-icon" sizes="72x72" href="./theme/images/apple-touch-icon-72x72.png">
+    <link rel="apple-touch-icon" sizes="114x114" href="./theme/images/apple-touch-icon-114x114.png">
 
-    <link href="../" type="application/atom+xml" rel="alternate" title="记录 ATOM Feed" />
-    <link href="../feeds/all.rss.xml" type="application/atom+xml" rel="alternate" title="记录 RSS Feed" />
+    <link href="./" type="application/atom+xml" rel="alternate" title="记录 ATOM Feed" />
+    <link href="./feeds/all.rss.xml" type="application/atom+xml" rel="alternate" title="记录 RSS Feed" />
+    
+    <script type= "text/javascript">
+        var s = document.createElement('script');
+        s.type = 'text/javascript';
+        s.src = 'https:' == document.location.protocol ? 'https://c328740.ssl.cf1.rackcdn.com/mathjax/latest/MathJax.js' : 'http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML'; 
+        s[(window.opera ? "innerHTML" : "text")] =
+            "MathJax.Hub.Config({" + 
+            "    config: ['MMLorHTML.js']," + 
+            "    jax: ['input/TeX','input/MathML','output/HTML-CSS','output/NativeMML']," +
+            "    TeX: { extensions: ['AMSmath.js','AMSsymbols.js','noErrors.js','noUndefined.js'], equationNumbers: { autoNumber: 'AMS' } }," + 
+            "    extensions: ['tex2jax.js','mml2jax.js','MathMenu.js','MathZoom.js']," +
+            "    tex2jax: { " +
+            "        inlineMath: [ ['$','$'] ], " +
+            "        displayMath: [ ['$$','$$'] ]," +
+            "        processEscapes: true }, " +
+            "    'HTML-CSS': { " +
+            "        styles: { '.MathJax .mo, .MathJax .mi': {color: 'black ! important'}} " +
+            "    } " +
+            "}); ";
+        (document.body || document.getElementsByTagName('head')[0]).appendChild(s);
+    </script>
+
   </head>
 
   <body>
@@ -75,23 +97,23 @@ document.write(unescape("%3Cscript src='" + _bdhmProtocol + "hm.baidu.com/h.js%3
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
           </a>
-          <a class="brand" href="../index.html">记录 </a>
+          <a class="brand" href="./index.html">记录 </a>
           <div class="nav-collapse">
             <ul class="nav">
                           <li class="divider-vertical"></li>
-                  <li >
-                    <a href="../category/life.html">
+                  <li class="active">
+                    <a href="./category/life.html">
 						<i class="icon-folder-open icon-large"></i>Life
 					</a>
                   </li>
                   <li >
-                    <a href="../category/study.html">
+                    <a href="./category/study.html">
 						<i class="icon-folder-open icon-large"></i>Study
 					</a>
                   </li>
 
                           <ul class="nav pull-right">
-                                <li><a href="../archives.html"><i class="icon-th-list"></i>Archives</a></li>
+                                <li><a href="./archives.html"><i class="icon-th-list"></i>Archives</a></li>
                           </ul>
 
             </ul>
@@ -104,45 +126,54 @@ document.write(unescape("%3Cscript src='" + _bdhmProtocol + "hm.baidu.com/h.js%3
     <div class="container-fluid">
       <div class="row">
         <div class="span9" id="content">
-        <div class="article">
-                <h1><a href="../ji-qi-xue-xi-zuo-ye-1-ji-yu-pcafang-fa-de-ren-lian-shi-bie.html">"机器学习作业1--基于PCA方法的人脸识别"</a></h1>
-                <div class="well small"><footer class="post-info">
+<section id="content">
+        <article>
+                <header>
+                        <h1>
+                                <a href=""
+                                        rel="bookmark"
+                                        title="Permalink to 更换了博客生成系统">
+                                        更换了博客生成系统
+                                </a>
+                        </h1>
+                </header>
+                <div class="entry-content">
+                <div class="well">
+<footer class="post-info">
 <span class="label">Date</span>
-<abbr class="published" title="2012-12-02T20:22:00">
-        <i class="icon-calendar"></i>日 02 十二月 2012
+<abbr class="published" title="2014-01-26T00:00:00">
+        <i class="icon-calendar"></i>日 26 一月 2014
 </abbr>
 <span class="label">By</span>
-<a href="../author/qing-feng-wei-ming.html"><i class="icon-user"></i>清风未明</a>
+<a href="./author/qing-feng-wei-ming.html"><i class="icon-user"></i>清风未明</a>
 <span class="label">Category</span>
-<a href="../category/study.html"><i class="icon-folder-open"></i>Study</a>.
+<a href="./category/life.html"><i class="icon-folder-open"></i>Life</a>.
 
 
 <span class="label">Tags</span>
-	<a href="../tag/ji-qi-xue-xi.html"><i class="icon-tag"></i>机器学习</a>
-	<a href="../tag/codes.html"><i class="icon-tag"></i>Codes</a>
-</footer><!-- /.post-info --></div>
-                <div class="summary"><h3>实验目的</h3>
-<ol>
-<li>学习主成分分析（PCA）的基础知识</li>
-<li>了解PCA在人脸识别与重建方面的应用</li>
-<li>认识数据降维在数据处理中的重要作用</li>
-<li>学习使用matlab实现PCA算法</li>
-</ol>
-<h3>实验原理</h3>
-<p>随着人们处理的问题越来越复杂，待处理的数据变得越来越庞大。在数据分析和处理的过程中，时间的消耗量是十分巨大的。于是人们在不断的寻找一些能够简化计算，方便处理数据的方法。其中数据降维就是一种能够简化计算，并且使数据更加易于处理（如数据可视化）的方法。主成分分析（PCA）方法就是一种用于数据降维处理的方法。</p>
-<p>通常要处理的原始数据会有以下几个特性：</p>
-<ol>
-<li>数据的不同维数之间是线性相关的，即 $cov(i,j)\neq 0 , i\neq j$</li>
-<li>数据中的信息量分布不均匀，即有些方向数据分布集中，有些方向信息量较少。</li>
-<li>一些较少的信息量去掉以后，对原始数据的分析并不产生太大的影响</li>
-</ol>
-<p>由此，就考虑是否可以去掉那些包含信息量较少的数据，只保留包含信息量大的数据，这样就可以减少计算量。即抓住问题的主要矛盾，忽略次要矛盾。另外由于数据互相有相关性，数据矩阵的协方差矩阵不是对角阵。当取出了第一条信息量最大的向量，当然希望第二条次大的向量中，不要再包含第一条向量的信息。
-有了以上的考虑，同时数据协方差矩阵一定是实对称矩阵 ...</p>
-                        <a class="btn primary xsmall" href="../ji-qi-xue-xi-zuo-ye-1-ji-yu-pcafang-fa-de-ren-lian-shi-bie.html">more ...</a>
+	<a href="./tag/lifepythonblog.html"><i class="icon-tag"></i>life，Python，blog</a>
+</footer><!-- /.post-info -->                </div>
+                <p>如果不是GoDaddy给我发邮件提醒续费，我都忘了我还有这么一个域名，以及这么一个博客。最早决定写博客是看到好多人都说记录一些事情是个好习惯，无论对于生活还是学习都是。另外当我发现我的写作能力实在差的太厉害，太需要锻炼锻炼。当时看到Octopress那么有趣，我就做了这么一个博客。</p>
+<p>但问题是，那个ruby环境实在太难配置了，我的电脑上总会出现这样或者那样的问题，对ruby版本号有要求，对组件版本号有要求，每次配个环境都费死劲了。所以当我换电脑后，配环境未遂，就只好作罢了。</p>
+<p>一次上网随便看东西，发现了Pelican这么一个基于Python的博客系统，突然觉得很喜欢，一个是不需要什么环境配置，系统自带的Python就可以，另外它很简单，使用起来没什么特殊的难点，也是管理静态页面的方法。我就又决定要开始记录学习的过程了！！！</p>
+<p>搭建过程我主要参考了<a href="http://frantic1048.com/bo-ke-dan-sheng-ji-ji-yu-githubpelicanchuang-jian-bo-ke-de-zheng-ge-guo-cheng.html">它</a>和<a href="http://blog.csdn.net/buptgshengod/article/details/10228395">它</a></p>
+                </div><!-- /.entry-content -->
+                <div class="comments">
+                <h2>Comments !</h2>
+                        <div id="disqus_thread"></div>
+                        <script type="text/javascript">
+                           var disqus_identifier = "geng-huan-liao-bo-ke-sheng-cheng-xi-tong.html";
+                           (function() {
+                                var dsq = document.createElement('script');
+                                dsq.type = 'text/javascript'; dsq.async = true;
+                                dsq.src = 'http://ghdawn.disqus.com/embed.js';
+                                (document.getElementsByTagName('head')[0] ||
+                                 document.getElementsByTagName('body')[0]).appendChild(dsq);
+                          })();
+                        </script>
                 </div>
-        </div>
-        <hr />
-
+        </article>
+</section>
         </div><!--/span-->
 
                 <div class="span3 well sidebar-nav" id="sidebar">
@@ -153,86 +184,86 @@ document.write(unescape("%3Cscript src='" + _bdhmProtocol + "hm.baidu.com/h.js%3
     <li><a href="http://dumbear.com/"><i class="icon-external-link"></i>Dumbear</a></li>
     <li><a href="http://www.tomtung.com/"><i class="icon-external-link"></i>逆铭</a></li>
 <li class="nav-header"><h4><i class="icon-home icon-large"></i> social</h4></li>
-<li><a href="../" rel="alternate"><i class="icon-bookmark icon-large"></i>atom feed</a></li>
-<li><a href="../feeds/all.rss.xml" rel="alternate"><i class="icon-bookmark icon-large"></i>rss feed</a></li>
+<li><a href="./" rel="alternate"><i class="icon-bookmark icon-large"></i>atom feed</a></li>
+<li><a href="./feeds/all.rss.xml" rel="alternate"><i class="icon-bookmark icon-large"></i>rss feed</a></li>
     <li><a href="https://github.com/ghdawn"><i class="icon-@github-sign icon-large"></i>@github</a></li>
     <li><a href="http://fanfou.com/home"><i class="icon-@饭否-sign icon-large"></i>@饭否</a></li>
 
 <li class="nav-header"><h4><i class="icon-folder-close icon-large"></i>Categories</h4></li>
 <li>
-<a href="../category/life.html">
+<a href="./category/life.html">
     <i class="icon-folder-open icon-large"></i>Life
 </a>
 </li>
 <li>
-<a href="../category/study.html">
+<a href="./category/study.html">
     <i class="icon-folder-open icon-large"></i>Study
 </a>
 </li>
 
 <li class="nav-header"><h4><i class="icon-tags icon-large"></i>Tags</h4></li>
 <li class="tag-3">
-    <a href="../tag/opencv.html">
+    <a href="./tag/opencv.html">
         <i class="icon-tag icon-large"></i>OpenCV
     </a>
 </li>
 <li class="tag-4">
-    <a href="../tag/ji-qi-xue-xi.html">
+    <a href="./tag/ji-qi-xue-xi.html">
         <i class="icon-tag icon-large"></i>机器学习
     </a>
 </li>
 <li class="tag-2">
-    <a href="../tag/android.html">
+    <a href="./tag/android.html">
         <i class="icon-tag icon-large"></i>Android
     </a>
 </li>
 <li class="tag-4">
-    <a href="../tag/matlab.html">
+    <a href="./tag/matlab.html">
         <i class="icon-tag icon-large"></i>matlab
     </a>
 </li>
 <li class="tag-3">
-    <a href="../tag/kao-yan.html">
+    <a href="./tag/kao-yan.html">
         <i class="icon-tag icon-large"></i>考研
     </a>
 </li>
 <li class="tag-4">
-    <a href="../tag/lifepythonblog.html">
+    <a href="./tag/lifepythonblog.html">
         <i class="icon-tag icon-large"></i>life，Python，blog
     </a>
 </li>
 <li class="tag-1">
-    <a href="../tag/codes.html">
+    <a href="./tag/codes.html">
         <i class="icon-tag icon-large"></i>Codes
     </a>
 </li>
 <li class="tag-2">
-    <a href="../tag/blog.html">
+    <a href="./tag/blog.html">
         <i class="icon-tag icon-large"></i>blog
     </a>
 </li>
 <li class="tag-1">
-    <a href="../tag/linux.html">
+    <a href="./tag/linux.html">
         <i class="icon-tag icon-large"></i>Linux
     </a>
 </li>
 <li class="tag-4">
-    <a href="../tag/automatic.html">
+    <a href="./tag/automatic.html">
         <i class="icon-tag icon-large"></i>automatic
     </a>
 </li>
 <li class="tag-2">
-    <a href="../tag/qian-ru-shi.html">
+    <a href="./tag/qian-ru-shi.html">
         <i class="icon-tag icon-large"></i>嵌入式
     </a>
 </li>
 <li class="tag-2">
-    <a href="../tag/boring.html">
+    <a href="./tag/boring.html">
         <i class="icon-tag icon-large"></i>Boring
     </a>
 </li>
 <li class="tag-3">
-    <a href="../tag/life.html">
+    <a href="./tag/life.html">
         <i class="icon-tag icon-large"></i>life
     </a>
 </li>
@@ -278,7 +309,7 @@ pageTracker._trackPageview();
 
     <!-- Le javascript -->
     <!-- Placed at the end of the document so the pages load faster -->
-    <script src="../theme/js/jquery-1.7.2.min.js"></script>
-    <script src="../theme/js/bootstrap.min.js"></script>
+    <script src="./theme/js/jquery-1.7.2.min.js"></script>
+    <script src="./theme/js/bootstrap.min.js"></script>
   </body>
 </html>

@@ -5,30 +5,37 @@ xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
 
 <url>
 <loc>http://ghdawn.me/index.html</loc>
-<lastmod>2014-01-26T15:57:14-00:00</lastmod>
+<lastmod>2014-01-26T16:05:47-00:00</lastmod>
 <changefreq>daily</changefreq>
 <priority>0.5</priority>
 </url>
 
 <url>
 <loc>http://ghdawn.me/archives.html</loc>
-<lastmod>2014-01-26T15:57:14-00:00</lastmod>
+<lastmod>2014-01-26T16:05:47-00:00</lastmod>
 <changefreq>daily</changefreq>
 <priority>0.5</priority>
 </url>
 
 <url>
 <loc>http://ghdawn.me/tags.html</loc>
-<lastmod>2014-01-26T15:57:14-00:00</lastmod>
+<lastmod>2014-01-26T16:05:47-00:00</lastmod>
 <changefreq>daily</changefreq>
 <priority>0.5</priority>
 </url>
 
 <url>
 <loc>http://ghdawn.me/categories.html</loc>
-<lastmod>2014-01-26T15:57:14-00:00</lastmod>
+<lastmod>2014-01-26T16:05:47-00:00</lastmod>
 <changefreq>daily</changefreq>
 <priority>0.5</priority>
+</url>
+
+<url>
+<loc>http://ghdawn.me/geng-huan-liao-bo-ke-sheng-cheng-xi-tong.html</loc>
+<lastmod>2014-01-26T00:00:00-00:00</lastmod>
+<changefreq>monthly</changefreq>
+<priority>0.7</priority>
 </url>
 
 <url>
@@ -223,6 +230,13 @@ xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
 <url>
 <loc>http://ghdawn.me/tag/matlab.html</loc>
 <lastmod>2012-02-17T17:20:00-00:00</lastmod>
+<changefreq>daily</changefreq>
+<priority>0.5</priority>
+</url>
+
+<url>
+<loc>http://ghdawn.me/tag/lifepythonblog.html</loc>
+<lastmod>2014-01-26T00:00:00-00:00</lastmod>
 <changefreq>daily</changefreq>
 <priority>0.5</priority>
 </url>
