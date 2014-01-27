@@ -2,7 +2,7 @@
 <html lang="en">
   <head>
     <meta charset="utf-8">
-    <title>记录</title>
+    <title>"学习在自动控制中应用MATLAB-1"</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="">
     <meta name="author" content="清风未明">
@@ -63,6 +63,28 @@ document.write(unescape("%3Cscript src='" + _bdhmProtocol + "hm.baidu.com/h.js%3
 
     <link href="./" type="application/atom+xml" rel="alternate" title="记录 ATOM Feed" />
     <link href="./feeds/all.rss.xml" type="application/atom+xml" rel="alternate" title="记录 RSS Feed" />
+    
+    <script type= "text/javascript">
+        var s = document.createElement('script');
+        s.type = 'text/javascript';
+        s.src = 'https:' == document.location.protocol ? 'https://c328740.ssl.cf1.rackcdn.com/mathjax/latest/MathJax.js' : 'http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML'; 
+        s[(window.opera ? "innerHTML" : "text")] =
+            "MathJax.Hub.Config({" + 
+            "    config: ['MMLorHTML.js']," + 
+            "    jax: ['input/TeX','input/MathML','output/HTML-CSS','output/NativeMML']," +
+            "    TeX: { extensions: ['AMSmath.js','AMSsymbols.js','noErrors.js','noUndefined.js'], equationNumbers: { autoNumber: 'AMS' } }," + 
+            "    extensions: ['tex2jax.js','mml2jax.js','MathMenu.js','MathZoom.js']," +
+            "    tex2jax: { " +
+            "        inlineMath: [ ['$','$'] ], " +
+            "        displayMath: [ ['$$','$$'] ]," +
+            "        processEscapes: true }, " +
+            "    'HTML-CSS': { " +
+            "        styles: { '.MathJax .mo, .MathJax .mi': {color: 'black ! important'}} " +
+            "    } " +
+            "}); ";
+        (document.body || document.getElementsByTagName('head')[0]).appendChild(s);
+    </script>
+
   </head>
 
   <body>
@@ -84,7 +106,7 @@ document.write(unescape("%3Cscript src='" + _bdhmProtocol + "hm.baidu.com/h.js%3
 						<i class="icon-folder-open icon-large"></i>Life
 					</a>
                   </li>
-                  <li >
+                  <li class="active">
                     <a href="./category/study.html">
 						<i class="icon-folder-open icon-large"></i>Study
 					</a>
@@ -104,9 +126,20 @@ document.write(unescape("%3Cscript src='" + _bdhmProtocol + "hm.baidu.com/h.js%3
     <div class="container-fluid">
       <div class="row">
         <div class="span9" id="content">
-        <div class="article">
-                <h1><a href="./2012-02-17-matlab-study1.html">"学习在自动控制中应用MATLAB-1"</a></h1>
-                <div class="well small"><footer class="post-info">
+<section id="content">
+        <article>
+                <header>
+                        <h1>
+                                <a href=""
+                                        rel="bookmark"
+                                        title="Permalink to "学习在自动控制中应用MATLAB-1"">
+                                        "学习在自动控制中应用MATLAB-1"
+                                </a>
+                        </h1>
+                </header>
+                <div class="entry-content">
+                <div class="well">
+<footer class="post-info">
 <span class="label">Date</span>
 <abbr class="published" title="2012-02-17T17:20:00">
         <i class="icon-calendar"></i>五 17 二月 2012
@@ -120,8 +153,8 @@ document.write(unescape("%3Cscript src='" + _bdhmProtocol + "hm.baidu.com/h.js%3
 <span class="label">Tags</span>
 	<a href="./tag/matlab.html"><i class="icon-tag"></i>matlab</a>
 	<a href="./tag/automatic.html"><i class="icon-tag"></i>automatic</a>
-</footer><!-- /.post-info --></div>
-                <div class="summary"><h2>建立系统传递函数</h2>
+</footer><!-- /.post-info -->                </div>
+                <h2>建立系统传递函数</h2>
 <p>设系统的传递函数为：
 $$
 \frac{s+1}{2s^3+3s^2+4s+5}
@@ -140,172 +173,148 @@ $$
 <div class="highlight"><pre><span class="o">&gt;&gt;</span> <span class="n">G1</span><span class="p">=</span><span class="n">tf</span><span class="p">([</span><span class="mi">1</span> <span class="mi">2</span><span class="p">],[</span><span class="mi">1</span> <span class="mi">2</span> <span class="mi">3</span><span class="p">])</span>
 
 <span class="n">Transfer</span> <span class="k">function</span><span class="p">:</span>
-    <span class="n">s</span> <span class="o">+</span> <span class="mi">2 ...</span></pre></div>
-                        <a class="btn primary xsmall" href="./2012-02-17-matlab-study1.html">more ...</a>
-                </div>
-        </div>
-        <hr />
-        <div class="article">
-                <h1><a href="./2012-02-13-install-linux.html">"为OMAP4430安装Linux/Android系统"</a></h1>
-                <div class="well small"><footer class="post-info">
-<span class="label">Date</span>
-<abbr class="published" title="2012-02-13T12:33:00">
-        <i class="icon-calendar"></i>一 13 二月 2012
-</abbr>
-<span class="label">By</span>
-<a href="./author/qing-feng-wei-ming.html"><i class="icon-user"></i>清风未明</a>
-<span class="label">Category</span>
-<a href="./category/study.html"><i class="icon-folder-open"></i>Study</a>.
+    <span class="n">s</span> <span class="o">+</span> <span class="mi">2</span>
+<span class="o">-------------</span>
+<span class="n">s</span>^<span class="mi">2</span> <span class="o">+</span> <span class="mi">2</span> <span class="n">s</span> <span class="o">+</span> <span class="mi">3</span>
 
+<span class="o">&gt;&gt;</span> <span class="n">G2</span><span class="p">=</span><span class="n">tf</span><span class="p">([</span><span class="mi">1</span><span class="p">],[</span><span class="mi">1</span> <span class="mi">0</span><span class="p">])</span>
 
-<span class="label">Tags</span>
-	<a href="./tag/codes.html"><i class="icon-tag"></i>Codes</a>
-	<a href="./tag/qian-ru-shi.html"><i class="icon-tag"></i>嵌入式</a>
-	<a href="./tag/linux.html"><i class="icon-tag"></i>Linux</a>
-</footer><!-- /.post-info --></div>
-                <div class="summary"><p>这块开发板没有板载flash，所以操作系统从SD卡引导。这样，我们的操作系统就需要安装在SD卡上。</p>
-<h2>准备sd卡</h2>
-<ol>
-<li>插入sd卡，运行如下命令察看sd卡是否已经挂载</li>
-</ol>
-<div class="highlight"><pre>df -h
-文件系统            容量  已用  可用 已用%% 挂载点
-/dev/sda7              30G   15G   14G  52% /
-udev                  1.5G  4.0K  1.5G   1% /dev
-tmpfs                 602M  1.1M  601M   1% /run
-none                  5.0M     0  5.0M   0% /run/lock
-none                  1.5G  472K ...</pre></div>
-                        <a class="btn primary xsmall" href="./2012-02-13-install-linux.html">more ...</a>
-                </div>
-        </div>
-        <hr />
-        <div class="article">
-                <h1><a href="./2012-02-09-about-omap4430.html">"OMAP4430 开发环境配置手记"</a></h1>
-                <div class="well small"><footer class="post-info">
-<span class="label">Date</span>
-<abbr class="published" title="2012-02-09T15:25:00">
-        <i class="icon-calendar"></i>四 09 二月 2012
-</abbr>
-<span class="label">By</span>
-<a href="./author/qing-feng-wei-ming.html"><i class="icon-user"></i>清风未明</a>
-<span class="label">Category</span>
-<a href="./category/study.html"><i class="icon-folder-open"></i>Study</a>.
-
-
-<span class="label">Tags</span>
-	<a href="./tag/codes.html"><i class="icon-tag"></i>Codes</a>
-	<a href="./tag/qian-ru-shi.html"><i class="icon-tag"></i>嵌入式</a>
-	<a href="./tag/linux.html"><i class="icon-tag"></i>Linux</a>
-</footer><!-- /.post-info --></div>
-                <div class="summary"><p>由于学习的内容与嵌入式开发有关，所以在这里记录一下学习过程。这次为开箱后的开发环境配置。</p>
-<p>我这块OMAP4430开发板配双核Cortex-A9处理器，运行系统为Ubuntu，具体信息见<a href="http://pandaboard.org/">官网PandaBoard</a>。</p>
-<p>我的计算机环境：Linux Mint 12</p>
-<h1>安装GCC交叉编译环境</h1>
-<h2>通过软件包管理器自动安装</h2>
-<p>打开新立得包管理器，搜索_binutils-arm-linux-gnueabi_，选中以下软件包：  </p>
-<ul>
-<li>binutils-arm-linux-gnueabi</li>
-<li>g++-arm-linux-gnueabi</li>
-<li>gcc-arm-linux-gnueabi</li>
-<li>cpp-arm-linux-gnueabi</li>
-</ul>
-<h2>自己下载，手动安装</h2>
-<ul>
-<li>在<a href="http://blog.chinaunix.net/link.php?url=http://www.codesourcery.com%2Fsgpp%2Flite%2Farm%2Fportal%2Frelease1293">这里</a>下载最新的<em>ARM-GCC交叉编译器</em></li>
-<li>将压缩包解压到某个位置（可以改个名字，这个文件名太长了。如我这里放在~/develop/arm-linux-gnueabi）</li>
-</ul>
-<div class="highlight"><pre> tar xvf arm-2010q1-202-arm-none-linux-gnueabi-i686-pc-linux-gnu.tar.bz2
+<span class="n">Transfer</span> <span class="k">function</span><span class="p">:</span>
+<span class="mi">1</span>
+<span class="o">-</span>
+<span class="n">s</span>
 </pre></div>
 
 
 <ul>
-<li>将其中的<em>bin</em>文件夹加入环境变量</li>
+<li>如果需要串联两个模块G1，G2，则用命令：   </li>
 </ul>
-<div class="highlight"><pre> vim .bashrc <span class="c">#打开配置文件，加入如下内容</span>
- PATH+<span class="o">=</span>:~/develop/arm-linux-gnueabi/bin <span class="c">#切记加上 ...</span></pre></div>
-                        <a class="btn primary xsmall" href="./2012-02-09-about-omap4430.html">more ...</a>
-                </div>
-        </div>
-        <hr />
-        <div class="article">
-                <h1><a href="./2012-02-08-how-to-build-it.html">"配置博客的时候碰到的一些问题"</a></h1>
-                <div class="well small"><footer class="post-info">
-<span class="label">Date</span>
-<abbr class="published" title="2012-02-08T15:54:00">
-        <i class="icon-calendar"></i>三 08 二月 2012
-</abbr>
-<span class="label">By</span>
-<a href="./author/qing-feng-wei-ming.html"><i class="icon-user"></i>清风未明</a>
-<span class="label">Category</span>
-<a href="./category/study.html"><i class="icon-folder-open"></i>Study</a>.
+<div class="highlight"><pre><span class="o">&gt;&gt;</span><span class="n">G1</span><span class="o">*</span><span class="n">G2</span>
 
-
-<span class="label">Tags</span>
-	<a href="./tag/boring.html"><i class="icon-tag"></i>Boring</a>
-	<a href="./tag/blog.html"><i class="icon-tag"></i>blog</a>
-</footer><!-- /.post-info --></div>
-                <div class="summary"><p>我在配置这个博客的时候遇到了各种各样的问题，在这里分享一下
-最初我按照 <a href="http://http://dangfan.me/">DF大牛牛</a>的博客，以及<a href="http://jekyllbootstrap.com">jekyllbootstrap</a>提供的教程配置,但是没有成功，出现了各种各种的问题，实在无法解决，只好作罢。比如：</p>
-<ul>
-<li>bundle install的时候显示安装了某某，运行的时候提示找不到某某</li>
-<li>不sudo执行命令说没有权限，sudo执行说没有该命令</li>
-</ul>
-<p>接着我按照<a href="http://octopress.org/docs/setup/">Octopress</a>提供的教程一步一步的做。发现:</p>
-<ol>
-<li>
-<p>我用<em>apt-get</em>安装的ruby环境不能用，在每一步都会出问题，上一段说的问题应该就是这个缘故。</p>
-</li>
-<li>
-<p>于是我使用<em>rvm</em>管理版本。首先卸载掉之前<em>apt-get</em>装的一切ruby有关的内容，然后用rvm重新安装，见<a href="http://octopress.org/docs/setup/">Octopress</a>,在这里按说明安装好ruby,gem,bundle等包</p>
-</li>
-<li>
-<p>官网上说使用<em>rake</em>，但是在依赖安装完之后我并没有rake可以使用，linux提示使用apt-get，但是这里如果用了就会出问题。原因见1. 网上有人说可以gem install rake，于是我就这么做了。结果是 ...</p></li></ol>
-                        <a class="btn primary xsmall" href="./2012-02-08-how-to-build-it.html">more ...</a>
-                </div>
-        </div>
-        <hr />
-        <div class="article">
-                <h1><a href="./2012-02-08-hello.html">Hello world!</a></h1>
-                <div class="well small"><footer class="post-info">
-<span class="label">Date</span>
-<abbr class="published" title="2012-02-08T00:00:00">
-        <i class="icon-calendar"></i>三 08 二月 2012
-</abbr>
-<span class="label">By</span>
-<a href="./author/qing-feng-wei-ming.html"><i class="icon-user"></i>清风未明</a>
-<span class="label">Category</span>
-<a href="./category/study.html"><i class="icon-folder-open"></i>Study</a>.
-
-
-<span class="label">Tags</span>
-	<a href="./tag/boring.html"><i class="icon-tag"></i>Boring</a>
-	<a href="./tag/blog.html"><i class="icon-tag"></i>blog</a>
-</footer><!-- /.post-info --></div>
-                <div class="summary"><p>费了好大的劲，重装了无数次ruby环境，还重装了一次系统，终于把这个博客给弄好了，真是不容易啊！我要养成写博客的好习惯，记录下该记住的一些事情，方便我的学习。</p>
-<p>这个系统真是不错，代码块高亮自动就有了</p>
-<div class="highlight"><pre><span class="cp">#include&lt;iostream&gt;</span>
-<span class="k">using</span> <span class="k">namespace</span> <span class="n">std</span><span class="p">;</span>
-<span class="kt">int</span> <span class="nf">main</span><span class="p">()</span>
-<span class="p">{</span>
-    <span class="n">cout</span><span class="o">&lt;&lt;</span><span class="s">&quot;Hello&quot;</span><span class="o">&lt;&lt;</span><span class="n">endl</span><span class="p">;</span>
-    <span class="k">return</span> <span class="mi">0</span><span class="p">;</span>
-<span class="p">}</span>
+<span class="n">Transfer</span> <span class="k">function</span><span class="p">:</span>
+      <span class="n">s</span> <span class="o">+</span> <span class="mi">2</span>
+<span class="o">-----------------</span>
+<span class="n">s</span>^<span class="mi">3</span> <span class="o">+</span> <span class="mi">2</span> <span class="n">s</span>^<span class="mi">2</span> <span class="o">+</span> <span class="mi">3</span> <span class="n">s</span>
 </pre></div>
-                        <a class="btn primary xsmall" href="./2012-02-08-hello.html">more ...</a>
+
+
+<ul>
+<li>需要并联两个模块G1，G2，则用命令：</li>
+</ul>
+<div class="highlight"><pre><span class="o">&gt;&gt;</span><span class="n">G1</span><span class="o">+</span><span class="n">G2</span>
+
+<span class="n">Transfer</span> <span class="k">function</span><span class="p">:</span>
+ <span class="mi">2</span> <span class="n">s</span>^<span class="mi">2</span> <span class="o">+</span> <span class="mi">4</span> <span class="n">s</span> <span class="o">+</span> <span class="mi">3</span>
+<span class="o">-----------------</span>
+<span class="n">s</span>^<span class="mi">3</span> <span class="o">+</span> <span class="mi">2</span> <span class="n">s</span>^<span class="mi">2</span> <span class="o">+</span> <span class="mi">3</span> <span class="n">s</span>
+</pre></div>
+
+
+<ul>
+<li>需要反馈链接，则用：</li>
+</ul>
+<div class="highlight"><pre><span class="o">&gt;&gt;</span> <span class="n">G</span><span class="p">=</span><span class="n">feedback</span><span class="p">(</span><span class="n">G1</span><span class="p">,</span><span class="n">G2</span><span class="p">,</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span>
+
+<span class="n">Transfer</span> <span class="k">function</span><span class="p">:</span>
+      <span class="n">s</span>^<span class="mi">2</span> <span class="o">+</span> <span class="mi">2</span> <span class="n">s</span>
+<span class="o">---------------------</span>
+<span class="n">s</span>^<span class="mi">3</span> <span class="o">+</span> <span class="mi">2</span> <span class="n">s</span>^<span class="mi">2</span> <span class="o">+</span> <span class="mi">4</span> <span class="n">s</span> <span class="o">+</span> <span class="mi">2</span>
+</pre></div>
+
+
+<p>其中-1表示单位负反馈</p>
+<h2>判断系统稳定性</h2>
+<p>设系统传递函数为：
+$$
+G(s)=\frac{s^3+7s^2+24s+24}{s^8+2s^7+3s^6+4^s5+6s^3+7s^2+8s+9}
+$$</p>
+<p>在matlab中输入如下命令：</p>
+<div class="highlight"><pre><span class="n">den</span><span class="p">=[</span><span class="mi">1</span><span class="p">:</span><span class="mi">9</span><span class="p">];</span> <span class="c">%建立特征多项式</span>
+<span class="n">roots</span><span class="p">(</span><span class="n">den</span><span class="p">)</span> <span class="c">%求根，通过根的正负判定系统是否稳定</span>
+
+<span class="nb">ans</span> <span class="p">=</span>
+
+  <span class="o">-</span><span class="mf">1.2888</span> <span class="o">+</span> <span class="mf">0.4477</span><span class="nb">i</span>
+  <span class="o">-</span><span class="mf">1.2888</span> <span class="o">-</span> <span class="mf">0.4477</span><span class="nb">i</span>
+  <span class="o">-</span><span class="mf">0.7244</span> <span class="o">+</span> <span class="mf">1.1370</span><span class="nb">i</span>
+  <span class="o">-</span><span class="mf">0.7244</span> <span class="o">-</span> <span class="mf">1.1370</span><span class="nb">i</span>
+   <span class="mf">0.1364</span> <span class="o">+</span> <span class="mf">1.3050</span><span class="nb">i</span>
+   <span class="mf">0.1364</span> <span class="o">-</span> <span class="mf">1.3050</span><span class="nb">i</span>
+   <span class="mf">0.8767</span> <span class="o">+</span> <span class="mf">0.8814</span><span class="nb">i</span>
+   <span class="mf">0.8767</span> <span class="o">-</span> <span class="mf">0.8814</span><span class="nb">i</span>
+</pre></div>
+
+
+<p>由4个极点有正实部可知，系统不稳定。</p>
+<h2>求系统响应</h2>
+<p>$$
+G(s)=\frac{s+24}{s^2+4s+9}
+$$
+新建.m文件，在编辑器里输入：</p>
+<div class="highlight"><pre><span class="n">num</span><span class="p">=[</span><span class="mi">1</span> <span class="mi">24</span><span class="p">];</span>
+<span class="n">den</span><span class="p">=[</span><span class="mi">1</span> <span class="mi">4</span> <span class="mi">9</span><span class="p">];</span>
+<span class="n">G</span><span class="p">=</span><span class="n">tf</span><span class="p">(</span><span class="n">num</span><span class="p">,</span><span class="n">den</span><span class="p">);</span>
+<span class="n">t</span><span class="p">=</span><span class="mi">0</span><span class="p">:</span><span class="mf">0.1</span><span class="p">:</span><span class="mi">10</span><span class="p">;</span>
+<span class="n">y</span><span class="p">=</span><span class="n">step</span><span class="p">(</span><span class="n">G</span><span class="p">,</span><span class="n">t</span><span class="p">);</span>
+<span class="n">plot</span><span class="p">(</span><span class="n">t</span><span class="p">,</span><span class="n">y</span><span class="p">)</span>
+<span class="n">Y</span><span class="p">=</span><span class="n">dcgain</span><span class="p">(</span><span class="n">G</span><span class="p">)</span>
+</pre></div>
+
+
+<p>运行可得结果：</p>
+<p><img alt="阶跃响应" src="/image/2jiestep.png" /></p>
+<h3>指令解释</h3>
+<ul>
+<li><em>step</em> 给出了系统的阶跃响应，y保存了每个t时刻的响应</li>
+<li>如果用_impulse()_代替_step_则可求得系统的脉冲响应</li>
+<li><em>plot</em> 以t为自变量，y为函数值画出图像</li>
+<li>_dcgain_得出系统的稳态值</li>
+</ul>
+<h2>绘制跟轨迹</h2>
+<p>设系统闭环传递函数为： <br />
+$$
+\Phi (s)=\frac{K(s+1)(s+3)}{s(s+2)(s+3)+K(s+1)}
+$$</p>
+<p>特征方程可写为 <br />
+$$
+1+K\frac{s+1}{s(s+2)(s+3)}=1+K\frac{s+1}{s^3+5s^2+6s}=0
+$$
+新建.m文件，输入如下语句：</p>
+<div class="highlight"><pre><span class="n">num</span><span class="p">=[</span><span class="mi">1</span> <span class="mi">1</span><span class="p">];</span>
+<span class="n">den</span><span class="p">=[</span><span class="mi">1</span> <span class="mi">5</span> <span class="mi">6</span> <span class="mi">0</span><span class="p">];</span>
+<span class="n">G</span><span class="p">=</span><span class="n">tf</span><span class="p">(</span><span class="n">num</span><span class="p">,</span><span class="n">den</span><span class="p">);</span>
+<span class="n">hold</span> <span class="n">on</span><span class="p">;</span>
+<span class="n">rlocus</span><span class="p">(</span><span class="n">G</span><span class="p">);</span>
+<span class="p">[</span><span class="n">K</span><span class="p">,</span><span class="n">P</span><span class="p">]=</span><span class="n">rlocfind</span><span class="p">(</span><span class="n">G</span><span class="p">)</span>
+</pre></div>
+
+
+<p>运行可得结果：</p>
+<p><img alt="根轨迹" src="/image/rootlocus.png" /></p>
+<h3>指令解释</h3>
+<ul>
+<li><em>hold on</em> 使得多次次绘图可以在一个Figure窗口中叠加展出</li>
+<li><em>rlocus</em> 绘制给定系统的根轨迹</li>
+<li><em>rlocufind</em> 函数允许用户求取根轨迹上指定点处的开环增益，K为选定点对应的开环增益，P为该增益下的闭环极点位置。</li>
+</ul>
+<p>感谢参考书：<a href="http://book.douban.com/subject/1655949/">《自动控制原理》</a></p>
+                </div><!-- /.entry-content -->
+                <div class="comments">
+                <h2>Comments !</h2>
+                        <div id="disqus_thread"></div>
+                        <script type="text/javascript">
+                           var disqus_identifier = "2012-02-17-matlab-study1.html";
+                           (function() {
+                                var dsq = document.createElement('script');
+                                dsq.type = 'text/javascript'; dsq.async = true;
+                                dsq.src = 'http://ghdawn.disqus.com/embed.js';
+                                (document.getElementsByTagName('head')[0] ||
+                                 document.getElementsByTagName('body')[0]).appendChild(dsq);
+                          })();
+                        </script>
                 </div>
-        </div>
-        <hr />
-
-        <div class="pagination">
-        <ul>
-                        <li class="prev"><a href="./index2.html">&larr; Previous</a></li>
-                        <li class=""><a href="./index.html">1</a></li>
-                        <li class=""><a href="./index2.html">2</a></li>
-                        <li class="active"><a href="./index3.html">3</a></li>
-                        <li class="next disabled"><a href="#">&rarr; Next</a></li>
-        </ul>
-        </div>
-
+        </article>
+</section>
         </div><!--/span-->
 
                 <div class="span3 well sidebar-nav" id="sidebar">

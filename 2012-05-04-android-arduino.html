@@ -1,0 +1,651 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <title>"使用单片机Arduino(AVR)与Android设备通讯"</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="">
+    <meta name="author" content="清风未明">
+    <script type="text/javascript">
+var _bdhmProtocol = (("https:" == document.location.protocol) ? " https://" : " http://");
+document.write(unescape("%3Cscript src='" + _bdhmProtocol + "hm.baidu.com/h.js%3F411747de00f33a70faa9301dc251ce77' type='text/javascript'%3E%3C/script%3E"));
+</script>
+
+    <script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-29027763-1', 'github.com');
+  ga('send', 'pageview');
+
+</script>
+
+    <!-- Le styles -->
+    <link rel="stylesheet" href="./theme/css/bootstrap.min.css" type="text/css" />
+    <style type="text/css">
+      body {
+        padding-top: 60px;
+        padding-bottom: 40px;
+      }
+      .sidebar-nav {
+        padding: 9px 0;
+      }
+      .tag-1 {
+        font-size: 13pt;
+      }
+      .tag-2 {
+        font-size: 10pt;
+      }
+      .tag-2 {
+        font-size: 8pt;
+      }
+      .tag-4 {
+        font-size: 6pt;
+     }
+    </style>
+    <link href="./theme/css/bootstrap-responsive.min.css" rel="stylesheet">
+        <link href="./theme/css/font-awesome.css" rel="stylesheet">
+
+    <link href="./theme/css/pygments.css" rel="stylesheet">
+
+    <!-- Le HTML5 shim, for IE6-8 support of HTML5 elements -->
+    <!--[if lt IE 9]>
+      <script src="//html5shim.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+
+    <!-- Le fav and touch icons -->
+    <link rel="shortcut icon" href="./theme/images/favicon.ico">
+    <link rel="apple-touch-icon" href="./theme/images/apple-touch-icon.png">
+    <link rel="apple-touch-icon" sizes="72x72" href="./theme/images/apple-touch-icon-72x72.png">
+    <link rel="apple-touch-icon" sizes="114x114" href="./theme/images/apple-touch-icon-114x114.png">
+
+    <link href="./" type="application/atom+xml" rel="alternate" title="记录 ATOM Feed" />
+    <link href="./feeds/all.rss.xml" type="application/atom+xml" rel="alternate" title="记录 RSS Feed" />
+    
+    <script type= "text/javascript">
+        var s = document.createElement('script');
+        s.type = 'text/javascript';
+        s.src = 'https:' == document.location.protocol ? 'https://c328740.ssl.cf1.rackcdn.com/mathjax/latest/MathJax.js' : 'http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML'; 
+        s[(window.opera ? "innerHTML" : "text")] =
+            "MathJax.Hub.Config({" + 
+            "    config: ['MMLorHTML.js']," + 
+            "    jax: ['input/TeX','input/MathML','output/HTML-CSS','output/NativeMML']," +
+            "    TeX: { extensions: ['AMSmath.js','AMSsymbols.js','noErrors.js','noUndefined.js'], equationNumbers: { autoNumber: 'AMS' } }," + 
+            "    extensions: ['tex2jax.js','mml2jax.js','MathMenu.js','MathZoom.js']," +
+            "    tex2jax: { " +
+            "        inlineMath: [ ['$','$'] ], " +
+            "        displayMath: [ ['$$','$$'] ]," +
+            "        processEscapes: true }, " +
+            "    'HTML-CSS': { " +
+            "        styles: { '.MathJax .mo, .MathJax .mi': {color: 'black ! important'}} " +
+            "    } " +
+            "}); ";
+        (document.body || document.getElementsByTagName('head')[0]).appendChild(s);
+    </script>
+
+  </head>
+
+  <body>
+
+    <div class="navbar navbar-fixed-top">
+      <div class="navbar-inner">
+        <div class="container-fluid">
+          <a class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </a>
+          <a class="brand" href="./index.html">记录 </a>
+          <div class="nav-collapse">
+            <ul class="nav">
+                          <li class="divider-vertical"></li>
+                  <li >
+                    <a href="./category/life.html">
+						<i class="icon-folder-open icon-large"></i>Life
+					</a>
+                  </li>
+                  <li class="active">
+                    <a href="./category/study.html">
+						<i class="icon-folder-open icon-large"></i>Study
+					</a>
+                  </li>
+
+                          <ul class="nav pull-right">
+                                <li><a href="./archives.html"><i class="icon-th-list"></i>Archives</a></li>
+                          </ul>
+
+            </ul>
+            <!--<p class="navbar-text pull-right">Logged in as <a href="#">username</a></p>-->
+          </div><!--/.nav-collapse -->
+        </div>
+      </div>
+    </div>
+
+    <div class="container-fluid">
+      <div class="row">
+        <div class="span9" id="content">
+<section id="content">
+        <article>
+                <header>
+                        <h1>
+                                <a href=""
+                                        rel="bookmark"
+                                        title="Permalink to "使用单片机Arduino(AVR)与Android设备通讯"">
+                                        "使用单片机Arduino(AVR)与Android设备通讯"
+                                </a>
+                        </h1>
+                </header>
+                <div class="entry-content">
+                <div class="well">
+<footer class="post-info">
+<span class="label">Date</span>
+<abbr class="published" title="2012-05-04T21:57:00">
+        <i class="icon-calendar"></i>五 04 五月 2012
+</abbr>
+<span class="label">By</span>
+<a href="./author/qing-feng-wei-ming.html"><i class="icon-user"></i>清风未明</a>
+<span class="label">Category</span>
+<a href="./category/study.html"><i class="icon-folder-open"></i>Study</a>.
+
+
+<span class="label">Tags</span>
+	<a href="./tag/codes.html"><i class="icon-tag"></i>Codes</a>
+	<a href="./tag/linux.html"><i class="icon-tag"></i>Linux</a>
+	<a href="./tag/android.html"><i class="icon-tag"></i>Android</a>
+	<a href="./tag/qian-ru-shi.html"><i class="icon-tag"></i>嵌入式</a>
+</footer><!-- /.post-info -->                </div>
+                <h3>简述需求</h3>
+<p>现在的Android设备，像手机，平板等，有很多的资源，比如照相机，音箱等,同时CPU已经很好，运算能力很强。功能十分丰富，但是必须得人手操控才能使用。这么丰富的资源，如果能自动做点事情，或者作为一个控制核心控制其它的东西就更好了，所以Google官方提供了一种方法，将Android设备按附件模式与一个有<a href="http://baike.baidu.com/view/1402520.htm?fromTaglist">USB Host</a>的设备相连，两者通过USB接口相连传输数据，从而实现通过单片机操控手机。（<a href="http://zh.wikipedia.org/zh-cn/USB">USB</a>是主从结构的总线，这里要求Android设备作为从机，单片机作为主机，而一般的开发板附带的usb口都是client，如果需要做这个实验，则需要买<a href="http://item.taobao.com/item.htm?id=12892248805">有USB Host的开发板</a>，或者买专门的 USB host shield模块放在开发板上。）</p>
+<p>在这里，Google要求Android平台的版本至少为2.3.3，单片机要求实现了<em>Android Accessory Protocol</em>协议。其中Google官方支持了一个开源硬件平台<a href="http://www.arduino.cc/">Arduino</a>。现阶段，Android只能支持一个USB设备，不过能满足大部分需求了。</p>
+<p>Google官方提供了一个简洁的教程（<a href="http://developer.android.com/guide/topics/usb/adk.html">Arduino</a>部分，与<a href="http://developer.android.com/guide/topics/usb/accessory.html">Android</a>部分，以及一份代码示例（包括Android与Arduino部分，在对应的网页里下）。但是教程过于简洁而示例过于复杂：直接按照教程做，很多地方无从下手。按照代码改，代码结构又过于复杂，依然不好下手。于是我在这里耽误了一天多的时间。</p>
+<h3>Arduino部分</h3>
+<ol>
+<li>在<a href="http://www.arduino.cc/">Arduino</a>下载最新的IDE，它是用JAVA开发的，跨平台。同时几乎所有底层的驱动全部写好，开发的时候只要调用即可，完全感觉不到是在开发单片机，实在很爽。</li>
+<li>下载<a href="https://dl-ssl.google.com/android/adk/adk_release_0512.zip">Google 提供的协议实现代码</a>。解压出来后，将<em>firmware/arduino_libs/</em>下的<em>AndroidAccessory</em>和<em>USB_Host_Shield</em>复制到<em>Arduino IDE</em>的<em>libraries</em>目录下。这两个分别是Android附件协议的实现和USB的驱动。</li>
+<li>如果按照教程，现在只需要打开<em>firmware/demokit/demokit.pde</em>并烧写进开发板，就可以和教程配套的Android程序进行通讯并控制电机之类的驱动了。</li>
+<li>但是自己做开发的话就不要用上面的代码了，太复杂太麻烦。在IDE里新建一个文件，包含<em>USB</em>驱动和<em>AndroidAccessory</em>的头文件，并新建一个<em>AndroidAccessory</em>对象，比如叫acc。在<em>setup()</em>函数中，调用acc.powerOn()方法，即可开始试探链接Android设备。</li>
+<li>在我的应用中，我需要做的是把Android设备中计算的结果以串口的形式发给飞控模块，所以我只需要不断的把Android设备发送来的数据发给串口，再把串口接受到的数据发给Android设备。于是，代码如下：</li>
+</ol>
+<div class="highlight"><pre><span class="cp">#include &lt;Usb.h&gt;</span>
+<span class="cp">#include &lt;AndroidAccessory.h&gt;</span>
+
+
+
+<span class="n">AndroidAccessory</span> <span class="nf">acc</span><span class="p">(</span><span class="s">&quot;BuaaITR&quot;</span><span class="p">,</span>
+             <span class="s">&quot;Demo&quot;</span><span class="p">,</span>
+             <span class="s">&quot;DemoKit Arduino Board&quot;</span><span class="p">,</span>
+             <span class="s">&quot;1.0&quot;</span><span class="p">,</span>
+             <span class="s">&quot;http://www.android.com&quot;</span><span class="p">,</span>
+             <span class="s">&quot;0000000012345678&quot;</span><span class="p">);</span>
+
+
+<span class="kt">void</span> <span class="nf">setup</span><span class="p">()</span>
+<span class="p">{</span>
+    <span class="n">Serial</span><span class="p">.</span><span class="n">begin</span><span class="p">(</span><span class="mi">115200</span><span class="p">);</span>
+    <span class="n">Serial</span><span class="p">.</span><span class="n">print</span><span class="p">(</span><span class="s">&quot;</span><span class="se">\r\n</span><span class="s">Start&quot;</span><span class="p">);</span>
+
+    <span class="n">acc</span><span class="p">.</span><span class="n">powerOn</span><span class="p">();</span>
+<span class="p">}</span>
+
+<span class="kt">void</span> <span class="nf">loop</span><span class="p">()</span>
+<span class="p">{</span>
+
+    <span class="n">byte</span> <span class="n">msg</span><span class="p">[</span><span class="mi">1024</span><span class="p">];</span>
+
+    <span class="k">if</span> <span class="p">(</span><span class="n">acc</span><span class="p">.</span><span class="n">isConnected</span><span class="p">())</span> 
+        <span class="p">{</span>
+                <span class="k">while</span><span class="p">(</span><span class="n">Serial</span><span class="p">.</span><span class="n">available</span><span class="p">()</span><span class="o">&gt;</span><span class="mi">0</span><span class="p">)</span>
+                <span class="p">{</span>
+                  <span class="n">msg</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">=</span><span class="n">Serial</span><span class="p">.</span><span class="n">read</span><span class="p">();</span>
+                  <span class="n">acc</span><span class="p">.</span><span class="n">write</span><span class="p">(</span><span class="n">msg</span><span class="p">,</span><span class="mi">1</span><span class="p">);</span>
+                <span class="p">}</span>
+                <span class="kt">int</span> <span class="n">len</span> <span class="o">=</span> <span class="n">acc</span><span class="p">.</span><span class="n">read</span><span class="p">(</span><span class="n">msg</span><span class="p">,</span> <span class="k">sizeof</span><span class="p">(</span><span class="n">msg</span><span class="p">),</span> <span class="mi">1</span><span class="p">);</span>
+                <span class="k">if</span> <span class="p">(</span><span class="n">len</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">)</span> 
+                <span class="p">{</span>
+                  <span class="n">Serial</span><span class="p">.</span><span class="n">write</span><span class="p">(</span><span class="n">msg</span><span class="p">,</span><span class="n">len</span><span class="p">);</span>
+                <span class="p">}</span>
+        <span class="p">}</span>
+    <span class="n">delay</span><span class="p">(</span><span class="mi">200</span><span class="p">);</span>
+<span class="p">}</span>
+</pre></div>
+
+
+<h5>一些解释</h5>
+<p>按照这样的方法，单片机这部分就很容易能搞定了，只要Android程序写好了，两个就能匹配工作了。</p>
+<ul>
+<li>Arduino简化了开发流程，去掉了主函数，只留下 <em>setup()</em>作为初始化，<em>loop()</em>不断循环。所以把初始化的部分写在<em>setup()</em>里，工作的部分写在<em>loop()</em>中。  </li>
+<li><em>AndroidAccessory</em>对象的构造函数有6个参数，分别为：设备制造商，设备模型，设备描述，设备版本，网址和序列号。其中制造商，模型和版本必须与Android设备上的软件匹配。即开发Android设备上运行的软件时，也需要制定这三个参数，只有这三个参数相同的设备才能互相连接。  </li>
+<li>调用<em>acc.powerOn();</em>来使单片机开始工作  </li>
+<li>单片机与Android设备不一定会匹配，所以需要<em>acc.isConnected()</em>判断是否已经成功的连接。  </li>
+<li>读写方法分别为<code>acc.write(char* msg,int length)</code> 和<code>acc.read(char* msg,int length ,int nakLimit)</code>。其中msg和length分别为存放数据的数组和期望读写的数据长度。读取函数的第三个参数<em>nakLimit</em>，目前我在网上还没找到有人知道是做什么用的，反正设为1就能用。   </li>
+</ul>
+<h3>Android部分</h3>
+<p>首先声明，这里我是参考了Google的官方文档，同时在Google给的示例代码中改成的，代码已经十分精简，可以直接修改以完成所需的任务。如果有时间，完全可以读Google的代码，从那一大堆代码里修改。<br />
+操作USB的时候，SDK版本为<em>2.3.3，即API 10</em>时是一种操作，版本为那之上的是另一种操作。<em>API 10</em>需要装<a href="http://code.google.com/android/add-ons/google-apis/installing.html">add-on library</a>，我用的是<em>API 10</em>。装好之后，在项目属性中，点选<em>Android</em>，把<em>Build Target</em>改为<em>Google APIs</em>。</p>
+<p>要想使<em>Accessory</em>工作，需要在<em>AndroidManifest.xml</em>中声明支持<em>UsbManager.ACTION_USB_ACCESSORY_DETACHED</em>，并添加一个过滤器，来过滤设备。如下：</p>
+<div class="highlight"><pre><span class="cp">&lt;?xml version=&quot;1.0&quot; encoding=&quot;utf-8&quot;?&gt;</span>
+<span class="nt">&lt;manifest</span> <span class="na">xmlns:android=</span><span class="s">&quot;http://schemas.android.com/apk/res/android&quot;</span>
+    <span class="na">package=</span><span class="s">&quot;me.ghdawn&quot;</span>
+    <span class="na">android:versionCode=</span><span class="s">&quot;1&quot;</span>
+    <span class="na">android:versionName=</span><span class="s">&quot;1.0&quot;</span> <span class="nt">&gt;</span>
+
+    <span class="nt">&lt;uses-feature</span> <span class="na">android:name=</span><span class="s">&quot;android.hardware.usb.accessory&quot;</span> <span class="nt">/&gt;</span>
+
+    <span class="nt">&lt;uses-sdk</span> <span class="na">android:minSdkVersion=</span><span class="s">&quot;10&quot;</span> <span class="nt">/&gt;</span>
+
+    <span class="nt">&lt;application</span>
+        <span class="na">android:icon=</span><span class="s">&quot;@drawable/ic_launcher&quot;</span>
+        <span class="na">android:label=</span><span class="s">&quot;@string/app_name&quot;</span> <span class="nt">&gt;</span>
+        <span class="nt">&lt;uses-library</span> <span class="na">android:name=</span><span class="s">&quot;com.android.future.usb.accessory&quot;</span> <span class="nt">/&gt;</span>
+
+        <span class="nt">&lt;activity</span>
+            <span class="na">android:name=</span><span class="s">&quot;.UsbAccActivity&quot;</span>
+            <span class="na">android:label=</span><span class="s">&quot;@string/app_name&quot;</span> <span class="nt">&gt;</span>
+            <span class="nt">&lt;intent-filter&gt;</span>
+                <span class="nt">&lt;action</span> <span class="na">android:name=</span><span class="s">&quot;android.intent.action.MAIN&quot;</span> <span class="nt">/&gt;</span>
+
+                <span class="nt">&lt;category</span> <span class="na">android:name=</span><span class="s">&quot;android.intent.category.LAUNCHER&quot;</span> <span class="nt">/&gt;</span>
+            <span class="nt">&lt;/intent-filter&gt;</span>
+            <span class="nt">&lt;intent-filter&gt;</span>
+                <span class="nt">&lt;action</span> <span class="na">android:name=</span><span class="s">&quot;android.hardware.usb.action.USB_ACCESSORY_ATTACHED&quot;</span> <span class="nt">/&gt;</span>
+            <span class="nt">&lt;/intent-filter&gt;</span>
+
+            <span class="nt">&lt;meta-data</span>
+                <span class="na">android:name=</span><span class="s">&quot;android.hardware.usb.action.USB_ACCESSORY_ATTACHED&quot;</span>
+                <span class="na">android:resource=</span><span class="s">&quot;@xml/accessory_filter&quot;</span> <span class="nt">/&gt;</span>
+        <span class="nt">&lt;/activity&gt;</span>
+    <span class="nt">&lt;/application&gt;</span>
+
+<span class="nt">&lt;/manifest&gt;</span>
+</pre></div>
+
+
+<h5>一些说明</h5>
+<ul>
+<li><em>API 10</em>使用的是<em>Addon library</em>,需要注明：<em><uses-library android:name="com.android.future.usb.accessory" /></em>  </li>
+<li>
+<p>要说明支持<em>USB_ACCESSORY_ATTACHED</em>模式，所以加上</p>
+<div class="highlight"><pre><span class="nt">&lt;intent-filter&gt;</span>
+        <span class="nt">&lt;action</span> <span class="na">android:name=</span><span class="s">&quot;android.hardware.usb.action.USB_ACCESSORY_ATTACHED&quot;</span> <span class="nt">/&gt;</span>
+<span class="nt">&lt;/intent-filter&gt;</span>
+</pre></div>
+
+
+</li>
+<li>
+<p>可能会有很多USB接口的设备，所以我们还需要筛选一下此程序能接的单片机，所以增加一个<em>accessory_filter.xml</em>来筛选设备。在<em>res</em>文件夹下新建文件夹<em>xml</em>，在其中新建文件<em>accessory_filter.xml</em>，在这里增加需要的单片机的条件。</p>
+<div class="highlight"><pre> <span class="o">&lt;</span><span class="n">meta</span><span class="o">-</span><span class="n">data</span>
+        <span class="nl">android:</span><span class="n">name</span><span class="o">=</span><span class="s">&quot;android.hardware.usb.action.USB_ACCESSORY_ATTACHED&quot;</span>
+        <span class="nl">android:</span><span class="n">resource</span><span class="o">=</span><span class="s">&quot;@xml/accessory_filter&quot;</span> <span class="o">/&gt;</span>
+</pre></div>
+
+
+</li>
+</ul>
+<p>上面这段代码就是注册这个筛选器的。下面这段就是筛选器的内容。还记得上面的<em>Arduino</em>部分中，新建的<em>AndroidAccessory</em>对象吗？那里的第1，2，4个参数正是这里筛选的参数。只有这几个参数匹配的设备才能建立连接。当然，这里筛选条件是可以选的，那几个参数都可以作为筛选条件，只要加在下面就可以。</p>
+<div class="highlight"><pre><span class="cp">&lt;?xml version=&quot;1.0&quot; encoding=&quot;utf-8&quot;?&gt;</span>
+
+<span class="nt">&lt;resources&gt;</span>
+    <span class="nt">&lt;usb-accessory</span> <span class="na">manufacturer=</span><span class="s">&quot;BuaaITR&quot;</span> <span class="na">model=</span><span class="s">&quot;Demo&quot;</span> <span class="na">version=</span><span class="s">&quot;1.0&quot;</span> <span class="nt">/&gt;</span>
+<span class="nt">&lt;/resources&gt;</span>
+</pre></div>
+
+
+<p>注：下文的所有<em>设备</em>一词，均指代<em>Arduino设备</em>，程序则代表<em>Android设备</em>。<br />
+这样，就可以开始写代码了。首先需要一个<em>UsbManager</em>对象来管理USB设备，需要一个广播接收器，当系统有广播时，来判断是否为USB附件，并询问是否提供权限。广播的过滤器使用<em>UsbManager.ACTION_USB_ACCESSORY_DETACHED</em>作为<em>action</em>。当接受到一个满足过滤条件的广播时，并且获得了访问的权限，就可以获得该设备的信息，并进行读写了。</p>
+<p>广播接收器的代码：</p>
+<div class="highlight"><pre><span class="kd">private</span> <span class="kd">final</span> <span class="n">BroadcastReceiver</span> <span class="n">mUsbReceiver</span> <span class="o">=</span> <span class="k">new</span> <span class="n">BroadcastReceiver</span><span class="o">()</span>
+    <span class="o">{</span>
+        <span class="nd">@Override</span>
+        <span class="kd">public</span> <span class="kt">void</span> <span class="nf">onReceive</span><span class="o">(</span><span class="n">Context</span> <span class="n">context</span><span class="o">,</span> <span class="n">Intent</span> <span class="n">intent</span><span class="o">)</span>
+        <span class="o">{</span>
+            <span class="n">String</span> <span class="n">action</span> <span class="o">=</span> <span class="n">intent</span><span class="o">.</span><span class="na">getAction</span><span class="o">();</span>
+            <span class="k">if</span> <span class="o">(</span><span class="n">ACTION_USB_PERMISSION</span><span class="o">.</span><span class="na">equals</span><span class="o">(</span><span class="n">action</span><span class="o">))</span>
+            <span class="o">{</span>
+                <span class="kd">synchronized</span> <span class="o">(</span><span class="k">this</span><span class="o">)</span>
+                <span class="o">{</span>
+                    <span class="n">UsbAccessory</span> <span class="n">accessory</span> <span class="o">=</span> <span class="n">UsbManager</span><span class="o">.</span><span class="na">getAccessory</span><span class="o">(</span><span class="n">intent</span><span class="o">);</span>
+                    <span class="k">if</span> <span class="o">(</span><span class="n">intent</span><span class="o">.</span><span class="na">getBooleanExtra</span><span class="o">(</span>
+                            <span class="n">UsbManager</span><span class="o">.</span><span class="na">EXTRA_PERMISSION_GRANTED</span><span class="o">,</span> <span class="kc">false</span><span class="o">))</span>
+                    <span class="o">{</span>
+                        <span class="n">openAccessory</span><span class="o">(</span><span class="n">accessory</span><span class="o">);</span>
+                    <span class="o">}</span>
+                    <span class="k">else</span>
+                    <span class="o">{</span>
+                        <span class="n">Log</span><span class="o">.</span><span class="na">d</span><span class="o">(</span><span class="n">TAG</span><span class="o">,</span> <span class="s">&quot;permission denied for accessory &quot;</span>
+                                <span class="o">+</span> <span class="n">accessory</span><span class="o">);</span>
+                    <span class="o">}</span>
+                    <span class="n">mPermissionRequestPending</span> <span class="o">=</span> <span class="kc">false</span><span class="o">;</span>
+                <span class="o">}</span>
+            <span class="o">}</span>
+            <span class="k">else</span> <span class="nf">if</span> <span class="o">(</span><span class="n">UsbManager</span><span class="o">.</span><span class="na">ACTION_USB_ACCESSORY_DETACHED</span><span class="o">.</span><span class="na">equals</span><span class="o">(</span><span class="n">action</span><span class="o">))</span>
+            <span class="o">{</span>
+                <span class="n">UsbAccessory</span> <span class="n">accessory</span> <span class="o">=</span> <span class="n">UsbManager</span><span class="o">.</span><span class="na">getAccessory</span><span class="o">(</span><span class="n">intent</span><span class="o">);</span>
+                <span class="k">if</span> <span class="o">(</span><span class="n">accessory</span> <span class="o">!=</span> <span class="kc">null</span> <span class="o">&amp;&amp;</span> <span class="n">accessory</span><span class="o">.</span><span class="na">equals</span><span class="o">(</span><span class="n">mAccessory</span><span class="o">))</span>
+                <span class="o">{</span>
+                    <span class="n">closeAccessory</span><span class="o">();</span>
+                <span class="o">}</span>
+            <span class="o">}</span>
+        <span class="o">}</span>
+    <span class="o">};</span>
+</pre></div>
+
+
+<p>建立连接：</p>
+<div class="highlight"><pre>    <span class="kd">private</span> <span class="kt">void</span> <span class="nf">openAccessory</span><span class="o">(</span><span class="n">UsbAccessory</span> <span class="n">accessory</span><span class="o">)</span>
+    <span class="o">{</span>
+        <span class="n">mFileDescriptor</span> <span class="o">=</span> <span class="n">mUsbManager</span><span class="o">.</span><span class="na">openAccessory</span><span class="o">(</span><span class="n">accessory</span><span class="o">);</span>
+        <span class="k">if</span> <span class="o">(</span><span class="n">mFileDescriptor</span> <span class="o">!=</span> <span class="kc">null</span><span class="o">)</span>
+        <span class="o">{</span>
+            <span class="n">mAccessory</span> <span class="o">=</span> <span class="n">accessory</span><span class="o">;</span>
+            <span class="c1">//获得该设备的输入输出流</span>
+            <span class="n">FileDescriptor</span> <span class="n">fd</span> <span class="o">=</span> <span class="n">mFileDescriptor</span><span class="o">.</span><span class="na">getFileDescriptor</span><span class="o">();</span>
+            <span class="n">mInputStream</span> <span class="o">=</span> <span class="k">new</span> <span class="n">FileInputStream</span><span class="o">(</span><span class="n">fd</span><span class="o">);</span>
+            <span class="n">mOutputStream</span> <span class="o">=</span> <span class="k">new</span> <span class="n">FileOutputStream</span><span class="o">(</span><span class="n">fd</span><span class="o">);</span>
+            <span class="c1">//是否能对设备进行读写操作</span>
+            <span class="n">canIO</span> <span class="o">=</span> <span class="kc">true</span><span class="o">;</span>
+            <span class="c1">//定时查询是否有数据可以接收</span>
+            <span class="n">timer</span><span class="o">.</span><span class="na">scheduleAtFixedRate</span><span class="o">(</span><span class="k">new</span> <span class="n">TimerTask</span><span class="o">()</span>
+            <span class="o">{</span>
+                <span class="nd">@Override</span>
+                <span class="kd">public</span> <span class="kt">void</span> <span class="nf">run</span><span class="o">()</span>
+                <span class="o">{</span>
+                    <span class="c1">// TODO Auto-generated method stub</span>
+                    <span class="kt">int</span> <span class="n">length</span> <span class="o">=</span> <span class="mi">0</span><span class="o">;</span>
+                    <span class="kt">byte</span><span class="o">[]</span> <span class="n">buffer</span> <span class="o">=</span> <span class="k">new</span> <span class="kt">byte</span><span class="o">[</span><span class="n">maxBuffer</span><span class="o">];</span>
+                    <span class="k">try</span>
+                    <span class="o">{</span>
+                        <span class="c1">//如果有数据来，则接受数据。</span>
+                        <span class="k">if</span><span class="o">(</span><span class="n">mInputStream</span><span class="o">.</span><span class="na">available</span><span class="o">()&gt;</span><span class="mi">0</span><span class="o">)</span>
+                        <span class="o">{</span>
+                            <span class="n">length</span><span class="o">=</span><span class="n">mInputStream</span><span class="o">.</span><span class="na">read</span><span class="o">(</span><span class="n">buffer</span><span class="o">);</span>
+                            <span class="c1">//处理接收到的数据，按需要自己改。</span>
+                            <span class="n">usbuart</span><span class="o">.</span><span class="na">onReceive</span><span class="o">(</span><span class="n">buffer</span><span class="o">);</span>
+                        <span class="o">}</span>
+
+                    <span class="o">}</span>
+                    <span class="k">catch</span> <span class="o">(</span><span class="n">IOException</span> <span class="n">e</span><span class="o">)</span>
+                    <span class="o">{</span>
+                        <span class="c1">// tbhello.setText(&quot;IO error\n&quot; + e.getMessage());</span>
+
+                    <span class="o">}</span>
+
+                <span class="o">}</span>
+
+            <span class="o">},</span> <span class="mi">0</span><span class="o">,</span> <span class="n">delaytime</span><span class="o">);</span>
+            <span class="n">Log</span><span class="o">.</span><span class="na">d</span><span class="o">(</span><span class="n">TAG</span><span class="o">,</span> <span class="s">&quot;accessory opened&quot;</span><span class="o">);</span>
+
+        <span class="o">}</span>
+        <span class="k">else</span>
+        <span class="o">{</span>
+            <span class="n">Log</span><span class="o">.</span><span class="na">d</span><span class="o">(</span><span class="n">TAG</span><span class="o">,</span> <span class="s">&quot;accessory open fail&quot;</span><span class="o">);</span>
+        <span class="o">}</span>
+    <span class="o">}</span>
+</pre></div>
+
+
+<p>这样，大部分功能就实现完了，现在需要注册广播接收器，并让程序监视USB设备。</p>
+<div class="highlight"><pre>    <span class="nd">@Override</span>
+    <span class="kd">public</span> <span class="kt">void</span> <span class="nf">onCreate</span><span class="o">(</span><span class="n">Bundle</span> <span class="n">savedInstanceState</span><span class="o">)</span>
+    <span class="o">{</span>
+        <span class="kd">super</span><span class="o">.</span><span class="na">onCreate</span><span class="o">(</span><span class="n">savedInstanceState</span><span class="o">);</span>
+        <span class="c1">//使用add-on library时，必须这样定义usbmanager对象</span>
+        <span class="n">mUsbManager</span> <span class="o">=</span> <span class="n">UsbManager</span><span class="o">.</span><span class="na">getInstance</span><span class="o">(</span><span class="k">this</span><span class="o">);</span>
+        <span class="n">mPermissionIntent</span> <span class="o">=</span> <span class="n">PendingIntent</span><span class="o">.</span><span class="na">getBroadcast</span><span class="o">(</span><span class="k">this</span><span class="o">,</span> <span class="mi">0</span><span class="o">,</span> <span class="k">new</span> <span class="n">Intent</span><span class="o">(</span>
+                <span class="n">ACTION_USB_PERMISSION</span><span class="o">),</span> <span class="mi">0</span><span class="o">);</span>
+        <span class="c1">//注册接收器和过滤器</span>
+        <span class="n">IntentFilter</span> <span class="n">filter</span> <span class="o">=</span> <span class="k">new</span> <span class="n">IntentFilter</span><span class="o">(</span><span class="n">ACTION_USB_PERMISSION</span><span class="o">);</span>
+        <span class="n">filter</span><span class="o">.</span><span class="na">addAction</span><span class="o">(</span><span class="n">UsbManager</span><span class="o">.</span><span class="na">ACTION_USB_ACCESSORY_DETACHED</span><span class="o">);</span>
+        <span class="n">registerReceiver</span><span class="o">(</span><span class="n">mUsbReceiver</span><span class="o">,</span> <span class="n">filter</span><span class="o">);</span>
+
+        <span class="n">setContentView</span><span class="o">(</span><span class="n">R</span><span class="o">.</span><span class="na">layout</span><span class="o">.</span><span class="na">main</span><span class="o">);</span>
+
+    <span class="o">}</span>
+
+    <span class="nd">@Override</span>
+    <span class="kd">public</span> <span class="kt">void</span> <span class="nf">onResume</span><span class="o">()</span>
+    <span class="o">{</span>
+        <span class="kd">super</span><span class="o">.</span><span class="na">onResume</span><span class="o">();</span>
+
+        <span class="n">Intent</span> <span class="n">intent</span> <span class="o">=</span> <span class="n">getIntent</span><span class="o">();</span>
+        <span class="c1">//如果已经打开了一个设备，就不再查询</span>
+        <span class="k">if</span> <span class="o">(</span><span class="n">mInputStream</span> <span class="o">!=</span> <span class="kc">null</span> <span class="o">&amp;&amp;</span> <span class="n">mOutputStream</span> <span class="o">!=</span> <span class="kc">null</span><span class="o">)</span>
+        <span class="o">{</span>
+            <span class="k">return</span><span class="o">;</span>
+        <span class="o">}</span>
+        <span class="c1">//只能支持一个设备，如果发现了一个USB设备并且有权限访问，就打开</span>
+        <span class="n">UsbAccessory</span><span class="o">[]</span> <span class="n">accessories</span> <span class="o">=</span> <span class="n">mUsbManager</span><span class="o">.</span><span class="na">getAccessoryList</span><span class="o">();</span>
+        <span class="n">UsbAccessory</span> <span class="n">accessory</span> <span class="o">=</span> <span class="o">(</span><span class="n">accessories</span> <span class="o">==</span> <span class="kc">null</span> <span class="o">?</span> <span class="kc">null</span> <span class="o">:</span> <span class="n">accessories</span><span class="o">[</span><span class="mi">0</span><span class="o">]);</span>
+        <span class="k">if</span> <span class="o">(</span><span class="n">accessory</span> <span class="o">!=</span> <span class="kc">null</span><span class="o">)</span>
+        <span class="o">{</span>
+            <span class="k">if</span> <span class="o">(</span><span class="n">mUsbManager</span><span class="o">.</span><span class="na">hasPermission</span><span class="o">(</span><span class="n">accessory</span><span class="o">))</span>
+            <span class="o">{</span>
+                <span class="n">openAccessory</span><span class="o">(</span><span class="n">accessory</span><span class="o">);</span>
+            <span class="o">}</span>
+
+        <span class="o">}</span>
+        <span class="k">else</span>
+        <span class="o">{</span>
+            <span class="n">Log</span><span class="o">.</span><span class="na">d</span><span class="o">(</span><span class="n">TAG</span><span class="o">,</span> <span class="s">&quot;mAccessory is null&quot;</span><span class="o">);</span>
+        <span class="o">}</span>
+    <span class="o">}</span>
+
+    <span class="nd">@Override</span>
+    <span class="kd">public</span> <span class="kt">void</span> <span class="nf">onPause</span><span class="o">()</span>
+    <span class="o">{</span>
+        <span class="kd">super</span><span class="o">.</span><span class="na">onPause</span><span class="o">();</span>
+        <span class="n">closeAccessory</span><span class="o">();</span>
+    <span class="o">}</span>
+
+    <span class="nd">@Override</span>
+    <span class="kd">public</span> <span class="kt">void</span> <span class="nf">onDestroy</span><span class="o">()</span>
+    <span class="o">{</span>
+        <span class="n">unregisterReceiver</span><span class="o">(</span><span class="n">mUsbReceiver</span><span class="o">);</span>
+        <span class="kd">super</span><span class="o">.</span><span class="na">onDestroy</span><span class="o">();</span>
+    <span class="o">}</span>
+</pre></div>
+
+
+<p>如果需要发送数据，就这样：</p>
+<div class="highlight"><pre>    <span class="n">public</span> <span class="kt">void</span> <span class="nf">send</span><span class="p">(</span><span class="n">byte</span><span class="p">[]</span> <span class="n">data</span><span class="p">)</span>
+    <span class="p">{</span>
+        <span class="k">if</span><span class="p">(</span><span class="n">canIO</span><span class="p">)</span>
+        <span class="p">{</span>
+            <span class="n">try</span>
+            <span class="p">{</span>
+                <span class="n">mOutputStream</span><span class="p">.</span><span class="n">write</span><span class="p">(</span><span class="n">data</span><span class="p">);</span>
+            <span class="p">}</span>
+            <span class="n">catch</span> <span class="p">(</span><span class="n">IOException</span> <span class="n">e</span><span class="p">)</span>
+            <span class="p">{</span>   
+                <span class="c1">// TODO Auto-generated catch block</span>
+                <span class="n">e</span><span class="p">.</span><span class="n">printStackTrace</span><span class="p">();</span>
+            <span class="p">}</span>
+        <span class="p">}</span>
+    <span class="p">}</span>
+</pre></div>
+
+
+<p>用到的对象如下：</p>
+<div class="highlight"><pre><span class="kd">private</span> <span class="kd">static</span> <span class="kd">final</span> <span class="n">String</span> <span class="n">TAG</span> <span class="o">=</span> <span class="s">&quot;DemoKit&quot;</span><span class="o">;</span>
+
+    <span class="kd">private</span> <span class="kd">static</span> <span class="kd">final</span> <span class="n">String</span> <span class="n">ACTION_USB_PERMISSION</span> <span class="o">=</span> <span class="s">&quot;com.google.android.DemoKit.action.USB_PERMISSION&quot;</span><span class="o">;</span>
+
+    <span class="kd">private</span> <span class="n">UsbManager</span> <span class="n">mUsbManager</span><span class="o">;</span>
+    <span class="kd">private</span> <span class="n">PendingIntent</span> <span class="n">mPermissionIntent</span><span class="o">;</span>
+
+
+    <span class="kd">private</span> <span class="kt">int</span> <span class="n">maxBuffer</span><span class="o">=</span><span class="mi">1024</span><span class="o">;</span>
+    <span class="kd">private</span> <span class="kt">boolean</span> <span class="n">canIO</span> <span class="o">=</span> <span class="kc">false</span><span class="o">;</span>
+    <span class="n">UsbAccessory</span> <span class="n">mAccessory</span><span class="o">;</span>
+    <span class="n">ParcelFileDescriptor</span> <span class="n">mFileDescriptor</span><span class="o">;</span>
+    <span class="n">FileInputStream</span> <span class="n">mInputStream</span><span class="o">;</span>
+    <span class="n">FileOutputStream</span> <span class="n">mOutputStream</span><span class="o">;</span>
+
+    <span class="n">Timer</span> <span class="n">timer</span> <span class="o">=</span> <span class="k">new</span> <span class="n">Timer</span><span class="o">();</span>
+</pre></div>
+
+
+<p>如果步骤没出错的话，至此，把Arduino开发板插到Android设备上，应该就能互相传数据了。</p>
+                </div><!-- /.entry-content -->
+                <div class="comments">
+                <h2>Comments !</h2>
+                        <div id="disqus_thread"></div>
+                        <script type="text/javascript">
+                           var disqus_identifier = "2012-05-04-android-arduino.html";
+                           (function() {
+                                var dsq = document.createElement('script');
+                                dsq.type = 'text/javascript'; dsq.async = true;
+                                dsq.src = 'http://ghdawn.disqus.com/embed.js';
+                                (document.getElementsByTagName('head')[0] ||
+                                 document.getElementsByTagName('body')[0]).appendChild(dsq);
+                          })();
+                        </script>
+                </div>
+        </article>
+</section>
+        </div><!--/span-->
+
+                <div class="span3 well sidebar-nav" id="sidebar">
+<a href="javascript:void(function(){var d=document,e=encodeURIComponent,s1=window.getSelection,s2=d.getSelection,s3=d.selection,s=s1?s1():s2?s2():s3?s3.createRange().text:'',r='http://www.douban.com/recommend/?url='+e(d.location.href)+'&title='+e(d.title)+'&sel='+e(s)+'&v=1',w=450,h=330,x=function(){if(!window.open(r,'douban','toolbar=0,resizable=1,scrollbars=yes,status=1,width='+w+',height='+h+',left='5+(screen.width-w)/2+',top='+(screen.height-h)/2))location.href=r+'&r=1'};if(/Firefox/.test(navigator.userAgent)){setTimeout(x,0)}else{x()}})()"><img src="http://img2.douban.com/pics/fw2douban1.png" alt="推荐到豆瓣" /></a>
+<ul class="nav nav-list">
+<li class="nav-header"><h4><i class="icon-external-link"></i>blogroll</h4></li>
+    <li><a href="https://dangfan.me/zhs"><i class="icon-external-link"></i>DFDNN</a></li>
+    <li><a href="http://dumbear.com/"><i class="icon-external-link"></i>Dumbear</a></li>
+    <li><a href="http://www.tomtung.com/"><i class="icon-external-link"></i>逆铭</a></li>
+<li class="nav-header"><h4><i class="icon-home icon-large"></i> social</h4></li>
+<li><a href="./" rel="alternate"><i class="icon-bookmark icon-large"></i>atom feed</a></li>
+<li><a href="./feeds/all.rss.xml" rel="alternate"><i class="icon-bookmark icon-large"></i>rss feed</a></li>
+    <li><a href="https://github.com/ghdawn"><i class="icon-@github-sign icon-large"></i>@github</a></li>
+    <li><a href="http://fanfou.com/home"><i class="icon-@饭否-sign icon-large"></i>@饭否</a></li>
+
+<li class="nav-header"><h4><i class="icon-folder-close icon-large"></i>Categories</h4></li>
+<li>
+<a href="./category/life.html">
+    <i class="icon-folder-open icon-large"></i>Life
+</a>
+</li>
+<li>
+<a href="./category/study.html">
+    <i class="icon-folder-open icon-large"></i>Study
+</a>
+</li>
+
+<li class="nav-header"><h4><i class="icon-tags icon-large"></i>Tags</h4></li>
+<li class="tag-4">
+    <a href="./tag/python.html">
+        <i class="icon-tag icon-large"></i>Python
+    </a>
+</li>
+<li class="tag-2">
+    <a href="./tag/android.html">
+        <i class="icon-tag icon-large"></i>Android
+    </a>
+</li>
+<li class="tag-4">
+    <a href="./tag/ji-suan-ji-shi-jue.html">
+        <i class="icon-tag icon-large"></i>计算机视觉
+    </a>
+</li>
+<li class="tag-4">
+    <a href="./tag/automatic.html">
+        <i class="icon-tag icon-large"></i>automatic
+    </a>
+</li>
+<li class="tag-3">
+    <a href="./tag/opencv.html">
+        <i class="icon-tag icon-large"></i>OpenCV
+    </a>
+</li>
+<li class="tag-1">
+    <a href="./tag/codes.html">
+        <i class="icon-tag icon-large"></i>Codes
+    </a>
+</li>
+<li class="tag-3">
+    <a href="./tag/kao-yan.html">
+        <i class="icon-tag icon-large"></i>考研
+    </a>
+</li>
+<li class="tag-2">
+    <a href="./tag/qian-ru-shi.html">
+        <i class="icon-tag icon-large"></i>嵌入式
+    </a>
+</li>
+<li class="tag-1">
+    <a href="./tag/linux.html">
+        <i class="icon-tag icon-large"></i>Linux
+    </a>
+</li>
+<li class="tag-2">
+    <a href="./tag/blog.html">
+        <i class="icon-tag icon-large"></i>blog
+    </a>
+</li>
+<li class="tag-2">
+    <a href="./tag/boring.html">
+        <i class="icon-tag icon-large"></i>Boring
+    </a>
+</li>
+<li class="tag-4">
+    <a href="./tag/ji-qi-xue-xi.html">
+        <i class="icon-tag icon-large"></i>机器学习
+    </a>
+</li>
+<li class="tag-2">
+    <a href="./tag/life.html">
+        <i class="icon-tag icon-large"></i>life
+    </a>
+</li>
+<li class="tag-4">
+    <a href="./tag/matlab.html">
+        <i class="icon-tag icon-large"></i>matlab
+    </a>
+</li>
+    <script type="text/javascript" src="http://www.douban.com/service/badge/dream29831/?selection=latest&amp;picsize=small&amp;show=collection&amp;n=8&amp;cat=drama%7Cmovie%7Cbook%7Cmusic&amp;columns=2"></script>
+
+</ul>        </div><!--/.well -->
+
+      </div><!--/row-->
+
+      <hr>
+
+      <footer>
+        <address id="about">
+                Proudly powered by <a href="http://pelican.notmyidea.org/">Pelican <i class="icon-external-link"></i></a>,
+                                which takes great advantage of <a href="http://python.org">Python <i class="icon-external-link"></i></a>.
+        </address><!-- /#about -->
+
+        <p>The theme is from <a href="http://twitter.github.com/bootstrap/">Bootstrap from Twitter <i class="icon-external-link"></i></a>,
+                   and <a href="http://fortawesome.github.com/Font-Awesome/">Font-Awesome <i class="icon-external-link"></i></a>, thanks!</p>
+      </footer>
+
+    </div><!--/.fluid-container-->
+
+
+<script type="text/javascript">
+var gaJsHost = (("https:" == document.location.protocol) ? "https://ssl." : "http://www.");
+document.write(unescape("%3Cscript src='" + gaJsHost + "google-analytics.com/ga.js' type='text/javascript'%3E%3C/script%3E"));
+</script>
+<script type="text/javascript">
+try {
+	var pageTracker = _gat._getTracker("UA-29027763-1");
+pageTracker._trackPageview();
+} catch(err) {}</script>
+<script type="text/javascript">
+    var disqus_shortname = 'ghdawn';
+    (function () {
+        var s = document.createElement('script'); s.async = true;
+        s.type = 'text/javascript';
+        s.src = 'http://' + disqus_shortname + '.disqus.com/count.js';
+        (document.getElementsByTagName('HEAD')[0] || document.getElementsByTagName('BODY')[0]).appendChild(s);
+    }());
+</script>
+
+    <!-- Le javascript -->
+    <!-- Placed at the end of the document so the pages load faster -->
+    <script src="./theme/js/jquery-1.7.2.min.js"></script>
+    <script src="./theme/js/bootstrap.min.js"></script>
+  </body>
+</html>

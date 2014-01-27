@@ -2,7 +2,7 @@
 <html lang="en">
   <head>
     <meta charset="utf-8">
-    <title>记录 - Linux</title>
+    <title>"doubantest"</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="">
     <meta name="author" content="清风未明">
@@ -63,6 +63,28 @@ document.write(unescape("%3Cscript src='" + _bdhmProtocol + "hm.baidu.com/h.js%3
 
     <link href="../" type="application/atom+xml" rel="alternate" title="记录 ATOM Feed" />
     <link href="../feeds/all.rss.xml" type="application/atom+xml" rel="alternate" title="记录 RSS Feed" />
+    
+    <script type= "text/javascript">
+        var s = document.createElement('script');
+        s.type = 'text/javascript';
+        s.src = 'https:' == document.location.protocol ? 'https://c328740.ssl.cf1.rackcdn.com/mathjax/latest/MathJax.js' : 'http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML'; 
+        s[(window.opera ? "innerHTML" : "text")] =
+            "MathJax.Hub.Config({" + 
+            "    config: ['MMLorHTML.js']," + 
+            "    jax: ['input/TeX','input/MathML','output/HTML-CSS','output/NativeMML']," +
+            "    TeX: { extensions: ['AMSmath.js','AMSsymbols.js','noErrors.js','noUndefined.js'], equationNumbers: { autoNumber: 'AMS' } }," + 
+            "    extensions: ['tex2jax.js','mml2jax.js','MathMenu.js','MathZoom.js']," +
+            "    tex2jax: { " +
+            "        inlineMath: [ ['$','$'] ], " +
+            "        displayMath: [ ['$$','$$'] ]," +
+            "        processEscapes: true }, " +
+            "    'HTML-CSS': { " +
+            "        styles: { '.MathJax .mo, .MathJax .mi': {color: 'black ! important'}} " +
+            "    } " +
+            "}); ";
+        (document.body || document.getElementsByTagName('head')[0]).appendChild(s);
+    </script>
+
   </head>
 
   <body>
@@ -104,64 +126,49 @@ document.write(unescape("%3Cscript src='" + _bdhmProtocol + "hm.baidu.com/h.js%3
     <div class="container-fluid">
       <div class="row">
         <div class="span9" id="content">
-        <div class="article">
-                <h1><a href="../2012-02-09-about-omap4430.html">"OMAP4430 开发环境配置手记"</a></h1>
-                <div class="well small"><footer class="post-info">
+<section id="content">
+        <article>
+                <header>
+                        <h1>
+                                <a href=""
+                                        rel="bookmark"
+                                        title="Permalink to "doubantest"">
+                                        "doubantest"
+                                </a>
+                        </h1>
+                </header>
+                <div class="entry-content">
+                <div class="well">
+<footer class="post-info">
 <span class="label">Date</span>
-<abbr class="published" title="2012-02-09T15:25:00">
-        <i class="icon-calendar"></i>四 09 二月 2012
+<abbr class="published" title="2012-02-23T10:24:00">
+        <i class="icon-calendar"></i>四 23 二月 2012
 </abbr>
 <span class="label">By</span>
 <a href="../author/qing-feng-wei-ming.html"><i class="icon-user"></i>清风未明</a>
 <span class="label">Category</span>
-<a href="../category/study.html"><i class="icon-folder-open"></i>Study</a>.
+<a href="../category/misc.html"><i class="icon-folder-open"></i>misc</a>.
 
 
-<span class="label">Tags</span>
-	<a href="../tag/codes.html"><i class="icon-tag"></i>Codes</a>
-	<a href="../tag/qian-ru-shi.html"><i class="icon-tag"></i>嵌入式</a>
-	<a href="../tag/linux.html"><i class="icon-tag"></i>Linux</a>
-</footer><!-- /.post-info --></div>
-                <div class="summary"><p>由于学习的内容与嵌入式开发有关，所以在这里记录一下学习过程。这次为开箱后的开发环境配置。</p>
-<p>我这块OMAP4430开发板配双核Cortex-A9处理器，运行系统为Ubuntu，具体信息见<a href="http://pandaboard.org/">官网PandaBoard</a>。</p>
-<p>我的计算机环境：Linux Mint 12</p>
-<h1>安装GCC交叉编译环境</h1>
-<h2>通过软件包管理器自动安装</h2>
-<p>打开新立得包管理器，搜索_binutils-arm-linux-gnueabi_，选中以下软件包：  </p>
-<ul>
-<li>binutils-arm-linux-gnueabi</li>
-<li>g++-arm-linux-gnueabi</li>
-<li>gcc-arm-linux-gnueabi</li>
-<li>cpp-arm-linux-gnueabi</li>
-</ul>
-<h2>自己下载，手动安装</h2>
-<ul>
-<li>在<a href="http://blog.chinaunix.net/link.php?url=http://www.codesourcery.com%2Fsgpp%2Flite%2Farm%2Fportal%2Frelease1293">这里</a>下载最新的<em>ARM-GCC交叉编译器</em></li>
-<li>将压缩包解压到某个位置（可以改个名字，这个文件名太长了。如我这里放在~/develop/arm-linux-gnueabi）</li>
-</ul>
-<div class="highlight"><pre> tar xvf arm-2010q1-202-arm-none-linux-gnueabi-i686-pc-linux-gnu.tar.bz2
-</pre></div>
-
-
-<ul>
-<li>将其中的<em>bin</em>文件夹加入环境变量</li>
-</ul>
-<div class="highlight"><pre> vim .bashrc <span class="c">#打开配置文件，加入如下内容</span>
- PATH+<span class="o">=</span>:~/develop/arm-linux-gnueabi/bin <span class="c">#切记加上 ...</span></pre></div>
-                        <a class="btn primary xsmall" href="../2012-02-09-about-omap4430.html">more ...</a>
+</footer><!-- /.post-info -->                </div>
+                <p>doubanclaimcc7c5f762d583445</p>
+                </div><!-- /.entry-content -->
+                <div class="comments">
+                <h2>Comments !</h2>
+                        <div id="disqus_thread"></div>
+                        <script type="text/javascript">
+                           var disqus_identifier = "2012-02-23-doubantest.html";
+                           (function() {
+                                var dsq = document.createElement('script');
+                                dsq.type = 'text/javascript'; dsq.async = true;
+                                dsq.src = 'http://ghdawn.disqus.com/embed.js';
+                                (document.getElementsByTagName('head')[0] ||
+                                 document.getElementsByTagName('body')[0]).appendChild(dsq);
+                          })();
+                        </script>
                 </div>
-        </div>
-        <hr />
-
-        <div class="pagination">
-        <ul>
-                        <li class="prev"><a href="../tag/linux.html">&larr; Previous</a></li>
-                        <li class=""><a href="../tag/linux.html">1</a></li>
-                        <li class="active"><a href="../tag/linux2.html">2</a></li>
-                        <li class="next disabled"><a href="#">&rarr; Next</a></li>
-        </ul>
-        </div>
-
+        </article>
+</section>
         </div><!--/span-->
 
                 <div class="span3 well sidebar-nav" id="sidebar">

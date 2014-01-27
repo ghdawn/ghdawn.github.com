@@ -1,0 +1,502 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <title>使用光流法跟踪图像中的点</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="">
+    <meta name="author" content="清风未明">
+    <script type="text/javascript">
+var _bdhmProtocol = (("https:" == document.location.protocol) ? " https://" : " http://");
+document.write(unescape("%3Cscript src='" + _bdhmProtocol + "hm.baidu.com/h.js%3F411747de00f33a70faa9301dc251ce77' type='text/javascript'%3E%3C/script%3E"));
+</script>
+
+    <script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-29027763-1', 'github.com');
+  ga('send', 'pageview');
+
+</script>
+
+    <!-- Le styles -->
+    <link rel="stylesheet" href="./theme/css/bootstrap.min.css" type="text/css" />
+    <style type="text/css">
+      body {
+        padding-top: 60px;
+        padding-bottom: 40px;
+      }
+      .sidebar-nav {
+        padding: 9px 0;
+      }
+      .tag-1 {
+        font-size: 13pt;
+      }
+      .tag-2 {
+        font-size: 10pt;
+      }
+      .tag-2 {
+        font-size: 8pt;
+      }
+      .tag-4 {
+        font-size: 6pt;
+     }
+    </style>
+    <link href="./theme/css/bootstrap-responsive.min.css" rel="stylesheet">
+        <link href="./theme/css/font-awesome.css" rel="stylesheet">
+
+    <link href="./theme/css/pygments.css" rel="stylesheet">
+
+    <!-- Le HTML5 shim, for IE6-8 support of HTML5 elements -->
+    <!--[if lt IE 9]>
+      <script src="//html5shim.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+
+    <!-- Le fav and touch icons -->
+    <link rel="shortcut icon" href="./theme/images/favicon.ico">
+    <link rel="apple-touch-icon" href="./theme/images/apple-touch-icon.png">
+    <link rel="apple-touch-icon" sizes="72x72" href="./theme/images/apple-touch-icon-72x72.png">
+    <link rel="apple-touch-icon" sizes="114x114" href="./theme/images/apple-touch-icon-114x114.png">
+
+    <link href="./" type="application/atom+xml" rel="alternate" title="记录 ATOM Feed" />
+    <link href="./feeds/all.rss.xml" type="application/atom+xml" rel="alternate" title="记录 RSS Feed" />
+    
+    <script type= "text/javascript">
+        var s = document.createElement('script');
+        s.type = 'text/javascript';
+        s.src = 'https:' == document.location.protocol ? 'https://c328740.ssl.cf1.rackcdn.com/mathjax/latest/MathJax.js' : 'http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML'; 
+        s[(window.opera ? "innerHTML" : "text")] =
+            "MathJax.Hub.Config({" + 
+            "    config: ['MMLorHTML.js']," + 
+            "    jax: ['input/TeX','input/MathML','output/HTML-CSS','output/NativeMML']," +
+            "    TeX: { extensions: ['AMSmath.js','AMSsymbols.js','noErrors.js','noUndefined.js'], equationNumbers: { autoNumber: 'AMS' } }," + 
+            "    extensions: ['tex2jax.js','mml2jax.js','MathMenu.js','MathZoom.js']," +
+            "    tex2jax: { " +
+            "        inlineMath: [ ['$','$'] ], " +
+            "        displayMath: [ ['$$','$$'] ]," +
+            "        processEscapes: true }, " +
+            "    'HTML-CSS': { " +
+            "        styles: { '.MathJax .mo, .MathJax .mi': {color: 'black ! important'}} " +
+            "    } " +
+            "}); ";
+        (document.body || document.getElementsByTagName('head')[0]).appendChild(s);
+    </script>
+
+  </head>
+
+  <body>
+
+    <div class="navbar navbar-fixed-top">
+      <div class="navbar-inner">
+        <div class="container-fluid">
+          <a class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </a>
+          <a class="brand" href="./index.html">记录 </a>
+          <div class="nav-collapse">
+            <ul class="nav">
+                          <li class="divider-vertical"></li>
+                  <li >
+                    <a href="./category/life.html">
+						<i class="icon-folder-open icon-large"></i>Life
+					</a>
+                  </li>
+                  <li class="active">
+                    <a href="./category/study.html">
+						<i class="icon-folder-open icon-large"></i>Study
+					</a>
+                  </li>
+
+                          <ul class="nav pull-right">
+                                <li><a href="./archives.html"><i class="icon-th-list"></i>Archives</a></li>
+                          </ul>
+
+            </ul>
+            <!--<p class="navbar-text pull-right">Logged in as <a href="#">username</a></p>-->
+          </div><!--/.nav-collapse -->
+        </div>
+      </div>
+    </div>
+
+    <div class="container-fluid">
+      <div class="row">
+        <div class="span9" id="content">
+<section id="content">
+        <article>
+                <header>
+                        <h1>
+                                <a href=""
+                                        rel="bookmark"
+                                        title="Permalink to 使用光流法跟踪图像中的点">
+                                        使用光流法跟踪图像中的点
+                                </a>
+                        </h1>
+                </header>
+                <div class="entry-content">
+                <div class="well">
+<footer class="post-info">
+<span class="label">Date</span>
+<abbr class="published" title="2014-01-26T18:51:02">
+        <i class="icon-calendar"></i>日 26 一月 2014
+</abbr>
+<span class="label">By</span>
+<a href="./author/qing-feng-wei-ming.html"><i class="icon-user"></i>清风未明</a>
+<span class="label">Category</span>
+<a href="./category/study.html"><i class="icon-folder-open"></i>Study</a>.
+
+
+<span class="label">Tags</span>
+	<a href="./tag/ji-suan-ji-shi-jue.html"><i class="icon-tag"></i>计算机视觉</a>
+</footer><!-- /.post-info -->                </div>
+                <p>在计算机视觉的研究中，经常会出现以下问题：</p>
+<ol>
+<li>给定两幅图像，把他们拼接起来</li>
+<li>给定图像序列，找出其中的运动部分</li>
+<li>跟踪图像中的某个对象</li>
+</ol>
+<p>人们针对这一类问题，提出了很多解决办法。其中有一种考虑方法就是，这些问题都需要建立起图像间像素点的匹配关系，当知道了任意像素点在图像间的运动速度时，就可以建立起匹配关系，也就解决了这些问题。而像素点的运动就称为<strong>光流</strong>.因此，当我们求出了图像中某一点的运动速度，可以说求出了<strong>光流</strong>;或者当我们求出了两幅图像中对应点的匹配关系时，也可以说求出了<strong>光流</strong>。</p>
+<h2>光流的求解方法</h2>
+<h3>最简单粗暴的方法</h3>
+<p>当我看到Eth（苏黎世理工大学）的这个算法时，我都惊呆了——这也可以？他们在<em>An Open Source and Open Hardware Embedded Metric Optical Flow CMOS Camera for Indoor and Outdoor Applications</em>这篇论文中使用了一个名为块匹配的方法。该方法对选定的某一像素点，取出第二幅图像中以该坐标为中心，$\pm 4$范围内的所有点作为候选。对于这些候选点，以它们为中心，取$8 \times 8$的块与源图像求绝对差值和。绝对值差和最小的那个点就作为原点在第二幅图像中新的位置。由于该方法计算速度很快，两帧图像之间的变化很小，所以取这样小一个范围也是可行的。</p>
+<h3>最经典主流的方法</h3>
+<p>最常见求解光流的方法是由Lucas和Kanade两人提出的方法。为了说清楚这个方法，我们先把问题表述的专业一点：</p>
+<p>设$I$和$J$是两张连续灰度图像($I(t+1)=J(t)$)，其中的任意点坐标为$\textbf{x}=[x\quad y]^T$,任意像素点的值由离散函数$I(\textbf{x}),J(\textbf{x})$表示。 对于图像$I$中的一个点$\textbf{u}=[u_x\quad u_y]^T$,我们的目标就是找到一$\textbf{v}=\textbf{u}+\textbf{d}=[u_x+d_x\quad u_y+d_y]^T$，使得$I(\textbf{u})=J(\textbf{v})$，或者使得$I(\textbf{u})$和$J(\textbf{v})$尽可能的相似，而$\textbf{d}$就是在点$\textbf{u}$处的光流值。</p>
+<p>为了便于求解，需要做出如下假设：
+1. 小运动： 任意点在两帧图像之间的运动很小
+2. 亮度恒定：对于一个确定的点，它的亮度在连续的图像中不变（或者变化很小）。
+3. 空间一致性： 任意点的运动和它临域内的点相似</p>
+<p>第一个假设是第二个假设的基础，正是由于任意点的运动较小，才能假定其亮度在连续的图像中不变（或者变化很小），对于第2个亮度恒定的假设，可以得到：
+$$
+I(x,y,t)=I(x+u,y+v,t+1)
+$$
+将右边对时间t进行泰勒展开，得到
+$$
+I(x+u,y+v,t+1)=I(x,y,t)+I_x \cdot u+I_y \cdot + I_t
+$$
+两式联立可得
+$$
+I_x \cdot u+I_y \cdot + I_t=0
+$$
+$$
+[I_x\quad I_y]\cdot [u\quad  v]^T+I_t=0
+$$
+这样对于每一个点，我们得到了一个有两个未知数的方程，无法求出准确解。这时第三个假设就派上用场了。由于点的空间一致性，可以假设一个点及其临域内的点有相同的速度。设取一个$5\times 5$的窗口取临域，那么对于任意点可以得到25个方程，联立可得</p>
+<p>\begin{equation}
+\left[ \begin{array} {cc}
+I_x(point1) &amp; I_y(point1)\\
+I_x(point2) &amp; I_y(point2)\\
+\vdots &amp; \vdots\\
+I_x(point25) &amp; I_y(point25)\\
+\end{array}\right]
+\left[ \begin{array} {c}
+u \\
+v
+\end{array}\right]
+=-\left[ \begin{array} {c}
+I_t(point1) \\
+I_t(point2) \\
+\vdots \\
+I_t(point25) \\
+\end{array}\right]
+\end{equation}</p>
+<p>这样可以得到了一个方程数量大于未知数数量的超定方程组，可以通过求解其最小二乘解来得出速度。
+将上式的三个矩阵写为代数形式，并化为：
+$$
+A\cdot d=b
+$$
+$$
+(A^TA) d= A^Tb
+$$
+$$
+d=(A^TA)^{-1}A^Tb
+$$
+其中：
+$$
+A^TA=
+\left[ \begin{array} {cc}
+\sum I_xI_x &amp; \sum I_xI_y \\
+\sum I_xI_y &amp; \sum I_yI_y
+\end{array}\right]
+$$
+$$
+A^Tb=-
+\left[ \begin{array} {c}
+\sum I_xI_t \\
+\sum I_yI_t
+\end{array}\right]
+$$
+这样就可以推导出求解任意点出光流的方法了。</p>
+<p>这个方法有一个缺陷，小速度，亮度不变以及区域一致性都是较强的假设，并不很容易得到满足。如当物体运动速度较快时，假设不成立，那么后续的假设就会有较大的偏差，使得最终求出的光流值有较大的误差。</p>
+<h3>LK方法的金字塔改进</h3>
+<p>为了更符合实际一些，我们先换一个目标：设临域窗口半径为$w$，则光流$\textbf{d}$定义为最小化残差方程$\epsilon$的速度，其中
+\begin{equation}
+\label{residual1}
+\epsilon(\textbf{d})=\epsilon(d_x,d_y)=\sum_{x=u_x-w}^{u_x+w}\sum_{y=u_y-w}^{u_y+w}( I(x,y)-J(x+d_x,y+d_y))^2
+\end{equation}
+这个残差方程在一个$(2w+1)\times(2w+1)$的窗口上测量。</p>
+<p>考虑物体的运动速度较大时，算法会出现较大的误差。那么就希望能减少图像中物体的运动速度。一个直观的方法就是，缩小图像的尺寸。假设当图像为400×400时，物体速度为[16 16],那么图像缩小为200×200时，速度变为[8,8]。缩小为100*100时，速度减少到[4,4]。所以在源图像缩放了很多以后，原算法又变得适用了。所以光流可以通过生成原图像的金字塔图像，逐层求解，不断精确来求得。</p>
+<p>假设图像的宽高每次缩放为原来的一半，共缩放了$L_m$层，则第0层为原图像。设已知原图的速度向量为$\textbf{d}$，则每一层的速度为
+$$
+\textbf{d}^L=\frac{\textbf{d}}{2^L}
+$$
+基于金字塔的光流法的大概步骤如下：先在最深层$L_m$中求解光流。这次计算的结果反馈给上一层$L_m-1$，作为该层初始时的光流值的估计$\textbf{g}$。就这样一层一层的向上反馈，直到最高层，即原图。
+则对于每一层L，方程$\ref{residual1}$可以变为：</p>
+<p>\begin{equation}
+\label{residual2}
+\epsilon^L(\textbf{d}^L)=\epsilon(d_x^L,d_y^L)=\sum_{x=u_x^L-w}^{u_x^L+w}\sum_{y=u_y^L-w}^{u_y^L+w}( I(x,y)-J(x+g_x^L+d_x^L,y+g_y^L+d_y^L))^2
+\end{equation}</p>
+<p>每一层的计算结果$\textbf{d}^L$通过如下方程反馈给上一层作为初始的光流估计：
+$$
+\textbf{g}^{L-1}=2(\textbf{g}^L+\textbf{d}^L)
+$$
+由于金字塔的缩放有效的减小了光流值，最底层的光流估计值可以设为0,即
+$$
+\textbf{g}^{Lm}=[0 \quad 0 ]^T
+$$</p>
+<h3>LK方法的迭代改进</h3>
+<p>到目前为止，我们讨论了一步求解的光流法，金字塔求解的光流法。下面讨论通过迭代计算的方法提高光流求解精度的方法。
+对于金字塔的每一层，求解的目的都是最小化残差方程$\ref{residual2}$，由于每一层内部的求解方法是一样的，不失一般性可以去掉角标L。为了求解某点p处的光流，定义新的图像如下：
+$$
+\forall (x,y) \in [p_x-w-1,p_x+w+1]\times[p_y-w-1,p_y+w+1], A(x,y)=I^L(x,y)
+$$
+$$
+\forall (x,y) \in [p_x-w,p_x+w]\times[p_y-w,p_y+w], B(x,y)=J^L(x+g_x^L,y+g_y^L)
+$$
+这里图像A的定义域比图像B要大一圈，是因为求解光流时，有一个步骤是求解图像在x，y方向的微分$I_x,I_y$，需要用到每一点的临域。
+设任意点的速度为$v=[v_x \quad v_y]^T=\textbf{d}^L$，位置为$p=[p_x \quad p_y]^T$，则残差方程$\ref{residual2}$化为：
+\begin{equation}
+\label{residual3}
+\epsilon(v)=\epsilon(v_x,v_y)=\sum_{x=p_x-w}^{p_x+w}\sum_{y=p_y-w}^{p_y+w}( A(x,y)-B(x+v_x,y+v_y))^2
+\end{equation}
+和方程$\ref{residual1}$长得差不多了。为了优化该方程，对方程$\ref{residual3}$求导数，并使其为0，有</p>
+<p>$$
+\frac{\partial \epsilon(v)}{\partial v}\lvert_{v=v_{opt}}=[0 \quad 0]
+$$</p>
+<p>展开该式，得到：
+\begin{equation}
+\label{residual4}
+\frac{\partial\epsilon(v)}{\partial v}=-2\sum_{x=p_x-w}^{p_x+w}\sum_{y=p_y-w}^{p_y+w}( A(x,y)-B(x+v_x,y+v_y))[\frac{\partial B}{\partial x} \quad \frac{\partial B}{\partial y}]
+\end{equation}
+由于金字塔的缩放减少了光流的估计值，则初始估计值v可以设为0,把上式的B在$(0,0)$点泰勒展开，得到
+$$
+\frac{\partial\epsilon(v)}{\partial v}=-2\sum_{x=p_x-w}^{p_x+w}\sum_{y=p_y-w}^{p_y+w}( A(x,y)-B(x,y)-[\frac{\partial B}{\partial x} \quad \frac{\partial B}{\partial y}]v)[\frac{\partial B}{\partial x} \quad \frac{\partial B}{\partial y}]
+$$
+其中的$A(x,y)-B(x,y)$可以看做是图像在p点处时间上的梯度，则有：
+$$
+I_t=\delta I(x,y)=A(x,y)-B(x,y)
+$$
+当图像A，B很相似时，矩阵$[\frac{\partial B}{\partial x} \quad \frac{\partial B}{\partial y}]$则可以看做是图像在$x,y$方向上的梯度，$\nabla I=[I_x I_y]^T=[\frac{\partial B}{\partial x} \quad \frac{\partial B}{\partial y}]$。而该梯度可以通过图像A直接求出：
+$$
+\forall (x,y) \in [p_x-w,p_x+w]\times[p_y-w,p_y+w],
+$$</p>
+<p>$$
+I_x(x,y)=\frac{\partial A(x,y)}{\partial x}=\frac{A(x+1,y)-A(x-1,y)}{2},
+$$</p>
+<p>$$
+I_y(x,y)=\frac{\partial A(x,y)}{\partial y}=\frac{A(x,y+1)-A(x,y-1)}{2}
+$$
+由此，方程$\ref{residual4}$可以重写为
+$$
+-\frac{1}{2}\frac{\partial\epsilon(v)}{\partial v}=\sum_{x=p_x-w}^{p_x+w}\sum_{y=p_y-w}^{p_y+w}(\nabla I^Tv-\delta I)\nabla I^T
+$$
+\begin{equation}
+\label{residual5}
+-\frac{1}{2}\frac{\partial\epsilon(v)}{\partial v}=\sum_{x=p_x-w}^{p_x+w}\sum_{y=p_y-w}^{p_y+w}(
+\left[ \begin{array} {cc}
+ I_xI_x &amp;  I_xI_y \\
+ I_xI_y &amp;  I_yI_y
+\end{array}\right] v
+-\left[ \begin{array} {c}
+\delta II_x\\
+\delta II_y 
+\end{array}\right])
+\end{equation}
+令
+$$
+G=\sum_{x=p_x-w}^{p_x+w}\sum_{y=p_y-w}^{p_y+w}\left[ \begin{array} {cc}
+ I_xI_x &amp;  I_xI_y \\
+ I_xI_y &amp;  I_yI_y
+\end{array}\right]
+$$
+$$
+b=\sum_{x=p_x-w}^{p_x+w}\sum_{y=p_y-w}^{p_y+w}
+\left[ \begin{array} {c}
+\delta II_x\\
+\delta II_y 
+\end{array}\right])
+$$
+并令该微分式为0,可得最优化的光流的结果为：
+$$
+v_{opt}=G^{-1}b
+$$
+这样一次的计算结果就出来了，有了这个值，就可以构造新的图像$B_k(x,y)=B_{k-1}(x+v_x,y+v_y)$，重复上面的步骤，其中k是迭代的次数。随着迭代不断的进行，图像A，B之间的相似度越来越高，上述优化的光流值不断的趋近0.那么最终这一层的光流值表示为
+$$
+\textbf{d}^L=\sum_{k=1}{K} v^k
+$$
+每一层的求出后，再用上一节的方法反馈给上一层，直到求出最终结果为止。</p>
+                </div><!-- /.entry-content -->
+                <div class="comments">
+                <h2>Comments !</h2>
+                        <div id="disqus_thread"></div>
+                        <script type="text/javascript">
+                           var disqus_identifier = "2014-01-26-optical-flow-tracking.html";
+                           (function() {
+                                var dsq = document.createElement('script');
+                                dsq.type = 'text/javascript'; dsq.async = true;
+                                dsq.src = 'http://ghdawn.disqus.com/embed.js';
+                                (document.getElementsByTagName('head')[0] ||
+                                 document.getElementsByTagName('body')[0]).appendChild(dsq);
+                          })();
+                        </script>
+                </div>
+        </article>
+</section>
+        </div><!--/span-->
+
+                <div class="span3 well sidebar-nav" id="sidebar">
+<a href="javascript:void(function(){var d=document,e=encodeURIComponent,s1=window.getSelection,s2=d.getSelection,s3=d.selection,s=s1?s1():s2?s2():s3?s3.createRange().text:'',r='http://www.douban.com/recommend/?url='+e(d.location.href)+'&title='+e(d.title)+'&sel='+e(s)+'&v=1',w=450,h=330,x=function(){if(!window.open(r,'douban','toolbar=0,resizable=1,scrollbars=yes,status=1,width='+w+',height='+h+',left='5+(screen.width-w)/2+',top='+(screen.height-h)/2))location.href=r+'&r=1'};if(/Firefox/.test(navigator.userAgent)){setTimeout(x,0)}else{x()}})()"><img src="http://img2.douban.com/pics/fw2douban1.png" alt="推荐到豆瓣" /></a>
+<ul class="nav nav-list">
+<li class="nav-header"><h4><i class="icon-external-link"></i>blogroll</h4></li>
+    <li><a href="https://dangfan.me/zhs"><i class="icon-external-link"></i>DFDNN</a></li>
+    <li><a href="http://dumbear.com/"><i class="icon-external-link"></i>Dumbear</a></li>
+    <li><a href="http://www.tomtung.com/"><i class="icon-external-link"></i>逆铭</a></li>
+<li class="nav-header"><h4><i class="icon-home icon-large"></i> social</h4></li>
+<li><a href="./" rel="alternate"><i class="icon-bookmark icon-large"></i>atom feed</a></li>
+<li><a href="./feeds/all.rss.xml" rel="alternate"><i class="icon-bookmark icon-large"></i>rss feed</a></li>
+    <li><a href="https://github.com/ghdawn"><i class="icon-@github-sign icon-large"></i>@github</a></li>
+    <li><a href="http://fanfou.com/home"><i class="icon-@饭否-sign icon-large"></i>@饭否</a></li>
+
+<li class="nav-header"><h4><i class="icon-folder-close icon-large"></i>Categories</h4></li>
+<li>
+<a href="./category/life.html">
+    <i class="icon-folder-open icon-large"></i>Life
+</a>
+</li>
+<li>
+<a href="./category/study.html">
+    <i class="icon-folder-open icon-large"></i>Study
+</a>
+</li>
+
+<li class="nav-header"><h4><i class="icon-tags icon-large"></i>Tags</h4></li>
+<li class="tag-2">
+    <a href="./tag/qian-ru-shi.html">
+        <i class="icon-tag icon-large"></i>嵌入式
+    </a>
+</li>
+<li class="tag-1">
+    <a href="./tag/codes.html">
+        <i class="icon-tag icon-large"></i>Codes
+    </a>
+</li>
+<li class="tag-4">
+    <a href="./tag/automatic.html">
+        <i class="icon-tag icon-large"></i>automatic
+    </a>
+</li>
+<li class="tag-2">
+    <a href="./tag/boring.html">
+        <i class="icon-tag icon-large"></i>Boring
+    </a>
+</li>
+<li class="tag-3">
+    <a href="./tag/kao-yan.html">
+        <i class="icon-tag icon-large"></i>考研
+    </a>
+</li>
+<li class="tag-2">
+    <a href="./tag/blog.html">
+        <i class="icon-tag icon-large"></i>blog
+    </a>
+</li>
+<li class="tag-2">
+    <a href="./tag/life.html">
+        <i class="icon-tag icon-large"></i>life
+    </a>
+</li>
+<li class="tag-4">
+    <a href="./tag/ji-suan-ji-shi-jue.html">
+        <i class="icon-tag icon-large"></i>计算机视觉
+    </a>
+</li>
+<li class="tag-1">
+    <a href="./tag/linux.html">
+        <i class="icon-tag icon-large"></i>Linux
+    </a>
+</li>
+<li class="tag-4">
+    <a href="./tag/matlab.html">
+        <i class="icon-tag icon-large"></i>matlab
+    </a>
+</li>
+<li class="tag-4">
+    <a href="./tag/python.html">
+        <i class="icon-tag icon-large"></i>Python
+    </a>
+</li>
+<li class="tag-3">
+    <a href="./tag/opencv.html">
+        <i class="icon-tag icon-large"></i>OpenCV
+    </a>
+</li>
+<li class="tag-4">
+    <a href="./tag/ji-qi-xue-xi.html">
+        <i class="icon-tag icon-large"></i>机器学习
+    </a>
+</li>
+<li class="tag-2">
+    <a href="./tag/android.html">
+        <i class="icon-tag icon-large"></i>Android
+    </a>
+</li>
+    <script type="text/javascript" src="http://www.douban.com/service/badge/dream29831/?selection=latest&amp;picsize=small&amp;show=collection&amp;n=8&amp;cat=drama%7Cmovie%7Cbook%7Cmusic&amp;columns=2"></script>
+
+</ul>        </div><!--/.well -->
+
+      </div><!--/row-->
+
+      <hr>
+
+      <footer>
+        <address id="about">
+                Proudly powered by <a href="http://pelican.notmyidea.org/">Pelican <i class="icon-external-link"></i></a>,
+                                which takes great advantage of <a href="http://python.org">Python <i class="icon-external-link"></i></a>.
+        </address><!-- /#about -->
+
+        <p>The theme is from <a href="http://twitter.github.com/bootstrap/">Bootstrap from Twitter <i class="icon-external-link"></i></a>,
+                   and <a href="http://fortawesome.github.com/Font-Awesome/">Font-Awesome <i class="icon-external-link"></i></a>, thanks!</p>
+      </footer>
+
+    </div><!--/.fluid-container-->
+
+
+<script type="text/javascript">
+var gaJsHost = (("https:" == document.location.protocol) ? "https://ssl." : "http://www.");
+document.write(unescape("%3Cscript src='" + gaJsHost + "google-analytics.com/ga.js' type='text/javascript'%3E%3C/script%3E"));
+</script>
+<script type="text/javascript">
+try {
+	var pageTracker = _gat._getTracker("UA-29027763-1");
+pageTracker._trackPageview();
+} catch(err) {}</script>
+<script type="text/javascript">
+    var disqus_shortname = 'ghdawn';
+    (function () {
+        var s = document.createElement('script'); s.async = true;
+        s.type = 'text/javascript';
+        s.src = 'http://' + disqus_shortname + '.disqus.com/count.js';
+        (document.getElementsByTagName('HEAD')[0] || document.getElementsByTagName('BODY')[0]).appendChild(s);
+    }());
+</script>
+
+    <!-- Le javascript -->
+    <!-- Placed at the end of the document so the pages load faster -->
+    <script src="./theme/js/jquery-1.7.2.min.js"></script>
+    <script src="./theme/js/bootstrap.min.js"></script>
+  </body>
+</html>

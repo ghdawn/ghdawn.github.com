@@ -1,0 +1,374 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <title>"学习Android开发-SVG文件解析"</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="">
+    <meta name="author" content="清风未明">
+    <script type="text/javascript">
+var _bdhmProtocol = (("https:" == document.location.protocol) ? " https://" : " http://");
+document.write(unescape("%3Cscript src='" + _bdhmProtocol + "hm.baidu.com/h.js%3F411747de00f33a70faa9301dc251ce77' type='text/javascript'%3E%3C/script%3E"));
+</script>
+
+    <script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-29027763-1', 'github.com');
+  ga('send', 'pageview');
+
+</script>
+
+    <!-- Le styles -->
+    <link rel="stylesheet" href="./theme/css/bootstrap.min.css" type="text/css" />
+    <style type="text/css">
+      body {
+        padding-top: 60px;
+        padding-bottom: 40px;
+      }
+      .sidebar-nav {
+        padding: 9px 0;
+      }
+      .tag-1 {
+        font-size: 13pt;
+      }
+      .tag-2 {
+        font-size: 10pt;
+      }
+      .tag-2 {
+        font-size: 8pt;
+      }
+      .tag-4 {
+        font-size: 6pt;
+     }
+    </style>
+    <link href="./theme/css/bootstrap-responsive.min.css" rel="stylesheet">
+        <link href="./theme/css/font-awesome.css" rel="stylesheet">
+
+    <link href="./theme/css/pygments.css" rel="stylesheet">
+
+    <!-- Le HTML5 shim, for IE6-8 support of HTML5 elements -->
+    <!--[if lt IE 9]>
+      <script src="//html5shim.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+
+    <!-- Le fav and touch icons -->
+    <link rel="shortcut icon" href="./theme/images/favicon.ico">
+    <link rel="apple-touch-icon" href="./theme/images/apple-touch-icon.png">
+    <link rel="apple-touch-icon" sizes="72x72" href="./theme/images/apple-touch-icon-72x72.png">
+    <link rel="apple-touch-icon" sizes="114x114" href="./theme/images/apple-touch-icon-114x114.png">
+
+    <link href="./" type="application/atom+xml" rel="alternate" title="记录 ATOM Feed" />
+    <link href="./feeds/all.rss.xml" type="application/atom+xml" rel="alternate" title="记录 RSS Feed" />
+    
+    <script type= "text/javascript">
+        var s = document.createElement('script');
+        s.type = 'text/javascript';
+        s.src = 'https:' == document.location.protocol ? 'https://c328740.ssl.cf1.rackcdn.com/mathjax/latest/MathJax.js' : 'http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML'; 
+        s[(window.opera ? "innerHTML" : "text")] =
+            "MathJax.Hub.Config({" + 
+            "    config: ['MMLorHTML.js']," + 
+            "    jax: ['input/TeX','input/MathML','output/HTML-CSS','output/NativeMML']," +
+            "    TeX: { extensions: ['AMSmath.js','AMSsymbols.js','noErrors.js','noUndefined.js'], equationNumbers: { autoNumber: 'AMS' } }," + 
+            "    extensions: ['tex2jax.js','mml2jax.js','MathMenu.js','MathZoom.js']," +
+            "    tex2jax: { " +
+            "        inlineMath: [ ['$','$'] ], " +
+            "        displayMath: [ ['$$','$$'] ]," +
+            "        processEscapes: true }, " +
+            "    'HTML-CSS': { " +
+            "        styles: { '.MathJax .mo, .MathJax .mi': {color: 'black ! important'}} " +
+            "    } " +
+            "}); ";
+        (document.body || document.getElementsByTagName('head')[0]).appendChild(s);
+    </script>
+
+  </head>
+
+  <body>
+
+    <div class="navbar navbar-fixed-top">
+      <div class="navbar-inner">
+        <div class="container-fluid">
+          <a class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </a>
+          <a class="brand" href="./index.html">记录 </a>
+          <div class="nav-collapse">
+            <ul class="nav">
+                          <li class="divider-vertical"></li>
+                  <li >
+                    <a href="./category/life.html">
+						<i class="icon-folder-open icon-large"></i>Life
+					</a>
+                  </li>
+                  <li class="active">
+                    <a href="./category/study.html">
+						<i class="icon-folder-open icon-large"></i>Study
+					</a>
+                  </li>
+
+                          <ul class="nav pull-right">
+                                <li><a href="./archives.html"><i class="icon-th-list"></i>Archives</a></li>
+                          </ul>
+
+            </ul>
+            <!--<p class="navbar-text pull-right">Logged in as <a href="#">username</a></p>-->
+          </div><!--/.nav-collapse -->
+        </div>
+      </div>
+    </div>
+
+    <div class="container-fluid">
+      <div class="row">
+        <div class="span9" id="content">
+<section id="content">
+        <article>
+                <header>
+                        <h1>
+                                <a href=""
+                                        rel="bookmark"
+                                        title="Permalink to "学习Android开发-SVG文件解析"">
+                                        "学习Android开发-SVG文件解析"
+                                </a>
+                        </h1>
+                </header>
+                <div class="entry-content">
+                <div class="well">
+<footer class="post-info">
+<span class="label">Date</span>
+<abbr class="published" title="2012-03-15T18:57:00">
+        <i class="icon-calendar"></i>四 15 三月 2012
+</abbr>
+<span class="label">By</span>
+<a href="./author/qing-feng-wei-ming.html"><i class="icon-user"></i>清风未明</a>
+<span class="label">Category</span>
+<a href="./category/study.html"><i class="icon-folder-open"></i>Study</a>.
+
+
+<span class="label">Tags</span>
+	<a href="./tag/codes.html"><i class="icon-tag"></i>Codes</a>
+	<a href="./tag/android.html"><i class="icon-tag"></i>Android</a>
+	<a href="./tag/linux.html"><i class="icon-tag"></i>Linux</a>
+</footer><!-- /.post-info -->                </div>
+                <p>我毕业设计的题目是在安卓平台上开发一个工程图的浏览器。需要从服务器中读取用户选择的图纸，并在终端上显示。我所接收到的图纸的类型是SVG格式。</p>
+<p>Android并没有直接支持渲染SVG格式，而CodeProject和GitHub上的那些SVG库又都很不靠谱，所以我需要自己解析并绘图。SVG格式的图片是基于XML的，所以图片相当于一个文档，可以用解析XML文档的方式来解析图片。关于SVG图片的详情请见<a href="http://www.w3school.com.cn/svg/svg_intro.asp">这里</a></p>
+<p>由于SVG是基于XML的，即需要解析的是一个XML文件，所以需要一个<em>Document</em>对象。这里我使用了JAVA自带的DOM（Document Object Model）方式解析，所以需要一个<em>DocumentBuilder</em>对象来从XML文件中获取DOM文档的实例,然后将解析出的文档传给<em>Document</em>对象。而这个<em>DocumentBuilder</em>对象的初始化又需要用<em>DocumentBuilderFactory</em>的工厂方法。所以初始化的代码如下：</p>
+<div class="highlight"><pre><span class="kd">private</span> <span class="n">InputStream</span> <span class="n">_svgFile</span><span class="o">;</span>
+<span class="n">Document</span> <span class="n">doc</span><span class="o">;</span>
+<span class="n">NodeList</span> <span class="n">nList</span><span class="o">;</span>
+<span class="kd">public</span> <span class="nf">SVGParase</span><span class="o">(</span><span class="n">InputStream</span> <span class="n">svgFile</span><span class="o">)</span> <span class="kd">throws</span> <span class="n">SAXException</span><span class="o">,</span> <span class="n">IOException</span>
+<span class="o">{</span>
+    <span class="n">_svgFile</span><span class="o">=</span><span class="n">svgFile</span><span class="o">;</span>
+    <span class="n">DocumentBuilderFactory</span> <span class="n">dbFactory</span> <span class="o">=</span> <span class="n">DocumentBuilderFactory</span>
+            <span class="o">.</span><span class="na">newInstance</span><span class="o">();</span>
+    <span class="n">DocumentBuilder</span> <span class="n">dBuilder</span><span class="o">;</span>
+       <span class="k">try</span>
+       <span class="o">{</span>
+        <span class="n">dBuilder</span> <span class="o">=</span> <span class="n">dbFactory</span><span class="o">.</span><span class="na">newDocumentBuilder</span><span class="o">();</span>
+        <span class="n">doc</span> <span class="o">=</span> <span class="n">dBuilder</span><span class="o">.</span><span class="na">parse</span><span class="o">(</span><span class="n">_svgFile</span><span class="o">);</span>        
+    <span class="n">doc</span><span class="o">.</span><span class="na">getDocumentElement</span><span class="o">().</span><span class="na">normalize</span><span class="o">();</span>
+       <span class="o">}</span>
+       <span class="k">catch</span> <span class="o">(</span><span class="n">ParserConfigurationException</span> <span class="n">e</span><span class="o">)</span>
+       <span class="o">{</span>
+        <span class="c1">// TODO Auto-generated catch block</span>
+        <span class="n">e</span><span class="o">.</span><span class="na">printStackTrace</span><span class="o">();</span>
+       <span class="o">}</span>
+<span class="o">}</span>
+</pre></div>
+
+
+<p>SVG中图形的形式主要有直线段，圆，椭圆，文本等，标签名为polyline，circile，eclipse，text等。所以要解析某一种图形，先查找所有拥有该标签的节点。下面以圆为例：
+首先查找有circle标签的结点，其中查到的每一个结点如果类型为element，则它代表了一个圆。每一个圆通过 <em>圆心坐标和半径</em> 三个属性来定义，所以在其中查找属性：<em>cx</em>,<em>cy</em>,<em>r</em>即为圆的参数。代码如下：</p>
+<div class="highlight"><pre><span class="kd">public</span> <span class="n">ArrayList</span><span class="o">&lt;</span><span class="n">Circle</span><span class="o">&gt;</span> <span class="nf">getCircles</span><span class="o">()</span>
+    <span class="o">{</span>
+        <span class="n">ArrayList</span><span class="o">&lt;</span><span class="n">Circle</span><span class="o">&gt;</span> <span class="n">circles</span><span class="o">=</span><span class="k">new</span> <span class="n">ArrayList</span><span class="o">&lt;</span><span class="n">Circle</span><span class="o">&gt;(</span><span class="mi">100</span><span class="o">);</span>
+        <span class="n">Circle</span> <span class="n">circle</span><span class="o">;</span>
+        <span class="n">nList</span> <span class="o">=</span> <span class="n">doc</span><span class="o">.</span><span class="na">getElementsByTagName</span><span class="o">(</span><span class="s">&quot;circle&quot;</span><span class="o">);</span>
+        <span class="k">for</span> <span class="o">(</span><span class="kt">int</span> <span class="n">temp</span> <span class="o">=</span> <span class="mi">0</span><span class="o">;</span> <span class="n">temp</span> <span class="o">&lt;</span> <span class="n">nList</span><span class="o">.</span><span class="na">getLength</span><span class="o">();</span> <span class="n">temp</span><span class="o">++)</span>
+        <span class="o">{</span>
+
+            <span class="n">Node</span> <span class="n">nNode</span> <span class="o">=</span> <span class="n">nList</span><span class="o">.</span><span class="na">item</span><span class="o">(</span><span class="n">temp</span><span class="o">);</span>
+
+            <span class="k">if</span> <span class="o">(</span><span class="n">nNode</span><span class="o">.</span><span class="na">getNodeType</span><span class="o">()</span> <span class="o">==</span> <span class="n">Node</span><span class="o">.</span><span class="na">ELEMENT_NODE</span><span class="o">)</span>
+            <span class="o">{</span>
+
+                <span class="n">Element</span> <span class="n">eElement</span> <span class="o">=</span> <span class="o">(</span><span class="n">Element</span><span class="o">)</span> <span class="n">nNode</span><span class="o">;</span>
+                <span class="n">String</span> <span class="n">cx</span> <span class="o">=</span> <span class="n">eElement</span><span class="o">.</span><span class="na">getAttribute</span><span class="o">(</span><span class="s">&quot;cx&quot;</span><span class="o">);</span>
+                <span class="n">String</span> <span class="n">cy</span> <span class="o">=</span> <span class="n">eElement</span><span class="o">.</span><span class="na">getAttribute</span><span class="o">(</span><span class="s">&quot;cy&quot;</span><span class="o">);</span>
+                <span class="n">String</span> <span class="n">r</span> <span class="o">=</span> <span class="n">eElement</span><span class="o">.</span><span class="na">getAttribute</span><span class="o">(</span><span class="s">&quot;r&quot;</span><span class="o">);</span>
+                <span class="n">circle</span><span class="o">=</span><span class="k">new</span> <span class="n">Circle</span><span class="o">(</span><span class="n">cx</span><span class="o">,</span> <span class="n">cy</span><span class="o">,</span> <span class="n">r</span><span class="o">);</span>
+                <span class="n">circles</span><span class="o">.</span><span class="na">add</span><span class="o">(</span><span class="n">circle</span><span class="o">);</span>
+            <span class="o">}</span>
+        <span class="o">}</span>
+        <span class="k">return</span> <span class="n">circles</span><span class="o">;</span>
+    <span class="o">}</span>
+</pre></div>
+
+
+<p>对于直线等其他的图形，也是同样的解析方式，只要把所有图形存下来就可以绘制了~~</p>
+                </div><!-- /.entry-content -->
+                <div class="comments">
+                <h2>Comments !</h2>
+                        <div id="disqus_thread"></div>
+                        <script type="text/javascript">
+                           var disqus_identifier = "2012-03-15-study-android-1.html";
+                           (function() {
+                                var dsq = document.createElement('script');
+                                dsq.type = 'text/javascript'; dsq.async = true;
+                                dsq.src = 'http://ghdawn.disqus.com/embed.js';
+                                (document.getElementsByTagName('head')[0] ||
+                                 document.getElementsByTagName('body')[0]).appendChild(dsq);
+                          })();
+                        </script>
+                </div>
+        </article>
+</section>
+        </div><!--/span-->
+
+                <div class="span3 well sidebar-nav" id="sidebar">
+<a href="javascript:void(function(){var d=document,e=encodeURIComponent,s1=window.getSelection,s2=d.getSelection,s3=d.selection,s=s1?s1():s2?s2():s3?s3.createRange().text:'',r='http://www.douban.com/recommend/?url='+e(d.location.href)+'&title='+e(d.title)+'&sel='+e(s)+'&v=1',w=450,h=330,x=function(){if(!window.open(r,'douban','toolbar=0,resizable=1,scrollbars=yes,status=1,width='+w+',height='+h+',left='5+(screen.width-w)/2+',top='+(screen.height-h)/2))location.href=r+'&r=1'};if(/Firefox/.test(navigator.userAgent)){setTimeout(x,0)}else{x()}})()"><img src="http://img2.douban.com/pics/fw2douban1.png" alt="推荐到豆瓣" /></a>
+<ul class="nav nav-list">
+<li class="nav-header"><h4><i class="icon-external-link"></i>blogroll</h4></li>
+    <li><a href="https://dangfan.me/zhs"><i class="icon-external-link"></i>DFDNN</a></li>
+    <li><a href="http://dumbear.com/"><i class="icon-external-link"></i>Dumbear</a></li>
+    <li><a href="http://www.tomtung.com/"><i class="icon-external-link"></i>逆铭</a></li>
+<li class="nav-header"><h4><i class="icon-home icon-large"></i> social</h4></li>
+<li><a href="./" rel="alternate"><i class="icon-bookmark icon-large"></i>atom feed</a></li>
+<li><a href="./feeds/all.rss.xml" rel="alternate"><i class="icon-bookmark icon-large"></i>rss feed</a></li>
+    <li><a href="https://github.com/ghdawn"><i class="icon-@github-sign icon-large"></i>@github</a></li>
+    <li><a href="http://fanfou.com/home"><i class="icon-@饭否-sign icon-large"></i>@饭否</a></li>
+
+<li class="nav-header"><h4><i class="icon-folder-close icon-large"></i>Categories</h4></li>
+<li>
+<a href="./category/life.html">
+    <i class="icon-folder-open icon-large"></i>Life
+</a>
+</li>
+<li>
+<a href="./category/study.html">
+    <i class="icon-folder-open icon-large"></i>Study
+</a>
+</li>
+
+<li class="nav-header"><h4><i class="icon-tags icon-large"></i>Tags</h4></li>
+<li class="tag-4">
+    <a href="./tag/python.html">
+        <i class="icon-tag icon-large"></i>Python
+    </a>
+</li>
+<li class="tag-2">
+    <a href="./tag/android.html">
+        <i class="icon-tag icon-large"></i>Android
+    </a>
+</li>
+<li class="tag-4">
+    <a href="./tag/ji-suan-ji-shi-jue.html">
+        <i class="icon-tag icon-large"></i>计算机视觉
+    </a>
+</li>
+<li class="tag-4">
+    <a href="./tag/automatic.html">
+        <i class="icon-tag icon-large"></i>automatic
+    </a>
+</li>
+<li class="tag-3">
+    <a href="./tag/opencv.html">
+        <i class="icon-tag icon-large"></i>OpenCV
+    </a>
+</li>
+<li class="tag-1">
+    <a href="./tag/codes.html">
+        <i class="icon-tag icon-large"></i>Codes
+    </a>
+</li>
+<li class="tag-3">
+    <a href="./tag/kao-yan.html">
+        <i class="icon-tag icon-large"></i>考研
+    </a>
+</li>
+<li class="tag-2">
+    <a href="./tag/qian-ru-shi.html">
+        <i class="icon-tag icon-large"></i>嵌入式
+    </a>
+</li>
+<li class="tag-1">
+    <a href="./tag/linux.html">
+        <i class="icon-tag icon-large"></i>Linux
+    </a>
+</li>
+<li class="tag-2">
+    <a href="./tag/blog.html">
+        <i class="icon-tag icon-large"></i>blog
+    </a>
+</li>
+<li class="tag-2">
+    <a href="./tag/boring.html">
+        <i class="icon-tag icon-large"></i>Boring
+    </a>
+</li>
+<li class="tag-4">
+    <a href="./tag/ji-qi-xue-xi.html">
+        <i class="icon-tag icon-large"></i>机器学习
+    </a>
+</li>
+<li class="tag-2">
+    <a href="./tag/life.html">
+        <i class="icon-tag icon-large"></i>life
+    </a>
+</li>
+<li class="tag-4">
+    <a href="./tag/matlab.html">
+        <i class="icon-tag icon-large"></i>matlab
+    </a>
+</li>
+    <script type="text/javascript" src="http://www.douban.com/service/badge/dream29831/?selection=latest&amp;picsize=small&amp;show=collection&amp;n=8&amp;cat=drama%7Cmovie%7Cbook%7Cmusic&amp;columns=2"></script>
+
+</ul>        </div><!--/.well -->
+
+      </div><!--/row-->
+
+      <hr>
+
+      <footer>
+        <address id="about">
+                Proudly powered by <a href="http://pelican.notmyidea.org/">Pelican <i class="icon-external-link"></i></a>,
+                                which takes great advantage of <a href="http://python.org">Python <i class="icon-external-link"></i></a>.
+        </address><!-- /#about -->
+
+        <p>The theme is from <a href="http://twitter.github.com/bootstrap/">Bootstrap from Twitter <i class="icon-external-link"></i></a>,
+                   and <a href="http://fortawesome.github.com/Font-Awesome/">Font-Awesome <i class="icon-external-link"></i></a>, thanks!</p>
+      </footer>
+
+    </div><!--/.fluid-container-->
+
+
+<script type="text/javascript">
+var gaJsHost = (("https:" == document.location.protocol) ? "https://ssl." : "http://www.");
+document.write(unescape("%3Cscript src='" + gaJsHost + "google-analytics.com/ga.js' type='text/javascript'%3E%3C/script%3E"));
+</script>
+<script type="text/javascript">
+try {
+	var pageTracker = _gat._getTracker("UA-29027763-1");
+pageTracker._trackPageview();
+} catch(err) {}</script>
+<script type="text/javascript">
+    var disqus_shortname = 'ghdawn';
+    (function () {
+        var s = document.createElement('script'); s.async = true;
+        s.type = 'text/javascript';
+        s.src = 'http://' + disqus_shortname + '.disqus.com/count.js';
+        (document.getElementsByTagName('HEAD')[0] || document.getElementsByTagName('BODY')[0]).appendChild(s);
+    }());
+</script>
+
+    <!-- Le javascript -->
+    <!-- Placed at the end of the document so the pages load faster -->
+    <script src="./theme/js/jquery-1.7.2.min.js"></script>
+    <script src="./theme/js/bootstrap.min.js"></script>
+  </body>
+</html>

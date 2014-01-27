@@ -2,7 +2,7 @@
 <html lang="en">
   <head>
     <meta charset="utf-8">
-    <title>记录 - Linux</title>
+    <title>记录 - 计算机视觉</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="">
     <meta name="author" content="清风未明">
@@ -105,11 +105,11 @@ document.write(unescape("%3Cscript src='" + _bdhmProtocol + "hm.baidu.com/h.js%3
       <div class="row">
         <div class="span9" id="content">
         <div class="article">
-                <h1><a href="../2012-02-09-about-omap4430.html">"OMAP4430 开发环境配置手记"</a></h1>
+                <h1><a href="../2014-01-27-optical-flow-tracking.html">使用光流法跟踪图像中的点</a></h1>
                 <div class="well small"><footer class="post-info">
 <span class="label">Date</span>
-<abbr class="published" title="2012-02-09T15:25:00">
-        <i class="icon-calendar"></i>四 09 二月 2012
+<abbr class="published" title="2014-01-27T18:51:02">
+        <i class="icon-calendar"></i>一 27 一月 2014
 </abbr>
 <span class="label">By</span>
 <a href="../author/qing-feng-wei-ming.html"><i class="icon-user"></i>清风未明</a>
@@ -118,49 +118,22 @@ document.write(unescape("%3Cscript src='" + _bdhmProtocol + "hm.baidu.com/h.js%3
 
 
 <span class="label">Tags</span>
-	<a href="../tag/codes.html"><i class="icon-tag"></i>Codes</a>
-	<a href="../tag/qian-ru-shi.html"><i class="icon-tag"></i>嵌入式</a>
-	<a href="../tag/linux.html"><i class="icon-tag"></i>Linux</a>
+	<a href="../tag/ji-suan-ji-shi-jue.html"><i class="icon-tag"></i>计算机视觉</a>
 </footer><!-- /.post-info --></div>
-                <div class="summary"><p>由于学习的内容与嵌入式开发有关，所以在这里记录一下学习过程。这次为开箱后的开发环境配置。</p>
-<p>我这块OMAP4430开发板配双核Cortex-A9处理器，运行系统为Ubuntu，具体信息见<a href="http://pandaboard.org/">官网PandaBoard</a>。</p>
-<p>我的计算机环境：Linux Mint 12</p>
-<h1>安装GCC交叉编译环境</h1>
-<h2>通过软件包管理器自动安装</h2>
-<p>打开新立得包管理器，搜索_binutils-arm-linux-gnueabi_，选中以下软件包：  </p>
-<ul>
-<li>binutils-arm-linux-gnueabi</li>
-<li>g++-arm-linux-gnueabi</li>
-<li>gcc-arm-linux-gnueabi</li>
-<li>cpp-arm-linux-gnueabi</li>
-</ul>
-<h2>自己下载，手动安装</h2>
-<ul>
-<li>在<a href="http://blog.chinaunix.net/link.php?url=http://www.codesourcery.com%2Fsgpp%2Flite%2Farm%2Fportal%2Frelease1293">这里</a>下载最新的<em>ARM-GCC交叉编译器</em></li>
-<li>将压缩包解压到某个位置（可以改个名字，这个文件名太长了。如我这里放在~/develop/arm-linux-gnueabi）</li>
-</ul>
-<div class="highlight"><pre> tar xvf arm-2010q1-202-arm-none-linux-gnueabi-i686-pc-linux-gnu.tar.bz2
-</pre></div>
-
-
-<ul>
-<li>将其中的<em>bin</em>文件夹加入环境变量</li>
-</ul>
-<div class="highlight"><pre> vim .bashrc <span class="c">#打开配置文件，加入如下内容</span>
- PATH+<span class="o">=</span>:~/develop/arm-linux-gnueabi/bin <span class="c">#切记加上 ...</span></pre></div>
-                        <a class="btn primary xsmall" href="../2012-02-09-about-omap4430.html">more ...</a>
+                <div class="summary"><p>在计算机视觉的研究中，经常会出现以下问题：</p>
+<ol>
+<li>给定两幅图像，把他们拼接起来</li>
+<li>给定图像序列，找出其中的运动部分</li>
+<li>跟踪图像中的某个对象</li>
+</ol>
+<p>人们针对这一类问题，提出了很多解决办法。其中有一种考虑方法就是，这些问题都需要建立起图像间像素点的匹配关系，当知道了任意像素点在图像间的运动速度时，就可以建立起匹配关系，也就解决了这些问题。而像素点的运动就称为<strong>光流</strong>.因此，当我们求出了图像中某一点的运动速度，可以说求出了<strong>光流</strong>;或者当我们求出了两幅图像中对应点的匹配关系时，也可以说求出了<strong>光流</strong>。</p>
+<h2>光流的求解方法</h2>
+<h3>最简单粗暴的方法</h3>
+<p>当我看到Eth（苏黎世理工大学）的这个算法时，我都惊呆了——这也可以？他们在<em>An Open Source and Open Hardware Embedded Metric Optical Flow CMOS Camera for Indoor and Outdoor Applications</em>这篇论文中使用了一个名为块匹配的方法。该方法对选定的某一像素点 ...</p>
+                        <a class="btn primary xsmall" href="../2014-01-27-optical-flow-tracking.html">more ...</a>
                 </div>
         </div>
         <hr />
-
-        <div class="pagination">
-        <ul>
-                        <li class="prev"><a href="../tag/linux.html">&larr; Previous</a></li>
-                        <li class=""><a href="../tag/linux.html">1</a></li>
-                        <li class="active"><a href="../tag/linux2.html">2</a></li>
-                        <li class="next disabled"><a href="#">&rarr; Next</a></li>
-        </ul>
-        </div>
 
         </div><!--/span-->
 
