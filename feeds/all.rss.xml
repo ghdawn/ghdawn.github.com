@@ -12,10 +12,12 @@
 &lt;h3&gt;最经典主流的方法&lt;/h3&gt;
 &lt;p&gt;最常见求解光流的方法是由Lucas和Kanade两人提出的方法。为了说清楚这个方法，我们先把问题表述的专业一点：&lt;/p&gt;
 &lt;p&gt;设$I$和$J$是两张连续灰度图像($I(t+1)=J(t)$)，其中的任意点坐标为$\textbf{x}=[x\quad y]^T$,任意像素点的值由离散函数$I(\textbf{x}),J(\textbf{x})$表示。 对于图像$I$中的一个点$\textbf{u}=[u_x\quad u_y]^T$,我们的目标就是找到一$\textbf{v}=\textbf{u}+\textbf{d}=[u_x+d_x\quad u_y+d_y]^T$，使得$I(\textbf{u})=J(\textbf{v})$，或者使得$I(\textbf{u})$和$J(\textbf{v})$尽可能的相似，而$\textbf{d}$就是在点$\textbf{u}$处的光流值。&lt;/p&gt;
-&lt;p&gt;为了便于求解，需要做出如下假设：
-1. 小运动： 任意点在两帧图像之间的运动很小
-2. 亮度恒定：对于一个确定的点，它的亮度在连续的图像中不变（或者变化很小）。
-3. 空间一致性： 任意点的运动和它临域内的点相似&lt;/p&gt;
+&lt;p&gt;为了便于求解，需要做出如下假设：&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;小运动： 任意点在两帧图像之间的运动很小&lt;/li&gt;
+&lt;li&gt;亮度恒定：对于一个确定的点，它的亮度在连续的图像中不变（或者变化很小）。&lt;/li&gt;
+&lt;li&gt;空间一致性： 任意点的运动和它临域内的点相似&lt;/li&gt;
+&lt;/ol&gt;
 &lt;p&gt;第一个假设是第二个假设的基础，正是由于任意点的运动较小，才能假定其亮度在连续的图像中不变（或者变化很小），对于第2个亮度恒定的假设，可以得到：
 $$
 I(x,y,t)=I(x+u,y+v,t+1)
@@ -185,7 +187,7 @@ $$
 \textbf{d}^L=\sum_{k=1}^{K} v^k
 $$
 每一层的求出后，再用上一节的方法反馈给上一层，直到求出最终结果为止。&lt;/p&gt;
-&lt;p&gt;&lt;img alt="一个匹配的例子" src="/image/corr1.pgm" /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img alt="一个匹配的例子" src="/image/corr1.jpg" /&gt;&lt;/p&gt;
 &lt;p&gt;至此为止，光流法的求解过程就是这样了。具体的代码可以参考我写在视觉库中的&lt;a href="https://github.com/zycet/iTRLib/blob/master/itrvision/feature/lktracker.cc"&gt;光流部分&lt;/a&gt;&lt;/p&gt;</description><dc:creator xmlns:dc="http://purl.org/dc/elements/1.1/">清风未明</dc:creator><pubDate>Mon, 27 Jan 2014 18:51:02 +0800</pubDate><guid>tag:ghdawn.me,2014-01-27:2014-01-27-optical-flow-tracking.html</guid><category>计算机视觉</category></item><item><title>更换了博客生成系统</title><link>http://ghdawn.me/2014-01-26-new-blog.html</link><description>&lt;p&gt;如果不是GoDaddy给我发邮件提醒续费，我都忘了我还有这么一个域名，以及这么一个博客。最早决定写博客是看到好多人都说记录一些事情是个好习惯，无论对于生活还是学习都是。另外当我发现我的写作能力实在差的太厉害，太需要锻炼锻炼。当时看到Octopress那么有趣，我就做了这么一个博客。&lt;/p&gt;
 &lt;p&gt;但问题是，那个ruby环境实在太难配置了，我的电脑上总会出现这样或者那样的问题，对ruby版本号有要求，对组件版本号有要求，每次配个环境都费死劲了。所以当我换电脑后，配环境未遂，就只好作罢了。&lt;/p&gt;
 &lt;p&gt;一次上网随便看东西，发现了Pelican这么一个基于Python的博客系统，突然觉得很喜欢，一个是不需要什么环境配置，系统自带的Python就可以，另外它很简单，使用起来没什么特殊的难点，也是管理静态页面的方法。我就又决定要开始记录学习的过程了！！！&lt;/p&gt;

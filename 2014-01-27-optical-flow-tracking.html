@@ -166,10 +166,12 @@ document.write(unescape("%3Cscript src='" + _bdhmProtocol + "hm.baidu.com/h.js%3
 <h3>最经典主流的方法</h3>
 <p>最常见求解光流的方法是由Lucas和Kanade两人提出的方法。为了说清楚这个方法，我们先把问题表述的专业一点：</p>
 <p>设$I$和$J$是两张连续灰度图像($I(t+1)=J(t)$)，其中的任意点坐标为$\textbf{x}=[x\quad y]^T$,任意像素点的值由离散函数$I(\textbf{x}),J(\textbf{x})$表示。 对于图像$I$中的一个点$\textbf{u}=[u_x\quad u_y]^T$,我们的目标就是找到一$\textbf{v}=\textbf{u}+\textbf{d}=[u_x+d_x\quad u_y+d_y]^T$，使得$I(\textbf{u})=J(\textbf{v})$，或者使得$I(\textbf{u})$和$J(\textbf{v})$尽可能的相似，而$\textbf{d}$就是在点$\textbf{u}$处的光流值。</p>
-<p>为了便于求解，需要做出如下假设：
-1. 小运动： 任意点在两帧图像之间的运动很小
-2. 亮度恒定：对于一个确定的点，它的亮度在连续的图像中不变（或者变化很小）。
-3. 空间一致性： 任意点的运动和它临域内的点相似</p>
+<p>为了便于求解，需要做出如下假设：</p>
+<ol>
+<li>小运动： 任意点在两帧图像之间的运动很小</li>
+<li>亮度恒定：对于一个确定的点，它的亮度在连续的图像中不变（或者变化很小）。</li>
+<li>空间一致性： 任意点的运动和它临域内的点相似</li>
+</ol>
 <p>第一个假设是第二个假设的基础，正是由于任意点的运动较小，才能假定其亮度在连续的图像中不变（或者变化很小），对于第2个亮度恒定的假设，可以得到：
 $$
 I(x,y,t)=I(x+u,y+v,t+1)
@@ -339,7 +341,7 @@ $$
 \textbf{d}^L=\sum_{k=1}^{K} v^k
 $$
 每一层的求出后，再用上一节的方法反馈给上一层，直到求出最终结果为止。</p>
-<p><img alt="一个匹配的例子" src="/image/corr1.pgm" /></p>
+<p><img alt="一个匹配的例子" src="/image/corr1.jpg" /></p>
 <p>至此为止，光流法的求解过程就是这样了。具体的代码可以参考我写在视觉库中的<a href="https://github.com/zycet/iTRLib/blob/master/itrvision/feature/lktracker.cc">光流部分</a></p>
                 </div><!-- /.entry-content -->
                 <div class="comments">
@@ -386,9 +388,9 @@ $$
 </li>
 
 <li class="nav-header"><h4><i class="icon-tags icon-large"></i>Tags</h4></li>
-<li class="tag-4">
-    <a href="./tag/python.html">
-        <i class="icon-tag icon-large"></i>Python
+<li class="tag-2">
+    <a href="./tag/qian-ru-shi.html">
+        <i class="icon-tag icon-large"></i>嵌入式
     </a>
 </li>
 <li class="tag-2">
@@ -397,8 +399,8 @@ $$
     </a>
 </li>
 <li class="tag-4">
-    <a href="./tag/ji-suan-ji-shi-jue.html">
-        <i class="icon-tag icon-large"></i>计算机视觉
+    <a href="./tag/ji-qi-xue-xi.html">
+        <i class="icon-tag icon-large"></i>机器学习
     </a>
 </li>
 <li class="tag-4">
@@ -406,14 +408,24 @@ $$
         <i class="icon-tag icon-large"></i>automatic
     </a>
 </li>
+<li class="tag-4">
+    <a href="./tag/ji-suan-ji-shi-jue.html">
+        <i class="icon-tag icon-large"></i>计算机视觉
+    </a>
+</li>
 <li class="tag-3">
     <a href="./tag/opencv.html">
         <i class="icon-tag icon-large"></i>OpenCV
     </a>
 </li>
+<li class="tag-4">
+    <a href="./tag/python.html">
+        <i class="icon-tag icon-large"></i>Python
+    </a>
+</li>
 <li class="tag-1">
-    <a href="./tag/codes.html">
-        <i class="icon-tag icon-large"></i>Codes
+    <a href="./tag/linux.html">
+        <i class="icon-tag icon-large"></i>Linux
     </a>
 </li>
 <li class="tag-3">
@@ -421,14 +433,19 @@ $$
         <i class="icon-tag icon-large"></i>考研
     </a>
 </li>
+<li class="tag-4">
+    <a href="./tag/matlab.html">
+        <i class="icon-tag icon-large"></i>matlab
+    </a>
+</li>
 <li class="tag-2">
-    <a href="./tag/qian-ru-shi.html">
-        <i class="icon-tag icon-large"></i>嵌入式
+    <a href="./tag/boring.html">
+        <i class="icon-tag icon-large"></i>Boring
     </a>
 </li>
 <li class="tag-1">
-    <a href="./tag/linux.html">
-        <i class="icon-tag icon-large"></i>Linux
+    <a href="./tag/codes.html">
+        <i class="icon-tag icon-large"></i>Codes
     </a>
 </li>
 <li class="tag-2">
@@ -437,23 +454,8 @@ $$
     </a>
 </li>
 <li class="tag-2">
-    <a href="./tag/boring.html">
-        <i class="icon-tag icon-large"></i>Boring
-    </a>
-</li>
-<li class="tag-4">
-    <a href="./tag/ji-qi-xue-xi.html">
-        <i class="icon-tag icon-large"></i>机器学习
-    </a>
-</li>
-<li class="tag-2">
     <a href="./tag/life.html">
         <i class="icon-tag icon-large"></i>life
-    </a>
-</li>
-<li class="tag-4">
-    <a href="./tag/matlab.html">
-        <i class="icon-tag icon-large"></i>matlab
     </a>
 </li>
     <script type="text/javascript" src="http://www.douban.com/service/badge/dream29831/?selection=latest&amp;picsize=small&amp;show=collection&amp;n=8&amp;cat=drama%7Cmovie%7Cbook%7Cmusic&amp;columns=2"></script>

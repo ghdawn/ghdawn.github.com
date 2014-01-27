@@ -12,10 +12,12 @@
 &lt;h3&gt;最经典主流的方法&lt;/h3&gt;
 &lt;p&gt;最常见求解光流的方法是由Lucas和Kanade两人提出的方法。为了说清楚这个方法，我们先把问题表述的专业一点：&lt;/p&gt;
 &lt;p&gt;设$I$和$J$是两张连续灰度图像($I(t+1)=J(t)$)，其中的任意点坐标为$\textbf{x}=[x\quad y]^T$,任意像素点的值由离散函数$I(\textbf{x}),J(\textbf{x})$表示。 对于图像$I$中的一个点$\textbf{u}=[u_x\quad u_y]^T$,我们的目标就是找到一$\textbf{v}=\textbf{u}+\textbf{d}=[u_x+d_x\quad u_y+d_y]^T$，使得$I(\textbf{u})=J(\textbf{v})$，或者使得$I(\textbf{u})$和$J(\textbf{v})$尽可能的相似，而$\textbf{d}$就是在点$\textbf{u}$处的光流值。&lt;/p&gt;
-&lt;p&gt;为了便于求解，需要做出如下假设：
-1. 小运动： 任意点在两帧图像之间的运动很小
-2. 亮度恒定：对于一个确定的点，它的亮度在连续的图像中不变（或者变化很小）。
-3. 空间一致性： 任意点的运动和它临域内的点相似&lt;/p&gt;
+&lt;p&gt;为了便于求解，需要做出如下假设：&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;小运动： 任意点在两帧图像之间的运动很小&lt;/li&gt;
+&lt;li&gt;亮度恒定：对于一个确定的点，它的亮度在连续的图像中不变（或者变化很小）。&lt;/li&gt;
+&lt;li&gt;空间一致性： 任意点的运动和它临域内的点相似&lt;/li&gt;
+&lt;/ol&gt;
 &lt;p&gt;第一个假设是第二个假设的基础，正是由于任意点的运动较小，才能假定其亮度在连续的图像中不变（或者变化很小），对于第2个亮度恒定的假设，可以得到：
 $$
 I(x,y,t)=I(x+u,y+v,t+1)
@@ -185,7 +187,7 @@ $$
 \textbf{d}^L=\sum_{k=1}^{K} v^k
 $$
 每一层的求出后，再用上一节的方法反馈给上一层，直到求出最终结果为止。&lt;/p&gt;
-&lt;p&gt;&lt;img alt="一个匹配的例子" src="/image/corr1.pgm" /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img alt="一个匹配的例子" src="/image/corr1.jpg" /&gt;&lt;/p&gt;
 &lt;p&gt;至此为止，光流法的求解过程就是这样了。具体的代码可以参考我写在视觉库中的&lt;a href="https://github.com/zycet/iTRLib/blob/master/itrvision/feature/lktracker.cc"&gt;光流部分&lt;/a&gt;&lt;/p&gt;</description><dc:creator xmlns:dc="http://purl.org/dc/elements/1.1/">清风未明</dc:creator><pubDate>Mon, 27 Jan 2014 18:51:02 +0800</pubDate><guid>tag:ghdawn.me,2014-01-27:2014-01-27-optical-flow-tracking.html</guid><category>计算机视觉</category></item><item><title>"又是octopress博客的问题"</title><link>http://ghdawn.me/2012-12-02-octopress-pro.html</link><description>&lt;p&gt;假期换了电脑，在新电脑上写了博客，但是怎么也提交不上去，一直提示：&lt;/p&gt;
 &lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="cp"&gt;## Pushing generated _deploy website&lt;/span&gt;
 &lt;span class="n"&gt;Everything&lt;/span&gt; &lt;span class="n"&gt;up&lt;/span&gt;&lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="n"&gt;to&lt;/span&gt;&lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="n"&gt;date&lt;/span&gt;
