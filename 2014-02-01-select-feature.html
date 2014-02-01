@@ -2,7 +2,7 @@
 <html lang="en">
   <head>
     <meta charset="utf-8">
-    <title>"学习在自动控制中应用MATLAB-1"</title>
+    <title>选择适合跟踪的特征点</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="">
     <meta name="author" content="清风未明">
@@ -132,8 +132,8 @@ document.write(unescape("%3Cscript src='" + _bdhmProtocol + "hm.baidu.com/h.js%3
                         <h1>
                                 <a href=""
                                         rel="bookmark"
-                                        title="Permalink to "学习在自动控制中应用MATLAB-1"">
-                                        "学习在自动控制中应用MATLAB-1"
+                                        title="Permalink to 选择适合跟踪的特征点">
+                                        选择适合跟踪的特征点
                                 </a>
                         </h1>
                 </header>
@@ -141,8 +141,8 @@ document.write(unescape("%3Cscript src='" + _bdhmProtocol + "hm.baidu.com/h.js%3
                 <div class="well">
 <footer class="post-info">
 <span class="label">Date</span>
-<abbr class="published" title="2012-02-17T17:20:00">
-        <i class="icon-calendar"></i>五 17 二月 2012
+<abbr class="published" title="2014-02-01T21:47:04">
+        <i class="icon-calendar"></i>六 01 二月 2014
 </abbr>
 <span class="label">By</span>
 <a href="./author/qing-feng-wei-ming.html"><i class="icon-user"></i>清风未明</a>
@@ -151,159 +151,50 @@ document.write(unescape("%3Cscript src='" + _bdhmProtocol + "hm.baidu.com/h.js%3
 
 
 <span class="label">Tags</span>
-	<a href="./tag/matlab.html"><i class="icon-tag"></i>matlab</a>
-	<a href="./tag/automatic.html"><i class="icon-tag"></i>automatic</a>
+	<a href="./tag/ji-suan-ji-shi-jue.html"><i class="icon-tag"></i>计算机视觉</a>
 </footer><!-- /.post-info -->                </div>
-                <h2>建立系统传递函数</h2>
-<p>设系统的传递函数为：
+                <h2>问题</h2>
+<p>虽然现在已经得到了求解一个点的光流的方法，但是并不是什么点都能求出正确的光流。举一个例子就是，选择了一面白墙上的一个点，由于缺乏纹理信息，算法会失效。求解光流的方程如下：
 $$
-\frac{s+1}{2s^3+3s^2+4s+5}
+v=G^{-1}b
 $$
-则在matlab中输入如下命令，可得到其传递函数：   </p>
-<div class="highlight"><pre><span class="n">num</span><span class="p">=[</span><span class="mi">1</span> <span class="mi">2</span><span class="p">];</span><span class="n">den</span><span class="p">=[</span><span class="mi">2</span> <span class="mi">3</span> <span class="mi">4</span> <span class="mi">5</span><span class="p">];</span><span class="n">G</span><span class="p">=</span><span class="n">tf</span><span class="p">(</span><span class="n">num</span><span class="p">,</span><span class="n">den</span><span class="p">)</span>
-
-<span class="n">Transfer</span> <span class="k">function</span><span class="p">:</span>
-         <span class="n">s</span> <span class="o">+</span> <span class="mi">2</span>
-<span class="o">-----------------------</span>
-<span class="mi">2</span> <span class="n">s</span>^<span class="mi">3</span> <span class="o">+</span> <span class="mi">3</span> <span class="n">s</span>^<span class="mi">2</span> <span class="o">+</span> <span class="mi">4</span> <span class="n">s</span> <span class="o">+</span> <span class="mi">5</span>
-</pre></div>
-
-
-<p>令：</p>
-<div class="highlight"><pre><span class="o">&gt;&gt;</span> <span class="n">G1</span><span class="p">=</span><span class="n">tf</span><span class="p">([</span><span class="mi">1</span> <span class="mi">2</span><span class="p">],[</span><span class="mi">1</span> <span class="mi">2</span> <span class="mi">3</span><span class="p">])</span>
-
-<span class="n">Transfer</span> <span class="k">function</span><span class="p">:</span>
-    <span class="n">s</span> <span class="o">+</span> <span class="mi">2</span>
-<span class="o">-------------</span>
-<span class="n">s</span>^<span class="mi">2</span> <span class="o">+</span> <span class="mi">2</span> <span class="n">s</span> <span class="o">+</span> <span class="mi">3</span>
-
-<span class="o">&gt;&gt;</span> <span class="n">G2</span><span class="p">=</span><span class="n">tf</span><span class="p">([</span><span class="mi">1</span><span class="p">],[</span><span class="mi">1</span> <span class="mi">0</span><span class="p">])</span>
-
-<span class="n">Transfer</span> <span class="k">function</span><span class="p">:</span>
-<span class="mi">1</span>
-<span class="o">-</span>
-<span class="n">s</span>
-</pre></div>
-
-
-<ul>
-<li>如果需要串联两个模块G1，G2，则用命令：   </li>
-</ul>
-<div class="highlight"><pre><span class="o">&gt;&gt;</span><span class="n">G1</span><span class="o">*</span><span class="n">G2</span>
-
-<span class="n">Transfer</span> <span class="k">function</span><span class="p">:</span>
-      <span class="n">s</span> <span class="o">+</span> <span class="mi">2</span>
-<span class="o">-----------------</span>
-<span class="n">s</span>^<span class="mi">3</span> <span class="o">+</span> <span class="mi">2</span> <span class="n">s</span>^<span class="mi">2</span> <span class="o">+</span> <span class="mi">3</span> <span class="n">s</span>
-</pre></div>
-
-
-<ul>
-<li>需要并联两个模块G1，G2，则用命令：</li>
-</ul>
-<div class="highlight"><pre><span class="o">&gt;&gt;</span><span class="n">G1</span><span class="o">+</span><span class="n">G2</span>
-
-<span class="n">Transfer</span> <span class="k">function</span><span class="p">:</span>
- <span class="mi">2</span> <span class="n">s</span>^<span class="mi">2</span> <span class="o">+</span> <span class="mi">4</span> <span class="n">s</span> <span class="o">+</span> <span class="mi">3</span>
-<span class="o">-----------------</span>
-<span class="n">s</span>^<span class="mi">3</span> <span class="o">+</span> <span class="mi">2</span> <span class="n">s</span>^<span class="mi">2</span> <span class="o">+</span> <span class="mi">3</span> <span class="n">s</span>
-</pre></div>
-
-
-<ul>
-<li>需要反馈链接，则用：</li>
-</ul>
-<div class="highlight"><pre><span class="o">&gt;&gt;</span> <span class="n">G</span><span class="p">=</span><span class="n">feedback</span><span class="p">(</span><span class="n">G1</span><span class="p">,</span><span class="n">G2</span><span class="p">,</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span>
-
-<span class="n">Transfer</span> <span class="k">function</span><span class="p">:</span>
-      <span class="n">s</span>^<span class="mi">2</span> <span class="o">+</span> <span class="mi">2</span> <span class="n">s</span>
-<span class="o">---------------------</span>
-<span class="n">s</span>^<span class="mi">3</span> <span class="o">+</span> <span class="mi">2</span> <span class="n">s</span>^<span class="mi">2</span> <span class="o">+</span> <span class="mi">4</span> <span class="n">s</span> <span class="o">+</span> <span class="mi">2</span>
-</pre></div>
-
-
-<p>其中-1表示单位负反馈</p>
-<h2>判断系统稳定性</h2>
-<p>设系统传递函数为：
+其中：
+\begin{equation}
+\label{G}
+G=\sum\sum\left[ \begin{array} {cc}
+ I_xI_x &amp;  I_xI_y \\
+ I_xI_y &amp;  I_yI_y
+\end{array}\right]
+\end{equation}
 $$
-G(s)=\frac{s^3+7s^2+24s+24}{s^8+2s^7+3s^6+4^s5+6s^3+7s^2+8s+9}
-$$</p>
-<p>在matlab中输入如下命令：</p>
-<div class="highlight"><pre><span class="n">den</span><span class="p">=[</span><span class="mi">1</span><span class="p">:</span><span class="mi">9</span><span class="p">];</span> <span class="c">%建立特征多项式</span>
-<span class="n">roots</span><span class="p">(</span><span class="n">den</span><span class="p">)</span> <span class="c">%求根，通过根的正负判定系统是否稳定</span>
-
-<span class="nb">ans</span> <span class="p">=</span>
-
-  <span class="o">-</span><span class="mf">1.2888</span> <span class="o">+</span> <span class="mf">0.4477</span><span class="nb">i</span>
-  <span class="o">-</span><span class="mf">1.2888</span> <span class="o">-</span> <span class="mf">0.4477</span><span class="nb">i</span>
-  <span class="o">-</span><span class="mf">0.7244</span> <span class="o">+</span> <span class="mf">1.1370</span><span class="nb">i</span>
-  <span class="o">-</span><span class="mf">0.7244</span> <span class="o">-</span> <span class="mf">1.1370</span><span class="nb">i</span>
-   <span class="mf">0.1364</span> <span class="o">+</span> <span class="mf">1.3050</span><span class="nb">i</span>
-   <span class="mf">0.1364</span> <span class="o">-</span> <span class="mf">1.3050</span><span class="nb">i</span>
-   <span class="mf">0.8767</span> <span class="o">+</span> <span class="mf">0.8814</span><span class="nb">i</span>
-   <span class="mf">0.8767</span> <span class="o">-</span> <span class="mf">0.8814</span><span class="nb">i</span>
-</pre></div>
-
-
-<p>由4个极点有正实部可知，系统不稳定。</p>
-<h2>求系统响应</h2>
-<p>$$
-G(s)=\frac{s+24}{s^2+4s+9}
+b=\sum\sum
+\left[ \begin{array} {c}
+\delta II_x\\
+\delta II_y 
+\end{array}\right]
 $$
-新建.m文件，在编辑器里输入：</p>
-<div class="highlight"><pre><span class="n">num</span><span class="p">=[</span><span class="mi">1</span> <span class="mi">24</span><span class="p">];</span>
-<span class="n">den</span><span class="p">=[</span><span class="mi">1</span> <span class="mi">4</span> <span class="mi">9</span><span class="p">];</span>
-<span class="n">G</span><span class="p">=</span><span class="n">tf</span><span class="p">(</span><span class="n">num</span><span class="p">,</span><span class="n">den</span><span class="p">);</span>
-<span class="n">t</span><span class="p">=</span><span class="mi">0</span><span class="p">:</span><span class="mf">0.1</span><span class="p">:</span><span class="mi">10</span><span class="p">;</span>
-<span class="n">y</span><span class="p">=</span><span class="n">step</span><span class="p">(</span><span class="n">G</span><span class="p">,</span><span class="n">t</span><span class="p">);</span>
-<span class="n">plot</span><span class="p">(</span><span class="n">t</span><span class="p">,</span><span class="n">y</span><span class="p">)</span>
-<span class="n">Y</span><span class="p">=</span><span class="n">dcgain</span><span class="p">(</span><span class="n">G</span><span class="p">)</span>
-</pre></div>
-
-
-<p>运行可得结果：</p>
-<p><img alt="阶跃响应" src="/image/2jiestep.png" /></p>
-<h3>指令解释</h3>
-<ul>
-<li><em>step</em> 给出了系统的阶跃响应，y保存了每个t时刻的响应</li>
-<li>如果用_impulse()_代替_step_则可求得系统的脉冲响应</li>
-<li><em>plot</em> 以t为自变量，y为函数值画出图像</li>
-<li>_dcgain_得出系统的稳态值</li>
-</ul>
-<h2>绘制跟轨迹</h2>
-<p>设系统闭环传递函数为： <br />
-$$
-\Phi (s)=\frac{K(s+1)(s+3)}{s(s+2)(s+3)+K(s+1)}
-$$</p>
-<p>特征方程可写为 <br />
-$$
-1+K\frac{s+1}{s(s+2)(s+3)}=1+K\frac{s+1}{s^3+5s^2+6s}=0
-$$
-新建.m文件，输入如下语句：</p>
-<div class="highlight"><pre><span class="n">num</span><span class="p">=[</span><span class="mi">1</span> <span class="mi">1</span><span class="p">];</span>
-<span class="n">den</span><span class="p">=[</span><span class="mi">1</span> <span class="mi">5</span> <span class="mi">6</span> <span class="mi">0</span><span class="p">];</span>
-<span class="n">G</span><span class="p">=</span><span class="n">tf</span><span class="p">(</span><span class="n">num</span><span class="p">,</span><span class="n">den</span><span class="p">);</span>
-<span class="n">hold</span> <span class="n">on</span><span class="p">;</span>
-<span class="n">rlocus</span><span class="p">(</span><span class="n">G</span><span class="p">);</span>
-<span class="p">[</span><span class="n">K</span><span class="p">,</span><span class="n">P</span><span class="p">]=</span><span class="n">rlocfind</span><span class="p">(</span><span class="n">G</span><span class="p">)</span>
-</pre></div>
-
-
-<p>运行可得结果：</p>
-<p><img alt="根轨迹" src="/image/rootlocus.png" /></p>
-<h3>指令解释</h3>
-<ul>
-<li><em>hold on</em> 使得多次次绘图可以在一个Figure窗口中叠加展出</li>
-<li><em>rlocus</em> 绘制给定系统的根轨迹</li>
-<li><em>rlocufind</em> 函数允许用户求取根轨迹上指定点处的开环增益，K为选定点对应的开环增益，P为该增益下的闭环极点位置。</li>
-</ul>
-<p>感谢参考书：<a href="http://book.douban.com/subject/1655949/">《自动控制原理》</a></p>
+从方程可以看出，当一个点周围的内容都一眼的话，$I_x$$I_y$都可能会很小，那么$det(G)$的值会很小，则不能求逆，导致求解不了。</p>
+<p>所以做跟踪或者匹配的时候，总希望在物体中提取出一些适合跟踪的特征点，把这些适合跟踪的点输入给跟踪器。这就需要一个提取特征点的方法。好的特征点应该能够对旋转和平移运动不变，这样才能稳定的被跟踪。</p>
+<h2>KLT特征点</h2>
+<p>KLT特征点是由LK方法的作者以及另一个叫Tomasi的人提出的。因为总会提到一个点及其邻域内的点这样的话，所以先定义<strong>一个特征点</strong>,为<strong>一个点及其临域内的点</strong>。</p>
+<h3>简单的版本</h3>
+<p>简单一点的想法就是，因为解方程时需要求矩阵$\ref{G}$的逆，所以该矩阵需要是可逆的。二阶可逆矩阵会有两个非零特征值。只要最小特征值足够大，该矩阵就可逆，就能够求解光流。因此在求一个特征点的光流前，可以通过判断$\ref{G}$的最小特征值是否大于一个阈值，就可以知道算法是否会失效。</p>
+<h3>复杂但是更有效的版本</h3>
+<p>既然算法失效的原因在于，特征点缺乏纹理信息，它包含的信息量太少。那么一个直观的想法就是，对于信息量少的特征点，就认为它是不好跟踪的点。对于包含信息量大的特征点，就认为它是好跟踪的点，把它保留下来。在主成分分析(PCA)中曾提到过，二维平面上的点集的协方差矩阵(2&times;2)表示了其中的各个点之间的关系，而该协方差矩阵的特征值就代表了这些点的分散程度，也就是所包含信息量的大小。在PCA中可以通过提取最大特征值的方法，把最主要的成分提取出来。而在这里，需要判断的是特征点所含信息量的大小，所以只要求出特征点协方差矩阵的最小特征值，只要这个次要成分也包含有足够量的信息，那么就可以认为该特征点是适合被跟踪的。</p>
+<p>特征值的取值有如下几个情况：
+1. $\lambda_1$ &gt; $\lambda_2$ &gt;&gt;0 ，说明该特征点包含足够的信息
+2. $\lambda_1$ &gt;&gt;0,$\lambda_2$ 接近0,说明该特征点只在一个方向包含信息，另一个方向没什么变化。例如边界点
+3. $\lambda_1$，$\lambda_2$接近0, 没什么有用的信息，这个点不能要</p>
+<p>综上，协方差矩阵的最小特征值越大，说明该特征点越适合被跟踪。</p>
+<h2>求出最小特征值之后</h2>
+<p>为了找到适合跟踪的特征点，我们求解了每个点的协方差矩阵的特征值。找到最小特征值后，从大到小排序，去掉小于一个阈值的所有点(通常有了后续的操作，这一步可以省略）。对于这些特征点，只保留局部最大值。例如对于一个点，保留它的条件是：它的最小特征值是临域内最大的。那么邻域内其他点就需要去掉。 这样剩下的点都是比较适合的点了。但一般这样会剩下大量的点，而且非常密集，这会消耗很多计算，同时由于点太密集，全都求的话意义不大，所以设定一个最小距离，只保留那些互相之间距大于最小距离的点。</p>
+<p>经过这些步骤，保留下来的点就都是适合跟踪的点了。</p>
                 </div><!-- /.entry-content -->
                 <div class="comments">
                 <h2>Comments !</h2>
                         <div id="disqus_thread"></div>
                         <script type="text/javascript">
-                           var disqus_identifier = "2012-02-17-matlab-study1.html";
+                           var disqus_identifier = "2014-02-01-select-feature.html";
                            (function() {
                                 var dsq = document.createElement('script');
                                 dsq.type = 'text/javascript'; dsq.async = true;
