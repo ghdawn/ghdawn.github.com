@@ -181,10 +181,12 @@ $$
 <p>简单一点的想法就是，因为解方程时需要求矩阵$\ref{G}$的逆，所以该矩阵需要是可逆的。二阶可逆矩阵会有两个非零特征值。只要最小特征值足够大，该矩阵就可逆，就能够求解光流。因此在求一个特征点的光流前，可以通过判断$\ref{G}$的最小特征值是否大于一个阈值，就可以知道算法是否会失效。</p>
 <h3>复杂但是更有效的版本</h3>
 <p>既然算法失效的原因在于，特征点缺乏纹理信息，它包含的信息量太少。那么一个直观的想法就是，对于信息量少的特征点，就认为它是不好跟踪的点。对于包含信息量大的特征点，就认为它是好跟踪的点，把它保留下来。在主成分分析(PCA)中曾提到过，二维平面上的点集的协方差矩阵(2&times;2)表示了其中的各个点之间的关系，而该协方差矩阵的特征值就代表了这些点的分散程度，也就是所包含信息量的大小。在PCA中可以通过提取最大特征值的方法，把最主要的成分提取出来。而在这里，需要判断的是特征点所含信息量的大小，所以只要求出特征点协方差矩阵的最小特征值，只要这个次要成分也包含有足够量的信息，那么就可以认为该特征点是适合被跟踪的。</p>
-<p>特征值的取值有如下几个情况：
-1. $\lambda_1$ &gt; $\lambda_2$ &gt;&gt;0 ，说明该特征点包含足够的信息
-2. $\lambda_1$ &gt;&gt;0,$\lambda_2$ 接近0,说明该特征点只在一个方向包含信息，另一个方向没什么变化。例如边界点
-3. $\lambda_1$，$\lambda_2$接近0, 没什么有用的信息，这个点不能要</p>
+<p>特征值的取值有如下几个情况：</p>
+<ol>
+<li>$\lambda_1$ &gt; $\lambda_2$ &gt;&gt;0 ，说明该特征点包含足够的信息</li>
+<li>$\lambda_1$ &gt;&gt;0,$\lambda_2$ 接近0,说明该特征点只在一个方向包含信息，另一个方向没什么变化。例如边界点</li>
+<li>$\lambda_1$，$\lambda_2$接近0, 没什么有用的信息，这个点不能要</li>
+</ol>
 <p>综上，协方差矩阵的最小特征值越大，说明该特征点越适合被跟踪。</p>
 <h2>求出最小特征值之后</h2>
 <p>为了找到适合跟踪的特征点，我们求解了每个点的协方差矩阵的特征值。找到最小特征值后，从大到小排序，去掉小于一个阈值的所有点(通常有了后续的操作，这一步可以省略）。对于这些特征点，只保留局部最大值。例如对于一个点，保留它的条件是：它的最小特征值是临域内最大的。那么邻域内其他点就需要去掉。 这样剩下的点都是比较适合的点了。但一般这样会剩下大量的点，而且非常密集，这会消耗很多计算，同时由于点太密集，全都求的话意义不大，所以设定一个最小距离，只保留那些互相之间距大于最小距离的点。</p>
@@ -234,44 +236,9 @@ $$
 </li>
 
 <li class="nav-header"><h4><i class="icon-tags icon-large"></i>Tags</h4></li>
-<li class="tag-1">
-    <a href="./tag/linux.html">
-        <i class="icon-tag icon-large"></i>Linux
-    </a>
-</li>
-<li class="tag-2">
-    <a href="./tag/boring.html">
-        <i class="icon-tag icon-large"></i>Boring
-    </a>
-</li>
 <li class="tag-4">
     <a href="./tag/automatic.html">
         <i class="icon-tag icon-large"></i>automatic
-    </a>
-</li>
-<li class="tag-2">
-    <a href="./tag/android.html">
-        <i class="icon-tag icon-large"></i>Android
-    </a>
-</li>
-<li class="tag-1">
-    <a href="./tag/codes.html">
-        <i class="icon-tag icon-large"></i>Codes
-    </a>
-</li>
-<li class="tag-3">
-    <a href="./tag/ji-suan-ji-shi-jue.html">
-        <i class="icon-tag icon-large"></i>计算机视觉
-    </a>
-</li>
-<li class="tag-2">
-    <a href="./tag/life.html">
-        <i class="icon-tag icon-large"></i>life
-    </a>
-</li>
-<li class="tag-2">
-    <a href="./tag/qian-ru-shi.html">
-        <i class="icon-tag icon-large"></i>嵌入式
     </a>
 </li>
 <li class="tag-4">
@@ -280,18 +247,13 @@ $$
     </a>
 </li>
 <li class="tag-3">
-    <a href="./tag/kao-yan.html">
-        <i class="icon-tag icon-large"></i>考研
+    <a href="./tag/ji-suan-ji-shi-jue.html">
+        <i class="icon-tag icon-large"></i>计算机视觉
     </a>
 </li>
-<li class="tag-3">
-    <a href="./tag/opencv.html">
-        <i class="icon-tag icon-large"></i>OpenCV
-    </a>
-</li>
-<li class="tag-4">
-    <a href="./tag/python.html">
-        <i class="icon-tag icon-large"></i>Python
+<li class="tag-2">
+    <a href="./tag/boring.html">
+        <i class="icon-tag icon-large"></i>Boring
     </a>
 </li>
 <li class="tag-2">
@@ -299,9 +261,49 @@ $$
         <i class="icon-tag icon-large"></i>blog
     </a>
 </li>
+<li class="tag-3">
+    <a href="./tag/opencv.html">
+        <i class="icon-tag icon-large"></i>OpenCV
+    </a>
+</li>
+<li class="tag-2">
+    <a href="./tag/life.html">
+        <i class="icon-tag icon-large"></i>life
+    </a>
+</li>
+<li class="tag-1">
+    <a href="./tag/linux.html">
+        <i class="icon-tag icon-large"></i>Linux
+    </a>
+</li>
+<li class="tag-2">
+    <a href="./tag/android.html">
+        <i class="icon-tag icon-large"></i>Android
+    </a>
+</li>
+<li class="tag-4">
+    <a href="./tag/python.html">
+        <i class="icon-tag icon-large"></i>Python
+    </a>
+</li>
+<li class="tag-1">
+    <a href="./tag/codes.html">
+        <i class="icon-tag icon-large"></i>Codes
+    </a>
+</li>
+<li class="tag-2">
+    <a href="./tag/qian-ru-shi.html">
+        <i class="icon-tag icon-large"></i>嵌入式
+    </a>
+</li>
 <li class="tag-4">
     <a href="./tag/matlab.html">
         <i class="icon-tag icon-large"></i>matlab
+    </a>
+</li>
+<li class="tag-3">
+    <a href="./tag/kao-yan.html">
+        <i class="icon-tag icon-large"></i>考研
     </a>
 </li>
     <script type="text/javascript" src="http://www.douban.com/service/badge/dream29831/?selection=latest&amp;picsize=small&amp;show=collection&amp;n=8&amp;cat=drama%7Cmovie%7Cbook%7Cmusic&amp;columns=2"></script>
