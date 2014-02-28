@@ -61,11 +61,11 @@ I(x,y,t)=I(x+u,y+v,t+1)
 $$
 将右边对时间t进行泰勒展开，得到
 $$
-I(x+u,y+v,t+1)=I(x,y,t)+I_x \cdot u+I_y \cdot + I_t
+I(x+u,y+v,t+1)=I(x,y,t)+I_x \cdot u+I_y \cdot v+ I_t
 $$
 两式联立可得
 $$
-I_x \cdot u+I_y \cdot + I_t=0
+I_x \cdot u+I_y \cdot v+ I_t=0
 $$
 $$
 [I_x\quad I_y]\cdot [u\quad  v]^T+I_t=0
@@ -175,7 +175,7 @@ $$
 $$
 I_t=\delta I(x,y)=A(x,y)-B(x,y)
 $$
-当图像A，B很相似时，矩阵$[\frac{\partial B}{\partial x} \quad \frac{\partial B}{\partial y}]$则可以看做是图像在$x,y$方向上的梯度，$\nabla I=[I_x I_y]^T=[\frac{\partial B}{\partial x} \quad \frac{\partial B}{\partial y}]$。而该梯度可以通过图像A直接求出：
+当图像A，B很相似时，矩阵$[\frac{\partial B}{\partial x} \quad \frac{\partial B}{\partial y}]$则可以看做是图像在$x,y$方向上的梯度，$\nabla I=[I_x \quad I_y]=[\frac{\partial B}{\partial x} \quad \frac{\partial B}{\partial y}]$。而该梯度可以通过图像A直接求出：
 $$
 \forall (x,y) \in [p_x-w,p_x+w]\times[p_y-w,p_y+w],
 $$&lt;/p&gt;

@@ -5,28 +5,28 @@ xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
 
 <url>
 <loc>http://ghdawn.me/index.html</loc>
-<lastmod>2014-02-06T12:13:28-00:00</lastmod>
+<lastmod>2014-02-28T10:41:35-00:00</lastmod>
 <changefreq>daily</changefreq>
 <priority>0.5</priority>
 </url>
 
 <url>
 <loc>http://ghdawn.me/archives.html</loc>
-<lastmod>2014-02-06T12:13:28-00:00</lastmod>
+<lastmod>2014-02-28T10:41:35-00:00</lastmod>
 <changefreq>daily</changefreq>
 <priority>0.5</priority>
 </url>
 
 <url>
 <loc>http://ghdawn.me/tags.html</loc>
-<lastmod>2014-02-06T12:13:28-00:00</lastmod>
+<lastmod>2014-02-28T10:41:35-00:00</lastmod>
 <changefreq>daily</changefreq>
 <priority>0.5</priority>
 </url>
 
 <url>
 <loc>http://ghdawn.me/categories.html</loc>
-<lastmod>2014-02-06T12:13:28-00:00</lastmod>
+<lastmod>2014-02-28T10:41:35-00:00</lastmod>
 <changefreq>daily</changefreq>
 <priority>0.5</priority>
 </url>
@@ -194,7 +194,7 @@ xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
 
 <url>
 <loc>http://ghdawn.me/tag/life.html</loc>
-<lastmod>2014-01-26T15:59:15-00:00</lastmod>
+<lastmod>2014-01-26T13:54:36-00:00</lastmod>
 <changefreq>daily</changefreq>
 <priority>0.5</priority>
 </url>
