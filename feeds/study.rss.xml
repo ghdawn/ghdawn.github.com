@@ -1,5 +1,71 @@
 <?xml version="1.0" encoding="utf-8"?>
-<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>记录</title><link>http://ghdawn.me/</link><description></description><atom:link href="http://ghdawn.me/feeds/study.rss.xml" rel="self"></atom:link><lastBuildDate>Sat, 01 Feb 2014 21:47:04 +0800</lastBuildDate><item><title>选择适合跟踪的特征点</title><link>http://ghdawn.me/2014-02-01-select-feature.html</link><description>&lt;h2&gt;问题&lt;/h2&gt;
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>记录</title><link>http://ghdawn.me/</link><description></description><atom:link href="http://ghdawn.me/feeds/study.rss.xml" rel="self"></atom:link><lastBuildDate>Mon, 31 Mar 2014 13:51:23 +0800</lastBuildDate><item><title>关于ArDrone四旋翼 二次开发的一些记录</title><link>http://ghdawn.me/2014-03-31-about-ardrone.html</link><description>&lt;p&gt;AR.Drone是法国公司Parrot推出的四旋翼平台,内置飞控导航,摄像头等设备,可以使用各种手机,平板来控制飞行.同时官方提供了SDK,可以自己开发程序来控制该飞机.但是介绍总是美好的,在实际使用中总是会出现这样或那样的问题.这里我把遇到了的能解决并且能说得清楚的问题记录下来&lt;/p&gt;
+&lt;p&gt;使用的SDK版本为2.0.1,操作系统为64位ubuntu 13.04&lt;/p&gt;
+&lt;h2&gt;编译问题&lt;/h2&gt;
+&lt;p&gt;刚解压出SDK,进入 &lt;em&gt;Example/Linux&lt;/em&gt;,执行&lt;code&gt;make&lt;/code&gt;命令,在编译&lt;strong&gt;Navigation&lt;/strong&gt;工程时,会出现如下编译错误&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt; &lt;span class="n"&gt;undefined&lt;/span&gt; &lt;span class="n"&gt;reference&lt;/span&gt; &lt;span class="n"&gt;to&lt;/span&gt; &lt;span class="n"&gt;symbol&lt;/span&gt; &lt;span class="err"&gt;&amp;#39;&lt;/span&gt;&lt;span class="n"&gt;floor&lt;/span&gt;&lt;span class="err"&gt;@@&lt;/span&gt;&lt;span class="n"&gt;GLIBC_2&lt;/span&gt;&lt;span class="mf"&gt;.2.5&lt;/span&gt;&lt;span class="err"&gt;&amp;#39;&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;解决办法是在&lt;em&gt;Example/Linux/Navigation/Build/makefile&lt;/em&gt;文件中的引用库的部分加入&lt;code&gt;-lm&lt;/code&gt;,变成这样:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="n"&gt;GENERIC_LIBS&lt;/span&gt;&lt;span class="o"&gt;+=-&lt;/span&gt;&lt;span class="n"&gt;liw&lt;/span&gt; &lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="n"&gt;lpc_ardrone&lt;/span&gt; &lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="n"&gt;lgthread&lt;/span&gt;&lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="mf"&gt;2.0&lt;/span&gt; &lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="n"&gt;lgtk&lt;/span&gt;&lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="n"&gt;x11&lt;/span&gt;&lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="mf"&gt;2.0&lt;/span&gt; &lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="n"&gt;lrt&lt;/span&gt; &lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="n"&gt;lxml2&lt;/span&gt; &lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="n"&gt;ludev&lt;/span&gt; &lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="n"&gt;lswscale&lt;/span&gt; &lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="n"&gt;lSDL&lt;/span&gt; &lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="n"&gt;lm&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;这样就可以通过编译了.
+然后&lt;strong&gt;video_demo&lt;/strong&gt;工程会出现下一个编译错误:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt; &lt;span class="n"&gt;undefined&lt;/span&gt; &lt;span class="n"&gt;reference&lt;/span&gt; &lt;span class="n"&gt;to&lt;/span&gt; &lt;span class="n"&gt;symbol&lt;/span&gt; &lt;span class="err"&gt;&amp;#39;&lt;/span&gt;&lt;span class="n"&gt;gdk_cairo_create&lt;/span&gt;&lt;span class="err"&gt;&amp;#39;&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;其实这是一系列的编译错误,因为该工程的&lt;strong&gt;makefile&lt;/strong&gt;里少加了很多引用库,于是同样的修改它的&lt;strong&gt;makefile&lt;/strong&gt;,把引用的库变成这样:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="n"&gt;GENERIC_LIBS&lt;/span&gt;&lt;span class="o"&gt;=-&lt;/span&gt;&lt;span class="n"&gt;lpc_ardrone&lt;/span&gt; &lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="n"&gt;lrt&lt;/span&gt; &lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="n"&gt;lgtk&lt;/span&gt;&lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="n"&gt;x11&lt;/span&gt;&lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="mf"&gt;2.0&lt;/span&gt; &lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="n"&gt;lcairo&lt;/span&gt; &lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="n"&gt;lgdk&lt;/span&gt;&lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="n"&gt;x11&lt;/span&gt;&lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="mf"&gt;2.0&lt;/span&gt; &lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="n"&gt;lgobject&lt;/span&gt;&lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="mf"&gt;2.0&lt;/span&gt; &lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="n"&gt;lm&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;这样就能通过编译了.&lt;/p&gt;
+&lt;h2&gt;开发中的问题&lt;/h2&gt;
+&lt;h4&gt;读取不出高度信息&lt;/h4&gt;
+&lt;p&gt;SDK中提供了和文档匹配的例程,其中&lt;strong&gt;sdk_demo&lt;/strong&gt;是用来测试读取导航数据的.文档中说,所有单位都是千分之一的标准单位.即高度为&lt;em&gt;mm&lt;/em&gt;,速度为&lt;em&gt;mm/s&lt;/em&gt;,姿态为&lt;em&gt;1°/1000&lt;/em&gt;.其中姿态信息可以正确的读出,而速度和高度的值一直是0.其中,读取高度的源码如下:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;  &lt;span class="kr"&gt;inline&lt;/span&gt; &lt;span class="n"&gt;C_RESULT&lt;/span&gt; &lt;span class="nf"&gt;demo_navdata_client_process&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt; &lt;span class="k"&gt;const&lt;/span&gt; &lt;span class="kt"&gt;navdata_unpacked_t&lt;/span&gt;&lt;span class="o"&gt;*&lt;/span&gt; &lt;span class="k"&gt;const&lt;/span&gt; &lt;span class="n"&gt;navdata&lt;/span&gt; &lt;span class="p"&gt;)&lt;/span&gt; 
+    &lt;span class="p"&gt;{&lt;/span&gt;
+        &lt;span class="k"&gt;const&lt;/span&gt; &lt;span class="kt"&gt;navdata_demo_t&lt;/span&gt;&lt;span class="o"&gt;*&lt;/span&gt;&lt;span class="n"&gt;nd&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="o"&gt;&amp;amp;&lt;/span&gt;&lt;span class="n"&gt;navdata&lt;/span&gt;&lt;span class="o"&gt;-&amp;gt;&lt;/span&gt;&lt;span class="n"&gt;navdata_demo&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt; 
+        &lt;span class="n"&gt;printf&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s"&gt;&amp;quot;Altitude      : %i&lt;/span&gt;&lt;span class="se"&gt;\n&lt;/span&gt;&lt;span class="s"&gt;&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="n"&gt;nd&lt;/span&gt;&lt;span class="o"&gt;-&amp;gt;&lt;/span&gt;&lt;span class="n"&gt;altitude&lt;/span&gt;&lt;span class="p"&gt;,);&lt;/span&gt;
+        &lt;span class="k"&gt;return&lt;/span&gt; &lt;span class="n"&gt;C_OK&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+    &lt;span class="p"&gt;}&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;通过GDB调试,发现&lt;em&gt;navdata&lt;/em&gt;中还有一个结构体叫&lt;strong&gt;navdata_altitude&lt;/strong&gt;,其中有4个值:&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;altitude_vision&lt;/li&gt;
+&lt;li&gt;altitude_raw&lt;/li&gt;
+&lt;li&gt;altitude_ref&lt;/li&gt;
+&lt;li&gt;altitude_measure&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;后两个的读数不变恒为0.前两个的读数不为零,虽然不相等,但是很接近.当飞机对地面的距离变化时,可以看出变化趋势是正确的.通过名字可以推断,一个是通过底部摄像头的视觉算法估计高度,一个是通过底部的超声传感器的原始数据得到高度信息.所以使用如下代码,可以读出一个近似正确的高度信息.&lt;/p&gt;
+&lt;p&gt;这里我很奇怪,为什么官方提供的例程还不能很好的读取数值,还会出现这样的错误?&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;  &lt;span class="kr"&gt;inline&lt;/span&gt; &lt;span class="n"&gt;C_RESULT&lt;/span&gt; &lt;span class="nf"&gt;demo_navdata_client_process&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt; &lt;span class="k"&gt;const&lt;/span&gt; &lt;span class="kt"&gt;navdata_unpacked_t&lt;/span&gt;&lt;span class="o"&gt;*&lt;/span&gt; &lt;span class="k"&gt;const&lt;/span&gt; &lt;span class="n"&gt;navdata&lt;/span&gt; &lt;span class="p"&gt;)&lt;/span&gt; 
+    &lt;span class="p"&gt;{&lt;/span&gt;
+        &lt;span class="k"&gt;const&lt;/span&gt; &lt;span class="kt"&gt;navdata_demo_t&lt;/span&gt;&lt;span class="o"&gt;*&lt;/span&gt;&lt;span class="n"&gt;nd&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="o"&gt;&amp;amp;&lt;/span&gt;&lt;span class="n"&gt;navdata&lt;/span&gt;&lt;span class="o"&gt;-&amp;gt;&lt;/span&gt;&lt;span class="n"&gt;navdata_demo&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt; 
+        &lt;span class="n"&gt;printf&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s"&gt;&amp;quot;Altitude      : %i&lt;/span&gt;&lt;span class="se"&gt;\n&lt;/span&gt;&lt;span class="s"&gt;&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="n"&gt;nd&lt;/span&gt;&lt;span class="o"&gt;-&amp;gt;&lt;/span&gt;&lt;span class="n"&gt;altitude&lt;/span&gt;&lt;span class="p"&gt;,);&lt;/span&gt; &lt;span class="c1"&gt;// get zero&lt;/span&gt;
+        &lt;span class="n"&gt;printf&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s"&gt;&amp;quot;Altitude      : %i %i&lt;/span&gt;&lt;span class="se"&gt;\n&lt;/span&gt;&lt;span class="s"&gt;&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="n"&gt;navdata&lt;/span&gt;&lt;span class="o"&gt;-&amp;gt;&lt;/span&gt;&lt;span class="n"&gt;navdata_altitude&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;altitude_vision&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="n"&gt;navdata&lt;/span&gt;&lt;span class="o"&gt;-&amp;gt;&lt;/span&gt;&lt;span class="n"&gt;navdata_altitude&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;altitude_raw&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt; &lt;span class="c1"&gt;//sometimes get the number,and sometimes get zero&lt;/span&gt;
+        &lt;span class="k"&gt;return&lt;/span&gt; &lt;span class="n"&gt;C_OK&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+
+    &lt;span class="p"&gt;}&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;虽然通过这个结构体可以读取出来高度信息,但是这个信息并不稳定,运行一段时间就会都变成0.于是我找啊找啊,找到了一个感觉不太好的解决办法:&lt;/p&gt;
+&lt;p&gt;找到&lt;em&gt;ARDroneLIB/Soft/Lib/ardrone-tool/Navdata/ardrone_general_navdata.h&lt;/em&gt;文件,把其中的第301行开始到305行结束的这一段&lt;strong&gt;case&lt;/strong&gt;语句注释掉,就好了,如下.但是至于为什么这样就能好,我也还没搞清楚,以后再补充&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="k"&gt;case&lt;/span&gt; &lt;span class="n"&gt;MULTICONFIG_REQUEST_NAVDATA&lt;/span&gt;:
+      &lt;span class="n"&gt;PRINTDBG&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s"&gt;&amp;quot;Send application navdata demo/options&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;
+      &lt;span class="c1"&gt;// Send application navdata demo/options to start navdatas from AR.Drone&lt;/span&gt;
+      &lt;span class="n"&gt;ARDRONE_TOOL_CONFIGURATION_ADDEVENT&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;navdata_demo&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="o"&gt;&amp;amp;&lt;/span&gt;&lt;span class="n"&gt;ardrone_application_default_config&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;navdata_demo&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="nb"&gt;NULL&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;
+      &lt;span class="n"&gt;ARDRONE_TOOL_CONFIGURATION_ADDEVENT&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;navdata_options&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="o"&gt;&amp;amp;&lt;/span&gt;&lt;span class="n"&gt;ardrone_application_default_config&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;navdata_options&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;configurationCallback&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;
+      &lt;span class="n"&gt;configState&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;MULTICONFIG_IN_PROGRESS_NAVDATA&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+      &lt;span class="k"&gt;break&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;</description><dc:creator xmlns:dc="http://purl.org/dc/elements/1.1/">清风未明</dc:creator><pubDate>Mon, 31 Mar 2014 13:51:23 +0800</pubDate><guid>tag:ghdawn.me,2014-03-31:2014-03-31-about-ardrone.html</guid><category>Linux</category><category>Codes</category></item><item><title>选择适合跟踪的特征点</title><link>http://ghdawn.me/2014-02-01-select-feature.html</link><description>&lt;h2&gt;问题&lt;/h2&gt;
 &lt;p&gt;虽然现在已经得到了求解一个点的光流的方法，但是并不是什么点都能求出正确的光流。举一个例子就是，选择了一面白墙上的一个点，由于缺乏纹理信息，算法会失效。求解光流的方程如下：
 $$
 v=G^{-1}b

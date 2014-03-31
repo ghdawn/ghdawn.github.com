@@ -105,6 +105,37 @@ document.write(unescape("%3Cscript src='" + _bdhmProtocol + "hm.baidu.com/h.js%3
       <div class="row">
         <div class="span9" id="content">
         <div class="article">
+                <h1><a href="./2014-03-31-about-ardrone.html">关于ArDrone四旋翼 二次开发的一些记录</a></h1>
+                <div class="well small"><footer class="post-info">
+<span class="label">Date</span>
+<abbr class="published" title="2014-03-31T13:51:23">
+        <i class="icon-calendar"></i>一 31 三月 2014
+</abbr>
+<span class="label">By</span>
+<a href="./author/qing-feng-wei-ming.html"><i class="icon-user"></i>清风未明</a>
+<span class="label">Category</span>
+<a href="./category/study.html"><i class="icon-folder-open"></i>Study</a>.
+
+
+<span class="label">Tags</span>
+	<a href="./tag/linux.html"><i class="icon-tag"></i>Linux</a>
+	<a href="./tag/codes.html"><i class="icon-tag"></i>Codes</a>
+</footer><!-- /.post-info --></div>
+                <div class="summary"><p>AR.Drone是法国公司Parrot推出的四旋翼平台,内置飞控导航,摄像头等设备,可以使用各种手机,平板来控制飞行.同时官方提供了SDK,可以自己开发程序来控制该飞机.但是介绍总是美好的,在实际使用中总是会出现这样或那样的问题.这里我把遇到了的能解决并且能说得清楚的问题记录下来</p>
+<p>使用的SDK版本为2.0.1,操作系统为64位ubuntu 13.04</p>
+<h2>编译问题</h2>
+<p>刚解压出SDK,进入 <em>Example/Linux</em>,执行<code>make</code>命令,在编译<strong>Navigation</strong>工程时,会出现如下编译错误</p>
+<div class="highlight"><pre> <span class="n">undefined</span> <span class="n">reference</span> <span class="n">to</span> <span class="n">symbol</span> <span class="err">&#39;</span><span class="n">floor</span><span class="err">@@</span><span class="n">GLIBC_2</span><span class="mf">.2.5</span><span class="err">&#39;</span>
+</pre></div>
+
+
+<p>解决办法是在<em>Example/Linux/Navigation/Build/makefile</em>文件中的引用库的部分加入<code>-lm</code>,变成这样:</p>
+<div class="highlight"><pre><span class="n">GENERIC_LIBS</span><span class="o">+=-</span><span class="n">liw</span> <span class="o">-</span><span class="n">lpc_ardrone</span> <span class="o">-</span><span class="n">lgthread ...</span></pre></div>
+                        <a class="btn primary xsmall" href="./2014-03-31-about-ardrone.html">more ...</a>
+                </div>
+        </div>
+        <hr />
+        <div class="article">
                 <h1><a href="./2014-02-01-select-feature.html">选择适合跟踪的特征点</a></h1>
                 <div class="well small"><footer class="post-info">
 <span class="label">Date</span>
@@ -294,49 +325,6 @@ $$
                 </div>
         </div>
         <hr />
-        <div class="article">
-                <h1><a href="./2012-07-30-crossgdb.html">"为ARM平台交叉编译GDB"</a></h1>
-                <div class="well small"><footer class="post-info">
-<span class="label">Date</span>
-<abbr class="published" title="2012-07-30T20:53:00">
-        <i class="icon-calendar"></i>一 30 七月 2012
-</abbr>
-<span class="label">By</span>
-<a href="./author/qing-feng-wei-ming.html"><i class="icon-user"></i>清风未明</a>
-<span class="label">Category</span>
-<a href="./category/study.html"><i class="icon-folder-open"></i>Study</a>.
-
-
-<span class="label">Tags</span>
-	<a href="./tag/qian-ru-shi.html"><i class="icon-tag"></i>嵌入式</a>
-	<a href="./tag/linux.html"><i class="icon-tag"></i>Linux</a>
-</footer><!-- /.post-info --></div>
-                <div class="summary"><p>为了方便调试嵌入式程序，需要移植一份<em>GDB</em>到ARM平台。</p>
-<h2>GDB之前需要先准备的一个库</h2>
-<p>编译ＧＤＢ时首先会提示一个错误，就是缺少一个库:<a href="http://en.wikipedia.org/wiki/Ncurses">ncurses</a>。编译的时候会需要它的一些头文件和库。所以还需要在<a href="http://www.gnu.org/software/ncurses/">这里</a>下载一份它的源码。下载好后，解压到需要的路径。为了便于区分，可以在源代码文件夹中，新建一个文件夹<em>release</em>来放编译完成后的文件。进入源码文件夹，执行以下命令，即可完成编译工作：</p>
-<div class="highlight"><pre>./configure --host<span class="o">=</span>arm-none-linux-gnueabi  --prefix<span class="o">=</span><span class="s2">&quot;$PWD/release&quot;</span> --without-ada --enable-termcap --with-shared
-make
-make install
-</pre></div>
-
-
-<h4>解释</h4>
-<ol>
-<li>
-<p><em>--host</em> 指定了这份源码将要编译到哪个平台上，<em>configure</em>会按照这个参数来寻找编译器，比如我的编译器是<em>arm-none-linux-gnueabi-gcc</em>，所以我就写<em>arm-none-linux-gnueabi</em></p>
-</li>
-<li>
-<p><em>--prefix</em> 指定了编译好的文件将要存放的地方</p>
-</li>
-<li>
-<p>编译GDB的时候提示缺少的库就是<em>termcap</em>，所以需要<em>--enable-termcap</em> 。 </p>
-</li>
-<li>
-<p>其余的选项可以通过 ...</p></li></ol>
-                        <a class="btn primary xsmall" href="./2012-07-30-crossgdb.html">more ...</a>
-                </div>
-        </div>
-        <hr />
 
         <div class="pagination">
         <ul>
@@ -377,64 +365,9 @@ make install
 </li>
 
 <li class="nav-header"><h4><i class="icon-tags icon-large"></i>Tags</h4></li>
-<li class="tag-3">
-    <a href="./tag/kao-yan.html">
-        <i class="icon-tag icon-large"></i>考研
-    </a>
-</li>
-<li class="tag-4">
-    <a href="./tag/automatic.html">
-        <i class="icon-tag icon-large"></i>automatic
-    </a>
-</li>
-<li class="tag-1">
-    <a href="./tag/linux.html">
-        <i class="icon-tag icon-large"></i>Linux
-    </a>
-</li>
-<li class="tag-3">
-    <a href="./tag/life.html">
-        <i class="icon-tag icon-large"></i>life
-    </a>
-</li>
-<li class="tag-2">
-    <a href="./tag/boring.html">
-        <i class="icon-tag icon-large"></i>Boring
-    </a>
-</li>
-<li class="tag-3">
-    <a href="./tag/opencv.html">
-        <i class="icon-tag icon-large"></i>OpenCV
-    </a>
-</li>
-<li class="tag-2">
-    <a href="./tag/qian-ru-shi.html">
-        <i class="icon-tag icon-large"></i>嵌入式
-    </a>
-</li>
-<li class="tag-4">
-    <a href="./tag/ji-qi-xue-xi.html">
-        <i class="icon-tag icon-large"></i>机器学习
-    </a>
-</li>
-<li class="tag-4">
-    <a href="./tag/matlab.html">
-        <i class="icon-tag icon-large"></i>matlab
-    </a>
-</li>
-<li class="tag-2">
-    <a href="./tag/blog.html">
-        <i class="icon-tag icon-large"></i>blog
-    </a>
-</li>
 <li class="tag-2">
     <a href="./tag/android.html">
         <i class="icon-tag icon-large"></i>Android
-    </a>
-</li>
-<li class="tag-4">
-    <a href="./tag/python.html">
-        <i class="icon-tag icon-large"></i>Python
     </a>
 </li>
 <li class="tag-1">
@@ -443,8 +376,63 @@ make install
     </a>
 </li>
 <li class="tag-3">
+    <a href="./tag/opencv.html">
+        <i class="icon-tag icon-large"></i>OpenCV
+    </a>
+</li>
+<li class="tag-2">
+    <a href="./tag/blog.html">
+        <i class="icon-tag icon-large"></i>blog
+    </a>
+</li>
+<li class="tag-1">
+    <a href="./tag/linux.html">
+        <i class="icon-tag icon-large"></i>Linux
+    </a>
+</li>
+<li class="tag-4">
+    <a href="./tag/matlab.html">
+        <i class="icon-tag icon-large"></i>matlab
+    </a>
+</li>
+<li class="tag-4">
+    <a href="./tag/ji-qi-xue-xi.html">
+        <i class="icon-tag icon-large"></i>机器学习
+    </a>
+</li>
+<li class="tag-2">
+    <a href="./tag/boring.html">
+        <i class="icon-tag icon-large"></i>Boring
+    </a>
+</li>
+<li class="tag-2">
+    <a href="./tag/qian-ru-shi.html">
+        <i class="icon-tag icon-large"></i>嵌入式
+    </a>
+</li>
+<li class="tag-4">
+    <a href="./tag/automatic.html">
+        <i class="icon-tag icon-large"></i>automatic
+    </a>
+</li>
+<li class="tag-3">
     <a href="./tag/ji-suan-ji-shi-jue.html">
         <i class="icon-tag icon-large"></i>计算机视觉
+    </a>
+</li>
+<li class="tag-4">
+    <a href="./tag/python.html">
+        <i class="icon-tag icon-large"></i>Python
+    </a>
+</li>
+<li class="tag-3">
+    <a href="./tag/life.html">
+        <i class="icon-tag icon-large"></i>life
+    </a>
+</li>
+<li class="tag-3">
+    <a href="./tag/kao-yan.html">
+        <i class="icon-tag icon-large"></i>考研
     </a>
 </li>
     <script type="text/javascript" src="http://www.douban.com/service/badge/dream29831/?selection=latest&amp;picsize=small&amp;show=collection&amp;n=8&amp;cat=drama%7Cmovie%7Cbook%7Cmusic&amp;columns=2"></script>

@@ -5,30 +5,37 @@ xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
 
 <url>
 <loc>http://ghdawn.me/index.html</loc>
-<lastmod>2014-02-28T10:41:35-00:00</lastmod>
+<lastmod>2014-03-31T14:41:47-00:00</lastmod>
 <changefreq>daily</changefreq>
 <priority>0.5</priority>
 </url>
 
 <url>
 <loc>http://ghdawn.me/archives.html</loc>
-<lastmod>2014-02-28T10:41:35-00:00</lastmod>
+<lastmod>2014-03-31T14:41:47-00:00</lastmod>
 <changefreq>daily</changefreq>
 <priority>0.5</priority>
 </url>
 
 <url>
 <loc>http://ghdawn.me/tags.html</loc>
-<lastmod>2014-02-28T10:41:35-00:00</lastmod>
+<lastmod>2014-03-31T14:41:47-00:00</lastmod>
 <changefreq>daily</changefreq>
 <priority>0.5</priority>
 </url>
 
 <url>
 <loc>http://ghdawn.me/categories.html</loc>
-<lastmod>2014-02-28T10:41:35-00:00</lastmod>
+<lastmod>2014-03-31T14:41:47-00:00</lastmod>
 <changefreq>daily</changefreq>
 <priority>0.5</priority>
+</url>
+
+<url>
+<loc>http://ghdawn.me/2014-03-31-about-ardrone.html</loc>
+<lastmod>2014-03-31T13:51:23-00:00</lastmod>
+<changefreq>monthly</changefreq>
+<priority>0.7</priority>
 </url>
 
 <url>
@@ -180,7 +187,7 @@ xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
 
 <url>
 <loc>http://ghdawn.me/category/study.html</loc>
-<lastmod>2014-02-01T21:47:04-00:00</lastmod>
+<lastmod>2014-03-31T13:51:23-00:00</lastmod>
 <changefreq>daily</changefreq>
 <priority>0.5</priority>
 </url>
@@ -201,7 +208,7 @@ xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
 
 <url>
 <loc>http://ghdawn.me/tag/codes.html</loc>
-<lastmod>2012-12-02T20:22:00-00:00</lastmod>
+<lastmod>2014-03-31T13:51:23-00:00</lastmod>
 <changefreq>daily</changefreq>
 <priority>0.5</priority>
 </url>
@@ -264,7 +271,7 @@ xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
 
 <url>
 <loc>http://ghdawn.me/tag/linux.html</loc>
-<lastmod>2012-07-30T20:53:00-00:00</lastmod>
+<lastmod>2014-03-31T13:51:23-00:00</lastmod>
 <changefreq>daily</changefreq>
 <priority>0.5</priority>
 </url>
@@ -285,7 +292,7 @@ xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
 
 <url>
 <loc>http://ghdawn.me/author/qing-feng-wei-ming.html</loc>
-<lastmod>2014-02-01T21:47:04-00:00</lastmod>
+<lastmod>2014-03-31T13:51:23-00:00</lastmod>
 <changefreq>daily</changefreq>
 <priority>0.5</priority>
 </url>

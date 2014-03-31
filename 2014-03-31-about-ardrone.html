@@ -2,7 +2,7 @@
 <html lang="en">
   <head>
     <meta charset="utf-8">
-    <title>更换了博客生成系统</title>
+    <title>关于ArDrone四旋翼 二次开发的一些记录</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="">
     <meta name="author" content="清风未明">
@@ -101,12 +101,12 @@ document.write(unescape("%3Cscript src='" + _bdhmProtocol + "hm.baidu.com/h.js%3
           <div class="nav-collapse">
             <ul class="nav">
                           <li class="divider-vertical"></li>
-                  <li class="active">
+                  <li >
                     <a href="./category/life.html">
 						<i class="icon-folder-open icon-large"></i>Life
 					</a>
                   </li>
-                  <li >
+                  <li class="active">
                     <a href="./category/study.html">
 						<i class="icon-folder-open icon-large"></i>Study
 					</a>
@@ -132,8 +132,8 @@ document.write(unescape("%3Cscript src='" + _bdhmProtocol + "hm.baidu.com/h.js%3
                         <h1>
                                 <a href=""
                                         rel="bookmark"
-                                        title="Permalink to 更换了博客生成系统">
-                                        更换了博客生成系统
+                                        title="Permalink to 关于ArDrone四旋翼 二次开发的一些记录">
+                                        关于ArDrone四旋翼 二次开发的一些记录
                                 </a>
                         </h1>
                 </header>
@@ -141,29 +141,92 @@ document.write(unescape("%3Cscript src='" + _bdhmProtocol + "hm.baidu.com/h.js%3
                 <div class="well">
 <footer class="post-info">
 <span class="label">Date</span>
-<abbr class="published" title="2014-01-26T15:59:15">
-        <i class="icon-calendar"></i>日 26 一月 2014
+<abbr class="published" title="2014-03-31T13:51:23">
+        <i class="icon-calendar"></i>一 31 三月 2014
 </abbr>
 <span class="label">By</span>
 <a href="./author/qing-feng-wei-ming.html"><i class="icon-user"></i>清风未明</a>
 <span class="label">Category</span>
-<a href="./category/life.html"><i class="icon-folder-open"></i>Life</a>.
+<a href="./category/study.html"><i class="icon-folder-open"></i>Study</a>.
 
 
 <span class="label">Tags</span>
-	<a href="./tag/python.html"><i class="icon-tag"></i>Python</a>
-	<a href="./tag/blog.html"><i class="icon-tag"></i>blog</a>
+	<a href="./tag/linux.html"><i class="icon-tag"></i>Linux</a>
+	<a href="./tag/codes.html"><i class="icon-tag"></i>Codes</a>
 </footer><!-- /.post-info -->                </div>
-                <p>如果不是GoDaddy给我发邮件提醒续费，我都忘了我还有这么一个域名，以及这么一个博客。最早决定写博客是看到好多人都说记录一些事情是个好习惯，无论对于生活还是学习都是。另外当我发现我的写作能力实在差的太厉害，太需要锻炼锻炼。当时看到Octopress那么有趣，我就做了这么一个博客。</p>
-<p>但问题是，那个ruby环境实在太难配置了，我的电脑上总会出现这样或者那样的问题，对ruby版本号有要求，对组件版本号有要求，每次配个环境都费死劲了。所以当我换电脑后，配环境未遂，就只好作罢了。</p>
-<p>一次上网随便看东西，发现了Pelican这么一个基于Python的博客系统，突然觉得很喜欢，一个是不需要什么环境配置，系统自带的Python就可以，另外它很简单，使用起来没什么特殊的难点，也是管理静态页面的方法。我就又决定要开始记录学习的过程了！！！</p>
-<p>搭建过程我主要参考了<a href="http://frantic1048.com/bo-ke-dan-sheng-ji-ji-yu-githubpelicanchuang-jian-bo-ke-de-zheng-ge-guo-cheng.html">它</a>和<a href="http://blog.csdn.net/buptgshengod/article/details/10228395">它</a></p>
+                <p>AR.Drone是法国公司Parrot推出的四旋翼平台,内置飞控导航,摄像头等设备,可以使用各种手机,平板来控制飞行.同时官方提供了SDK,可以自己开发程序来控制该飞机.但是介绍总是美好的,在实际使用中总是会出现这样或那样的问题.这里我把遇到了的能解决并且能说得清楚的问题记录下来</p>
+<p>使用的SDK版本为2.0.1,操作系统为64位ubuntu 13.04</p>
+<h2>编译问题</h2>
+<p>刚解压出SDK,进入 <em>Example/Linux</em>,执行<code>make</code>命令,在编译<strong>Navigation</strong>工程时,会出现如下编译错误</p>
+<div class="highlight"><pre> <span class="n">undefined</span> <span class="n">reference</span> <span class="n">to</span> <span class="n">symbol</span> <span class="err">&#39;</span><span class="n">floor</span><span class="err">@@</span><span class="n">GLIBC_2</span><span class="mf">.2.5</span><span class="err">&#39;</span>
+</pre></div>
+
+
+<p>解决办法是在<em>Example/Linux/Navigation/Build/makefile</em>文件中的引用库的部分加入<code>-lm</code>,变成这样:</p>
+<div class="highlight"><pre><span class="n">GENERIC_LIBS</span><span class="o">+=-</span><span class="n">liw</span> <span class="o">-</span><span class="n">lpc_ardrone</span> <span class="o">-</span><span class="n">lgthread</span><span class="o">-</span><span class="mf">2.0</span> <span class="o">-</span><span class="n">lgtk</span><span class="o">-</span><span class="n">x11</span><span class="o">-</span><span class="mf">2.0</span> <span class="o">-</span><span class="n">lrt</span> <span class="o">-</span><span class="n">lxml2</span> <span class="o">-</span><span class="n">ludev</span> <span class="o">-</span><span class="n">lswscale</span> <span class="o">-</span><span class="n">lSDL</span> <span class="o">-</span><span class="n">lm</span>
+</pre></div>
+
+
+<p>这样就可以通过编译了.
+然后<strong>video_demo</strong>工程会出现下一个编译错误:</p>
+<div class="highlight"><pre> <span class="n">undefined</span> <span class="n">reference</span> <span class="n">to</span> <span class="n">symbol</span> <span class="err">&#39;</span><span class="n">gdk_cairo_create</span><span class="err">&#39;</span>
+</pre></div>
+
+
+<p>其实这是一系列的编译错误,因为该工程的<strong>makefile</strong>里少加了很多引用库,于是同样的修改它的<strong>makefile</strong>,把引用的库变成这样:</p>
+<div class="highlight"><pre><span class="n">GENERIC_LIBS</span><span class="o">=-</span><span class="n">lpc_ardrone</span> <span class="o">-</span><span class="n">lrt</span> <span class="o">-</span><span class="n">lgtk</span><span class="o">-</span><span class="n">x11</span><span class="o">-</span><span class="mf">2.0</span> <span class="o">-</span><span class="n">lcairo</span> <span class="o">-</span><span class="n">lgdk</span><span class="o">-</span><span class="n">x11</span><span class="o">-</span><span class="mf">2.0</span> <span class="o">-</span><span class="n">lgobject</span><span class="o">-</span><span class="mf">2.0</span> <span class="o">-</span><span class="n">lm</span>
+</pre></div>
+
+
+<p>这样就能通过编译了.</p>
+<h2>开发中的问题</h2>
+<h4>读取不出高度信息</h4>
+<p>SDK中提供了和文档匹配的例程,其中<strong>sdk_demo</strong>是用来测试读取导航数据的.文档中说,所有单位都是千分之一的标准单位.即高度为<em>mm</em>,速度为<em>mm/s</em>,姿态为<em>1°/1000</em>.其中姿态信息可以正确的读出,而速度和高度的值一直是0.其中,读取高度的源码如下:</p>
+<div class="highlight"><pre>  <span class="kr">inline</span> <span class="n">C_RESULT</span> <span class="nf">demo_navdata_client_process</span><span class="p">(</span> <span class="k">const</span> <span class="kt">navdata_unpacked_t</span><span class="o">*</span> <span class="k">const</span> <span class="n">navdata</span> <span class="p">)</span> 
+    <span class="p">{</span>
+        <span class="k">const</span> <span class="kt">navdata_demo_t</span><span class="o">*</span><span class="n">nd</span> <span class="o">=</span> <span class="o">&amp;</span><span class="n">navdata</span><span class="o">-&gt;</span><span class="n">navdata_demo</span><span class="p">;</span> 
+        <span class="n">printf</span><span class="p">(</span><span class="s">&quot;Altitude      : %i</span><span class="se">\n</span><span class="s">&quot;</span><span class="p">,</span><span class="n">nd</span><span class="o">-&gt;</span><span class="n">altitude</span><span class="p">,);</span>
+        <span class="k">return</span> <span class="n">C_OK</span><span class="p">;</span>
+    <span class="p">}</span>
+</pre></div>
+
+
+<p>通过GDB调试,发现<em>navdata</em>中还有一个结构体叫<strong>navdata_altitude</strong>,其中有4个值:</p>
+<ol>
+<li>altitude_vision</li>
+<li>altitude_raw</li>
+<li>altitude_ref</li>
+<li>altitude_measure</li>
+</ol>
+<p>后两个的读数不变恒为0.前两个的读数不为零,虽然不相等,但是很接近.当飞机对地面的距离变化时,可以看出变化趋势是正确的.通过名字可以推断,一个是通过底部摄像头的视觉算法估计高度,一个是通过底部的超声传感器的原始数据得到高度信息.所以使用如下代码,可以读出一个近似正确的高度信息.</p>
+<p>这里我很奇怪,为什么官方提供的例程还不能很好的读取数值,还会出现这样的错误?</p>
+<div class="highlight"><pre>  <span class="kr">inline</span> <span class="n">C_RESULT</span> <span class="nf">demo_navdata_client_process</span><span class="p">(</span> <span class="k">const</span> <span class="kt">navdata_unpacked_t</span><span class="o">*</span> <span class="k">const</span> <span class="n">navdata</span> <span class="p">)</span> 
+    <span class="p">{</span>
+        <span class="k">const</span> <span class="kt">navdata_demo_t</span><span class="o">*</span><span class="n">nd</span> <span class="o">=</span> <span class="o">&amp;</span><span class="n">navdata</span><span class="o">-&gt;</span><span class="n">navdata_demo</span><span class="p">;</span> 
+        <span class="n">printf</span><span class="p">(</span><span class="s">&quot;Altitude      : %i</span><span class="se">\n</span><span class="s">&quot;</span><span class="p">,</span><span class="n">nd</span><span class="o">-&gt;</span><span class="n">altitude</span><span class="p">,);</span> <span class="c1">// get zero</span>
+        <span class="n">printf</span><span class="p">(</span><span class="s">&quot;Altitude      : %i %i</span><span class="se">\n</span><span class="s">&quot;</span><span class="p">,</span><span class="n">navdata</span><span class="o">-&gt;</span><span class="n">navdata_altitude</span><span class="p">.</span><span class="n">altitude_vision</span><span class="p">,</span><span class="n">navdata</span><span class="o">-&gt;</span><span class="n">navdata_altitude</span><span class="p">.</span><span class="n">altitude_raw</span><span class="p">);</span> <span class="c1">//sometimes get the number,and sometimes get zero</span>
+        <span class="k">return</span> <span class="n">C_OK</span><span class="p">;</span>
+
+    <span class="p">}</span>
+</pre></div>
+
+
+<p>虽然通过这个结构体可以读取出来高度信息,但是这个信息并不稳定,运行一段时间就会都变成0.于是我找啊找啊,找到了一个感觉不太好的解决办法:</p>
+<p>找到<em>ARDroneLIB/Soft/Lib/ardrone-tool/Navdata/ardrone_general_navdata.h</em>文件,把其中的第301行开始到305行结束的这一段<strong>case</strong>语句注释掉,就好了,如下.但是至于为什么这样就能好,我也还没搞清楚,以后再补充</p>
+<div class="highlight"><pre><span class="k">case</span> <span class="n">MULTICONFIG_REQUEST_NAVDATA</span>:
+      <span class="n">PRINTDBG</span> <span class="p">(</span><span class="s">&quot;Send application navdata demo/options&quot;</span><span class="p">);</span>
+      <span class="c1">// Send application navdata demo/options to start navdatas from AR.Drone</span>
+      <span class="n">ARDRONE_TOOL_CONFIGURATION_ADDEVENT</span> <span class="p">(</span><span class="n">navdata_demo</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">ardrone_application_default_config</span><span class="p">.</span><span class="n">navdata_demo</span><span class="p">,</span> <span class="nb">NULL</span><span class="p">);</span>
+      <span class="n">ARDRONE_TOOL_CONFIGURATION_ADDEVENT</span> <span class="p">(</span><span class="n">navdata_options</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">ardrone_application_default_config</span><span class="p">.</span><span class="n">navdata_options</span><span class="p">,</span> <span class="n">configurationCallback</span><span class="p">);</span>
+      <span class="n">configState</span> <span class="o">=</span> <span class="n">MULTICONFIG_IN_PROGRESS_NAVDATA</span><span class="p">;</span>
+      <span class="k">break</span><span class="p">;</span>
+</pre></div>
                 </div><!-- /.entry-content -->
                 <div class="comments">
                 <h2>Comments !</h2>
                         <div id="disqus_thread"></div>
                         <script type="text/javascript">
-                           var disqus_identifier = "2014-01-26-new-blog.html";
+                           var disqus_identifier = "2014-03-31-about-ardrone.html";
                            (function() {
                                 var dsq = document.createElement('script');
                                 dsq.type = 'text/javascript'; dsq.async = true;
