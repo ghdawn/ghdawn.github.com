@@ -25,8 +25,8 @@
 
 &lt;p&gt;这样就能通过编译了.&lt;/p&gt;
 &lt;h2&gt;开发中的问题&lt;/h2&gt;
-&lt;h4&gt;读取不出高度信息&lt;/h4&gt;
-&lt;p&gt;SDK中提供了和文档匹配的例程,其中&lt;strong&gt;sdk_demo&lt;/strong&gt;是用来测试读取导航数据的.文档中说,所有单位都是千分之一的标准单位.即高度为&lt;em&gt;mm&lt;/em&gt;,速度为&lt;em&gt;mm/s&lt;/em&gt;,姿态为&lt;em&gt;1°/1000&lt;/em&gt;.其中姿态信息可以正确的读出,而速度和高度的值一直是0.其中,读取高度的源码如下:&lt;/p&gt;
+&lt;h3&gt;读取不出高度信息&lt;/h3&gt;
+&lt;p&gt;SDK中提供了和文档匹配的例程,其中&lt;strong&gt;sdk_demo&lt;/strong&gt;是用来测试读取导航数据的.文档中说,所有单位都是千分之一的标准单位.即高度为&lt;em&gt;mm&lt;/em&gt;,速度为&lt;em&gt;mm/s&lt;/em&gt;,姿态为&lt;em&gt;1°/1000&lt;/em&gt;.其中姿态信息可以正确的读出,但是速度和高度的值一直是0。在我的项目里，速度并不是非常重要，但是高度必须知道。所以得想办法获取高度数据。例程中，读取高度的源码如下:&lt;/p&gt;
 &lt;div class="highlight"&gt;&lt;pre&gt;  &lt;span class="kr"&gt;inline&lt;/span&gt; &lt;span class="n"&gt;C_RESULT&lt;/span&gt; &lt;span class="nf"&gt;demo_navdata_client_process&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt; &lt;span class="k"&gt;const&lt;/span&gt; &lt;span class="kt"&gt;navdata_unpacked_t&lt;/span&gt;&lt;span class="o"&gt;*&lt;/span&gt; &lt;span class="k"&gt;const&lt;/span&gt; &lt;span class="n"&gt;navdata&lt;/span&gt; &lt;span class="p"&gt;)&lt;/span&gt; 
     &lt;span class="p"&gt;{&lt;/span&gt;
         &lt;span class="k"&gt;const&lt;/span&gt; &lt;span class="kt"&gt;navdata_demo_t&lt;/span&gt;&lt;span class="o"&gt;*&lt;/span&gt;&lt;span class="n"&gt;nd&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="o"&gt;&amp;amp;&lt;/span&gt;&lt;span class="n"&gt;navdata&lt;/span&gt;&lt;span class="o"&gt;-&amp;gt;&lt;/span&gt;&lt;span class="n"&gt;navdata_demo&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt; 
@@ -36,7 +36,7 @@
 &lt;/pre&gt;&lt;/div&gt;
 
 
-&lt;p&gt;通过GDB调试,发现&lt;em&gt;navdata&lt;/em&gt;中还有一个结构体叫&lt;strong&gt;navdata_altitude&lt;/strong&gt;,其中有4个值:&lt;/p&gt;
+&lt;p&gt;通过GDB调试,发现&lt;strong&gt;navdata&lt;/strong&gt;中还有一个结构体叫&lt;strong&gt;navdata_altitude&lt;/strong&gt;,其中有4个值:&lt;/p&gt;
 &lt;ol&gt;
 &lt;li&gt;altitude_vision&lt;/li&gt;
 &lt;li&gt;altitude_raw&lt;/li&gt;
@@ -56,6 +56,7 @@
 &lt;/pre&gt;&lt;/div&gt;
 
 
+&lt;h4&gt;读取的高度不稳定&lt;/h4&gt;
 &lt;p&gt;虽然通过这个结构体可以读取出来高度信息,但是这个信息并不稳定,运行一段时间就会都变成0.于是我找啊找啊,找到了一个感觉不太好的解决办法:&lt;/p&gt;
 &lt;p&gt;找到&lt;em&gt;ARDroneLIB/Soft/Lib/ardrone-tool/Navdata/ardrone_general_navdata.h&lt;/em&gt;文件,把其中的第301行开始到305行结束的这一段&lt;strong&gt;case&lt;/strong&gt;语句注释掉,就好了,如下.但是至于为什么这样就能好,我也还没搞清楚,以后再补充&lt;/p&gt;
 &lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="k"&gt;case&lt;/span&gt; &lt;span class="n"&gt;MULTICONFIG_REQUEST_NAVDATA&lt;/span&gt;:
@@ -65,7 +66,29 @@
       &lt;span class="n"&gt;ARDRONE_TOOL_CONFIGURATION_ADDEVENT&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;navdata_options&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="o"&gt;&amp;amp;&lt;/span&gt;&lt;span class="n"&gt;ardrone_application_default_config&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;navdata_options&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;configurationCallback&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;
       &lt;span class="n"&gt;configState&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;MULTICONFIG_IN_PROGRESS_NAVDATA&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
       &lt;span class="k"&gt;break&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
-&lt;/pre&gt;&lt;/div&gt;</description><dc:creator xmlns:dc="http://purl.org/dc/elements/1.1/">清风未明</dc:creator><pubDate>Mon, 31 Mar 2014 13:51:23 +0800</pubDate><guid>tag:ghdawn.me,2014-03-31:2014-03-31-about-ardrone.html</guid><category>Linux</category><category>Codes</category></item><item><title>选择适合跟踪的特征点</title><link>http://ghdawn.me/2014-02-01-select-feature.html</link><description>&lt;h2&gt;问题&lt;/h2&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;h4&gt;一个好的解决方案&lt;/h4&gt;
+&lt;p&gt;终于找到一个好一点的解决方法了。上面说的注释掉那几句,高度信息就不会突然变成0了。其原因在于,初始化飞机时默认的参数是不包含高度信息的，而这个参数在刚开始运行时并没有传给飞机，所以飞机默认的把高度信息传了回来。当初始化完成，把默认配置信息上传给飞机后，飞机就不把高度传回来了。正确的解决方法是，在用户初始化函数中，把高度信息的TAG加入配置，方法如下：&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="n"&gt;C_RESULT&lt;/span&gt; &lt;span class="nf"&gt;ardrone_tool_init_custom&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="kt"&gt;void&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+&lt;span class="p"&gt;{&lt;/span&gt;
+    &lt;span class="n"&gt;ardrone_application_default_config&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;navdata_demo&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;TRUE&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+    &lt;span class="n"&gt;ardrone_application_default_config&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;navdata_options&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;NAVDATA_OPTION_MASK&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;NAVDATA_ALTITUDE_TAG&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+                                                         &lt;span class="o"&gt;|&lt;/span&gt;&lt;span class="n"&gt;NAVDATA_OPTION_MASK&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;NAVDATA_DEMO_TAG&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; 
+                                                         &lt;span class="o"&gt;|&lt;/span&gt; &lt;span class="n"&gt;NAVDATA_OPTION_MASK&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;NAVDATA_VISION_TAG&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; 
+                                                         &lt;span class="o"&gt;|&lt;/span&gt; &lt;span class="n"&gt;NAVDATA_OPTION_MASK&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;NAVDATA_VISION_RAW_TAG&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; 
+                                                         &lt;span class="o"&gt;|&lt;/span&gt; &lt;span class="n"&gt;NAVDATA_OPTION_MASK&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;NAVDATA_VISION_DETECT_TAG&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; 
+                                                         &lt;span class="o"&gt;|&lt;/span&gt; &lt;span class="n"&gt;NAVDATA_OPTION_MASK&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;NAVDATA_GAMES_TAG&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; 
+                                                         &lt;span class="o"&gt;|&lt;/span&gt; &lt;span class="n"&gt;NAVDATA_OPTION_MASK&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;NAVDATA_MAGNETO_TAG&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; 
+                                                         &lt;span class="o"&gt;|&lt;/span&gt; &lt;span class="n"&gt;NAVDATA_OPTION_MASK&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;NAVDATA_HDVIDEO_STREAM_TAG&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; 
+                                                         &lt;span class="o"&gt;|&lt;/span&gt; &lt;span class="n"&gt;NAVDATA_OPTION_MASK&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;NAVDATA_WIFI_TAG&lt;/span&gt;&lt;span class="p"&gt;));&lt;/span&gt;
+&lt;span class="p"&gt;}&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;其中，&lt;strong&gt;navdata_demo&lt;/strong&gt;的值会调整导航信息的回发速率，为&lt;em&gt;true&lt;/em&gt;时为15hz（低频），为&lt;em&gt;false&lt;/em&gt;时超过40Hz（高频）。按照官方网站的说法，&lt;strong&gt;navdata_demo&lt;/strong&gt;为&lt;em&gt;true&lt;/em&gt;只回发姿态数据，即自动修改&lt;strong&gt;navdata_options&lt;/strong&gt;的值为传送姿态。&lt;strong&gt;navdata_demo&lt;/strong&gt;为&lt;em&gt;false&lt;/em&gt;时，回传完整的导航数据，自动修改&lt;strong&gt;navdata_options&lt;/strong&gt;的值为传送所有的值。但是实践告诉我，还是得自己设置。其中(NAVDATA_ALTITUDE_TAG,NAVDATA_VISION_TAG,NAVDATA_VISION_RAW_TAG)为我添加的标识，其余的是例程中有的。添加这几个标识后，就可以得到高度信息了。这个方法就不能把上一节提到的那段代码注释掉，因为正是使用了上一节的那段代码才把这些配置信息上传过去。&lt;/p&gt;
+&lt;p&gt;这样配置后，初始时数据全是0,等初始化完成，配置信息上传后，就可以读取出高度数据了。&lt;/p&gt;</description><dc:creator xmlns:dc="http://purl.org/dc/elements/1.1/">清风未明</dc:creator><pubDate>Mon, 31 Mar 2014 13:51:23 +0800</pubDate><guid>tag:ghdawn.me,2014-03-31:2014-03-31-about-ardrone.html</guid><category>Linux</category><category>Codes</category></item><item><title>选择适合跟踪的特征点</title><link>http://ghdawn.me/2014-02-01-select-feature.html</link><description>&lt;h2&gt;问题&lt;/h2&gt;
 &lt;p&gt;虽然现在已经得到了求解一个点的光流的方法，但是并不是什么点都能求出正确的光流。举一个例子就是，选择了一面白墙上的一个点，由于缺乏纹理信息，算法会失效。求解光流的方程如下：
 $$
 v=G^{-1}b
