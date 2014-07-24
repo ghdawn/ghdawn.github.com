@@ -6,6 +6,8 @@
 &lt;/pre&gt;&lt;/div&gt;
 
 
+&lt;p&gt;效果如下视频：&lt;/p&gt;
+&lt;p&gt;&lt;embed src="http://player.youku.com/player.php/sid/XNzA4MjI2OTM2/v.swf" allowFullScreen="true" quality="high" width="480" height="400" align="middle" allowScriptAccess="always" type="application/x-shockwave-flash"&gt;&lt;/embed&gt;&lt;/p&gt;
 &lt;h3&gt;跟踪结果与GT对比曲线&lt;/h3&gt;
 &lt;p&gt;这里包括了我的算法，TLD，CT和MIL四种算法，分别与GT进行对比。对比数据包括了中心点误差和矩形框重合率&lt;/p&gt;
 &lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="kn"&gt;from&lt;/span&gt; &lt;span class="nn"&gt;pylab&lt;/span&gt; &lt;span class="kn"&gt;import&lt;/span&gt; &lt;span class="o"&gt;*&lt;/span&gt;
