@@ -105,6 +105,36 @@ document.write(unescape("%3Cscript src='" + _bdhmProtocol + "hm.baidu.com/h.js%3
       <div class="row">
         <div class="span9" id="content">
         <div class="article">
+                <h1><a href="./2014-07-24-toolsforpaper.html">记录写论文时用到的一些工具</a></h1>
+                <div class="well small"><footer class="post-info">
+<span class="label">Date</span>
+<abbr class="published" title="2014-07-24T17:35:07">
+        <i class="icon-calendar"></i>四 24 七月 2014
+</abbr>
+<span class="label">By</span>
+<a href="./author/qing-feng-wei-ming.html"><i class="icon-user"></i>清风未明</a>
+<span class="label">Category</span>
+<a href="./category/study.html"><i class="icon-folder-open"></i>Study</a>.
+
+
+<span class="label">Tags</span>
+	<a href="./tag/python.html"><i class="icon-tag"></i>Python</a>
+	<a href="./tag/ji-suan-ji-shi-jue.html"><i class="icon-tag"></i>计算机视觉</a>
+</footer><!-- /.post-info --></div>
+                <div class="summary"><p>前一段时间，针对之前做过的关于目标跟踪的工作，我整理了一篇论文。论文中会需要一些实验图和数据曲线等，需要从算法的结果数据中生成，于是做了一些简单的小工具来批量生成数据，这里做个备忘，别以后忘掉了。主要用了一点ffmpeg，python和python的PIL库。</p>
+<h3>从图像序列生成视频</h3>
+<p>假设当前目录下有一堆图像，命名分别为00001.pgm,00002.pgm.....，那么可以使用如下语句把他们变成视频。其中-r代表视频的帧率，越大图像越流畅越快，-i表示输入文件的命名格式，只要把文件名按照C语言的格式写就可以，(如我的就是%05d.pgm,如果文件名是pic1.png...pic10.png，那么可以用pic%d.png，以此类推)，最后加上文件名和扩展名就可以了。还有更复杂的命令，但是我用不到。</p>
+<div class="highlight"><pre><span class="n">ffmpeg</span> <span class="o">-</span><span class="n">r</span> <span class="mi">24</span>  <span class="o">-</span><span class="n">i</span> <span class="o">%</span><span class="mo">05</span><span class="n">d</span><span class="p">.</span><span class="n">pgm</span>  <span class="n">test</span><span class="p">.</span><span class="n">mp4</span>
+</pre></div>
+
+
+<h3>跟踪结果与GT对比曲线</h3>
+<p>这里包括了我的算法，TLD，CT和MIL四种算法，分别与GT进行对比。对比数据包括了中心点误差和矩形框重合率 ...</p>
+                        <a class="btn primary xsmall" href="./2014-07-24-toolsforpaper.html">more ...</a>
+                </div>
+        </div>
+        <hr />
+        <div class="article">
                 <h1><a href="./2014-03-31-about-ardrone.html">关于ArDrone四旋翼 二次开发的一些记录</a></h1>
                 <div class="well small"><footer class="post-info">
 <span class="label">Date</span>
@@ -287,44 +317,6 @@ $$
                 </div>
         </div>
         <hr />
-        <div class="article">
-                <h1><a href="./2012-12-02-ml-pca.html">"机器学习作业1--基于PCA方法的人脸识别"</a></h1>
-                <div class="well small"><footer class="post-info">
-<span class="label">Date</span>
-<abbr class="published" title="2012-12-02T20:22:00">
-        <i class="icon-calendar"></i>日 02 十二月 2012
-</abbr>
-<span class="label">By</span>
-<a href="./author/qing-feng-wei-ming.html"><i class="icon-user"></i>清风未明</a>
-<span class="label">Category</span>
-<a href="./category/study.html"><i class="icon-folder-open"></i>Study</a>.
-
-
-<span class="label">Tags</span>
-	<a href="./tag/ji-qi-xue-xi.html"><i class="icon-tag"></i>机器学习</a>
-	<a href="./tag/codes.html"><i class="icon-tag"></i>Codes</a>
-</footer><!-- /.post-info --></div>
-                <div class="summary"><h3>实验目的</h3>
-<ol>
-<li>学习主成分分析（PCA）的基础知识</li>
-<li>了解PCA在人脸识别与重建方面的应用</li>
-<li>认识数据降维在数据处理中的重要作用</li>
-<li>学习使用matlab实现PCA算法</li>
-</ol>
-<h3>实验原理</h3>
-<p>随着人们处理的问题越来越复杂，待处理的数据变得越来越庞大。在数据分析和处理的过程中，时间的消耗量是十分巨大的。于是人们在不断的寻找一些能够简化计算，方便处理数据的方法。其中数据降维就是一种能够简化计算，并且使数据更加易于处理（如数据可视化）的方法。主成分分析（PCA）方法就是一种用于数据降维处理的方法。</p>
-<p>通常要处理的原始数据会有以下几个特性：</p>
-<ol>
-<li>数据的不同维数之间是线性相关的，即 $cov(i,j)\neq 0 , i\neq j$</li>
-<li>数据中的信息量分布不均匀，即有些方向数据分布集中，有些方向信息量较少。</li>
-<li>一些较少的信息量去掉以后，对原始数据的分析并不产生太大的影响</li>
-</ol>
-<p>由此，就考虑是否可以去掉那些包含信息量较少的数据，只保留包含信息量大的数据，这样就可以减少计算量。即抓住问题的主要矛盾，忽略次要矛盾。另外由于数据互相有相关性，数据矩阵的协方差矩阵不是对角阵。当取出了第一条信息量最大的向量，当然希望第二条次大的向量中，不要再包含第一条向量的信息。
-有了以上的考虑，同时数据协方差矩阵一定是实对称矩阵 ...</p>
-                        <a class="btn primary xsmall" href="./2012-12-02-ml-pca.html">more ...</a>
-                </div>
-        </div>
-        <hr />
 
         <div class="pagination">
         <ul>
@@ -332,6 +324,7 @@ $$
                         <li class="active"><a href="./index.html">1</a></li>
                         <li class=""><a href="./index2.html">2</a></li>
                         <li class=""><a href="./index3.html">3</a></li>
+                        <li class=""><a href="./index4.html">4</a></li>
                         <li class="next"><a href="./index2.html">Next &rarr;</a></li>
         </ul>
         </div>
@@ -365,66 +358,6 @@ $$
 </li>
 
 <li class="nav-header"><h4><i class="icon-tags icon-large"></i>Tags</h4></li>
-<li class="tag-1">
-    <a href="./tag/linux.html">
-        <i class="icon-tag icon-large"></i>Linux
-    </a>
-</li>
-<li class="tag-2">
-    <a href="./tag/qian-ru-shi.html">
-        <i class="icon-tag icon-large"></i>嵌入式
-    </a>
-</li>
-<li class="tag-4">
-    <a href="./tag/matlab.html">
-        <i class="icon-tag icon-large"></i>matlab
-    </a>
-</li>
-<li class="tag-2">
-    <a href="./tag/blog.html">
-        <i class="icon-tag icon-large"></i>blog
-    </a>
-</li>
-<li class="tag-2">
-    <a href="./tag/boring.html">
-        <i class="icon-tag icon-large"></i>Boring
-    </a>
-</li>
-<li class="tag-3">
-    <a href="./tag/kao-yan.html">
-        <i class="icon-tag icon-large"></i>考研
-    </a>
-</li>
-<li class="tag-3">
-    <a href="./tag/ji-suan-ji-shi-jue.html">
-        <i class="icon-tag icon-large"></i>计算机视觉
-    </a>
-</li>
-<li class="tag-4">
-    <a href="./tag/ji-qi-xue-xi.html">
-        <i class="icon-tag icon-large"></i>机器学习
-    </a>
-</li>
-<li class="tag-4">
-    <a href="./tag/python.html">
-        <i class="icon-tag icon-large"></i>Python
-    </a>
-</li>
-<li class="tag-1">
-    <a href="./tag/codes.html">
-        <i class="icon-tag icon-large"></i>Codes
-    </a>
-</li>
-<li class="tag-3">
-    <a href="./tag/life.html">
-        <i class="icon-tag icon-large"></i>life
-    </a>
-</li>
-<li class="tag-2">
-    <a href="./tag/android.html">
-        <i class="icon-tag icon-large"></i>Android
-    </a>
-</li>
 <li class="tag-3">
     <a href="./tag/opencv.html">
         <i class="icon-tag icon-large"></i>OpenCV
@@ -433,6 +366,66 @@ $$
 <li class="tag-4">
     <a href="./tag/automatic.html">
         <i class="icon-tag icon-large"></i>automatic
+    </a>
+</li>
+<li class="tag-2">
+    <a href="./tag/ji-suan-ji-shi-jue.html">
+        <i class="icon-tag icon-large"></i>计算机视觉
+    </a>
+</li>
+<li class="tag-2">
+    <a href="./tag/blog.html">
+        <i class="icon-tag icon-large"></i>blog
+    </a>
+</li>
+<li class="tag-2">
+    <a href="./tag/qian-ru-shi.html">
+        <i class="icon-tag icon-large"></i>嵌入式
+    </a>
+</li>
+<li class="tag-3">
+    <a href="./tag/life.html">
+        <i class="icon-tag icon-large"></i>life
+    </a>
+</li>
+<li class="tag-3">
+    <a href="./tag/kao-yan.html">
+        <i class="icon-tag icon-large"></i>考研
+    </a>
+</li>
+<li class="tag-4">
+    <a href="./tag/ji-qi-xue-xi.html">
+        <i class="icon-tag icon-large"></i>机器学习
+    </a>
+</li>
+<li class="tag-1">
+    <a href="./tag/codes.html">
+        <i class="icon-tag icon-large"></i>Codes
+    </a>
+</li>
+<li class="tag-2">
+    <a href="./tag/android.html">
+        <i class="icon-tag icon-large"></i>Android
+    </a>
+</li>
+<li class="tag-1">
+    <a href="./tag/linux.html">
+        <i class="icon-tag icon-large"></i>Linux
+    </a>
+</li>
+<li class="tag-4">
+    <a href="./tag/matlab.html">
+        <i class="icon-tag icon-large"></i>matlab
+    </a>
+</li>
+<li class="tag-2">
+    <a href="./tag/boring.html">
+        <i class="icon-tag icon-large"></i>Boring
+    </a>
+</li>
+<li class="tag-3">
+    <a href="./tag/python.html">
+        <i class="icon-tag icon-large"></i>Python
     </a>
 </li>
     <script type="text/javascript" src="http://www.douban.com/service/badge/dream29831/?selection=latest&amp;picsize=small&amp;show=collection&amp;n=8&amp;cat=drama%7Cmovie%7Cbook%7Cmusic&amp;columns=2"></script>

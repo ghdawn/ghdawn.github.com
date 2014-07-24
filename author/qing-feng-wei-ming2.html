@@ -105,6 +105,44 @@ document.write(unescape("%3Cscript src='" + _bdhmProtocol + "hm.baidu.com/h.js%3
       <div class="row">
         <div class="span9" id="content">
         <div class="article">
+                <h1><a href="../2012-12-02-ml-pca.html">"机器学习作业1--基于PCA方法的人脸识别"</a></h1>
+                <div class="well small"><footer class="post-info">
+<span class="label">Date</span>
+<abbr class="published" title="2012-12-02T20:22:00">
+        <i class="icon-calendar"></i>日 02 十二月 2012
+</abbr>
+<span class="label">By</span>
+<a href="../author/qing-feng-wei-ming.html"><i class="icon-user"></i>清风未明</a>
+<span class="label">Category</span>
+<a href="../category/study.html"><i class="icon-folder-open"></i>Study</a>.
+
+
+<span class="label">Tags</span>
+	<a href="../tag/ji-qi-xue-xi.html"><i class="icon-tag"></i>机器学习</a>
+	<a href="../tag/codes.html"><i class="icon-tag"></i>Codes</a>
+</footer><!-- /.post-info --></div>
+                <div class="summary"><h3>实验目的</h3>
+<ol>
+<li>学习主成分分析（PCA）的基础知识</li>
+<li>了解PCA在人脸识别与重建方面的应用</li>
+<li>认识数据降维在数据处理中的重要作用</li>
+<li>学习使用matlab实现PCA算法</li>
+</ol>
+<h3>实验原理</h3>
+<p>随着人们处理的问题越来越复杂，待处理的数据变得越来越庞大。在数据分析和处理的过程中，时间的消耗量是十分巨大的。于是人们在不断的寻找一些能够简化计算，方便处理数据的方法。其中数据降维就是一种能够简化计算，并且使数据更加易于处理（如数据可视化）的方法。主成分分析（PCA）方法就是一种用于数据降维处理的方法。</p>
+<p>通常要处理的原始数据会有以下几个特性：</p>
+<ol>
+<li>数据的不同维数之间是线性相关的，即 $cov(i,j)\neq 0 , i\neq j$</li>
+<li>数据中的信息量分布不均匀，即有些方向数据分布集中，有些方向信息量较少。</li>
+<li>一些较少的信息量去掉以后，对原始数据的分析并不产生太大的影响</li>
+</ol>
+<p>由此，就考虑是否可以去掉那些包含信息量较少的数据，只保留包含信息量大的数据，这样就可以减少计算量。即抓住问题的主要矛盾，忽略次要矛盾。另外由于数据互相有相关性，数据矩阵的协方差矩阵不是对角阵。当取出了第一条信息量最大的向量，当然希望第二条次大的向量中，不要再包含第一条向量的信息。
+有了以上的考虑，同时数据协方差矩阵一定是实对称矩阵 ...</p>
+                        <a class="btn primary xsmall" href="../2012-12-02-ml-pca.html">more ...</a>
+                </div>
+        </div>
+        <hr />
+        <div class="article">
                 <h1><a href="../2012-07-30-crossgdb.html">"为ARM平台交叉编译GDB"</a></h1>
                 <div class="well small"><footer class="post-info">
 <span class="label">Date</span>
@@ -307,30 +345,6 @@ Code Blocks 10.05  </p>
                 </div>
         </div>
         <hr />
-        <div class="article">
-                <h1><a href="../2012-02-28-kao-yan-jing-yan.html">"我关于考研的一点经验"</a></h1>
-                <div class="well small"><footer class="post-info">
-<span class="label">Date</span>
-<abbr class="published" title="2012-02-28T15:42:00">
-        <i class="icon-calendar"></i>二 28 二月 2012
-</abbr>
-<span class="label">By</span>
-<a href="../author/qing-feng-wei-ming.html"><i class="icon-user"></i>清风未明</a>
-<span class="label">Category</span>
-<a href="../category/life.html"><i class="icon-folder-open"></i>Life</a>.
-
-
-<span class="label">Tags</span>
-	<a href="../tag/kao-yan.html"><i class="icon-tag"></i>考研</a>
-</footer><!-- /.post-info --></div>
-                <div class="summary"><p>从昨天下午开始查分起，身边就不断爆出各种400+的分数，最高有430+，本班也有420+。我的分数是398，其中政治57，英语66，数学145，专业课130。不知道在总体排名怎么样，但是对我来说这是一个很让我满意的分数。我也不怕丢人，就抛砖引玉说一点我的考研经验，望后人能有所借鉴。</p>
-<h3>关于时间安排</h3>
-<p>我是从8月底开始准备的，但是很不认真，一直到10月开始真正非常认真的做准备。虽然时间倒是够了，我心态也还可以，但是凭心而论，这个时间太紧了。在十月十一月的时候，我每天时间安排的非常满，生怕到考前还复习不完。这样的感觉很不舒服，要不是我对数学和专业课比较感兴趣，恐怕没法保持这么好的心态。毕竟身子后面一个大石头追着的感觉不好。建议大家从8月就开始认真点儿的准备。</p>
-<p>我的同学有复习到很晚，早上起的很早的。我不认真的时候每天10点回宿舍，早上10点出发，中午要睡觉。认真的时候早上9点出发，中午还要睡一会儿，晚上11点半回宿舍。其区别不在时间长短，而在学习的状态。我个人感觉睡觉是很重要的，十分不建议大家晚上太晚，十二点多也就够了，可别熬着过，太痛苦了。中午我也要睡一会儿，图书馆很多中午不会宿舍的同学，但是他们也会撑不住，趴在桌子上睡觉 ...</p>
-                        <a class="btn primary xsmall" href="../2012-02-28-kao-yan-jing-yan.html">more ...</a>
-                </div>
-        </div>
-        <hr />
 
         <div class="pagination">
         <ul>
@@ -338,6 +352,7 @@ Code Blocks 10.05  </p>
                         <li class=""><a href="../author/qing-feng-wei-ming.html">1</a></li>
                         <li class="active"><a href="../author/qing-feng-wei-ming2.html">2</a></li>
                         <li class=""><a href="../author/qing-feng-wei-ming3.html">3</a></li>
+                        <li class=""><a href="../author/qing-feng-wei-ming4.html">4</a></li>
                         <li class="next"><a href="../author/qing-feng-wei-ming3.html">Next &rarr;</a></li>
         </ul>
         </div>
@@ -371,66 +386,6 @@ Code Blocks 10.05  </p>
 </li>
 
 <li class="nav-header"><h4><i class="icon-tags icon-large"></i>Tags</h4></li>
-<li class="tag-1">
-    <a href="../tag/linux.html">
-        <i class="icon-tag icon-large"></i>Linux
-    </a>
-</li>
-<li class="tag-2">
-    <a href="../tag/qian-ru-shi.html">
-        <i class="icon-tag icon-large"></i>嵌入式
-    </a>
-</li>
-<li class="tag-4">
-    <a href="../tag/matlab.html">
-        <i class="icon-tag icon-large"></i>matlab
-    </a>
-</li>
-<li class="tag-2">
-    <a href="../tag/blog.html">
-        <i class="icon-tag icon-large"></i>blog
-    </a>
-</li>
-<li class="tag-2">
-    <a href="../tag/boring.html">
-        <i class="icon-tag icon-large"></i>Boring
-    </a>
-</li>
-<li class="tag-3">
-    <a href="../tag/kao-yan.html">
-        <i class="icon-tag icon-large"></i>考研
-    </a>
-</li>
-<li class="tag-3">
-    <a href="../tag/ji-suan-ji-shi-jue.html">
-        <i class="icon-tag icon-large"></i>计算机视觉
-    </a>
-</li>
-<li class="tag-4">
-    <a href="../tag/ji-qi-xue-xi.html">
-        <i class="icon-tag icon-large"></i>机器学习
-    </a>
-</li>
-<li class="tag-4">
-    <a href="../tag/python.html">
-        <i class="icon-tag icon-large"></i>Python
-    </a>
-</li>
-<li class="tag-1">
-    <a href="../tag/codes.html">
-        <i class="icon-tag icon-large"></i>Codes
-    </a>
-</li>
-<li class="tag-3">
-    <a href="../tag/life.html">
-        <i class="icon-tag icon-large"></i>life
-    </a>
-</li>
-<li class="tag-2">
-    <a href="../tag/android.html">
-        <i class="icon-tag icon-large"></i>Android
-    </a>
-</li>
 <li class="tag-3">
     <a href="../tag/opencv.html">
         <i class="icon-tag icon-large"></i>OpenCV
@@ -439,6 +394,66 @@ Code Blocks 10.05  </p>
 <li class="tag-4">
     <a href="../tag/automatic.html">
         <i class="icon-tag icon-large"></i>automatic
+    </a>
+</li>
+<li class="tag-2">
+    <a href="../tag/ji-suan-ji-shi-jue.html">
+        <i class="icon-tag icon-large"></i>计算机视觉
+    </a>
+</li>
+<li class="tag-2">
+    <a href="../tag/blog.html">
+        <i class="icon-tag icon-large"></i>blog
+    </a>
+</li>
+<li class="tag-2">
+    <a href="../tag/qian-ru-shi.html">
+        <i class="icon-tag icon-large"></i>嵌入式
+    </a>
+</li>
+<li class="tag-3">
+    <a href="../tag/life.html">
+        <i class="icon-tag icon-large"></i>life
+    </a>
+</li>
+<li class="tag-3">
+    <a href="../tag/kao-yan.html">
+        <i class="icon-tag icon-large"></i>考研
+    </a>
+</li>
+<li class="tag-4">
+    <a href="../tag/ji-qi-xue-xi.html">
+        <i class="icon-tag icon-large"></i>机器学习
+    </a>
+</li>
+<li class="tag-1">
+    <a href="../tag/codes.html">
+        <i class="icon-tag icon-large"></i>Codes
+    </a>
+</li>
+<li class="tag-2">
+    <a href="../tag/android.html">
+        <i class="icon-tag icon-large"></i>Android
+    </a>
+</li>
+<li class="tag-1">
+    <a href="../tag/linux.html">
+        <i class="icon-tag icon-large"></i>Linux
+    </a>
+</li>
+<li class="tag-4">
+    <a href="../tag/matlab.html">
+        <i class="icon-tag icon-large"></i>matlab
+    </a>
+</li>
+<li class="tag-2">
+    <a href="../tag/boring.html">
+        <i class="icon-tag icon-large"></i>Boring
+    </a>
+</li>
+<li class="tag-3">
+    <a href="../tag/python.html">
+        <i class="icon-tag icon-large"></i>Python
     </a>
 </li>
     <script type="text/javascript" src="http://www.douban.com/service/badge/dream29831/?selection=latest&amp;picsize=small&amp;show=collection&amp;n=8&amp;cat=drama%7Cmovie%7Cbook%7Cmusic&amp;columns=2"></script>
