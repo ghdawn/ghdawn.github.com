@@ -1,5 +1,131 @@
 <?xml version="1.0" encoding="utf-8"?>
-<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>记录</title><link>http://ghdawn.me/</link><description></description><atom:link href="http://ghdawn.me/feeds/study.rss.xml" rel="self"></atom:link><lastBuildDate>Thu, 24 Jul 2014 17:35:07 +0800</lastBuildDate><item><title>记录写论文时用到的一些工具</title><link>http://ghdawn.me/2014-07-24-toolsforpaper.html</link><description>&lt;p&gt;前一段时间，针对之前做过的关于目标跟踪的工作，我整理了一篇论文。论文中会需要一些实验图和数据曲线等，需要从算法的结果数据中生成，于是做了一些简单的小工具来批量生成数据，这里做个备忘，别以后忘掉了。主要用了一点ffmpeg，python和python的PIL库。&lt;/p&gt;
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>记录</title><link>http://ghdawn.me/</link><description></description><atom:link href="http://ghdawn.me/feeds/study.rss.xml" rel="self"></atom:link><lastBuildDate>Wed, 15 Apr 2015 16:05:55 +0800</lastBuildDate><item><title>机器学习笔记——逻辑回归(LogisticRegression)</title><link>http://ghdawn.me/2015-04-15-logistic_regression.html</link><description>&lt;h3&gt;基本概念&lt;/h3&gt;
+&lt;p&gt;逻辑回归是一种线性分类的方法，通过给定一些样本空间中的样本点，训练出一条直线（超平面)，使得样本点能被较好的分隔开。
+设&lt;span class="math"&gt;\(\theta=[\theta_1 \theta_2 \cdots \theta_n]^T\)&lt;/span&gt;为分类面参数，&lt;span class="math"&gt;\(x=[x_1 x_2 \cdots x_n]^T\)&lt;/span&gt;，则有：
+&lt;/p&gt;
+&lt;div class="math"&gt;$$
+h_\theta(x)=
+\begin{cases}
+1 ,&amp;amp; \theta^T \cdot x \ge 0 \\
+0 ,&amp;amp; \theta^T \cdot x &amp;lt; 0
+\end{cases}
+$$&lt;/div&gt;
+&lt;p&gt;
+通过这样拟合直线的方式就可以得到一组参数，将样本分为两类。&lt;/p&gt;
+&lt;p&gt;引入S函数(也称作Logistic函数)：
+&lt;/p&gt;
+&lt;div class="math"&gt;$$sigmoid(x)=\frac{1}{1+e^{-x}}$$&lt;/div&gt;
+&lt;p&gt;
+函数图像如下图所示，它可以将自变量映射在(0,1)的区间内，则把0/1分类的结果转化为样本点属于某个类的概率。&lt;/p&gt;
+&lt;p&gt;&lt;img alt="sigmoid函数" src="sigmoid.png" /&gt;&lt;/p&gt;
+&lt;p&gt;这样可以写成
+&lt;/p&gt;
+&lt;div class="math"&gt;$$ h_\theta(x)=sigmoid(\theta^T \cdot x)$$&lt;/div&gt;
+&lt;p&gt;。
+设概率 &lt;/p&gt;
+&lt;div class="math"&gt;$$P(y=1|x;\theta)=h_\theta(x)$$&lt;/div&gt;
+&lt;p&gt;,即在给定的参数&lt;span class="math"&gt;\(\theta\)&lt;/span&gt;下，样本x被分到1类的概率。则样本被分到0类的概率为：
+&lt;/p&gt;
+&lt;div class="math"&gt;$$P(y=0|x;\theta)=1-h_\theta(x)$$&lt;/div&gt;
+&lt;p&gt;
+考虑到y的取值只有0和1，则可以得到概率密度如下：
+&lt;/p&gt;
+&lt;div class="math"&gt;$$
+p(y|x;\theta)=h_\theta(x)^y(1-h_\theta(x))^{1-y}
+$$&lt;/div&gt;
+&lt;p&gt;
+设所有样本都是独立的，则可以得到联合概率分布：
+&lt;/p&gt;
+&lt;div class="math"&gt;$$p(\vec y | X;\theta)=\prod_{i=1}^m p(y^{(i)}|x^{(i)};\theta)=\prod_{i=1}^mh_\theta(x^{(i)})^{y^{(i)}}(1-h_\theta(x^{(i)}))^{1-y^{(i)}}$$&lt;/div&gt;
+&lt;p&gt;用极大似然估计的想法来进行参数&lt;span class="math"&gt;\(\theta\)&lt;/span&gt;的估计，则使得上式达到最大值的&lt;span class="math"&gt;\(\theta\)&lt;/span&gt;就是最终求解的目标。在这里，我们使用梯度下降的方法来求这个最大值。取对数似然概率,并对&lt;span class="math"&gt;\(\theta_j\)&lt;/span&gt;求导可得：
+&lt;/p&gt;
+&lt;div class="math"&gt;$$ L=ln(p(\vec y | X;\theta))=\sum_{i=1}^m \{( y^{(i)}ln(h_\theta(x^{(i)})) + (1-y^{(i)}ln((1-h_\theta(x^{(i)}))\}$$&lt;/div&gt;
+&lt;div class="math"&gt;$$ \frac{\partial L}{\partial \theta_j} = \sum_{i=1}^m\{\frac{y^{(i)}}{h_\theta(x^{(i)})}\cdot h_\theta^,(x^{(i)}) -
+\frac{1-y^{(i)}}{1-h_\theta(x^{(i)})}\cdot h_\theta^,(x^{(i)})\}
+$$&lt;/div&gt;
+&lt;p&gt;
+由Sigmoid函数的特性可知道:
+&lt;/p&gt;
+&lt;div class="math"&gt;$$
+\begin{aligned}
+ sigmoid^,(x) &amp;amp;= (\frac{1}{1+e^{-x}})^, \\
+              &amp;amp;= \frac{e^{-x}}{(1+e^{-x})^2}\\
+              &amp;amp;= \frac{1}{1+e^{-x}}-\frac{1}{(1+e^{-x})^2}\\
+              &amp;amp;= \frac{1}{1+e^{-x}}(1-\frac{1}{1+e^{-x}})\\
+              &amp;amp;= sigmoid(x)\cdot (1-sigmoid(x))
+\end{aligned}
+$$&lt;/div&gt;
+&lt;p&gt;
+因此，该对数概率的导数可以化为：
+&lt;/p&gt;
+&lt;div class="math"&gt;$$ 
+\begin{aligned}
+\frac{\partial L}{\partial \theta_j} &amp;amp;= \sum_{i=1}^m\{\frac{y^{(i)}}{h_\theta(x^{(i)})} -
+\frac{1-y^{(i)}}{1-h_\theta(x^{(i)})}\}\cdot h_\theta^,(x^{(i)}) \\
+&amp;amp;=\sum_{i=1}^m\{\frac{y^{(i)}}{h_\theta(x^{(i)})} -
+\frac{1-y^{(i)}}{1-h_\theta(x^{(i)})}\} \cdot h_\theta(x^{(i)})\cdot(1-h_\theta(x^{(i)}))\cdot x_j^{(i)}\\
+&amp;amp;= \sum_{i=1}^m ( y^{(i)}\cdot(1-h_\theta(x^{(i)}) -
+(1-y^{(i)})\cdot h_\theta(x^{(i)}) ) \cdot x_j^{(i)}\\
+&amp;amp;=\sum_{i=1}^m (y^{(i)} -  h_\theta(x^{(i)}))\cdot x_j^{(i)}
+\end{aligned}
+$$&lt;/div&gt;
+&lt;p&gt;梯度方向是上升最快的方向，因此参数的更新就按照梯度方向更新，可以得到：
+&lt;/p&gt;
+&lt;div class="math"&gt;$$
+\theta_j = \theta_j + \alpha \frac{\partial L}{\partial \theta_j} = \theta_j + \alpha \cdot \sum_{i=1}^m (y^{(i)} -  h_\theta(x^{(i)}))\cdot x_j^{(i)}
+$$&lt;/div&gt;
+&lt;p&gt;
+其中，&lt;span class="math"&gt;\(\alpha\)&lt;/span&gt;是学习速率，设的太小收敛速度会很慢，设的太大的话，容易出现震荡，导致不收敛，可以在试验中自己调节，一般设为&lt;span class="math"&gt;\(\alpha \in (0,1]\)&lt;/span&gt;。考虑到初始的时候，需要一个较大的学习速率来逼近结果。而学习一段时间以后需要降低学习速率防止震荡。因此可以随着迭代次数动态的调整学习速率。一个简单而常用的办法是设&lt;span class="math"&gt;\(t\)&lt;/span&gt;为迭代次数，则有： 
+&lt;/p&gt;
+&lt;div class="math"&gt;$$
+\alpha = \frac{1}{\sqrt{t}}
+$$&lt;/div&gt;
+&lt;h3&gt;一些改进&lt;/h3&gt;
+&lt;p&gt;上面描述的梯度下降方法，每一次更新时考虑了全部样本的梯度。这样的方法在数据量很大的时候，会导致每一次更新的时间很长，总收敛时间长到无法忍受。因此有人提出了&lt;a href="http://en.wikipedia.org/wiki/Stochastic_gradient_descent"&gt;随机梯度下降(SGD)&lt;/a&gt;,它在每次更新时，只考虑当前样本，即更新方程变为：
+&lt;/p&gt;
+&lt;div class="math"&gt;$$
+\theta_j =  \theta_j + \alpha \cdot (y^{(i)} -  h_\theta(x^{(i)}))\cdot x_j^{(i)}
+$$&lt;/div&gt;
+&lt;p&gt;
+这样的更新方式比原先快了很多，代价是会引入一定的噪声。用这个方程进行更新，总的误差曲线并不是一直降低，而是类似随机跳动的方式，但是总体还是向着最优解的方向移动。而且在数据量很大的时候，只需要少量的样本就可以让参数更新的足够好了。因此这种方法得到了较多的应用。&lt;/p&gt;
+&lt;script type="text/javascript"&gt;if (!document.getElementById('mathjaxscript_pelican_#%@#$@#')) {
+    var align = "center",
+        indent = "0em",
+        linebreak = "false";
+
+    if (false) {
+        align = (screen.width &lt; 768) ? "left" : align;
+        indent = (screen.width &lt; 768) ? "0em" : indent;
+        linebreak = (screen.width &lt; 768) ? 'true' : linebreak;
+    }
+    
+    var mathjaxscript = document.createElement('script');
+    mathjaxscript.id = 'mathjaxscript_pelican_#%@#$@#';
+    mathjaxscript.type = 'text/javascript';
+    mathjaxscript.src = '//cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML';
+    mathjaxscript[(window.opera ? "innerHTML" : "text")] =
+        "MathJax.Hub.Config({" +
+        "    config: ['MMLorHTML.js']," +
+        "    TeX: { extensions: ['AMSmath.js','AMSsymbols.js','noErrors.js','noUndefined.js'], equationNumbers: { autoNumber: 'AMS' } }," +
+        "    jax: ['input/TeX','input/MathML','output/HTML-CSS']," +
+        "    extensions: ['tex2jax.js','mml2jax.js','MathMenu.js','MathZoom.js']," +
+        "    displayAlign: '"+ align +"'," +
+        "    displayIndent: '"+ indent +"'," +
+        "    showMathMenu: true," +
+        "    tex2jax: { " +
+        "        inlineMath: [ ['\\\\(','\\\\)'] ], " +
+        "        displayMath: [ ['$$','$$'] ]," +
+        "        processEscapes: true," +
+        "        preview: 'TeX'," +
+        "    }, " +
+        "    'HTML-CSS': { " +
+        "        styles: { '.MathJax_Display, .MathJax .mo, .MathJax .mi, .MathJax .mn': {color: 'inherit ! important'} }," +
+        "        linebreaks: { automatic: "+ linebreak +", width: '90% container' }," +
+        "    }, " +
+        "}); ";
+    (document.body || document.getElementsByTagName('head')[0]).appendChild(mathjaxscript);
+}
+&lt;/script&gt;</description><dc:creator xmlns:dc="http://purl.org/dc/elements/1.1/">清风未明</dc:creator><pubDate>Wed, 15 Apr 2015 16:05:55 +0800</pubDate><guid>tag:ghdawn.me,2015-04-15:2015-04-15-logistic_regression.html</guid><category>机器学习</category><category>Codes</category></item><item><title>记录写论文时用到的一些工具</title><link>http://ghdawn.me/2014-07-24-toolsforpaper.html</link><description>&lt;p&gt;前一段时间，针对之前做过的关于目标跟踪的工作，我整理了一篇论文。论文中会需要一些实验图和数据曲线等，需要从算法的结果数据中生成，于是做了一些简单的小工具来批量生成数据，这里做个备忘，别以后忘掉了。主要用了一点ffmpeg，python和python的PIL库。&lt;/p&gt;
 &lt;h3&gt;从图像序列生成视频&lt;/h3&gt;
 &lt;p&gt;假设当前目录下有一堆图像，命名分别为00001.pgm,00002.pgm.....，那么可以使用如下语句把他们变成视频。其中-r代表视频的帧率，越大图像越流畅越快，-i表示输入文件的命名格式，只要把文件名按照C语言的格式写就可以，(如我的就是%05d.pgm,如果文件名是pic1.png...pic10.png，那么可以用pic%d.png，以此类推)，最后加上文件名和扩展名就可以了。还有更复杂的命令，但是我用不到。&lt;/p&gt;
 &lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="n"&gt;ffmpeg&lt;/span&gt; &lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="n"&gt;r&lt;/span&gt; &lt;span class="mi"&gt;24&lt;/span&gt;  &lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="n"&gt;i&lt;/span&gt; &lt;span class="o"&gt;%&lt;/span&gt;&lt;span class="mo"&gt;05&lt;/span&gt;&lt;span class="n"&gt;d&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;pgm&lt;/span&gt;  &lt;span class="n"&gt;test&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;mp4&lt;/span&gt;
@@ -217,42 +343,84 @@
 &lt;p&gt;这样配置后，初始时数据全是0,等初始化完成，配置信息上传后，就可以读取出高度数据了。
 最后发现，其实只要飞机不起飞，这些数据怎么都不会稳定正确。飞机起飞后，速度，高度就都可以读取出来了。该死的sdk也没个文档说明一下。&lt;/p&gt;</description><dc:creator xmlns:dc="http://purl.org/dc/elements/1.1/">清风未明</dc:creator><pubDate>Mon, 31 Mar 2014 13:51:23 +0800</pubDate><guid>tag:ghdawn.me,2014-03-31:2014-03-31-about-ardrone.html</guid><category>Linux</category><category>Codes</category></item><item><title>选择适合跟踪的特征点</title><link>http://ghdawn.me/2014-02-01-select-feature.html</link><description>&lt;h2&gt;问题&lt;/h2&gt;
 &lt;p&gt;虽然现在已经得到了求解一个点的光流的方法，但是并不是什么点都能求出正确的光流。举一个例子就是，选择了一面白墙上的一个点，由于缺乏纹理信息，算法会失效。求解光流的方程如下：
-$$
+&lt;/p&gt;
+&lt;div class="math"&gt;$$
 v=G^{-1}b
-$$
+$$&lt;/div&gt;
+&lt;p&gt;
 其中：
-\begin{equation}
+&lt;/p&gt;
+&lt;div class="math"&gt;\begin{equation}
 \label{G}
 G=\sum\sum\left[ \begin{array} {cc}
- I_xI_x &amp;amp;  I_xI_y \\
+ I_xI_x &amp;amp;  I_xI_y \\\
  I_xI_y &amp;amp;  I_yI_y
 \end{array}\right]
-\end{equation}
-$$
+\end{equation}&lt;/div&gt;
+&lt;div class="math"&gt;$$
 b=\sum\sum
 \left[ \begin{array} {c}
-\delta II_x\\
+\delta II_x\\\
 \delta II_y 
 \end{array}\right]
-$$
-从方程可以看出，当一个点周围的内容都一眼的话，$I_x$$I_y$都可能会很小，那么$det(G)$的值会很小，则不能求逆，导致求解不了。&lt;/p&gt;
+$$&lt;/div&gt;
+&lt;p&gt;
+从方程可以看出，当一个点周围的内容都一眼的话，&lt;span class="math"&gt;\(I_x\)&lt;/span&gt;&lt;span class="math"&gt;\(I_y\)&lt;/span&gt;都可能会很小，那么&lt;span class="math"&gt;\(det(G)\)&lt;/span&gt;的值会很小，则不能求逆，导致求解不了。&lt;/p&gt;
 &lt;p&gt;所以做跟踪或者匹配的时候，总希望在物体中提取出一些适合跟踪的特征点，把这些适合跟踪的点输入给跟踪器。这就需要一个提取特征点的方法。好的特征点应该能够对旋转和平移运动不变，这样才能稳定的被跟踪。&lt;/p&gt;
 &lt;h2&gt;KLT特征点&lt;/h2&gt;
 &lt;p&gt;KLT特征点是由LK方法的作者以及另一个叫Tomasi的人提出的。因为总会提到一个点及其邻域内的点这样的话，所以先定义&lt;strong&gt;一个特征点&lt;/strong&gt;,为&lt;strong&gt;一个点及其临域内的点&lt;/strong&gt;。&lt;/p&gt;
 &lt;h3&gt;简单的版本&lt;/h3&gt;
-&lt;p&gt;简单一点的想法就是，因为解方程时需要求矩阵$\ref{G}$的逆，所以该矩阵需要是可逆的。二阶可逆矩阵会有两个非零特征值。只要最小特征值足够大，该矩阵就可逆，就能够求解光流。因此在求一个特征点的光流前，可以通过判断$\ref{G}$的最小特征值是否大于一个阈值，就可以知道算法是否会失效。&lt;/p&gt;
+&lt;p&gt;简单一点的想法就是，因为解方程时需要求矩阵&lt;span class="math"&gt;\(\ref{G}\)&lt;/span&gt;的逆，所以该矩阵需要是可逆的。二阶可逆矩阵会有两个非零特征值。只要最小特征值足够大，该矩阵就可逆，就能够求解光流。因此在求一个特征点的光流前，可以通过判断&lt;span class="math"&gt;\(\ref{G}\)&lt;/span&gt;的最小特征值是否大于一个阈值，就可以知道算法是否会失效。&lt;/p&gt;
 &lt;h3&gt;复杂但是更有效的版本&lt;/h3&gt;
 &lt;p&gt;既然算法失效的原因在于，特征点缺乏纹理信息，它包含的信息量太少。那么一个直观的想法就是，对于信息量少的特征点，就认为它是不好跟踪的点。对于包含信息量大的特征点，就认为它是好跟踪的点，把它保留下来。在主成分分析(PCA)中曾提到过，二维平面上的点集的协方差矩阵(2&amp;times;2)表示了其中的各个点之间的关系，而该协方差矩阵的特征值就代表了这些点的分散程度，也就是所包含信息量的大小。在PCA中可以通过提取最大特征值的方法，把最主要的成分提取出来。而在这里，需要判断的是特征点所含信息量的大小，所以只要求出特征点协方差矩阵的最小特征值，只要这个次要成分也包含有足够量的信息，那么就可以认为该特征点是适合被跟踪的。&lt;/p&gt;
 &lt;p&gt;特征值的取值有如下几个情况：&lt;/p&gt;
 &lt;ol&gt;
-&lt;li&gt;$\lambda_1$ &amp;gt; $\lambda_2$ &amp;gt;&amp;gt;0 ，说明该特征点包含足够的信息&lt;/li&gt;
-&lt;li&gt;$\lambda_1$ &amp;gt;&amp;gt;0,$\lambda_2$ 接近0,说明该特征点只在一个方向包含信息，另一个方向没什么变化。例如边界点&lt;/li&gt;
-&lt;li&gt;$\lambda_1$，$\lambda_2$接近0, 没什么有用的信息，这个点不能要&lt;/li&gt;
+&lt;li&gt;&lt;span class="math"&gt;\(\lambda_1\)&lt;/span&gt; &amp;gt; &lt;span class="math"&gt;\(\lambda_2\)&lt;/span&gt; &amp;gt;&amp;gt;0 ，说明该特征点包含足够的信息&lt;/li&gt;
+&lt;li&gt;&lt;span class="math"&gt;\(\lambda_1\)&lt;/span&gt; &amp;gt;&amp;gt;0,&lt;span class="math"&gt;\(\lambda_2\)&lt;/span&gt; 接近0,说明该特征点只在一个方向包含信息，另一个方向没什么变化。例如边界点&lt;/li&gt;
+&lt;li&gt;&lt;span class="math"&gt;\(\lambda_1\)&lt;/span&gt;，&lt;span class="math"&gt;\(\lambda_2\)&lt;/span&gt;接近0, 没什么有用的信息，这个点不能要&lt;/li&gt;
 &lt;/ol&gt;
 &lt;p&gt;综上，协方差矩阵的最小特征值越大，说明该特征点越适合被跟踪。&lt;/p&gt;
 &lt;h2&gt;求出最小特征值之后&lt;/h2&gt;
 &lt;p&gt;为了找到适合跟踪的特征点，我们求解了每个点的协方差矩阵的特征值。找到最小特征值后，从大到小排序，去掉小于一个阈值的所有点(通常有了后续的操作，这一步可以省略）。对于这些特征点，只保留局部最大值。例如对于一个点，保留它的条件是：它的最小特征值是临域内最大的。那么邻域内其他点就需要去掉。 这样剩下的点都是比较适合的点了。但一般这样会剩下大量的点，而且非常密集，这会消耗很多计算，同时由于点太密集，全都求的话意义不大，所以设定一个最小距离，只保留那些互相之间距大于最小距离的点。&lt;/p&gt;
-&lt;p&gt;经过这些步骤，保留下来的点就都是适合跟踪的点了。&lt;/p&gt;</description><dc:creator xmlns:dc="http://purl.org/dc/elements/1.1/">清风未明</dc:creator><pubDate>Sat, 01 Feb 2014 21:47:04 +0800</pubDate><guid>tag:ghdawn.me,2014-02-01:2014-02-01-select-feature.html</guid><category>计算机视觉</category></item><item><title>使用光流法跟踪图像中的点</title><link>http://ghdawn.me/2014-01-27-optical-flow-tracking.html</link><description>&lt;p&gt;在计算机视觉的研究中，经常会出现以下问题：&lt;/p&gt;
+&lt;p&gt;经过这些步骤，保留下来的点就都是适合跟踪的点了。&lt;/p&gt;
+&lt;script type="text/javascript"&gt;if (!document.getElementById('mathjaxscript_pelican_#%@#$@#')) {
+    var align = "center",
+        indent = "0em",
+        linebreak = "false";
+
+    if (false) {
+        align = (screen.width &lt; 768) ? "left" : align;
+        indent = (screen.width &lt; 768) ? "0em" : indent;
+        linebreak = (screen.width &lt; 768) ? 'true' : linebreak;
+    }
+    
+    var mathjaxscript = document.createElement('script');
+    mathjaxscript.id = 'mathjaxscript_pelican_#%@#$@#';
+    mathjaxscript.type = 'text/javascript';
+    mathjaxscript.src = '//cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML';
+    mathjaxscript[(window.opera ? "innerHTML" : "text")] =
+        "MathJax.Hub.Config({" +
+        "    config: ['MMLorHTML.js']," +
+        "    TeX: { extensions: ['AMSmath.js','AMSsymbols.js','noErrors.js','noUndefined.js'], equationNumbers: { autoNumber: 'AMS' } }," +
+        "    jax: ['input/TeX','input/MathML','output/HTML-CSS']," +
+        "    extensions: ['tex2jax.js','mml2jax.js','MathMenu.js','MathZoom.js']," +
+        "    displayAlign: '"+ align +"'," +
+        "    displayIndent: '"+ indent +"'," +
+        "    showMathMenu: true," +
+        "    tex2jax: { " +
+        "        inlineMath: [ ['\\\\(','\\\\)'] ], " +
+        "        displayMath: [ ['$$','$$'] ]," +
+        "        processEscapes: true," +
+        "        preview: 'TeX'," +
+        "    }, " +
+        "    'HTML-CSS': { " +
+        "        styles: { '.MathJax_Display, .MathJax .mo, .MathJax .mi, .MathJax .mn': {color: 'inherit ! important'} }," +
+        "        linebreaks: { automatic: "+ linebreak +", width: '90% container' }," +
+        "    }, " +
+        "}); ";
+    (document.body || document.getElementsByTagName('head')[0]).appendChild(mathjaxscript);
+}
+&lt;/script&gt;</description><dc:creator xmlns:dc="http://purl.org/dc/elements/1.1/">清风未明</dc:creator><pubDate>Sat, 01 Feb 2014 21:47:04 +0800</pubDate><guid>tag:ghdawn.me,2014-02-01:2014-02-01-select-feature.html</guid><category>计算机视觉</category></item><item><title>使用光流法跟踪图像中的点</title><link>http://ghdawn.me/2014-01-27-optical-flow-tracking.html</link><description>&lt;p&gt;在计算机视觉的研究中，经常会出现以下问题：&lt;/p&gt;
 &lt;ol&gt;
 &lt;li&gt;给定两幅图像，把他们拼接起来&lt;/li&gt;
 &lt;li&gt;给定图像序列，找出其中的运动部分&lt;/li&gt;
@@ -261,10 +429,10 @@ $$
 &lt;p&gt;人们针对这一类问题，提出了很多解决办法。其中有一种考虑方法就是，这些问题都需要建立起图像间像素点的匹配关系，当知道了任意像素点在图像间的运动速度时，就可以建立起匹配关系，也就解决了这些问题。而像素点的运动就称为&lt;strong&gt;光流&lt;/strong&gt;.因此，当我们求出了图像中某一点的运动速度，可以说求出了&lt;strong&gt;光流&lt;/strong&gt;;或者当我们求出了两幅图像中对应点的匹配关系时，也可以说求出了&lt;strong&gt;光流&lt;/strong&gt;。&lt;/p&gt;
 &lt;h2&gt;光流的求解方法&lt;/h2&gt;
 &lt;h3&gt;最简单粗暴的方法&lt;/h3&gt;
-&lt;p&gt;当我看到Eth（苏黎世理工大学）的这个算法时，我都惊呆了——这也可以？他们在&lt;em&gt;An Open Source and Open Hardware Embedded Metric Optical Flow CMOS Camera for Indoor and Outdoor Applications&lt;/em&gt;这篇论文中使用了一个名为块匹配的方法。该方法对选定的某一像素点，取出第二幅图像中以该坐标为中心，$\pm 4$范围内的所有点作为候选。对于这些候选点，以它们为中心，取$8 \times 8$的块与源图像求绝对差值和。绝对值差和最小的那个点就作为原点在第二幅图像中新的位置。由于该方法计算速度很快，两帧图像之间的变化很小，所以取这样小一个范围也是可行的。&lt;/p&gt;
+&lt;p&gt;当我看到Eth（苏黎世理工大学）的这个算法时，我都惊呆了——这也可以？他们在&lt;em&gt;An Open Source and Open Hardware Embedded Metric Optical Flow CMOS Camera for Indoor and Outdoor Applications&lt;/em&gt;这篇论文中使用了一个名为块匹配的方法。该方法对选定的某一像素点，取出第二幅图像中以该坐标为中心，&lt;span class="math"&gt;\(\pm 4\)&lt;/span&gt;范围内的所有点作为候选。对于这些候选点，以它们为中心，取&lt;span class="math"&gt;\(8 \times 8\)&lt;/span&gt;的块与源图像求绝对差值和。绝对值差和最小的那个点就作为原点在第二幅图像中新的位置。由于该方法计算速度很快，两帧图像之间的变化很小，所以取这样小一个范围也是可行的。&lt;/p&gt;
 &lt;h3&gt;最经典主流的方法&lt;/h3&gt;
 &lt;p&gt;最常见求解光流的方法是由Lucas和Kanade两人提出的方法。为了说清楚这个方法，我们先把问题表述的专业一点：&lt;/p&gt;
-&lt;p&gt;设$I$和$J$是两张连续灰度图像($I(t+1)=J(t)$)，其中的任意点坐标为$\textbf{x}=[x\quad y]^T$,任意像素点的值由离散函数$I(\textbf{x}),J(\textbf{x})$表示。 对于图像$I$中的一个点$\textbf{u}=[u_x\quad u_y]^T$,我们的目标就是找到一$\textbf{v}=\textbf{u}+\textbf{d}=[u_x+d_x\quad u_y+d_y]^T$，使得$I(\textbf{u})=J(\textbf{v})$，或者使得$I(\textbf{u})$和$J(\textbf{v})$尽可能的相似，而$\textbf{d}$就是在点$\textbf{u}$处的光流值。&lt;/p&gt;
+&lt;p&gt;设&lt;span class="math"&gt;\(I\)&lt;/span&gt;和&lt;span class="math"&gt;\(J\)&lt;/span&gt;是两张连续灰度图像(&lt;span class="math"&gt;\(I(t+1)=J(t)\)&lt;/span&gt;)，其中的任意点坐标为&lt;span class="math"&gt;\(\textbf{x}=[x\quad y]^T\)&lt;/span&gt;,任意像素点的值由离散函数&lt;span class="math"&gt;\(I(\textbf{x}),J(\textbf{x})\)&lt;/span&gt;表示。 对于图像&lt;span class="math"&gt;\(I\)&lt;/span&gt;中的一个点&lt;span class="math"&gt;\(\textbf{u}=[u_x\quad u_y]^T\)&lt;/span&gt;,我们的目标就是找到一&lt;span class="math"&gt;\(\textbf{v}=\textbf{u}+\textbf{d}=[u_x+d_x\quad u_y+d_y]^T\)&lt;/span&gt;，使得&lt;span class="math"&gt;\(I(\textbf{u})=J(\textbf{v})\)&lt;/span&gt;，或者使得&lt;span class="math"&gt;\(I(\textbf{u})\)&lt;/span&gt;和&lt;span class="math"&gt;\(J(\textbf{v})\)&lt;/span&gt;尽可能的相似，而&lt;span class="math"&gt;\(\textbf{d}\)&lt;/span&gt;就是在点&lt;span class="math"&gt;\(\textbf{u}\)&lt;/span&gt;处的光流值。&lt;/p&gt;
 &lt;p&gt;为了便于求解，需要做出如下假设：&lt;/p&gt;
 &lt;ol&gt;
 &lt;li&gt;小运动： 任意点在两帧图像之间的运动很小&lt;/li&gt;
@@ -272,176 +440,251 @@ $$
 &lt;li&gt;空间一致性： 任意点的运动和它临域内的点相似&lt;/li&gt;
 &lt;/ol&gt;
 &lt;p&gt;第一个假设是第二个假设的基础，正是由于任意点的运动较小，才能假定其亮度在连续的图像中不变（或者变化很小），对于第2个亮度恒定的假设，可以得到：
-$$
+&lt;/p&gt;
+&lt;div class="math"&gt;$$
 I(x,y,t)=I(x+u,y+v,t+1)
-$$
+$$&lt;/div&gt;
+&lt;p&gt;
 将右边对时间t进行泰勒展开，得到
-$$
+&lt;/p&gt;
+&lt;div class="math"&gt;$$
 I(x+u,y+v,t+1)=I(x,y,t)+I_x \cdot u+I_y \cdot v+ I_t
-$$
+$$&lt;/div&gt;
+&lt;p&gt;
 两式联立可得
-$$
+&lt;/p&gt;
+&lt;div class="math"&gt;$$
 I_x \cdot u+I_y \cdot v+ I_t=0
-$$
-$$
+$$&lt;/div&gt;
+&lt;div class="math"&gt;$$
 [I_x\quad I_y]\cdot [u\quad  v]^T+I_t=0
-$$
-这样对于每一个点，我们得到了一个有两个未知数的方程，无法求出准确解。这时第三个假设就派上用场了。由于点的空间一致性，可以假设一个点及其临域内的点有相同的速度。设取一个$5\times 5$的窗口取临域，那么对于任意点可以得到25个方程，联立可得&lt;/p&gt;
-&lt;p&gt;\begin{equation}
+$$&lt;/div&gt;
+&lt;p&gt;
+这样对于每一个点，我们得到了一个有两个未知数的方程，无法求出准确解。这时第三个假设就派上用场了。由于点的空间一致性，可以假设一个点及其临域内的点有相同的速度。设取一个&lt;span class="math"&gt;\(5\times 5\)&lt;/span&gt;的窗口取临域，那么对于任意点可以得到25个方程，联立可得&lt;/p&gt;
+&lt;div class="math"&gt;\begin{equation}
 \left[ \begin{array} {cc}
-I_x(point1) &amp;amp; I_y(point1)\\
-I_x(point2) &amp;amp; I_y(point2)\\
-\vdots &amp;amp; \vdots\\
-I_x(point25) &amp;amp; I_y(point25)\\
+I_x(point1) &amp;amp; I_y(point1)\\\
+I_x(point2) &amp;amp; I_y(point2)\\\
+\vdots &amp;amp; \vdots\\\
+I_x(point25) &amp;amp; I_y(point25)\\\
 \end{array}\right]
 \left[ \begin{array} {c}
-u \\
+u \\\
 v
 \end{array}\right]
 =-\left[ \begin{array} {c}
-I_t(point1) \\
-I_t(point2) \\
-\vdots \\
-I_t(point25) \\
+I_t(point1) \\\
+I_t(point2) \\\
+\vdots \\\
+I_t(point25) \\\
 \end{array}\right]
-\end{equation}&lt;/p&gt;
+\end{equation}&lt;/div&gt;
 &lt;p&gt;这样可以得到了一个方程数量大于未知数数量的超定方程组，可以通过求解其最小二乘解来得出速度。
 将上式的三个矩阵写为代数形式，并化为：
-$$
+&lt;/p&gt;
+&lt;div class="math"&gt;$$
 A\cdot d=b
-$$
-$$
+$$&lt;/div&gt;
+&lt;div class="math"&gt;$$
 (A^TA) d= A^Tb
-$$
-$$
+$$&lt;/div&gt;
+&lt;div class="math"&gt;$$
 d=(A^TA)^{-1}A^Tb
-$$
+$$&lt;/div&gt;
+&lt;p&gt;
 其中：
-$$
+&lt;/p&gt;
+&lt;div class="math"&gt;$$
 A^TA=
 \left[ \begin{array} {cc}
-\sum I_xI_x &amp;amp; \sum I_xI_y \\
+\sum I_xI_x &amp;amp; \sum I_xI_y \\\
 \sum I_xI_y &amp;amp; \sum I_yI_y
 \end{array}\right]
-$$
-$$
+$$&lt;/div&gt;
+&lt;div class="math"&gt;$$
 A^Tb=-
 \left[ \begin{array} {c}
-\sum I_xI_t \\
+\sum I_xI_t \\\
 \sum I_yI_t
 \end{array}\right]
-$$
+$$&lt;/div&gt;
+&lt;p&gt;
 这样就可以推导出求解任意点出光流的方法了。&lt;/p&gt;
 &lt;p&gt;这个方法有一个缺陷，小速度，亮度不变以及区域一致性都是较强的假设，并不很容易得到满足。如当物体运动速度较快时，假设不成立，那么后续的假设就会有较大的偏差，使得最终求出的光流值有较大的误差。&lt;/p&gt;
 &lt;h3&gt;LK方法的金字塔改进&lt;/h3&gt;
-&lt;p&gt;为了更符合实际一些，我们先换一个目标：设临域窗口半径为$w$，则光流$\textbf{d}$定义为最小化残差方程$\epsilon$的速度，其中
-\begin{equation}
+&lt;p&gt;为了更符合实际一些，我们先换一个目标：设临域窗口半径为&lt;span class="math"&gt;\(w\)&lt;/span&gt;，则光流&lt;span class="math"&gt;\(\textbf{d}\)&lt;/span&gt;定义为最小化残差方程&lt;span class="math"&gt;\(\epsilon\)&lt;/span&gt;的速度，其中
+&lt;/p&gt;
+&lt;div class="math"&gt;\begin{equation}
 \label{residual1}
 \epsilon(\textbf{d})=\epsilon(d_x,d_y)=\sum_{x=u_x-w}^{u_x+w}\sum_{y=u_y-w}^{u_y+w}( I(x,y)-J(x+d_x,y+d_y))^2
-\end{equation}
-这个残差方程在一个$(2w+1)\times(2w+1)$的窗口上测量。&lt;/p&gt;
+\end{equation}&lt;/div&gt;
+&lt;p&gt;
+这个残差方程在一个&lt;span class="math"&gt;\((2w+1)\times(2w+1)\)&lt;/span&gt;的窗口上测量。&lt;/p&gt;
 &lt;p&gt;考虑物体的运动速度较大时，算法会出现较大的误差。那么就希望能减少图像中物体的运动速度。一个直观的方法就是，缩小图像的尺寸。假设当图像为400×400时，物体速度为[16 16],那么图像缩小为200×200时，速度变为[8,8]。缩小为100*100时，速度减少到[4,4]。所以在源图像缩放了很多以后，原算法又变得适用了。所以光流可以通过生成原图像的金字塔图像，逐层求解，不断精确来求得。&lt;/p&gt;
-&lt;p&gt;假设图像的宽高每次缩放为原来的一半，共缩放了$L_m$层，则第0层为原图像。设已知原图的速度向量为$\textbf{d}$，则每一层的速度为
-$$
+&lt;p&gt;假设图像的宽高每次缩放为原来的一半，共缩放了&lt;span class="math"&gt;\(L_m\)&lt;/span&gt;层，则第0层为原图像。设已知原图的速度向量为&lt;span class="math"&gt;\(\textbf{d}\)&lt;/span&gt;，则每一层的速度为
+&lt;/p&gt;
+&lt;div class="math"&gt;$$
 \textbf{d}^L=\frac{\textbf{d}}{2^L}
-$$
-基于金字塔的光流法的大概步骤如下：先在最深层$L_m$中求解光流。这次计算的结果反馈给上一层$L_m-1$，作为该层初始时的光流值的估计$\textbf{g}$。就这样一层一层的向上反馈，直到最高层，即原图。
-则对于每一层L，方程$\ref{residual1}$可以变为：&lt;/p&gt;
-&lt;p&gt;\begin{equation}
+$$&lt;/div&gt;
+&lt;p&gt;
+基于金字塔的光流法的大概步骤如下：先在最深层&lt;span class="math"&gt;\(L_m\)&lt;/span&gt;中求解光流。这次计算的结果反馈给上一层&lt;span class="math"&gt;\(L_m-1\)&lt;/span&gt;，作为该层初始时的光流值的估计&lt;span class="math"&gt;\(\textbf{g}\)&lt;/span&gt;。就这样一层一层的向上反馈，直到最高层，即原图。
+则对于每一层L，方程&lt;span class="math"&gt;\(\ref{residual1}\)&lt;/span&gt;可以变为：&lt;/p&gt;
+&lt;div class="math"&gt;\begin{equation}
 \label{residual2}
 \epsilon^L(\textbf{d}^L)=\epsilon(d_x^L,d_y^L)=\sum_{x=u_x^L-w}^{u_x^L+w}\sum_{y=u_y^L-w}^{u_y^L+w}( I(x,y)-J(x+g_x^L+d_x^L,y+g_y^L+d_y^L))^2
-\end{equation}&lt;/p&gt;
-&lt;p&gt;每一层的计算结果$\textbf{d}^L$通过如下方程反馈给上一层作为初始的光流估计：
-$$
+\end{equation}&lt;/div&gt;
+&lt;p&gt;每一层的计算结果&lt;span class="math"&gt;\(\textbf{d}^L\)&lt;/span&gt;通过如下方程反馈给上一层作为初始的光流估计：
+&lt;/p&gt;
+&lt;div class="math"&gt;$$
 \textbf{g}^{L-1}=2(\textbf{g}^L+\textbf{d}^L)
-$$
+$$&lt;/div&gt;
+&lt;p&gt;
 由于金字塔的缩放有效的减小了光流值，最底层的光流估计值可以设为0,即
-$$
+&lt;/p&gt;
+&lt;div class="math"&gt;$$
 \textbf{g}^{Lm}=[0 \quad 0 ]^T
-$$&lt;/p&gt;
+$$&lt;/div&gt;
 &lt;h3&gt;LK方法的迭代改进&lt;/h3&gt;
 &lt;p&gt;到目前为止，我们讨论了一步求解的光流法，金字塔求解的光流法。下面讨论通过迭代计算的方法提高光流求解精度的方法。
-对于金字塔的每一层，求解的目的都是最小化残差方程$\ref{residual2}$，由于每一层内部的求解方法是一样的，不失一般性可以去掉角标L。为了求解某点p处的光流，定义新的图像如下：
-$$
+对于金字塔的每一层，求解的目的都是最小化残差方程&lt;span class="math"&gt;\(\ref{residual2}\)&lt;/span&gt;，由于每一层内部的求解方法是一样的，不失一般性可以去掉角标L。为了求解某点p处的光流，定义新的图像如下：
+&lt;/p&gt;
+&lt;div class="math"&gt;$$
 \forall (x,y) \in [p_x-w-1,p_x+w+1]\times[p_y-w-1,p_y+w+1], A(x,y)=I^L(x,y)
-$$
-$$
+$$&lt;/div&gt;
+&lt;div class="math"&gt;$$
 \forall (x,y) \in [p_x-w,p_x+w]\times[p_y-w,p_y+w], B(x,y)=J^L(x+g_x^L,y+g_y^L)
-$$
-这里图像A的定义域比图像B要大一圈，是因为求解光流时，有一个步骤是求解图像在x，y方向的微分$I_x,I_y$，需要用到每一点的临域。
-设任意点的速度为$v=[v_x \quad v_y]^T=\textbf{d}^L$，位置为$p=[p_x \quad p_y]^T$，则残差方程$\ref{residual2}$化为：
-\begin{equation}
+$$&lt;/div&gt;
+&lt;p&gt;
+这里图像A的定义域比图像B要大一圈，是因为求解光流时，有一个步骤是求解图像在x，y方向的微分&lt;span class="math"&gt;\(I_x,I_y\)&lt;/span&gt;，需要用到每一点的临域。
+设任意点的速度为&lt;span class="math"&gt;\(v=[v_x \quad v_y]^T=\textbf{d}^L\)&lt;/span&gt;，位置为&lt;span class="math"&gt;\(p=[p_x \quad p_y]^T\)&lt;/span&gt;，则残差方程&lt;span class="math"&gt;\(\ref{residual2}\)&lt;/span&gt;化为：
+&lt;/p&gt;
+&lt;div class="math"&gt;\begin{equation}
 \label{residual3}
 \epsilon(v)=\epsilon(v_x,v_y)=\sum_{x=p_x-w}^{p_x+w}\sum_{y=p_y-w}^{p_y+w}( A(x,y)-B(x+v_x,y+v_y))^2
-\end{equation}
-和方程$\ref{residual1}$长得差不多了。为了优化该方程，对方程$\ref{residual3}$求导数，并使其为0，有&lt;/p&gt;
-&lt;p&gt;$$
+\end{equation}&lt;/div&gt;
+&lt;p&gt;
+和方程&lt;span class="math"&gt;\(\ref{residual1}\)&lt;/span&gt;长得差不多了。为了优化该方程，对方程&lt;span class="math"&gt;\(\ref{residual3}\)&lt;/span&gt;求导数，并使其为0，有&lt;/p&gt;
+&lt;div class="math"&gt;$$
 \frac{\partial \epsilon(v)}{\partial v}\lvert_{v=v_{opt}}=[0 \quad 0]
-$$&lt;/p&gt;
+$$&lt;/div&gt;
 &lt;p&gt;展开该式，得到：
-\begin{equation}
+&lt;/p&gt;
+&lt;div class="math"&gt;\begin{equation}
 \label{residual4}
 \frac{\partial\epsilon(v)}{\partial v}=-2\sum_{x=p_x-w}^{p_x+w}\sum_{y=p_y-w}^{p_y+w}( A(x,y)-B(x+v_x,y+v_y))[\frac{\partial B}{\partial x} \quad \frac{\partial B}{\partial y}]
-\end{equation}
-由于金字塔的缩放减少了光流的估计值，则初始估计值v可以设为0,把上式的B在$(0,0)$点泰勒展开，得到
-$$
+\end{equation}&lt;/div&gt;
+&lt;p&gt;
+由于金字塔的缩放减少了光流的估计值，则初始估计值v可以设为0,把上式的B在&lt;span class="math"&gt;\((0,0)\)&lt;/span&gt;点泰勒展开，得到
+&lt;/p&gt;
+&lt;div class="math"&gt;$$
 \frac{\partial\epsilon(v)}{\partial v}=-2\sum_{x=p_x-w}^{p_x+w}\sum_{y=p_y-w}^{p_y+w}( A(x,y)-B(x,y)-[\frac{\partial B}{\partial x} \quad \frac{\partial B}{\partial y}]v)[\frac{\partial B}{\partial x} \quad \frac{\partial B}{\partial y}]
-$$
-其中的$A(x,y)-B(x,y)$可以看做是图像在p点处时间上的梯度，则有：
-$$
+$$&lt;/div&gt;
+&lt;p&gt;
+其中的&lt;span class="math"&gt;\(A(x,y)-B(x,y)\)&lt;/span&gt;可以看做是图像在p点处时间上的梯度，则有：
+&lt;/p&gt;
+&lt;div class="math"&gt;$$
 I_t=\delta I(x,y)=A(x,y)-B(x,y)
-$$
-当图像A，B很相似时，矩阵$[\frac{\partial B}{\partial x} \quad \frac{\partial B}{\partial y}]$则可以看做是图像在$x,y$方向上的梯度，$\nabla I=[I_x \quad I_y]=[\frac{\partial B}{\partial x} \quad \frac{\partial B}{\partial y}]$。而该梯度可以通过图像A直接求出：
-$$
+$$&lt;/div&gt;
+&lt;p&gt;
+当图像A，B很相似时，矩阵&lt;span class="math"&gt;\([\frac{\partial B}{\partial x} \quad \frac{\partial B}{\partial y}]\)&lt;/span&gt;则可以看做是图像在&lt;span class="math"&gt;\(x,y\)&lt;/span&gt;方向上的梯度，&lt;span class="math"&gt;\(\nabla I=[I_x \quad I_y]=[\frac{\partial B}{\partial x} \quad \frac{\partial B}{\partial y}]\)&lt;/span&gt;。而该梯度可以通过图像A直接求出：
+&lt;/p&gt;
+&lt;div class="math"&gt;$$
 \forall (x,y) \in [p_x-w,p_x+w]\times[p_y-w,p_y+w],
-$$&lt;/p&gt;
-&lt;p&gt;$$
+$$&lt;/div&gt;
+&lt;div class="math"&gt;$$
 I_x(x,y)=\frac{\partial A(x,y)}{\partial x}=\frac{A(x+1,y)-A(x-1,y)}{2},
-$$&lt;/p&gt;
-&lt;p&gt;$$
+$$&lt;/div&gt;
+&lt;div class="math"&gt;$$
 I_y(x,y)=\frac{\partial A(x,y)}{\partial y}=\frac{A(x,y+1)-A(x,y-1)}{2}
-$$
-由此，方程$\ref{residual4}$可以重写为
-$$
+$$&lt;/div&gt;
+&lt;p&gt;
+由此，方程&lt;span class="math"&gt;\(\ref{residual4}\)&lt;/span&gt;可以重写为
+&lt;/p&gt;
+&lt;div class="math"&gt;$$
 -\frac{1}{2}\frac{\partial\epsilon(v)}{\partial v}=\sum_{x=p_x-w}^{p_x+w}\sum_{y=p_y-w}^{p_y+w}(\nabla I^Tv-\delta I)\nabla I^T
-$$
-\begin{equation}
+$$&lt;/div&gt;
+&lt;div class="math"&gt;\begin{equation}
 \label{residual5}
 -\frac{1}{2}\frac{\partial\epsilon(v)}{\partial v}=\sum_{x=p_x-w}^{p_x+w}\sum_{y=p_y-w}^{p_y+w}(
 \left[ \begin{array} {cc}
- I_xI_x &amp;amp;  I_xI_y \\
+ I_xI_x &amp;amp;  I_xI_y \\\
  I_xI_y &amp;amp;  I_yI_y
 \end{array}\right] v
 -\left[ \begin{array} {c}
-\delta II_x\\
+\delta II_x\\\
 \delta II_y 
 \end{array}\right])
-\end{equation}
+\end{equation}&lt;/div&gt;
+&lt;p&gt;
 令
-$$
+&lt;/p&gt;
+&lt;div class="math"&gt;$$
 G=\sum_{x=p_x-w}^{p_x+w}\sum_{y=p_y-w}^{p_y+w}\left[ \begin{array} {cc}
- I_xI_x &amp;amp;  I_xI_y \\
+ I_xI_x &amp;amp;  I_xI_y \\\
  I_xI_y &amp;amp;  I_yI_y
 \end{array}\right]
-$$
-$$
+$$&lt;/div&gt;
+&lt;div class="math"&gt;$$
 b=\sum_{x=p_x-w}^{p_x+w}\sum_{y=p_y-w}^{p_y+w}
 \left[ \begin{array} {c}
-\delta II_x\\
+\delta II_x\\\
 \delta II_y 
 \end{array}\right])
-$$
+$$&lt;/div&gt;
+&lt;p&gt;
 并令该微分式为0,可得最优化的光流的结果为：
-$$
+&lt;/p&gt;
+&lt;div class="math"&gt;$$
 v_{opt}=G^{-1}b
-$$
-这样一次的计算结果就出来了，有了这个值，就可以构造新的图像$B_k(x,y)=B_{k-1}(x+v_x,y+v_y)$，重复上面的步骤，其中k是迭代的次数。随着迭代不断的进行，图像A，B之间的相似度越来越高，上述优化的光流值不断的趋近0.那么最终这一层的光流值表示为
-$$
+$$&lt;/div&gt;
+&lt;p&gt;
+这样一次的计算结果就出来了，有了这个值，就可以构造新的图像&lt;span class="math"&gt;\(B_k(x,y)=B_{k-1}(x+v_x,y+v_y)\)&lt;/span&gt;，重复上面的步骤，其中k是迭代的次数。随着迭代不断的进行，图像A，B之间的相似度越来越高，上述优化的光流值不断的趋近0.那么最终这一层的光流值表示为
+&lt;/p&gt;
+&lt;div class="math"&gt;$$
 \textbf{d}^L=\sum_{k=1}^{K} v^k
-$$
+$$&lt;/div&gt;
+&lt;p&gt;
 每一层的求出后，再用上一节的方法反馈给上一层，直到求出最终结果为止。&lt;/p&gt;
 &lt;p&gt;&lt;img alt="一个匹配的例子" src="/image/corr1.jpg" /&gt;&lt;/p&gt;
-&lt;p&gt;至此为止，光流法的求解过程就是这样了。具体的代码可以参考我写在视觉库中的&lt;a href="https://github.com/zycet/iTRLib/blob/master/itrvision/feature/lktracker.cc"&gt;光流部分&lt;/a&gt;&lt;/p&gt;</description><dc:creator xmlns:dc="http://purl.org/dc/elements/1.1/">清风未明</dc:creator><pubDate>Mon, 27 Jan 2014 18:51:02 +0800</pubDate><guid>tag:ghdawn.me,2014-01-27:2014-01-27-optical-flow-tracking.html</guid><category>计算机视觉</category></item><item><title>"又是octopress博客的问题"</title><link>http://ghdawn.me/2012-12-02-octopress-pro.html</link><description>&lt;p&gt;假期换了电脑，在新电脑上写了博客，但是怎么也提交不上去，一直提示：&lt;/p&gt;
+&lt;p&gt;至此为止，光流法的求解过程就是这样了。具体的代码可以参考我写在视觉库中的&lt;a href="https://github.com/zycet/iTRLib/blob/master/itrvision/feature/lktracker.cc"&gt;光流部分&lt;/a&gt;&lt;/p&gt;
+&lt;script type="text/javascript"&gt;if (!document.getElementById('mathjaxscript_pelican_#%@#$@#')) {
+    var align = "center",
+        indent = "0em",
+        linebreak = "false";
+
+    if (false) {
+        align = (screen.width &lt; 768) ? "left" : align;
+        indent = (screen.width &lt; 768) ? "0em" : indent;
+        linebreak = (screen.width &lt; 768) ? 'true' : linebreak;
+    }
+    
+    var mathjaxscript = document.createElement('script');
+    mathjaxscript.id = 'mathjaxscript_pelican_#%@#$@#';
+    mathjaxscript.type = 'text/javascript';
+    mathjaxscript.src = '//cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML';
+    mathjaxscript[(window.opera ? "innerHTML" : "text")] =
+        "MathJax.Hub.Config({" +
+        "    config: ['MMLorHTML.js']," +
+        "    TeX: { extensions: ['AMSmath.js','AMSsymbols.js','noErrors.js','noUndefined.js'], equationNumbers: { autoNumber: 'AMS' } }," +
+        "    jax: ['input/TeX','input/MathML','output/HTML-CSS']," +
+        "    extensions: ['tex2jax.js','mml2jax.js','MathMenu.js','MathZoom.js']," +
+        "    displayAlign: '"+ align +"'," +
+        "    displayIndent: '"+ indent +"'," +
+        "    showMathMenu: true," +
+        "    tex2jax: { " +
+        "        inlineMath: [ ['\\\\(','\\\\)'] ], " +
+        "        displayMath: [ ['$$','$$'] ]," +
+        "        processEscapes: true," +
+        "        preview: 'TeX'," +
+        "    }, " +
+        "    'HTML-CSS': { " +
+        "        styles: { '.MathJax_Display, .MathJax .mo, .MathJax .mi, .MathJax .mn': {color: 'inherit ! important'} }," +
+        "        linebreaks: { automatic: "+ linebreak +", width: '90% container' }," +
+        "    }, " +
+        "}); ";
+    (document.body || document.getElementsByTagName('head')[0]).appendChild(mathjaxscript);
+}
+&lt;/script&gt;</description><dc:creator xmlns:dc="http://purl.org/dc/elements/1.1/">清风未明</dc:creator><pubDate>Mon, 27 Jan 2014 18:51:02 +0800</pubDate><guid>tag:ghdawn.me,2014-01-27:2014-01-27-optical-flow-tracking.html</guid><category>计算机视觉</category></item><item><title>"又是octopress博客的问题"</title><link>http://ghdawn.me/2012-12-02-octopress-pro.html</link><description>&lt;p&gt;假期换了电脑，在新电脑上写了博客，但是怎么也提交不上去，一直提示：&lt;/p&gt;
 &lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="cp"&gt;## Pushing generated _deploy website&lt;/span&gt;
 &lt;span class="n"&gt;Everything&lt;/span&gt; &lt;span class="n"&gt;up&lt;/span&gt;&lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="n"&gt;to&lt;/span&gt;&lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="n"&gt;date&lt;/span&gt;
 &lt;/pre&gt;&lt;/div&gt;
@@ -461,39 +704,39 @@ $$
 &lt;p&gt;随着人们处理的问题越来越复杂，待处理的数据变得越来越庞大。在数据分析和处理的过程中，时间的消耗量是十分巨大的。于是人们在不断的寻找一些能够简化计算，方便处理数据的方法。其中数据降维就是一种能够简化计算，并且使数据更加易于处理（如数据可视化）的方法。主成分分析（PCA）方法就是一种用于数据降维处理的方法。&lt;/p&gt;
 &lt;p&gt;通常要处理的原始数据会有以下几个特性：&lt;/p&gt;
 &lt;ol&gt;
-&lt;li&gt;数据的不同维数之间是线性相关的，即 $cov(i,j)\neq 0 , i\neq j$&lt;/li&gt;
+&lt;li&gt;数据的不同维数之间是线性相关的，即 &lt;span class="math"&gt;\(cov(i,j)\neq 0 , i\neq j\)&lt;/span&gt;&lt;/li&gt;
 &lt;li&gt;数据中的信息量分布不均匀，即有些方向数据分布集中，有些方向信息量较少。&lt;/li&gt;
 &lt;li&gt;一些较少的信息量去掉以后，对原始数据的分析并不产生太大的影响&lt;/li&gt;
 &lt;/ol&gt;
 &lt;p&gt;由此，就考虑是否可以去掉那些包含信息量较少的数据，只保留包含信息量大的数据，这样就可以减少计算量。即抓住问题的主要矛盾，忽略次要矛盾。另外由于数据互相有相关性，数据矩阵的协方差矩阵不是对角阵。当取出了第一条信息量最大的向量，当然希望第二条次大的向量中，不要再包含第一条向量的信息。
-有了以上的考虑，同时数据协方差矩阵一定是实对称矩阵,必可相似对角化。先通过相似对角化的手段，把协方差矩阵化为对角阵。即将数据投影到另外一个坐标系，使得数据分量之间互相没有相关性( $cov(i,j)= 0 , i\neq j$ )。&lt;/p&gt;
-&lt;p&gt;\begin{equation}
+有了以上的考虑，同时数据协方差矩阵一定是实对称矩阵,必可相似对角化。先通过相似对角化的手段，把协方差矩阵化为对角阵。即将数据投影到另外一个坐标系，使得数据分量之间互相没有相关性( &lt;span class="math"&gt;\(cov(i,j)= 0 , i\neq j\)&lt;/span&gt; )。&lt;/p&gt;
+&lt;div class="math"&gt;\begin{equation}
 A=C^T \Lambda C 
-\end{equation}&lt;/p&gt;
-&lt;p&gt;其中 $A$ 为原数据的协方差矩阵，是对角阵；$C$ 为正交矩阵；$\Lambda$ 为对角阵，即&lt;/p&gt;
-&lt;p&gt;\begin{equation}
+\end{equation}&lt;/div&gt;
+&lt;p&gt;其中 &lt;span class="math"&gt;\(A\)&lt;/span&gt; 为原数据的协方差矩阵，是对角阵；&lt;span class="math"&gt;\(C\)&lt;/span&gt; 为正交矩阵；&lt;span class="math"&gt;\(\Lambda\)&lt;/span&gt; 为对角阵，即&lt;/p&gt;
+&lt;div class="math"&gt;\begin{equation}
    A=\left(  \begin{array}{cccc}
-      cov(1,1) &amp;amp; cov(1,2) &amp;amp; \cdots &amp;amp; cov(1,n) \\
-      cov(2,1) &amp;amp; cov(2,2) &amp;amp; \cdots &amp;amp; cov(2,n) \\
-      \vdots &amp;amp;   &amp;amp; \ddots &amp;amp; \vdots \\
-      cov(n,1) &amp;amp; cov(n,2) &amp;amp; \cdots &amp;amp; cov(n,n) \\
+      cov(1,1) &amp;amp; cov(1,2) &amp;amp; \cdots &amp;amp; cov(1,n) \\\
+      cov(2,1) &amp;amp; cov(2,2) &amp;amp; \cdots &amp;amp; cov(2,n) \\\
+      \vdots &amp;amp;   &amp;amp; \ddots &amp;amp; \vdots \\\
+      cov(n,1) &amp;amp; cov(n,2) &amp;amp; \cdots &amp;amp; cov(n,n) \\\
       \end{array}      \right)
-\end{equation}
-$$
+\end{equation}&lt;/div&gt;
+&lt;div class="math"&gt;$$
 C^T C= I
-$$&lt;/p&gt;
-&lt;p&gt;\begin{equation}
+$$&lt;/div&gt;
+&lt;div class="math"&gt;\begin{equation}
   \Lambda=\left(   \begin{array}{cccc}
-      \lambda_1 &amp;amp; 0 &amp;amp; \cdots &amp;amp; 0 \\
-       0 &amp;amp; \lambda_2 &amp;amp; \cdots &amp;amp; 0 \\
-       \vdots &amp;amp;   &amp;amp; \ddots &amp;amp; \vdots \\
-       0 &amp;amp; 0 &amp;amp; \cdots &amp;amp; \lambda_n \\
+      \lambda_1 &amp;amp; 0 &amp;amp; \cdots &amp;amp; 0 \\\
+       0 &amp;amp; \lambda_2 &amp;amp; \cdots &amp;amp; 0 \\\
+       \vdots &amp;amp;   &amp;amp; \ddots &amp;amp; \vdots \\\
+       0 &amp;amp; 0 &amp;amp; \cdots &amp;amp; \lambda_n \\\
       \end{array}\right)
-\end{equation}&lt;/p&gt;
+\end{equation}&lt;/div&gt;
 &lt;p&gt;经过这个变换就可以看出来，协方差矩阵的特征值其实就是每一维数据的方差。而特征值，即方差代表了数据所包含的信息量。所以把特征值排序后，就可以知道在这个坐标系下，每一维数据所包含的信息量大小。我们只需要取出分析所需要的数据量，其余分量可以丢弃，从而在损失较小精度的情况下，减少计算量，提高计算速度。&lt;/p&gt;
 &lt;h3&gt;实验过程&lt;/h3&gt;
 &lt;h5&gt;数据读取&lt;/h5&gt;
-&lt;p&gt;这里使用的人脸数据库共有$N=150$张人脸图像，分辨率为$M\times M=80 \times 80$，以$FERET-XXX.tif$命名。由于PCA中，每个人脸图像是以一个列向量的形式存在，所以需要将这每个图像重构成列向量。在后续的算法中，需要将整体人脸零均值化，所以还需要记录下来所有人的平均脸。matlab 代码如下：&lt;/p&gt;
+&lt;p&gt;这里使用的人脸数据库共有&lt;span class="math"&gt;\(N=150\)&lt;/span&gt;张人脸图像，分辨率为&lt;span class="math"&gt;\(M\times M=80 \times 80\)&lt;/span&gt;，以&lt;span class="math"&gt;\(FERET-XXX.tif\)&lt;/span&gt;命名。由于PCA中，每个人脸图像是以一个列向量的形式存在，所以需要将这每个图像重构成列向量。在后续的算法中，需要将整体人脸零均值化，所以还需要记录下来所有人的平均脸。matlab 代码如下：&lt;/p&gt;
 &lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="n"&gt;file&lt;/span&gt;&lt;span class="p"&gt;=&lt;/span&gt;&lt;span class="s"&gt;&amp;#39;FERET-&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
 &lt;span class="n"&gt;N&lt;/span&gt;&lt;span class="p"&gt;=&lt;/span&gt;&lt;span class="mi"&gt;150&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
 &lt;span class="n"&gt;M&lt;/span&gt;&lt;span class="p"&gt;=&lt;/span&gt;&lt;span class="mi"&gt;80&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
@@ -511,13 +754,17 @@ $$&lt;/p&gt;
 
 
 &lt;h5&gt;数据预处理&lt;/h5&gt;
-&lt;p&gt;在读取完所有人脸数据以后，需要把整体数据零均值化，即每个人脸向量减去平均脸的向量。这样，对于PCA来说，我们得到了一组零均值的输入数据点。之后我们求出这组数据的协方差矩阵的特征值和特征向量。由于 $Image_{M^2\times N}$ 的维数很大所以求解特征值十分消耗时间。由线性代数的知识有：&lt;/p&gt;
-&lt;p&gt;$$
+&lt;p&gt;在读取完所有人脸数据以后，需要把整体数据零均值化，即每个人脸向量减去平均脸的向量。这样，对于PCA来说，我们得到了一组零均值的输入数据点。之后我们求出这组数据的协方差矩阵的特征值和特征向量。由于 &lt;span class="math"&gt;\(Image_{M^2\times N}\)&lt;/span&gt; 的维数很大所以求解特征值十分消耗时间。由线性代数的知识有：&lt;/p&gt;
+&lt;div class="math"&gt;$$
 \begin{equation}
-r(A_{m \times n}) \leq min { m,n }
+r(A_{m \times n}) \leq min \{ m,n \}
 \end{equation}
-$$&lt;/p&gt;
-&lt;p&gt;所以它的秩很小，即不为零的特征根很少($r \leq N$)。于是先求出 $$Image^ T Image$$ 这个维数较小的矩阵的所有特征值和特征向量 $ V_{N \times N} $，再通过 $$ U_{M^ 2 \times N}=Image \times V $$,即可求出原矩阵 $ImageImage^ T $ 的特征向量。通过特征值我们可以看出来，大量的特征集中在很少的几个特征值上。而大部分特征值都很小，表示了他们携带的数据特征很小。把这些特征向量规范后以后，这些单位特征向量可以作为一组基底张成一个空间，即是特征脸方法中的特征空间，最后，把原图像向量向这个特征空间中投影，即可以得到我们所需的特征脸。&lt;/p&gt;
+$$&lt;/div&gt;
+&lt;p&gt;所以它的秩很小，即不为零的特征根很少(&lt;span class="math"&gt;\(r \leq N\)&lt;/span&gt;)。于是先求出 &lt;/p&gt;
+&lt;div class="math"&gt;$$Image^ T Image$$&lt;/div&gt;
+&lt;p&gt; 这个维数较小的矩阵的所有特征值和特征向量 $ V_{N \times N} $，再通过 &lt;/p&gt;
+&lt;div class="math"&gt;$$ U_{M^ 2 \times N}=Image \times V $$&lt;/div&gt;
+&lt;p&gt;,即可求出原矩阵 $ImageImage^ T $ 的特征向量。通过特征值我们可以看出来，大量的特征集中在很少的几个特征值上。而大部分特征值都很小，表示了他们携带的数据特征很小。把这些特征向量规范后以后，这些单位特征向量可以作为一组基底张成一个空间，即是特征脸方法中的特征空间，最后，把原图像向量向这个特征空间中投影，即可以得到我们所需的特征脸。&lt;/p&gt;
 &lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="c"&gt;% zero-mean&lt;/span&gt;
 &lt;span class="n"&gt;average&lt;/span&gt;&lt;span class="p"&gt;=&lt;/span&gt;&lt;span class="n"&gt;average&lt;/span&gt;&lt;span class="o"&gt;/&lt;/span&gt;&lt;span class="n"&gt;N&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
 &lt;span class="k"&gt;for&lt;/span&gt; &lt;span class="nb"&gt;i&lt;/span&gt; &lt;span class="p"&gt;=&lt;/span&gt; &lt;span class="mi"&gt;1&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;&lt;span class="n"&gt;N&lt;/span&gt;
@@ -562,27 +809,27 @@ $$&lt;/p&gt;
 &lt;h5&gt;人脸识别&lt;/h5&gt;
 &lt;p&gt;人脸识别是先给出一张待识别的图像，在已经训练好的人脸特征空间中，计算待识别图像与已有的人脸之间的距离。当这个距离小于一定程度时，就认为该图像是一张人脸图像，否则就不是人脸图像。到这一步，属于人脸检测的过程。要识别出它是哪一张人脸，就需要进一步降低距离阈值。这两个阈值由实验测试出来。由此，实验过程为：
 设:&lt;/p&gt;
-&lt;p&gt;$$
+&lt;div class="math"&gt;$$
 \begin{equation}
-dis(x)=\min {\|x-I_i \| } ,i=1,2 \ldots n
+dis(x)=\min \{\|x-I_i \| \} ,i=1,2 \ldots n
 \end{equation}
-$$&lt;/p&gt;
-&lt;p&gt;其中$x_{M^2 \times 1}$表示待识别的人脸向量，$I_i$表示第$i$个已知人脸图像。则检测结果如下：&lt;/p&gt;
-&lt;p&gt;$$
+$$&lt;/div&gt;
+&lt;p&gt;其中&lt;span class="math"&gt;\(x_{M^2 \times 1}\)&lt;/span&gt;表示待识别的人脸向量，&lt;span class="math"&gt;\(I_i\)&lt;/span&gt;表示第&lt;span class="math"&gt;\(i\)&lt;/span&gt;个已知人脸图像。则检测结果如下：&lt;/p&gt;
+&lt;div class="math"&gt;$$
 result = \begin{cases}
-   NotFace &amp;amp; dis(x)&amp;gt; T_f \\
-   FaceNotMeet &amp;amp; T_r \leq dis(x) \leq T_f \\
+   NotFace &amp;amp; dis(x)&amp;gt; T_f \\\
+   FaceNotMeet &amp;amp; T_r \leq dis(x) \leq T_f \\\
    FaceMeet &amp;amp; 0\leq dis(x) &amp;lt;T_r
    \end{cases}
-$$&lt;/p&gt;
-&lt;p&gt;其中$T_r$和$T_f$为判断阈值且大于$0$。在实际实验中，$T_r$可以省略，因为如果未知人脸是见过的，那么它到自身的距离一定是最小的（趋于零）。
-由于按照Equ(2)直接计算距离十分耗时间，在这里PCA降维的意义就显现了出来。我们取前$k$个特征向量$(k \leq N)$作为投影坐标系，通过比较待定人脸向量在这个坐标系上的投影权值，与原人脸图像组的投影权值，即可计算出距离，即:&lt;/p&gt;
-&lt;p&gt;$$
+$$&lt;/div&gt;
+&lt;p&gt;其中&lt;span class="math"&gt;\(T_r\)&lt;/span&gt;和&lt;span class="math"&gt;\(T_f\)&lt;/span&gt;为判断阈值且大于&lt;span class="math"&gt;\(0\)&lt;/span&gt;。在实际实验中，&lt;span class="math"&gt;\(T_r\)&lt;/span&gt;可以省略，因为如果未知人脸是见过的，那么它到自身的距离一定是最小的（趋于零）。
+由于按照Equ(2)直接计算距离十分耗时间，在这里PCA降维的意义就显现了出来。我们取前&lt;span class="math"&gt;\(k\)&lt;/span&gt;个特征向量&lt;span class="math"&gt;\((k \leq N)\)&lt;/span&gt;作为投影坐标系，通过比较待定人脸向量在这个坐标系上的投影权值，与原人脸图像组的投影权值，即可计算出距离，即:&lt;/p&gt;
+&lt;div class="math"&gt;$$
 \begin{equation}
-dis(x)=\min {\|W_x-W_{Ij} \| } , j=1,2 \ldots n
+dis(x)=\min \{\|W_x-W_{Ij} \| \} , j=1,2 \ldots n
 \end{equation}
-$$&lt;/p&gt;
-&lt;p&gt;其中 $ W_x=W_{k\times 1} $，为待识别图像的权值向量, $W_{Ij} $ 为第 $j $ 个原图像的权值向量。由此可以看出，每次计算距离的范围从 $M^2$ 下降到了 $k$ ，使得计算量极大的缩减了，从而提高了运算速度。这正是使用&lt;code&gt;PCA&lt;/code&gt;方法降维的目的。MATLAB代码如下：&lt;/p&gt;
+$$&lt;/div&gt;
+&lt;p&gt;其中 &lt;span class="math"&gt;\( W_x=W_{k\times 1} $，为待识别图像的权值向量, $W_{Ij} $ 为第 $j $ 个原图像的权值向量。由此可以看出，每次计算距离的范围从 $M^2\)&lt;/span&gt; 下降到了 &lt;span class="math"&gt;\(k\)&lt;/span&gt; ，使得计算量极大的缩减了，从而提高了运算速度。这正是使用&lt;code&gt;PCA&lt;/code&gt;方法降维的目的。MATLAB代码如下：&lt;/p&gt;
 &lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="c"&gt;%% Detect a face&lt;/span&gt;
 &lt;span class="n"&gt;unknown&lt;/span&gt;&lt;span class="p"&gt;=&lt;/span&gt;&lt;span class="mi"&gt;201&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
 &lt;span class="n"&gt;k&lt;/span&gt;&lt;span class="p"&gt;=&lt;/span&gt;&lt;span class="mi"&gt;140&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
@@ -640,7 +887,45 @@ $$&lt;/p&gt;
 &lt;p&gt;&lt;img alt="见过的" src="/image/ml-1/8.png" /&gt;
 &lt;img alt="没见过，但是很像的" src="/image/ml-1/7.png" /&gt;
 &lt;img alt="没见过，但是很像的" src="/image/ml-1/6.png" /&gt;&lt;/p&gt;
-&lt;p&gt;由此可知,&lt;code&gt;PCA&lt;/code&gt; 方法成功的应用在了人脸识别上。同时该结果也验证了我的实现过程的正确性。&lt;/p&gt;</description><dc:creator xmlns:dc="http://purl.org/dc/elements/1.1/">清风未明</dc:creator><pubDate>Sun, 02 Dec 2012 20:22:00 +0800</pubDate><guid>tag:ghdawn.me,2012-12-02:2012-12-02-ml-pca.html</guid><category>机器学习</category><category>Codes</category></item><item><title>"为ARM平台交叉编译GDB"</title><link>http://ghdawn.me/2012-07-30-crossgdb.html</link><description>&lt;p&gt;为了方便调试嵌入式程序，需要移植一份&lt;em&gt;GDB&lt;/em&gt;到ARM平台。&lt;/p&gt;
+&lt;p&gt;由此可知,&lt;code&gt;PCA&lt;/code&gt; 方法成功的应用在了人脸识别上。同时该结果也验证了我的实现过程的正确性。&lt;/p&gt;
+&lt;script type="text/javascript"&gt;if (!document.getElementById('mathjaxscript_pelican_#%@#$@#')) {
+    var align = "center",
+        indent = "0em",
+        linebreak = "false";
+
+    if (false) {
+        align = (screen.width &lt; 768) ? "left" : align;
+        indent = (screen.width &lt; 768) ? "0em" : indent;
+        linebreak = (screen.width &lt; 768) ? 'true' : linebreak;
+    }
+    
+    var mathjaxscript = document.createElement('script');
+    mathjaxscript.id = 'mathjaxscript_pelican_#%@#$@#';
+    mathjaxscript.type = 'text/javascript';
+    mathjaxscript.src = '//cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML';
+    mathjaxscript[(window.opera ? "innerHTML" : "text")] =
+        "MathJax.Hub.Config({" +
+        "    config: ['MMLorHTML.js']," +
+        "    TeX: { extensions: ['AMSmath.js','AMSsymbols.js','noErrors.js','noUndefined.js'], equationNumbers: { autoNumber: 'AMS' } }," +
+        "    jax: ['input/TeX','input/MathML','output/HTML-CSS']," +
+        "    extensions: ['tex2jax.js','mml2jax.js','MathMenu.js','MathZoom.js']," +
+        "    displayAlign: '"+ align +"'," +
+        "    displayIndent: '"+ indent +"'," +
+        "    showMathMenu: true," +
+        "    tex2jax: { " +
+        "        inlineMath: [ ['\\\\(','\\\\)'] ], " +
+        "        displayMath: [ ['$$','$$'] ]," +
+        "        processEscapes: true," +
+        "        preview: 'TeX'," +
+        "    }, " +
+        "    'HTML-CSS': { " +
+        "        styles: { '.MathJax_Display, .MathJax .mo, .MathJax .mi, .MathJax .mn': {color: 'inherit ! important'} }," +
+        "        linebreaks: { automatic: "+ linebreak +", width: '90% container' }," +
+        "    }, " +
+        "}); ";
+    (document.body || document.getElementsByTagName('head')[0]).appendChild(mathjaxscript);
+}
+&lt;/script&gt;</description><dc:creator xmlns:dc="http://purl.org/dc/elements/1.1/">清风未明</dc:creator><pubDate>Sun, 02 Dec 2012 20:22:00 +0800</pubDate><guid>tag:ghdawn.me,2012-12-02:2012-12-02-ml-pca.html</guid><category>机器学习</category><category>Codes</category></item><item><title>"为ARM平台交叉编译GDB"</title><link>http://ghdawn.me/2012-07-30-crossgdb.html</link><description>&lt;p&gt;为了方便调试嵌入式程序，需要移植一份&lt;em&gt;GDB&lt;/em&gt;到ARM平台。&lt;/p&gt;
 &lt;h2&gt;GDB之前需要先准备的一个库&lt;/h2&gt;
 &lt;p&gt;编译ＧＤＢ时首先会提示一个错误，就是缺少一个库:&lt;a href="http://en.wikipedia.org/wiki/Ncurses"&gt;ncurses&lt;/a&gt;。编译的时候会需要它的一些头文件和库。所以还需要在&lt;a href="http://www.gnu.org/software/ncurses/"&gt;这里&lt;/a&gt;下载一份它的源码。下载好后，解压到需要的路径。为了便于区分，可以在源代码文件夹中，新建一个文件夹&lt;em&gt;release&lt;/em&gt;来放编译完成后的文件。进入源码文件夹，执行以下命令，即可完成编译工作：&lt;/p&gt;
 &lt;div class="highlight"&gt;&lt;pre&gt;./configure --host&lt;span class="o"&gt;=&lt;/span&gt;arm-none-linux-gnueabi  --prefix&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;$PWD/release&amp;quot;&lt;/span&gt; --without-ada --enable-termcap --with-shared
@@ -1441,9 +1726,11 @@ OpenCV的函数如下，前两个参数和高斯滤波一样，第3，4个参数
 &lt;p&gt;这时候编译运行就应该没问题了&lt;/p&gt;
 &lt;p&gt;希望大家出了类似问题的能安然度过~~~另外如果有人能告诉我为什么，感激不尽！&lt;/p&gt;</description><dc:creator xmlns:dc="http://purl.org/dc/elements/1.1/">清风未明</dc:creator><pubDate>Sat, 25 Feb 2012 15:04:00 +0800</pubDate><guid>tag:ghdawn.me,2012-02-25:2012-02-25-64-open-cv.html</guid><category>Codes</category><category>OpenCV</category><category>Linux</category></item><item><title>"学习在自动控制中应用MATLAB-1"</title><link>http://ghdawn.me/2012-02-17-matlab-study1.html</link><description>&lt;h2&gt;建立系统传递函数&lt;/h2&gt;
 &lt;p&gt;设系统的传递函数为：
-$$
+&lt;/p&gt;
+&lt;div class="math"&gt;$$
 \frac{s+1}{2s^3+3s^2+4s+5}
-$$
+$$&lt;/div&gt;
+&lt;p&gt;
 则在matlab中输入如下命令，可得到其传递函数：   &lt;/p&gt;
 &lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="n"&gt;num&lt;/span&gt;&lt;span class="p"&gt;=[&lt;/span&gt;&lt;span class="mi"&gt;1&lt;/span&gt; &lt;span class="mi"&gt;2&lt;/span&gt;&lt;span class="p"&gt;];&lt;/span&gt;&lt;span class="n"&gt;den&lt;/span&gt;&lt;span class="p"&gt;=[&lt;/span&gt;&lt;span class="mi"&gt;2&lt;/span&gt; &lt;span class="mi"&gt;3&lt;/span&gt; &lt;span class="mi"&gt;4&lt;/span&gt; &lt;span class="mi"&gt;5&lt;/span&gt;&lt;span class="p"&gt;];&lt;/span&gt;&lt;span class="n"&gt;G&lt;/span&gt;&lt;span class="p"&gt;=&lt;/span&gt;&lt;span class="n"&gt;tf&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;num&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="n"&gt;den&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
 
@@ -1510,9 +1797,10 @@ $$
 &lt;p&gt;其中-1表示单位负反馈&lt;/p&gt;
 &lt;h2&gt;判断系统稳定性&lt;/h2&gt;
 &lt;p&gt;设系统传递函数为：
-$$
+&lt;/p&gt;
+&lt;div class="math"&gt;$$
 G(s)=\frac{s^3+7s^2+24s+24}{s^8+2s^7+3s^6+4^s5+6s^3+7s^2+8s+9}
-$$&lt;/p&gt;
+$$&lt;/div&gt;
 &lt;p&gt;在matlab中输入如下命令：&lt;/p&gt;
 &lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="n"&gt;den&lt;/span&gt;&lt;span class="p"&gt;=[&lt;/span&gt;&lt;span class="mi"&gt;1&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;&lt;span class="mi"&gt;9&lt;/span&gt;&lt;span class="p"&gt;];&lt;/span&gt; &lt;span class="c"&gt;%建立特征多项式&lt;/span&gt;
 &lt;span class="n"&gt;roots&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;den&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="c"&gt;%求根，通过根的正负判定系统是否稳定&lt;/span&gt;
@@ -1532,9 +1820,10 @@ $$&lt;/p&gt;
 
 &lt;p&gt;由4个极点有正实部可知，系统不稳定。&lt;/p&gt;
 &lt;h2&gt;求系统响应&lt;/h2&gt;
-&lt;p&gt;$$
+&lt;div class="math"&gt;$$
 G(s)=\frac{s+24}{s^2+4s+9}
-$$
+$$&lt;/div&gt;
+&lt;p&gt;
 新建.m文件，在编辑器里输入：&lt;/p&gt;
 &lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="n"&gt;num&lt;/span&gt;&lt;span class="p"&gt;=[&lt;/span&gt;&lt;span class="mi"&gt;1&lt;/span&gt; &lt;span class="mi"&gt;24&lt;/span&gt;&lt;span class="p"&gt;];&lt;/span&gt;
 &lt;span class="n"&gt;den&lt;/span&gt;&lt;span class="p"&gt;=[&lt;/span&gt;&lt;span class="mi"&gt;1&lt;/span&gt; &lt;span class="mi"&gt;4&lt;/span&gt; &lt;span class="mi"&gt;9&lt;/span&gt;&lt;span class="p"&gt;];&lt;/span&gt;
@@ -1557,13 +1846,16 @@ $$
 &lt;/ul&gt;
 &lt;h2&gt;绘制跟轨迹&lt;/h2&gt;
 &lt;p&gt;设系统闭环传递函数为： &lt;br /&gt;
-$$
+&lt;/p&gt;
+&lt;div class="math"&gt;$$
 \Phi (s)=\frac{K(s+1)(s+3)}{s(s+2)(s+3)+K(s+1)}
-$$&lt;/p&gt;
+$$&lt;/div&gt;
 &lt;p&gt;特征方程可写为 &lt;br /&gt;
-$$
+&lt;/p&gt;
+&lt;div class="math"&gt;$$
 1+K\frac{s+1}{s(s+2)(s+3)}=1+K\frac{s+1}{s^3+5s^2+6s}=0
-$$
+$$&lt;/div&gt;
+&lt;p&gt;
 新建.m文件，输入如下语句：&lt;/p&gt;
 &lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="n"&gt;num&lt;/span&gt;&lt;span class="p"&gt;=[&lt;/span&gt;&lt;span class="mi"&gt;1&lt;/span&gt; &lt;span class="mi"&gt;1&lt;/span&gt;&lt;span class="p"&gt;];&lt;/span&gt;
 &lt;span class="n"&gt;den&lt;/span&gt;&lt;span class="p"&gt;=[&lt;/span&gt;&lt;span class="mi"&gt;1&lt;/span&gt; &lt;span class="mi"&gt;5&lt;/span&gt; &lt;span class="mi"&gt;6&lt;/span&gt; &lt;span class="mi"&gt;0&lt;/span&gt;&lt;span class="p"&gt;];&lt;/span&gt;
@@ -1582,7 +1874,45 @@ $$
 &lt;li&gt;&lt;em&gt;rlocus&lt;/em&gt; 绘制给定系统的根轨迹&lt;/li&gt;
 &lt;li&gt;&lt;em&gt;rlocufind&lt;/em&gt; 函数允许用户求取根轨迹上指定点处的开环增益，K为选定点对应的开环增益，P为该增益下的闭环极点位置。&lt;/li&gt;
 &lt;/ul&gt;
-&lt;p&gt;感谢参考书：&lt;a href="http://book.douban.com/subject/1655949/"&gt;《自动控制原理》&lt;/a&gt;&lt;/p&gt;</description><dc:creator xmlns:dc="http://purl.org/dc/elements/1.1/">清风未明</dc:creator><pubDate>Fri, 17 Feb 2012 17:20:00 +0800</pubDate><guid>tag:ghdawn.me,2012-02-17:2012-02-17-matlab-study1.html</guid><category>matlab</category><category>automatic</category></item><item><title>"为OMAP4430安装Linux/Android系统"</title><link>http://ghdawn.me/2012-02-13-install-linux.html</link><description>&lt;p&gt;这块开发板没有板载flash，所以操作系统从SD卡引导。这样，我们的操作系统就需要安装在SD卡上。&lt;/p&gt;
+&lt;p&gt;感谢参考书：&lt;a href="http://book.douban.com/subject/1655949/"&gt;《自动控制原理》&lt;/a&gt;&lt;/p&gt;
+&lt;script type="text/javascript"&gt;if (!document.getElementById('mathjaxscript_pelican_#%@#$@#')) {
+    var align = "center",
+        indent = "0em",
+        linebreak = "false";
+
+    if (false) {
+        align = (screen.width &lt; 768) ? "left" : align;
+        indent = (screen.width &lt; 768) ? "0em" : indent;
+        linebreak = (screen.width &lt; 768) ? 'true' : linebreak;
+    }
+    
+    var mathjaxscript = document.createElement('script');
+    mathjaxscript.id = 'mathjaxscript_pelican_#%@#$@#';
+    mathjaxscript.type = 'text/javascript';
+    mathjaxscript.src = '//cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML';
+    mathjaxscript[(window.opera ? "innerHTML" : "text")] =
+        "MathJax.Hub.Config({" +
+        "    config: ['MMLorHTML.js']," +
+        "    TeX: { extensions: ['AMSmath.js','AMSsymbols.js','noErrors.js','noUndefined.js'], equationNumbers: { autoNumber: 'AMS' } }," +
+        "    jax: ['input/TeX','input/MathML','output/HTML-CSS']," +
+        "    extensions: ['tex2jax.js','mml2jax.js','MathMenu.js','MathZoom.js']," +
+        "    displayAlign: '"+ align +"'," +
+        "    displayIndent: '"+ indent +"'," +
+        "    showMathMenu: true," +
+        "    tex2jax: { " +
+        "        inlineMath: [ ['\\\\(','\\\\)'] ], " +
+        "        displayMath: [ ['$$','$$'] ]," +
+        "        processEscapes: true," +
+        "        preview: 'TeX'," +
+        "    }, " +
+        "    'HTML-CSS': { " +
+        "        styles: { '.MathJax_Display, .MathJax .mo, .MathJax .mi, .MathJax .mn': {color: 'inherit ! important'} }," +
+        "        linebreaks: { automatic: "+ linebreak +", width: '90% container' }," +
+        "    }, " +
+        "}); ";
+    (document.body || document.getElementsByTagName('head')[0]).appendChild(mathjaxscript);
+}
+&lt;/script&gt;</description><dc:creator xmlns:dc="http://purl.org/dc/elements/1.1/">清风未明</dc:creator><pubDate>Fri, 17 Feb 2012 17:20:00 +0800</pubDate><guid>tag:ghdawn.me,2012-02-17:2012-02-17-matlab-study1.html</guid><category>matlab</category><category>automatic</category></item><item><title>"为OMAP4430安装Linux/Android系统"</title><link>http://ghdawn.me/2012-02-13-install-linux.html</link><description>&lt;p&gt;这块开发板没有板载flash，所以操作系统从SD卡引导。这样，我们的操作系统就需要安装在SD卡上。&lt;/p&gt;
 &lt;h2&gt;准备sd卡&lt;/h2&gt;
 &lt;ol&gt;
 &lt;li&gt;插入sd卡，运行如下命令察看sd卡是否已经挂载&lt;/li&gt;
@@ -1599,9 +1929,7 @@ none                  1.5G  472K  1.5G   1% /run/shm
 
 
 &lt;ol&gt;
-&lt;li&gt;
-&lt;p&gt;如果已挂载，就卸载它(我的sd卡,设备为/dev/mmcblk0,分区为/dev/mmcblk0p1,挂载在/media/KINGSTON下了）&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="n"&gt;sudo&lt;/span&gt; &lt;span class="n"&gt;umount&lt;/span&gt; &lt;span class="o"&gt;/&lt;/span&gt;&lt;span class="n"&gt;media&lt;/span&gt;&lt;span class="o"&gt;/&lt;/span&gt;&lt;span class="n"&gt;KINGSTON&lt;/span&gt;
+&lt;li&gt;如果已挂载，就卸载它(我的sd卡,设备为/dev/mmcblk0,分区为/dev/mmcblk0p1,挂载在/media/KINGSTON下了）&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="n"&gt;sudo&lt;/span&gt; &lt;span class="n"&gt;umount&lt;/span&gt; &lt;span class="o"&gt;/&lt;/span&gt;&lt;span class="n"&gt;media&lt;/span&gt;&lt;span class="o"&gt;/&lt;/span&gt;&lt;span class="n"&gt;KINGSTON&lt;/span&gt;
 &lt;/pre&gt;&lt;/div&gt;
 
 
@@ -1611,11 +1939,9 @@ none                  1.5G  472K  1.5G   1% /run/shm
 &lt;h4&gt;先说点别的&lt;/h4&gt;
 &lt;p&gt;如果有兴趣，请仔细阅读&lt;a href="http://code.google.com/p/beagleboard/wiki/LinuxBootDiskFormat"&gt;这篇&lt;/a&gt;文档，在网上能找到的所有关于SD双分区的教程，几乎全部和他一样，比如&lt;a href="http://blog.csdn.net/lqf785435771/article/details/7096320"&gt;这里&lt;/a&gt;，&lt;a href="http://www.fengfly.com/plus/view-163969-1.html"&gt;这里&lt;/a&gt;，和&lt;a href="http://www.anddev.org/zoom-mdk-f25/part-5-booting-x-loader-and-u-boot-from-sd-card-t2500.html"&gt;这里&lt;/a&gt;。当然，如果懒得看英文，不看也无妨。我认为其重点如下&lt;/p&gt;
 &lt;ol&gt;
-&lt;li&gt;
-&lt;p&gt;记住sd卡的格式化目标格式，即磁头数255，每个磁道上有63个扇区，以及计算出来的柱面数。原文如下：
+&lt;li&gt;记住sd卡的格式化目标格式，即磁头数255，每个磁道上有63个扇区，以及计算出来的柱面数。原文如下：
     #cylinders = FLOOR (the number of Bytes on the SD Card (from above) / 255 / 63 / 512 )
-    总的字节数，即运行如下命令，看到的bytes&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="n"&gt;sudo&lt;/span&gt; &lt;span class="n"&gt;fdisk&lt;/span&gt; &lt;span class="o"&gt;/&lt;/span&gt;&lt;span class="n"&gt;dev&lt;/span&gt;&lt;span class="o"&gt;/&lt;/span&gt;&lt;span class="n"&gt;mmcblk0&lt;/span&gt; &lt;span class="err"&gt;#换成你的设备，切记是设备不是分区，如&lt;/span&gt;&lt;span class="n"&gt;mmcblk0p1&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="err"&gt;或&lt;/span&gt;&lt;span class="n"&gt;sdb1&lt;/span&gt;&lt;span class="err"&gt;等为分区，&lt;/span&gt;&lt;span class="n"&gt;mmcblk0&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="n"&gt;sdb&lt;/span&gt;&lt;span class="err"&gt;为设备&lt;/span&gt;
+    总的字节数，即运行如下命令，看到的bytes&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="n"&gt;sudo&lt;/span&gt; &lt;span class="n"&gt;fdisk&lt;/span&gt; &lt;span class="o"&gt;/&lt;/span&gt;&lt;span class="n"&gt;dev&lt;/span&gt;&lt;span class="o"&gt;/&lt;/span&gt;&lt;span class="n"&gt;mmcblk0&lt;/span&gt; &lt;span class="err"&gt;#换成你的设备，切记是设备不是分区，如&lt;/span&gt;&lt;span class="n"&gt;mmcblk0p1&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="err"&gt;或&lt;/span&gt;&lt;span class="n"&gt;sdb1&lt;/span&gt;&lt;span class="err"&gt;等为分区，&lt;/span&gt;&lt;span class="n"&gt;mmcblk0&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="n"&gt;sdb&lt;/span&gt;&lt;span class="err"&gt;为设备&lt;/span&gt;
 &lt;/pre&gt;&lt;/div&gt;
 
 
@@ -1667,9 +1993,7 @@ none                  1.5G  472K  1.5G   1% /run/shm
 &lt;li&gt;
 &lt;p&gt;这样设置完后，会提示是否写入，输入y即可完成设置，得到两个分区mmcblk0p1,mmcblk0p2。如果用USB口的读卡器，则可能是sdb1,sdb2。&lt;/p&gt;
 &lt;/li&gt;
-&lt;li&gt;
-&lt;p&gt;输入以下命令，将两个分区格式化。&lt;em&gt;mkfs.vfat&lt;/em&gt;用于格式化fat系列分区，&lt;em&gt;-F 32&lt;/em&gt;指定分区表为32位。&lt;em&gt;-n&lt;/em&gt; 给分区起名字为boot。&lt;em&gt;mkfs.ext3&lt;/em&gt;用于格式化ext3分区，&lt;em&gt;-L&lt;/em&gt; 也是起名字(我叫它 linux_fs）&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="n"&gt;sudo&lt;/span&gt; &lt;span class="n"&gt;mkfs&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;vfat&lt;/span&gt; &lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="n"&gt;F&lt;/span&gt; &lt;span class="mi"&gt;32&lt;/span&gt; &lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="n"&gt;n&lt;/span&gt; &lt;span class="n"&gt;boot&lt;/span&gt; &lt;span class="o"&gt;/&lt;/span&gt;&lt;span class="n"&gt;dev&lt;/span&gt;&lt;span class="o"&gt;/&lt;/span&gt;&lt;span class="n"&gt;mmcblk0p1&lt;/span&gt;          
+&lt;li&gt;输入以下命令，将两个分区格式化。&lt;em&gt;mkfs.vfat&lt;/em&gt;用于格式化fat系列分区，&lt;em&gt;-F 32&lt;/em&gt;指定分区表为32位。&lt;em&gt;-n&lt;/em&gt; 给分区起名字为boot。&lt;em&gt;mkfs.ext3&lt;/em&gt;用于格式化ext3分区，&lt;em&gt;-L&lt;/em&gt; 也是起名字(我叫它 linux_fs）&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="n"&gt;sudo&lt;/span&gt; &lt;span class="n"&gt;mkfs&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;vfat&lt;/span&gt; &lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="n"&gt;F&lt;/span&gt; &lt;span class="mi"&gt;32&lt;/span&gt; &lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="n"&gt;n&lt;/span&gt; &lt;span class="n"&gt;boot&lt;/span&gt; &lt;span class="o"&gt;/&lt;/span&gt;&lt;span class="n"&gt;dev&lt;/span&gt;&lt;span class="o"&gt;/&lt;/span&gt;&lt;span class="n"&gt;mmcblk0p1&lt;/span&gt;          
 &lt;span class="n"&gt;sudo&lt;/span&gt; &lt;span class="n"&gt;mkfs&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;ext3&lt;/span&gt; &lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="n"&gt;L&lt;/span&gt; &lt;span class="n"&gt;linux_fs&lt;/span&gt; &lt;span class="o"&gt;/&lt;/span&gt;&lt;span class="n"&gt;dev&lt;/span&gt;&lt;span class="o"&gt;/&lt;/span&gt;&lt;span class="n"&gt;mmcblk0p2&lt;/span&gt;
 &lt;/pre&gt;&lt;/div&gt;
 

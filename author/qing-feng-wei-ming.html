@@ -6,21 +6,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="">
     <meta name="author" content="清风未明">
-    <script type="text/javascript">
-var _bdhmProtocol = (("https:" == document.location.protocol) ? " https://" : " http://");
-document.write(unescape("%3Cscript src='" + _bdhmProtocol + "hm.baidu.com/h.js%3F411747de00f33a70faa9301dc251ce77' type='text/javascript'%3E%3C/script%3E"));
-</script>
-
-    <script>
-  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
-  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
-  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
-  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
-
-  ga('create', 'UA-29027763-1', 'github.com');
-  ga('send', 'pageview');
-
-</script>
 
     <!-- Le styles -->
     <link rel="stylesheet" href="../theme/css/bootstrap.min.css" type="text/css" />
@@ -63,6 +48,7 @@ document.write(unescape("%3Cscript src='" + _bdhmProtocol + "hm.baidu.com/h.js%3
 
     <link href="../" type="application/atom+xml" rel="alternate" title="记录 ATOM Feed" />
     <link href="../feeds/all.rss.xml" type="application/atom+xml" rel="alternate" title="记录 RSS Feed" />
+
   </head>
 
   <body>
@@ -104,6 +90,43 @@ document.write(unescape("%3Cscript src='" + _bdhmProtocol + "hm.baidu.com/h.js%3
     <div class="container-fluid">
       <div class="row">
         <div class="span9" id="content">
+        <div class="article">
+                <h1><a href="../2015-04-15-logistic_regression.html">机器学习笔记——逻辑回归(LogisticRegression)</a></h1>
+                <div class="well small"><footer class="post-info">
+<span class="label">Date</span>
+<abbr class="published" title="2015-04-15T16:05:55">
+        <i class="icon-calendar"></i>三 15 四月 2015
+</abbr>
+<span class="label">By</span>
+<a href="../author/qing-feng-wei-ming.html"><i class="icon-user"></i>清风未明</a>
+<span class="label">Category</span>
+<a href="../category/study.html"><i class="icon-folder-open"></i>Study</a>.
+
+
+<span class="label">Tags</span>
+	<a href="../tag/ji-qi-xue-xi.html"><i class="icon-tag"></i>机器学习</a>
+	<a href="../tag/codes.html"><i class="icon-tag"></i>Codes</a>
+</footer><!-- /.post-info --></div>
+                <div class="summary"><h3>基本概念</h3>
+<p>逻辑回归是一种线性分类的方法，通过给定一些样本空间中的样本点，训练出一条直线（超平面)，使得样本点能被较好的分隔开。
+设<span class="math">\(\theta=[\theta_1 \theta_2 \cdots \theta_n]^T\)</span>为分类面参数，<span class="math">\(x=[x_1 x_2 \cdots x_n]^T\)</span>，则有：
+</p>
+<div class="math">$$
+h_\theta(x)=
+\begin{cases}
+1 ,&amp; \theta^T \cdot x \ge 0 \\
+0 ,&amp; \theta^T \cdot x &lt; 0
+\end{cases}
+$$</div>
+<p>
+通过这样拟合直线的方式就可以得到一组参数，将样本分为两类。</p>
+<p>引入S函数(也称作Logistic函数)：
+</p>
+<div class="math">$$sigmoid(x)=\frac{1}{1 ...</div>
+                        <a class="btn primary xsmall" href="../2015-04-15-logistic_regression.html">more ...</a>
+                </div>
+        </div>
+        <hr />
         <div class="article">
                 <h1><a href="../2014-07-24-toolsforpaper.html">记录写论文时用到的一些工具</a></h1>
                 <div class="well small"><footer class="post-info">
@@ -185,25 +208,29 @@ document.write(unescape("%3Cscript src='" + _bdhmProtocol + "hm.baidu.com/h.js%3
 </footer><!-- /.post-info --></div>
                 <div class="summary"><h2>问题</h2>
 <p>虽然现在已经得到了求解一个点的光流的方法，但是并不是什么点都能求出正确的光流。举一个例子就是，选择了一面白墙上的一个点，由于缺乏纹理信息，算法会失效。求解光流的方程如下：
-$$
+</p>
+<div class="math">$$
 v=G^{-1}b
-$$
+$$</div>
+<p>
 其中：
-\begin{equation}
+</p>
+<div class="math">\begin{equation}
 \label{G}
 G=\sum\sum\left[ \begin{array} {cc}
- I_xI_x &amp;  I_xI_y \\
+ I_xI_x &amp;  I_xI_y \\\
  I_xI_y &amp;  I_yI_y
 \end{array}\right]
-\end{equation}
-$$
+\end{equation}</div>
+<div class="math">$$
 b=\sum\sum
 \left[ \begin{array} {c}
-\delta II_x\\
+\delta II_x\\\
 \delta II_y 
 \end{array}\right]
-$$
-从方程可以看出，当一个点周围的内容都一眼的话，$I_x ...</p>
+$$</div>
+<p>
+从方程可以看出，当一个点周围的内容都一眼的话，<span class="math">\(I_x ...</span></p>
                         <a class="btn primary xsmall" href="../2014-02-01-select-feature.html">more ...</a>
                 </div>
         </div>
@@ -288,37 +315,6 @@ $$
                 </div>
         </div>
         <hr />
-        <div class="article">
-                <h1><a href="../2012-12-02-octopress-pro.html">"又是octopress博客的问题"</a></h1>
-                <div class="well small"><footer class="post-info">
-<span class="label">Date</span>
-<abbr class="published" title="2012-12-02T21:57:00">
-        <i class="icon-calendar"></i>日 02 十二月 2012
-</abbr>
-<span class="label">By</span>
-<a href="../author/qing-feng-wei-ming.html"><i class="icon-user"></i>清风未明</a>
-<span class="label">Category</span>
-<a href="../category/study.html"><i class="icon-folder-open"></i>Study</a>.
-
-
-<span class="label">Tags</span>
-	<a href="../tag/boring.html"><i class="icon-tag"></i>Boring</a>
-	<a href="../tag/blog.html"><i class="icon-tag"></i>blog</a>
-</footer><!-- /.post-info --></div>
-                <div class="summary"><p>假期换了电脑，在新电脑上写了博客，但是怎么也提交不上去，一直提示：</p>
-<div class="highlight"><pre><span class="cp">## Pushing generated _deploy website</span>
-<span class="n">Everything</span> <span class="n">up</span><span class="o">-</span><span class="n">to</span><span class="o">-</span><span class="n">date</span>
-</pre></div>
-
-
-<p>在<a href="https://github.com/imathis/octopress/issues/336">这里</a>找到了解决方法：</p>
-<p>运行</p>
-<p><code>rake setup_github_pages</code></p>
-<p>输入博客的git地址，即可更新</p>
-                        <a class="btn primary xsmall" href="../2012-12-02-octopress-pro.html">more ...</a>
-                </div>
-        </div>
-        <hr />
 
         <div class="pagination">
         <ul>
@@ -334,7 +330,6 @@ $$
         </div><!--/span-->
 
                 <div class="span3 well sidebar-nav" id="sidebar">
-<a href="javascript:void(function(){var d=document,e=encodeURIComponent,s1=window.getSelection,s2=d.getSelection,s3=d.selection,s=s1?s1():s2?s2():s3?s3.createRange().text:'',r='http://www.douban.com/recommend/?url='+e(d.location.href)+'&title='+e(d.title)+'&sel='+e(s)+'&v=1',w=450,h=330,x=function(){if(!window.open(r,'douban','toolbar=0,resizable=1,scrollbars=yes,status=1,width='+w+',height='+h+',left='5+(screen.width-w)/2+',top='+(screen.height-h)/2))location.href=r+'&r=1'};if(/Firefox/.test(navigator.userAgent)){setTimeout(x,0)}else{x()}})()"><img src="http://img2.douban.com/pics/fw2douban1.png" alt="推荐到豆瓣" /></a>
 <ul class="nav nav-list">
 <li class="nav-header"><h4><i class="icon-external-link"></i>blogroll</h4></li>
     <li><a href="https://dangfan.me/zhs"><i class="icon-external-link"></i>DFDNN</a></li>
@@ -361,18 +356,53 @@ $$
 
 <li class="nav-header"><h4><i class="icon-tags icon-large"></i>Tags</h4></li>
 <li class="tag-2">
-    <a href="../tag/boring.html">
-        <i class="icon-tag icon-large"></i>Boring
-    </a>
-</li>
-<li class="tag-4">
-    <a href="../tag/ji-qi-xue-xi.html">
-        <i class="icon-tag icon-large"></i>机器学习
+    <a href="../tag/ji-suan-ji-shi-jue.html">
+        <i class="icon-tag icon-large"></i>计算机视觉
     </a>
 </li>
 <li class="tag-2">
-    <a href="../tag/ji-suan-ji-shi-jue.html">
-        <i class="icon-tag icon-large"></i>计算机视觉
+    <a href="../tag/blog.html">
+        <i class="icon-tag icon-large"></i>blog
+    </a>
+</li>
+<li class="tag-3">
+    <a href="../tag/python.html">
+        <i class="icon-tag icon-large"></i>Python
+    </a>
+</li>
+<li class="tag-3">
+    <a href="../tag/kao-yan.html">
+        <i class="icon-tag icon-large"></i>考研
+    </a>
+</li>
+<li class="tag-3">
+    <a href="../tag/life.html">
+        <i class="icon-tag icon-large"></i>life
+    </a>
+</li>
+<li class="tag-2">
+    <a href="../tag/qian-ru-shi.html">
+        <i class="icon-tag icon-large"></i>嵌入式
+    </a>
+</li>
+<li class="tag-4">
+    <a href="../tag/automatic.html">
+        <i class="icon-tag icon-large"></i>automatic
+    </a>
+</li>
+<li class="tag-2">
+    <a href="../tag/android.html">
+        <i class="icon-tag icon-large"></i>Android
+    </a>
+</li>
+<li class="tag-1">
+    <a href="../tag/linux.html">
+        <i class="icon-tag icon-large"></i>Linux
+    </a>
+</li>
+<li class="tag-4">
+    <a href="../tag/matlab.html">
+        <i class="icon-tag icon-large"></i>matlab
     </a>
 </li>
 <li class="tag-3">
@@ -386,51 +416,16 @@ $$
     </a>
 </li>
 <li class="tag-2">
-    <a href="../tag/qian-ru-shi.html">
-        <i class="icon-tag icon-large"></i>嵌入式
+    <a href="../tag/boring.html">
+        <i class="icon-tag icon-large"></i>Boring
     </a>
 </li>
 <li class="tag-3">
-    <a href="../tag/life.html">
-        <i class="icon-tag icon-large"></i>life
+    <a href="../tag/ji-qi-xue-xi.html">
+        <i class="icon-tag icon-large"></i>机器学习
     </a>
 </li>
-<li class="tag-3">
-    <a href="../tag/kao-yan.html">
-        <i class="icon-tag icon-large"></i>考研
-    </a>
-</li>
-<li class="tag-1">
-    <a href="../tag/linux.html">
-        <i class="icon-tag icon-large"></i>Linux
-    </a>
-</li>
-<li class="tag-4">
-    <a href="../tag/matlab.html">
-        <i class="icon-tag icon-large"></i>matlab
-    </a>
-</li>
-<li class="tag-2">
-    <a href="../tag/android.html">
-        <i class="icon-tag icon-large"></i>Android
-    </a>
-</li>
-<li class="tag-2">
-    <a href="../tag/blog.html">
-        <i class="icon-tag icon-large"></i>blog
-    </a>
-</li>
-<li class="tag-3">
-    <a href="../tag/python.html">
-        <i class="icon-tag icon-large"></i>Python
-    </a>
-</li>
-<li class="tag-4">
-    <a href="../tag/automatic.html">
-        <i class="icon-tag icon-large"></i>automatic
-    </a>
-</li>
-    <script type="text/javascript" src="http://www.douban.com/service/badge/dream29831/?selection=latest&amp;picsize=small&amp;show=collection&amp;n=8&amp;cat=drama%7Cmovie%7Cbook%7Cmusic&amp;columns=2"></script>
+
 
 </ul>        </div><!--/.well -->
 

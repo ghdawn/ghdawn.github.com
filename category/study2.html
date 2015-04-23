@@ -6,21 +6,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="">
     <meta name="author" content="清风未明">
-    <script type="text/javascript">
-var _bdhmProtocol = (("https:" == document.location.protocol) ? " https://" : " http://");
-document.write(unescape("%3Cscript src='" + _bdhmProtocol + "hm.baidu.com/h.js%3F411747de00f33a70faa9301dc251ce77' type='text/javascript'%3E%3C/script%3E"));
-</script>
-
-    <script>
-  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
-  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
-  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
-  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
-
-  ga('create', 'UA-29027763-1', 'github.com');
-  ga('send', 'pageview');
-
-</script>
 
     <!-- Le styles -->
     <link rel="stylesheet" href="../theme/css/bootstrap.min.css" type="text/css" />
@@ -63,6 +48,7 @@ document.write(unescape("%3Cscript src='" + _bdhmProtocol + "hm.baidu.com/h.js%3
 
     <link href="../" type="application/atom+xml" rel="alternate" title="记录 ATOM Feed" />
     <link href="../feeds/all.rss.xml" type="application/atom+xml" rel="alternate" title="记录 RSS Feed" />
+
   </head>
 
   <body>
@@ -104,6 +90,49 @@ document.write(unescape("%3Cscript src='" + _bdhmProtocol + "hm.baidu.com/h.js%3
     <div class="container-fluid">
       <div class="row">
         <div class="span9" id="content">
+        <div class="article">
+                <h1><a href="../2012-07-30-crossgdb.html">"为ARM平台交叉编译GDB"</a></h1>
+                <div class="well small"><footer class="post-info">
+<span class="label">Date</span>
+<abbr class="published" title="2012-07-30T20:53:00">
+        <i class="icon-calendar"></i>一 30 七月 2012
+</abbr>
+<span class="label">By</span>
+<a href="../author/qing-feng-wei-ming.html"><i class="icon-user"></i>清风未明</a>
+<span class="label">Category</span>
+<a href="../category/study.html"><i class="icon-folder-open"></i>Study</a>.
+
+
+<span class="label">Tags</span>
+	<a href="../tag/qian-ru-shi.html"><i class="icon-tag"></i>嵌入式</a>
+	<a href="../tag/linux.html"><i class="icon-tag"></i>Linux</a>
+</footer><!-- /.post-info --></div>
+                <div class="summary"><p>为了方便调试嵌入式程序，需要移植一份<em>GDB</em>到ARM平台。</p>
+<h2>GDB之前需要先准备的一个库</h2>
+<p>编译ＧＤＢ时首先会提示一个错误，就是缺少一个库:<a href="http://en.wikipedia.org/wiki/Ncurses">ncurses</a>。编译的时候会需要它的一些头文件和库。所以还需要在<a href="http://www.gnu.org/software/ncurses/">这里</a>下载一份它的源码。下载好后，解压到需要的路径。为了便于区分，可以在源代码文件夹中，新建一个文件夹<em>release</em>来放编译完成后的文件。进入源码文件夹，执行以下命令，即可完成编译工作：</p>
+<div class="highlight"><pre>./configure --host<span class="o">=</span>arm-none-linux-gnueabi  --prefix<span class="o">=</span><span class="s2">&quot;$PWD/release&quot;</span> --without-ada --enable-termcap --with-shared
+make
+make install
+</pre></div>
+
+
+<h4>解释</h4>
+<ol>
+<li>
+<p><em>--host</em> 指定了这份源码将要编译到哪个平台上，<em>configure</em>会按照这个参数来寻找编译器，比如我的编译器是<em>arm-none-linux-gnueabi-gcc</em>，所以我就写<em>arm-none-linux-gnueabi</em></p>
+</li>
+<li>
+<p><em>--prefix</em> 指定了编译好的文件将要存放的地方</p>
+</li>
+<li>
+<p>编译GDB的时候提示缺少的库就是<em>termcap</em>，所以需要<em>--enable-termcap</em> 。 </p>
+</li>
+<li>
+<p>其余的选项可以通过 ...</p></li></ol>
+                        <a class="btn primary xsmall" href="../2012-07-30-crossgdb.html">more ...</a>
+                </div>
+        </div>
+        <hr />
         <div class="article">
                 <h1><a href="../2012-05-04-android-arduino.html">"使用单片机Arduino(AVR)与Android设备通讯"</a></h1>
                 <div class="well small"><footer class="post-info">
@@ -276,9 +305,11 @@ Code Blocks 10.05  </p>
 </footer><!-- /.post-info --></div>
                 <div class="summary"><h2>建立系统传递函数</h2>
 <p>设系统的传递函数为：
-$$
+</p>
+<div class="math">$$
 \frac{s+1}{2s^3+3s^2+4s+5}
-$$
+$$</div>
+<p>
 则在matlab中输入如下命令，可得到其传递函数：   </p>
 <div class="highlight"><pre><span class="n">num</span><span class="p">=[</span><span class="mi">1</span> <span class="mi">2</span><span class="p">];</span><span class="n">den</span><span class="p">=[</span><span class="mi">2</span> <span class="mi">3</span> <span class="mi">4</span> <span class="mi">5</span><span class="p">];</span><span class="n">G</span><span class="p">=</span><span class="n">tf</span><span class="p">(</span><span class="n">num</span><span class="p">,</span><span class="n">den</span><span class="p">)</span>
 
@@ -298,40 +329,6 @@ $$
                 </div>
         </div>
         <hr />
-        <div class="article">
-                <h1><a href="../2012-02-13-install-linux.html">"为OMAP4430安装Linux/Android系统"</a></h1>
-                <div class="well small"><footer class="post-info">
-<span class="label">Date</span>
-<abbr class="published" title="2012-02-13T12:33:00">
-        <i class="icon-calendar"></i>一 13 二月 2012
-</abbr>
-<span class="label">By</span>
-<a href="../author/qing-feng-wei-ming.html"><i class="icon-user"></i>清风未明</a>
-<span class="label">Category</span>
-<a href="../category/study.html"><i class="icon-folder-open"></i>Study</a>.
-
-
-<span class="label">Tags</span>
-	<a href="../tag/codes.html"><i class="icon-tag"></i>Codes</a>
-	<a href="../tag/qian-ru-shi.html"><i class="icon-tag"></i>嵌入式</a>
-	<a href="../tag/linux.html"><i class="icon-tag"></i>Linux</a>
-</footer><!-- /.post-info --></div>
-                <div class="summary"><p>这块开发板没有板载flash，所以操作系统从SD卡引导。这样，我们的操作系统就需要安装在SD卡上。</p>
-<h2>准备sd卡</h2>
-<ol>
-<li>插入sd卡，运行如下命令察看sd卡是否已经挂载</li>
-</ol>
-<div class="highlight"><pre>df -h
-文件系统            容量  已用  可用 已用%% 挂载点
-/dev/sda7              30G   15G   14G  52% /
-udev                  1.5G  4.0K  1.5G   1% /dev
-tmpfs                 602M  1.1M  601M   1% /run
-none                  5.0M     0  5.0M   0% /run/lock
-none                  1.5G  472K ...</pre></div>
-                        <a class="btn primary xsmall" href="../2012-02-13-install-linux.html">more ...</a>
-                </div>
-        </div>
-        <hr />
 
         <div class="pagination">
         <ul>
@@ -346,7 +343,6 @@ none                  1.5G  472K ...</pre></div>
         </div><!--/span-->
 
                 <div class="span3 well sidebar-nav" id="sidebar">
-<a href="javascript:void(function(){var d=document,e=encodeURIComponent,s1=window.getSelection,s2=d.getSelection,s3=d.selection,s=s1?s1():s2?s2():s3?s3.createRange().text:'',r='http://www.douban.com/recommend/?url='+e(d.location.href)+'&title='+e(d.title)+'&sel='+e(s)+'&v=1',w=450,h=330,x=function(){if(!window.open(r,'douban','toolbar=0,resizable=1,scrollbars=yes,status=1,width='+w+',height='+h+',left='5+(screen.width-w)/2+',top='+(screen.height-h)/2))location.href=r+'&r=1'};if(/Firefox/.test(navigator.userAgent)){setTimeout(x,0)}else{x()}})()"><img src="http://img2.douban.com/pics/fw2douban1.png" alt="推荐到豆瓣" /></a>
 <ul class="nav nav-list">
 <li class="nav-header"><h4><i class="icon-external-link"></i>blogroll</h4></li>
     <li><a href="https://dangfan.me/zhs"><i class="icon-external-link"></i>DFDNN</a></li>
@@ -373,18 +369,53 @@ none                  1.5G  472K ...</pre></div>
 
 <li class="nav-header"><h4><i class="icon-tags icon-large"></i>Tags</h4></li>
 <li class="tag-2">
-    <a href="../tag/boring.html">
-        <i class="icon-tag icon-large"></i>Boring
-    </a>
-</li>
-<li class="tag-4">
-    <a href="../tag/ji-qi-xue-xi.html">
-        <i class="icon-tag icon-large"></i>机器学习
+    <a href="../tag/ji-suan-ji-shi-jue.html">
+        <i class="icon-tag icon-large"></i>计算机视觉
     </a>
 </li>
 <li class="tag-2">
-    <a href="../tag/ji-suan-ji-shi-jue.html">
-        <i class="icon-tag icon-large"></i>计算机视觉
+    <a href="../tag/blog.html">
+        <i class="icon-tag icon-large"></i>blog
+    </a>
+</li>
+<li class="tag-3">
+    <a href="../tag/python.html">
+        <i class="icon-tag icon-large"></i>Python
+    </a>
+</li>
+<li class="tag-3">
+    <a href="../tag/kao-yan.html">
+        <i class="icon-tag icon-large"></i>考研
+    </a>
+</li>
+<li class="tag-3">
+    <a href="../tag/life.html">
+        <i class="icon-tag icon-large"></i>life
+    </a>
+</li>
+<li class="tag-2">
+    <a href="../tag/qian-ru-shi.html">
+        <i class="icon-tag icon-large"></i>嵌入式
+    </a>
+</li>
+<li class="tag-4">
+    <a href="../tag/automatic.html">
+        <i class="icon-tag icon-large"></i>automatic
+    </a>
+</li>
+<li class="tag-2">
+    <a href="../tag/android.html">
+        <i class="icon-tag icon-large"></i>Android
+    </a>
+</li>
+<li class="tag-1">
+    <a href="../tag/linux.html">
+        <i class="icon-tag icon-large"></i>Linux
+    </a>
+</li>
+<li class="tag-4">
+    <a href="../tag/matlab.html">
+        <i class="icon-tag icon-large"></i>matlab
     </a>
 </li>
 <li class="tag-3">
@@ -398,51 +429,16 @@ none                  1.5G  472K ...</pre></div>
     </a>
 </li>
 <li class="tag-2">
-    <a href="../tag/qian-ru-shi.html">
-        <i class="icon-tag icon-large"></i>嵌入式
+    <a href="../tag/boring.html">
+        <i class="icon-tag icon-large"></i>Boring
     </a>
 </li>
 <li class="tag-3">
-    <a href="../tag/life.html">
-        <i class="icon-tag icon-large"></i>life
+    <a href="../tag/ji-qi-xue-xi.html">
+        <i class="icon-tag icon-large"></i>机器学习
     </a>
 </li>
-<li class="tag-3">
-    <a href="../tag/kao-yan.html">
-        <i class="icon-tag icon-large"></i>考研
-    </a>
-</li>
-<li class="tag-1">
-    <a href="../tag/linux.html">
-        <i class="icon-tag icon-large"></i>Linux
-    </a>
-</li>
-<li class="tag-4">
-    <a href="../tag/matlab.html">
-        <i class="icon-tag icon-large"></i>matlab
-    </a>
-</li>
-<li class="tag-2">
-    <a href="../tag/android.html">
-        <i class="icon-tag icon-large"></i>Android
-    </a>
-</li>
-<li class="tag-2">
-    <a href="../tag/blog.html">
-        <i class="icon-tag icon-large"></i>blog
-    </a>
-</li>
-<li class="tag-3">
-    <a href="../tag/python.html">
-        <i class="icon-tag icon-large"></i>Python
-    </a>
-</li>
-<li class="tag-4">
-    <a href="../tag/automatic.html">
-        <i class="icon-tag icon-large"></i>automatic
-    </a>
-</li>
-    <script type="text/javascript" src="http://www.douban.com/service/badge/dream29831/?selection=latest&amp;picsize=small&amp;show=collection&amp;n=8&amp;cat=drama%7Cmovie%7Cbook%7Cmusic&amp;columns=2"></script>
+
 
 </ul>        </div><!--/.well -->
 

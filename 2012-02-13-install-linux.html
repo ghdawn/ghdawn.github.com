@@ -6,21 +6,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="">
     <meta name="author" content="清风未明">
-    <script type="text/javascript">
-var _bdhmProtocol = (("https:" == document.location.protocol) ? " https://" : " http://");
-document.write(unescape("%3Cscript src='" + _bdhmProtocol + "hm.baidu.com/h.js%3F411747de00f33a70faa9301dc251ce77' type='text/javascript'%3E%3C/script%3E"));
-</script>
-
-    <script>
-  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
-  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
-  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
-  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
-
-  ga('create', 'UA-29027763-1', 'github.com');
-  ga('send', 'pageview');
-
-</script>
 
     <!-- Le styles -->
     <link rel="stylesheet" href="./theme/css/bootstrap.min.css" type="text/css" />
@@ -63,27 +48,6 @@ document.write(unescape("%3Cscript src='" + _bdhmProtocol + "hm.baidu.com/h.js%3
 
     <link href="./" type="application/atom+xml" rel="alternate" title="记录 ATOM Feed" />
     <link href="./feeds/all.rss.xml" type="application/atom+xml" rel="alternate" title="记录 RSS Feed" />
-    
-    <script type= "text/javascript">
-        var s = document.createElement('script');
-        s.type = 'text/javascript';
-        s.src = 'https:' == document.location.protocol ? 'https://c328740.ssl.cf1.rackcdn.com/mathjax/latest/MathJax.js' : 'http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML'; 
-        s[(window.opera ? "innerHTML" : "text")] =
-            "MathJax.Hub.Config({" + 
-            "    config: ['MMLorHTML.js']," + 
-            "    jax: ['input/TeX','input/MathML','output/HTML-CSS','output/NativeMML']," +
-            "    TeX: { extensions: ['AMSmath.js','AMSsymbols.js','noErrors.js','noUndefined.js'], equationNumbers: { autoNumber: 'AMS' } }," + 
-            "    extensions: ['tex2jax.js','mml2jax.js','MathMenu.js','MathZoom.js']," +
-            "    tex2jax: { " +
-            "        inlineMath: [ ['$','$'] ], " +
-            "        displayMath: [ ['$$','$$'] ]," +
-            "        processEscapes: true }, " +
-            "    'HTML-CSS': { " +
-            "        styles: { '.MathJax .mo, .MathJax .mi': {color: 'black ! important'}} " +
-            "    } " +
-            "}); ";
-        (document.body || document.getElementsByTagName('head')[0]).appendChild(s);
-    </script>
 
   </head>
 
@@ -172,9 +136,7 @@ none                  1.5G  472K  1.5G   1% /run/shm
 
 
 <ol>
-<li>
-<p>如果已挂载，就卸载它(我的sd卡,设备为/dev/mmcblk0,分区为/dev/mmcblk0p1,挂载在/media/KINGSTON下了）</p>
-<div class="highlight"><pre><span class="n">sudo</span> <span class="n">umount</span> <span class="o">/</span><span class="n">media</span><span class="o">/</span><span class="n">KINGSTON</span>
+<li>如果已挂载，就卸载它(我的sd卡,设备为/dev/mmcblk0,分区为/dev/mmcblk0p1,挂载在/media/KINGSTON下了）<div class="highlight"><pre><span class="n">sudo</span> <span class="n">umount</span> <span class="o">/</span><span class="n">media</span><span class="o">/</span><span class="n">KINGSTON</span>
 </pre></div>
 
 
@@ -184,11 +146,9 @@ none                  1.5G  472K  1.5G   1% /run/shm
 <h4>先说点别的</h4>
 <p>如果有兴趣，请仔细阅读<a href="http://code.google.com/p/beagleboard/wiki/LinuxBootDiskFormat">这篇</a>文档，在网上能找到的所有关于SD双分区的教程，几乎全部和他一样，比如<a href="http://blog.csdn.net/lqf785435771/article/details/7096320">这里</a>，<a href="http://www.fengfly.com/plus/view-163969-1.html">这里</a>，和<a href="http://www.anddev.org/zoom-mdk-f25/part-5-booting-x-loader-and-u-boot-from-sd-card-t2500.html">这里</a>。当然，如果懒得看英文，不看也无妨。我认为其重点如下</p>
 <ol>
-<li>
-<p>记住sd卡的格式化目标格式，即磁头数255，每个磁道上有63个扇区，以及计算出来的柱面数。原文如下：
+<li>记住sd卡的格式化目标格式，即磁头数255，每个磁道上有63个扇区，以及计算出来的柱面数。原文如下：
     #cylinders = FLOOR (the number of Bytes on the SD Card (from above) / 255 / 63 / 512 )
-    总的字节数，即运行如下命令，看到的bytes</p>
-<div class="highlight"><pre><span class="n">sudo</span> <span class="n">fdisk</span> <span class="o">/</span><span class="n">dev</span><span class="o">/</span><span class="n">mmcblk0</span> <span class="err">#换成你的设备，切记是设备不是分区，如</span><span class="n">mmcblk0p1</span><span class="p">,</span><span class="err">或</span><span class="n">sdb1</span><span class="err">等为分区，</span><span class="n">mmcblk0</span><span class="p">,</span><span class="n">sdb</span><span class="err">为设备</span>
+    总的字节数，即运行如下命令，看到的bytes<div class="highlight"><pre><span class="n">sudo</span> <span class="n">fdisk</span> <span class="o">/</span><span class="n">dev</span><span class="o">/</span><span class="n">mmcblk0</span> <span class="err">#换成你的设备，切记是设备不是分区，如</span><span class="n">mmcblk0p1</span><span class="p">,</span><span class="err">或</span><span class="n">sdb1</span><span class="err">等为分区，</span><span class="n">mmcblk0</span><span class="p">,</span><span class="n">sdb</span><span class="err">为设备</span>
 </pre></div>
 
 
@@ -240,9 +200,7 @@ none                  1.5G  472K  1.5G   1% /run/shm
 <li>
 <p>这样设置完后，会提示是否写入，输入y即可完成设置，得到两个分区mmcblk0p1,mmcblk0p2。如果用USB口的读卡器，则可能是sdb1,sdb2。</p>
 </li>
-<li>
-<p>输入以下命令，将两个分区格式化。<em>mkfs.vfat</em>用于格式化fat系列分区，<em>-F 32</em>指定分区表为32位。<em>-n</em> 给分区起名字为boot。<em>mkfs.ext3</em>用于格式化ext3分区，<em>-L</em> 也是起名字(我叫它 linux_fs）</p>
-<div class="highlight"><pre><span class="n">sudo</span> <span class="n">mkfs</span><span class="p">.</span><span class="n">vfat</span> <span class="o">-</span><span class="n">F</span> <span class="mi">32</span> <span class="o">-</span><span class="n">n</span> <span class="n">boot</span> <span class="o">/</span><span class="n">dev</span><span class="o">/</span><span class="n">mmcblk0p1</span>          
+<li>输入以下命令，将两个分区格式化。<em>mkfs.vfat</em>用于格式化fat系列分区，<em>-F 32</em>指定分区表为32位。<em>-n</em> 给分区起名字为boot。<em>mkfs.ext3</em>用于格式化ext3分区，<em>-L</em> 也是起名字(我叫它 linux_fs）<div class="highlight"><pre><span class="n">sudo</span> <span class="n">mkfs</span><span class="p">.</span><span class="n">vfat</span> <span class="o">-</span><span class="n">F</span> <span class="mi">32</span> <span class="o">-</span><span class="n">n</span> <span class="n">boot</span> <span class="o">/</span><span class="n">dev</span><span class="o">/</span><span class="n">mmcblk0p1</span>          
 <span class="n">sudo</span> <span class="n">mkfs</span><span class="p">.</span><span class="n">ext3</span> <span class="o">-</span><span class="n">L</span> <span class="n">linux_fs</span> <span class="o">/</span><span class="n">dev</span><span class="o">/</span><span class="n">mmcblk0p2</span>
 </pre></div>
 
@@ -303,7 +261,6 @@ none                  1.5G  472K  1.5G   1% /run/shm
         </div><!--/span-->
 
                 <div class="span3 well sidebar-nav" id="sidebar">
-<a href="javascript:void(function(){var d=document,e=encodeURIComponent,s1=window.getSelection,s2=d.getSelection,s3=d.selection,s=s1?s1():s2?s2():s3?s3.createRange().text:'',r='http://www.douban.com/recommend/?url='+e(d.location.href)+'&title='+e(d.title)+'&sel='+e(s)+'&v=1',w=450,h=330,x=function(){if(!window.open(r,'douban','toolbar=0,resizable=1,scrollbars=yes,status=1,width='+w+',height='+h+',left='5+(screen.width-w)/2+',top='+(screen.height-h)/2))location.href=r+'&r=1'};if(/Firefox/.test(navigator.userAgent)){setTimeout(x,0)}else{x()}})()"><img src="http://img2.douban.com/pics/fw2douban1.png" alt="推荐到豆瓣" /></a>
 <ul class="nav nav-list">
 <li class="nav-header"><h4><i class="icon-external-link"></i>blogroll</h4></li>
     <li><a href="https://dangfan.me/zhs"><i class="icon-external-link"></i>DFDNN</a></li>
@@ -330,18 +287,53 @@ none                  1.5G  472K  1.5G   1% /run/shm
 
 <li class="nav-header"><h4><i class="icon-tags icon-large"></i>Tags</h4></li>
 <li class="tag-2">
-    <a href="./tag/boring.html">
-        <i class="icon-tag icon-large"></i>Boring
-    </a>
-</li>
-<li class="tag-4">
-    <a href="./tag/ji-qi-xue-xi.html">
-        <i class="icon-tag icon-large"></i>机器学习
+    <a href="./tag/ji-suan-ji-shi-jue.html">
+        <i class="icon-tag icon-large"></i>计算机视觉
     </a>
 </li>
 <li class="tag-2">
-    <a href="./tag/ji-suan-ji-shi-jue.html">
-        <i class="icon-tag icon-large"></i>计算机视觉
+    <a href="./tag/blog.html">
+        <i class="icon-tag icon-large"></i>blog
+    </a>
+</li>
+<li class="tag-3">
+    <a href="./tag/python.html">
+        <i class="icon-tag icon-large"></i>Python
+    </a>
+</li>
+<li class="tag-3">
+    <a href="./tag/kao-yan.html">
+        <i class="icon-tag icon-large"></i>考研
+    </a>
+</li>
+<li class="tag-3">
+    <a href="./tag/life.html">
+        <i class="icon-tag icon-large"></i>life
+    </a>
+</li>
+<li class="tag-2">
+    <a href="./tag/qian-ru-shi.html">
+        <i class="icon-tag icon-large"></i>嵌入式
+    </a>
+</li>
+<li class="tag-4">
+    <a href="./tag/automatic.html">
+        <i class="icon-tag icon-large"></i>automatic
+    </a>
+</li>
+<li class="tag-2">
+    <a href="./tag/android.html">
+        <i class="icon-tag icon-large"></i>Android
+    </a>
+</li>
+<li class="tag-1">
+    <a href="./tag/linux.html">
+        <i class="icon-tag icon-large"></i>Linux
+    </a>
+</li>
+<li class="tag-4">
+    <a href="./tag/matlab.html">
+        <i class="icon-tag icon-large"></i>matlab
     </a>
 </li>
 <li class="tag-3">
@@ -355,51 +347,16 @@ none                  1.5G  472K  1.5G   1% /run/shm
     </a>
 </li>
 <li class="tag-2">
-    <a href="./tag/qian-ru-shi.html">
-        <i class="icon-tag icon-large"></i>嵌入式
+    <a href="./tag/boring.html">
+        <i class="icon-tag icon-large"></i>Boring
     </a>
 </li>
 <li class="tag-3">
-    <a href="./tag/life.html">
-        <i class="icon-tag icon-large"></i>life
+    <a href="./tag/ji-qi-xue-xi.html">
+        <i class="icon-tag icon-large"></i>机器学习
     </a>
 </li>
-<li class="tag-3">
-    <a href="./tag/kao-yan.html">
-        <i class="icon-tag icon-large"></i>考研
-    </a>
-</li>
-<li class="tag-1">
-    <a href="./tag/linux.html">
-        <i class="icon-tag icon-large"></i>Linux
-    </a>
-</li>
-<li class="tag-4">
-    <a href="./tag/matlab.html">
-        <i class="icon-tag icon-large"></i>matlab
-    </a>
-</li>
-<li class="tag-2">
-    <a href="./tag/android.html">
-        <i class="icon-tag icon-large"></i>Android
-    </a>
-</li>
-<li class="tag-2">
-    <a href="./tag/blog.html">
-        <i class="icon-tag icon-large"></i>blog
-    </a>
-</li>
-<li class="tag-3">
-    <a href="./tag/python.html">
-        <i class="icon-tag icon-large"></i>Python
-    </a>
-</li>
-<li class="tag-4">
-    <a href="./tag/automatic.html">
-        <i class="icon-tag icon-large"></i>automatic
-    </a>
-</li>
-    <script type="text/javascript" src="http://www.douban.com/service/badge/dream29831/?selection=latest&amp;picsize=small&amp;show=collection&amp;n=8&amp;cat=drama%7Cmovie%7Cbook%7Cmusic&amp;columns=2"></script>
+
 
 </ul>        </div><!--/.well -->
 

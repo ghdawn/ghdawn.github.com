@@ -6,21 +6,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="">
     <meta name="author" content="清风未明">
-    <script type="text/javascript">
-var _bdhmProtocol = (("https:" == document.location.protocol) ? " https://" : " http://");
-document.write(unescape("%3Cscript src='" + _bdhmProtocol + "hm.baidu.com/h.js%3F411747de00f33a70faa9301dc251ce77' type='text/javascript'%3E%3C/script%3E"));
-</script>
-
-    <script>
-  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
-  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
-  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
-  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
-
-  ga('create', 'UA-29027763-1', 'github.com');
-  ga('send', 'pageview');
-
-</script>
 
     <!-- Le styles -->
     <link rel="stylesheet" href="./theme/css/bootstrap.min.css" type="text/css" />
@@ -63,27 +48,6 @@ document.write(unescape("%3Cscript src='" + _bdhmProtocol + "hm.baidu.com/h.js%3
 
     <link href="./" type="application/atom+xml" rel="alternate" title="记录 ATOM Feed" />
     <link href="./feeds/all.rss.xml" type="application/atom+xml" rel="alternate" title="记录 RSS Feed" />
-    
-    <script type= "text/javascript">
-        var s = document.createElement('script');
-        s.type = 'text/javascript';
-        s.src = 'https:' == document.location.protocol ? 'https://c328740.ssl.cf1.rackcdn.com/mathjax/latest/MathJax.js' : 'http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML'; 
-        s[(window.opera ? "innerHTML" : "text")] =
-            "MathJax.Hub.Config({" + 
-            "    config: ['MMLorHTML.js']," + 
-            "    jax: ['input/TeX','input/MathML','output/HTML-CSS','output/NativeMML']," +
-            "    TeX: { extensions: ['AMSmath.js','AMSsymbols.js','noErrors.js','noUndefined.js'], equationNumbers: { autoNumber: 'AMS' } }," + 
-            "    extensions: ['tex2jax.js','mml2jax.js','MathMenu.js','MathZoom.js']," +
-            "    tex2jax: { " +
-            "        inlineMath: [ ['$','$'] ], " +
-            "        displayMath: [ ['$$','$$'] ]," +
-            "        processEscapes: true }, " +
-            "    'HTML-CSS': { " +
-            "        styles: { '.MathJax .mo, .MathJax .mi': {color: 'black ! important'}} " +
-            "    } " +
-            "}); ";
-        (document.body || document.getElementsByTagName('head')[0]).appendChild(s);
-    </script>
 
   </head>
 
@@ -156,9 +120,11 @@ document.write(unescape("%3Cscript src='" + _bdhmProtocol + "hm.baidu.com/h.js%3
 </footer><!-- /.post-info -->                </div>
                 <h2>建立系统传递函数</h2>
 <p>设系统的传递函数为：
-$$
+</p>
+<div class="math">$$
 \frac{s+1}{2s^3+3s^2+4s+5}
-$$
+$$</div>
+<p>
 则在matlab中输入如下命令，可得到其传递函数：   </p>
 <div class="highlight"><pre><span class="n">num</span><span class="p">=[</span><span class="mi">1</span> <span class="mi">2</span><span class="p">];</span><span class="n">den</span><span class="p">=[</span><span class="mi">2</span> <span class="mi">3</span> <span class="mi">4</span> <span class="mi">5</span><span class="p">];</span><span class="n">G</span><span class="p">=</span><span class="n">tf</span><span class="p">(</span><span class="n">num</span><span class="p">,</span><span class="n">den</span><span class="p">)</span>
 
@@ -225,9 +191,10 @@ $$
 <p>其中-1表示单位负反馈</p>
 <h2>判断系统稳定性</h2>
 <p>设系统传递函数为：
-$$
+</p>
+<div class="math">$$
 G(s)=\frac{s^3+7s^2+24s+24}{s^8+2s^7+3s^6+4^s5+6s^3+7s^2+8s+9}
-$$</p>
+$$</div>
 <p>在matlab中输入如下命令：</p>
 <div class="highlight"><pre><span class="n">den</span><span class="p">=[</span><span class="mi">1</span><span class="p">:</span><span class="mi">9</span><span class="p">];</span> <span class="c">%建立特征多项式</span>
 <span class="n">roots</span><span class="p">(</span><span class="n">den</span><span class="p">)</span> <span class="c">%求根，通过根的正负判定系统是否稳定</span>
@@ -247,9 +214,10 @@ $$</p>
 
 <p>由4个极点有正实部可知，系统不稳定。</p>
 <h2>求系统响应</h2>
-<p>$$
+<div class="math">$$
 G(s)=\frac{s+24}{s^2+4s+9}
-$$
+$$</div>
+<p>
 新建.m文件，在编辑器里输入：</p>
 <div class="highlight"><pre><span class="n">num</span><span class="p">=[</span><span class="mi">1</span> <span class="mi">24</span><span class="p">];</span>
 <span class="n">den</span><span class="p">=[</span><span class="mi">1</span> <span class="mi">4</span> <span class="mi">9</span><span class="p">];</span>
@@ -272,13 +240,16 @@ $$
 </ul>
 <h2>绘制跟轨迹</h2>
 <p>设系统闭环传递函数为： <br />
-$$
+</p>
+<div class="math">$$
 \Phi (s)=\frac{K(s+1)(s+3)}{s(s+2)(s+3)+K(s+1)}
-$$</p>
+$$</div>
 <p>特征方程可写为 <br />
-$$
+</p>
+<div class="math">$$
 1+K\frac{s+1}{s(s+2)(s+3)}=1+K\frac{s+1}{s^3+5s^2+6s}=0
-$$
+$$</div>
+<p>
 新建.m文件，输入如下语句：</p>
 <div class="highlight"><pre><span class="n">num</span><span class="p">=[</span><span class="mi">1</span> <span class="mi">1</span><span class="p">];</span>
 <span class="n">den</span><span class="p">=[</span><span class="mi">1</span> <span class="mi">5</span> <span class="mi">6</span> <span class="mi">0</span><span class="p">];</span>
@@ -298,6 +269,44 @@ $$
 <li><em>rlocufind</em> 函数允许用户求取根轨迹上指定点处的开环增益，K为选定点对应的开环增益，P为该增益下的闭环极点位置。</li>
 </ul>
 <p>感谢参考书：<a href="http://book.douban.com/subject/1655949/">《自动控制原理》</a></p>
+<script type="text/javascript">if (!document.getElementById('mathjaxscript_pelican_#%@#$@#')) {
+    var align = "center",
+        indent = "0em",
+        linebreak = "false";
+
+    if (false) {
+        align = (screen.width < 768) ? "left" : align;
+        indent = (screen.width < 768) ? "0em" : indent;
+        linebreak = (screen.width < 768) ? 'true' : linebreak;
+    }
+    
+    var mathjaxscript = document.createElement('script');
+    mathjaxscript.id = 'mathjaxscript_pelican_#%@#$@#';
+    mathjaxscript.type = 'text/javascript';
+    mathjaxscript.src = '//cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML';
+    mathjaxscript[(window.opera ? "innerHTML" : "text")] =
+        "MathJax.Hub.Config({" +
+        "    config: ['MMLorHTML.js']," +
+        "    TeX: { extensions: ['AMSmath.js','AMSsymbols.js','noErrors.js','noUndefined.js'], equationNumbers: { autoNumber: 'AMS' } }," +
+        "    jax: ['input/TeX','input/MathML','output/HTML-CSS']," +
+        "    extensions: ['tex2jax.js','mml2jax.js','MathMenu.js','MathZoom.js']," +
+        "    displayAlign: '"+ align +"'," +
+        "    displayIndent: '"+ indent +"'," +
+        "    showMathMenu: true," +
+        "    tex2jax: { " +
+        "        inlineMath: [ ['\\\\(','\\\\)'] ], " +
+        "        displayMath: [ ['$$','$$'] ]," +
+        "        processEscapes: true," +
+        "        preview: 'TeX'," +
+        "    }, " +
+        "    'HTML-CSS': { " +
+        "        styles: { '.MathJax_Display, .MathJax .mo, .MathJax .mi, .MathJax .mn': {color: 'inherit ! important'} }," +
+        "        linebreaks: { automatic: "+ linebreak +", width: '90% container' }," +
+        "    }, " +
+        "}); ";
+    (document.body || document.getElementsByTagName('head')[0]).appendChild(mathjaxscript);
+}
+</script>
                 </div><!-- /.entry-content -->
                 <div class="comments">
                 <h2>Comments !</h2>
@@ -318,7 +327,6 @@ $$
         </div><!--/span-->
 
                 <div class="span3 well sidebar-nav" id="sidebar">
-<a href="javascript:void(function(){var d=document,e=encodeURIComponent,s1=window.getSelection,s2=d.getSelection,s3=d.selection,s=s1?s1():s2?s2():s3?s3.createRange().text:'',r='http://www.douban.com/recommend/?url='+e(d.location.href)+'&title='+e(d.title)+'&sel='+e(s)+'&v=1',w=450,h=330,x=function(){if(!window.open(r,'douban','toolbar=0,resizable=1,scrollbars=yes,status=1,width='+w+',height='+h+',left='5+(screen.width-w)/2+',top='+(screen.height-h)/2))location.href=r+'&r=1'};if(/Firefox/.test(navigator.userAgent)){setTimeout(x,0)}else{x()}})()"><img src="http://img2.douban.com/pics/fw2douban1.png" alt="推荐到豆瓣" /></a>
 <ul class="nav nav-list">
 <li class="nav-header"><h4><i class="icon-external-link"></i>blogroll</h4></li>
     <li><a href="https://dangfan.me/zhs"><i class="icon-external-link"></i>DFDNN</a></li>
@@ -345,18 +353,53 @@ $$
 
 <li class="nav-header"><h4><i class="icon-tags icon-large"></i>Tags</h4></li>
 <li class="tag-2">
-    <a href="./tag/boring.html">
-        <i class="icon-tag icon-large"></i>Boring
-    </a>
-</li>
-<li class="tag-4">
-    <a href="./tag/ji-qi-xue-xi.html">
-        <i class="icon-tag icon-large"></i>机器学习
+    <a href="./tag/ji-suan-ji-shi-jue.html">
+        <i class="icon-tag icon-large"></i>计算机视觉
     </a>
 </li>
 <li class="tag-2">
-    <a href="./tag/ji-suan-ji-shi-jue.html">
-        <i class="icon-tag icon-large"></i>计算机视觉
+    <a href="./tag/blog.html">
+        <i class="icon-tag icon-large"></i>blog
+    </a>
+</li>
+<li class="tag-3">
+    <a href="./tag/python.html">
+        <i class="icon-tag icon-large"></i>Python
+    </a>
+</li>
+<li class="tag-3">
+    <a href="./tag/kao-yan.html">
+        <i class="icon-tag icon-large"></i>考研
+    </a>
+</li>
+<li class="tag-3">
+    <a href="./tag/life.html">
+        <i class="icon-tag icon-large"></i>life
+    </a>
+</li>
+<li class="tag-2">
+    <a href="./tag/qian-ru-shi.html">
+        <i class="icon-tag icon-large"></i>嵌入式
+    </a>
+</li>
+<li class="tag-4">
+    <a href="./tag/automatic.html">
+        <i class="icon-tag icon-large"></i>automatic
+    </a>
+</li>
+<li class="tag-2">
+    <a href="./tag/android.html">
+        <i class="icon-tag icon-large"></i>Android
+    </a>
+</li>
+<li class="tag-1">
+    <a href="./tag/linux.html">
+        <i class="icon-tag icon-large"></i>Linux
+    </a>
+</li>
+<li class="tag-4">
+    <a href="./tag/matlab.html">
+        <i class="icon-tag icon-large"></i>matlab
     </a>
 </li>
 <li class="tag-3">
@@ -370,51 +413,16 @@ $$
     </a>
 </li>
 <li class="tag-2">
-    <a href="./tag/qian-ru-shi.html">
-        <i class="icon-tag icon-large"></i>嵌入式
+    <a href="./tag/boring.html">
+        <i class="icon-tag icon-large"></i>Boring
     </a>
 </li>
 <li class="tag-3">
-    <a href="./tag/life.html">
-        <i class="icon-tag icon-large"></i>life
+    <a href="./tag/ji-qi-xue-xi.html">
+        <i class="icon-tag icon-large"></i>机器学习
     </a>
 </li>
-<li class="tag-3">
-    <a href="./tag/kao-yan.html">
-        <i class="icon-tag icon-large"></i>考研
-    </a>
-</li>
-<li class="tag-1">
-    <a href="./tag/linux.html">
-        <i class="icon-tag icon-large"></i>Linux
-    </a>
-</li>
-<li class="tag-4">
-    <a href="./tag/matlab.html">
-        <i class="icon-tag icon-large"></i>matlab
-    </a>
-</li>
-<li class="tag-2">
-    <a href="./tag/android.html">
-        <i class="icon-tag icon-large"></i>Android
-    </a>
-</li>
-<li class="tag-2">
-    <a href="./tag/blog.html">
-        <i class="icon-tag icon-large"></i>blog
-    </a>
-</li>
-<li class="tag-3">
-    <a href="./tag/python.html">
-        <i class="icon-tag icon-large"></i>Python
-    </a>
-</li>
-<li class="tag-4">
-    <a href="./tag/automatic.html">
-        <i class="icon-tag icon-large"></i>automatic
-    </a>
-</li>
-    <script type="text/javascript" src="http://www.douban.com/service/badge/dream29831/?selection=latest&amp;picsize=small&amp;show=collection&amp;n=8&amp;cat=drama%7Cmovie%7Cbook%7Cmusic&amp;columns=2"></script>
+
 
 </ul>        </div><!--/.well -->
 

@@ -2,7 +2,7 @@
 <html lang="en">
   <head>
     <meta charset="utf-8">
-    <title>"又是octopress博客的问题"</title>
+    <title>机器学习笔记——逻辑回归(LogisticRegression)</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="">
     <meta name="author" content="清风未明">
@@ -96,8 +96,8 @@
                         <h1>
                                 <a href=""
                                         rel="bookmark"
-                                        title="Permalink to "又是octopress博客的问题"">
-                                        "又是octopress博客的问题"
+                                        title="Permalink to 机器学习笔记——逻辑回归(LogisticRegression)">
+                                        机器学习笔记——逻辑回归(LogisticRegression)
                                 </a>
                         </h1>
                 </header>
@@ -105,8 +105,8 @@
                 <div class="well">
 <footer class="post-info">
 <span class="label">Date</span>
-<abbr class="published" title="2012-12-02T21:57:00">
-        <i class="icon-calendar"></i>日 02 十二月 2012
+<abbr class="published" title="2015-04-15T16:05:55">
+        <i class="icon-calendar"></i>三 15 四月 2015
 </abbr>
 <span class="label">By</span>
 <a href="./author/qing-feng-wei-ming.html"><i class="icon-user"></i>清风未明</a>
@@ -115,25 +115,142 @@
 
 
 <span class="label">Tags</span>
-	<a href="./tag/boring.html"><i class="icon-tag"></i>Boring</a>
-	<a href="./tag/blog.html"><i class="icon-tag"></i>blog</a>
+	<a href="./tag/ji-qi-xue-xi.html"><i class="icon-tag"></i>机器学习</a>
+	<a href="./tag/codes.html"><i class="icon-tag"></i>Codes</a>
 </footer><!-- /.post-info -->                </div>
-                <p>假期换了电脑，在新电脑上写了博客，但是怎么也提交不上去，一直提示：</p>
-<div class="highlight"><pre><span class="cp">## Pushing generated _deploy website</span>
-<span class="n">Everything</span> <span class="n">up</span><span class="o">-</span><span class="n">to</span><span class="o">-</span><span class="n">date</span>
-</pre></div>
+                <h3>基本概念</h3>
+<p>逻辑回归是一种线性分类的方法，通过给定一些样本空间中的样本点，训练出一条直线（超平面)，使得样本点能被较好的分隔开。
+设<span class="math">\(\theta=[\theta_1 \theta_2 \cdots \theta_n]^T\)</span>为分类面参数，<span class="math">\(x=[x_1 x_2 \cdots x_n]^T\)</span>，则有：
+</p>
+<div class="math">$$
+h_\theta(x)=
+\begin{cases}
+1 ,&amp; \theta^T \cdot x \ge 0 \\
+0 ,&amp; \theta^T \cdot x &lt; 0
+\end{cases}
+$$</div>
+<p>
+通过这样拟合直线的方式就可以得到一组参数，将样本分为两类。</p>
+<p>引入S函数(也称作Logistic函数)：
+</p>
+<div class="math">$$sigmoid(x)=\frac{1}{1+e^{-x}}$$</div>
+<p>
+函数图像如下图所示，它可以将自变量映射在(0,1)的区间内，则把0/1分类的结果转化为样本点属于某个类的概率。</p>
+<p><img alt="sigmoid函数" src="sigmoid.png" /></p>
+<p>这样可以写成
+</p>
+<div class="math">$$ h_\theta(x)=sigmoid(\theta^T \cdot x)$$</div>
+<p>。
+设概率 </p>
+<div class="math">$$P(y=1|x;\theta)=h_\theta(x)$$</div>
+<p>,即在给定的参数<span class="math">\(\theta\)</span>下，样本x被分到1类的概率。则样本被分到0类的概率为：
+</p>
+<div class="math">$$P(y=0|x;\theta)=1-h_\theta(x)$$</div>
+<p>
+考虑到y的取值只有0和1，则可以得到概率密度如下：
+</p>
+<div class="math">$$
+p(y|x;\theta)=h_\theta(x)^y(1-h_\theta(x))^{1-y}
+$$</div>
+<p>
+设所有样本都是独立的，则可以得到联合概率分布：
+</p>
+<div class="math">$$p(\vec y | X;\theta)=\prod_{i=1}^m p(y^{(i)}|x^{(i)};\theta)=\prod_{i=1}^mh_\theta(x^{(i)})^{y^{(i)}}(1-h_\theta(x^{(i)}))^{1-y^{(i)}}$$</div>
+<p>用极大似然估计的想法来进行参数<span class="math">\(\theta\)</span>的估计，则使得上式达到最大值的<span class="math">\(\theta\)</span>就是最终求解的目标。在这里，我们使用梯度下降的方法来求这个最大值。取对数似然概率,并对<span class="math">\(\theta_j\)</span>求导可得：
+</p>
+<div class="math">$$ L=ln(p(\vec y | X;\theta))=\sum_{i=1}^m \{( y^{(i)}ln(h_\theta(x^{(i)})) + (1-y^{(i)}ln((1-h_\theta(x^{(i)}))\}$$</div>
+<div class="math">$$ \frac{\partial L}{\partial \theta_j} = \sum_{i=1}^m\{\frac{y^{(i)}}{h_\theta(x^{(i)})}\cdot h_\theta^,(x^{(i)}) -
+\frac{1-y^{(i)}}{1-h_\theta(x^{(i)})}\cdot h_\theta^,(x^{(i)})\}
+$$</div>
+<p>
+由Sigmoid函数的特性可知道:
+</p>
+<div class="math">$$
+\begin{aligned}
+ sigmoid^,(x) &amp;= (\frac{1}{1+e^{-x}})^, \\
+              &amp;= \frac{e^{-x}}{(1+e^{-x})^2}\\
+              &amp;= \frac{1}{1+e^{-x}}-\frac{1}{(1+e^{-x})^2}\\
+              &amp;= \frac{1}{1+e^{-x}}(1-\frac{1}{1+e^{-x}})\\
+              &amp;= sigmoid(x)\cdot (1-sigmoid(x))
+\end{aligned}
+$$</div>
+<p>
+因此，该对数概率的导数可以化为：
+</p>
+<div class="math">$$ 
+\begin{aligned}
+\frac{\partial L}{\partial \theta_j} &amp;= \sum_{i=1}^m\{\frac{y^{(i)}}{h_\theta(x^{(i)})} -
+\frac{1-y^{(i)}}{1-h_\theta(x^{(i)})}\}\cdot h_\theta^,(x^{(i)}) \\
+&amp;=\sum_{i=1}^m\{\frac{y^{(i)}}{h_\theta(x^{(i)})} -
+\frac{1-y^{(i)}}{1-h_\theta(x^{(i)})}\} \cdot h_\theta(x^{(i)})\cdot(1-h_\theta(x^{(i)}))\cdot x_j^{(i)}\\
+&amp;= \sum_{i=1}^m ( y^{(i)}\cdot(1-h_\theta(x^{(i)}) -
+(1-y^{(i)})\cdot h_\theta(x^{(i)}) ) \cdot x_j^{(i)}\\
+&amp;=\sum_{i=1}^m (y^{(i)} -  h_\theta(x^{(i)}))\cdot x_j^{(i)}
+\end{aligned}
+$$</div>
+<p>梯度方向是上升最快的方向，因此参数的更新就按照梯度方向更新，可以得到：
+</p>
+<div class="math">$$
+\theta_j = \theta_j + \alpha \frac{\partial L}{\partial \theta_j} = \theta_j + \alpha \cdot \sum_{i=1}^m (y^{(i)} -  h_\theta(x^{(i)}))\cdot x_j^{(i)}
+$$</div>
+<p>
+其中，<span class="math">\(\alpha\)</span>是学习速率，设的太小收敛速度会很慢，设的太大的话，容易出现震荡，导致不收敛，可以在试验中自己调节，一般设为<span class="math">\(\alpha \in (0,1]\)</span>。考虑到初始的时候，需要一个较大的学习速率来逼近结果。而学习一段时间以后需要降低学习速率防止震荡。因此可以随着迭代次数动态的调整学习速率。一个简单而常用的办法是设<span class="math">\(t\)</span>为迭代次数，则有： 
+</p>
+<div class="math">$$
+\alpha = \frac{1}{\sqrt{t}}
+$$</div>
+<h3>一些改进</h3>
+<p>上面描述的梯度下降方法，每一次更新时考虑了全部样本的梯度。这样的方法在数据量很大的时候，会导致每一次更新的时间很长，总收敛时间长到无法忍受。因此有人提出了<a href="http://en.wikipedia.org/wiki/Stochastic_gradient_descent">随机梯度下降(SGD)</a>,它在每次更新时，只考虑当前样本，即更新方程变为：
+</p>
+<div class="math">$$
+\theta_j =  \theta_j + \alpha \cdot (y^{(i)} -  h_\theta(x^{(i)}))\cdot x_j^{(i)}
+$$</div>
+<p>
+这样的更新方式比原先快了很多，代价是会引入一定的噪声。用这个方程进行更新，总的误差曲线并不是一直降低，而是类似随机跳动的方式，但是总体还是向着最优解的方向移动。而且在数据量很大的时候，只需要少量的样本就可以让参数更新的足够好了。因此这种方法得到了较多的应用。</p>
+<script type="text/javascript">if (!document.getElementById('mathjaxscript_pelican_#%@#$@#')) {
+    var align = "center",
+        indent = "0em",
+        linebreak = "false";
 
-
-<p>在<a href="https://github.com/imathis/octopress/issues/336">这里</a>找到了解决方法：</p>
-<p>运行</p>
-<p><code>rake setup_github_pages</code></p>
-<p>输入博客的git地址，即可更新</p>
+    if (false) {
+        align = (screen.width < 768) ? "left" : align;
+        indent = (screen.width < 768) ? "0em" : indent;
+        linebreak = (screen.width < 768) ? 'true' : linebreak;
+    }
+    
+    var mathjaxscript = document.createElement('script');
+    mathjaxscript.id = 'mathjaxscript_pelican_#%@#$@#';
+    mathjaxscript.type = 'text/javascript';
+    mathjaxscript.src = '//cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML';
+    mathjaxscript[(window.opera ? "innerHTML" : "text")] =
+        "MathJax.Hub.Config({" +
+        "    config: ['MMLorHTML.js']," +
+        "    TeX: { extensions: ['AMSmath.js','AMSsymbols.js','noErrors.js','noUndefined.js'], equationNumbers: { autoNumber: 'AMS' } }," +
+        "    jax: ['input/TeX','input/MathML','output/HTML-CSS']," +
+        "    extensions: ['tex2jax.js','mml2jax.js','MathMenu.js','MathZoom.js']," +
+        "    displayAlign: '"+ align +"'," +
+        "    displayIndent: '"+ indent +"'," +
+        "    showMathMenu: true," +
+        "    tex2jax: { " +
+        "        inlineMath: [ ['\\\\(','\\\\)'] ], " +
+        "        displayMath: [ ['$$','$$'] ]," +
+        "        processEscapes: true," +
+        "        preview: 'TeX'," +
+        "    }, " +
+        "    'HTML-CSS': { " +
+        "        styles: { '.MathJax_Display, .MathJax .mo, .MathJax .mi, .MathJax .mn': {color: 'inherit ! important'} }," +
+        "        linebreaks: { automatic: "+ linebreak +", width: '90% container' }," +
+        "    }, " +
+        "}); ";
+    (document.body || document.getElementsByTagName('head')[0]).appendChild(mathjaxscript);
+}
+</script>
                 </div><!-- /.entry-content -->
                 <div class="comments">
                 <h2>Comments !</h2>
                         <div id="disqus_thread"></div>
                         <script type="text/javascript">
-                           var disqus_identifier = "2012-12-02-octopress-pro.html";
+                           var disqus_identifier = "2015-04-15-logistic_regression.html";
                            (function() {
                                 var dsq = document.createElement('script');
                                 dsq.type = 'text/javascript'; dsq.async = true;
