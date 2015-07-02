@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>记录</title><link>http://ghdawn.me/</link><description></description><atom:link href="http://ghdawn.me/feeds/all.rss.xml" rel="self"></atom:link><lastBuildDate>Wed, 15 Apr 2015 16:05:55 +0800</lastBuildDate><item><title>机器学习笔记——逻辑回归(LogisticRegression)</title><link>http://ghdawn.me/2015-04-15-logistic_regression.html</link><description>&lt;h3&gt;基本概念&lt;/h3&gt;
-&lt;p&gt;逻辑回归是一种线性分类的方法，通过给定一些样本空间中的样本点，训练出一条直线（超平面)，使得样本点能被较好的分隔开。
+&lt;p&gt;逻辑回归是一种线性分类的方法，通过给定一些样本空间中的样本点，训练出一条直线（超平面)，使得样本点能被较好的分隔开。由于它训练的结果也是一条直线，因此被称为回归(属于线性回归)，只是线性回归得到的直线用来拟合样本点，而逻辑回归得到的直线用来分隔样本点。
 设&lt;span class="math"&gt;\(\theta=[\theta_1 \theta_2 \cdots \theta_n]^T\)&lt;/span&gt;为分类面参数，&lt;span class="math"&gt;\(x=[x_1 x_2 \cdots x_n]^T\)&lt;/span&gt;，则有：
 &lt;/p&gt;
 &lt;div class="math"&gt;$$
@@ -11,14 +11,19 @@ h_\theta(x)=
 \end{cases}
 $$&lt;/div&gt;
 &lt;p&gt;
-通过这样拟合直线的方式就可以得到一组参数，将样本分为两类。&lt;/p&gt;
-&lt;p&gt;引入S函数(也称作Logistic函数)：
+通过这样拟合直线的方式就可以得到一组参数，直接将样本分为两类。上式方程相当于引入了阶跃函数:
 &lt;/p&gt;
-&lt;div class="math"&gt;$$sigmoid(x)=\frac{1}{1+e^{-x}}$$&lt;/div&gt;
+&lt;div class="math"&gt;$$
+h_\theta(x)=step_0(\theta^T \cdot x)
+$$&lt;/div&gt;
 &lt;p&gt;
-函数图像如下图所示，它可以将自变量映射在(0,1)的区间内，则把0/1分类的结果转化为样本点属于某个类的概率。&lt;/p&gt;
+由于阶跃函数并非处处可导，使得导函数成为分段函数，不利于后续的分析，因此引入了一类S函数(也称作Logistic函数)：
+&lt;/p&gt;
+&lt;div class="math"&gt;$$sigmoid(x)=\frac{1}{1+e^{-\alpha x}}$$&lt;/div&gt;
+&lt;p&gt;
+当&lt;span class="math"&gt;\(\alpha=1\)&lt;/span&gt;时，函数图像如下图所示，它可以将自变量映射在(0,1)的区间内，则把0/1分类的结果转化为样本点属于某个类的概率。阶跃函数可以看作S函数的一个特例。&lt;/p&gt;
 &lt;p&gt;&lt;img alt="sigmoid函数" src="/image/sigmoid.png" /&gt;&lt;/p&gt;
-&lt;p&gt;这样可以写成
+&lt;p&gt;这样判别函数可以写成
 &lt;/p&gt;
 &lt;div class="math"&gt;$$ h_\theta(x)=sigmoid(\theta^T \cdot x)$$&lt;/div&gt;
 &lt;p&gt;。
@@ -39,7 +44,10 @@ $$&lt;/div&gt;
 &lt;div class="math"&gt;$$p(\vec y | X;\theta)=\prod_{i=1}^m p(y^{(i)}|x^{(i)};\theta)=\prod_{i=1}^mh_\theta(x^{(i)})^{y^{(i)}}(1-h_\theta(x^{(i)}))^{1-y^{(i)}}$$&lt;/div&gt;
 &lt;p&gt;用极大似然估计的想法来进行参数&lt;span class="math"&gt;\(\theta\)&lt;/span&gt;的估计，则使得上式达到最大值的&lt;span class="math"&gt;\(\theta\)&lt;/span&gt;就是最终求解的目标。在这里，我们使用梯度下降的方法来求这个最大值。取对数似然概率,并对&lt;span class="math"&gt;\(\theta_j\)&lt;/span&gt;求导可得：
 &lt;/p&gt;
-&lt;div class="math"&gt;$$ L=ln(p(\vec y | X;\theta))=\sum_{i=1}^m \{( y^{(i)}ln(h_\theta(x^{(i)})) + (1-y^{(i)}ln((1-h_\theta(x^{(i)}))\}$$&lt;/div&gt;
+&lt;div class="math"&gt;\begin{equation}
+\label{e:L}
+ L=ln(p(\vec y | X;\theta))=\sum_{i=1}^m \{( y^{(i)}ln(h_\theta(x^{(i)})) + (1-y^{(i)}ln((1-h_\theta(x^{(i)}))\}
+\end{equation}&lt;/div&gt;
 &lt;div class="math"&gt;$$ \frac{\partial L}{\partial \theta_j} = \sum_{i=1}^m\{\frac{y^{(i)}}{h_\theta(x^{(i)})}\cdot h_\theta^,(x^{(i)}) -
 \frac{1-y^{(i)}}{1-h_\theta(x^{(i)})}\cdot h_\theta^,(x^{(i)})\}
 $$&lt;/div&gt;
@@ -81,6 +89,7 @@ $$&lt;/div&gt;
 \alpha = \frac{1}{\sqrt{t}}
 $$&lt;/div&gt;
 &lt;h3&gt;一些改进&lt;/h3&gt;
+&lt;h4&gt;随机梯度下降&lt;/h4&gt;
 &lt;p&gt;上面描述的梯度下降方法，每一次更新时考虑了全部样本的梯度。这样的方法在数据量很大的时候，会导致每一次更新的时间很长，总收敛时间长到无法忍受。因此有人提出了&lt;a href="http://en.wikipedia.org/wiki/Stochastic_gradient_descent"&gt;随机梯度下降(SGD)&lt;/a&gt;,它在每次更新时，只考虑当前样本，即更新方程变为：
 &lt;/p&gt;
 &lt;div class="math"&gt;$$
@@ -88,6 +97,21 @@ $$&lt;/div&gt;
 $$&lt;/div&gt;
 &lt;p&gt;
 这样的更新方式比原先快了很多，代价是会引入一定的噪声。用这个方程进行更新，总的误差曲线并不是一直降低，而是类似随机跳动的方式，但是总体还是向着最优解的方向移动。而且在数据量很大的时候，只需要少量的样本就可以让参数更新的足够好了。因此这种方法得到了较多的应用。&lt;/p&gt;
+&lt;h4&gt;正则化&lt;/h4&gt;
+&lt;p&gt;在不断训练的过程中，参数数值可能会变得很大，容易出现过拟合的现象，使得训练结果在测试集的效果变差，因此实际应用中经常会引入一个正则项，对参数的数值进行一些惩罚，以控制参数不要变得太大。
+在极大似然估计时，希望公式\ref{e:L}的值尽可能大，这样正确训练的概率越来越高。可以将公式\ref{e:L}改写为:
+&lt;/p&gt;
+&lt;div class="math"&gt;\begin{equation}
+J = -L = \sum_{i=1}^m \{( -y^{(i)}ln(h_\theta(x^{(i)})) - (1-y^{(i)}ln((1-h_\theta(x^{(i)}))\}
+\end{equation}&lt;/div&gt;
+&lt;p&gt;
+则&lt;span class="math"&gt;\(J\)&lt;/span&gt;就是代价函数，和线性回归类似,可以用梯度下降的方式进行优化，在其中再加入正则项，得到:
+&lt;/p&gt;
+&lt;div class="math"&gt;\begin{equation}
+J = -L = \sum_{i=1}^m \{( -y^{(i)}ln(h_\theta(x^{(i)})) - (1-y^{(i)}ln((1-h_\theta(x^{(i)}))\} + \lambda ||\theta||
+\end{equation}&lt;/div&gt;
+&lt;p&gt; 
+在优化代价函数的同时，也就控制了参数的大小。&lt;/p&gt;
 &lt;script type="text/javascript"&gt;if (!document.getElementById('mathjaxscript_pelican_#%@#$@#')) {
     var align = "center",
         indent = "0em",
@@ -122,7 +146,23 @@ $$&lt;/div&gt;
         "        styles: { '.MathJax_Display, .MathJax .mo, .MathJax .mi, .MathJax .mn': {color: 'inherit ! important'} }," +
         "        linebreaks: { automatic: "+ linebreak +", width: '90% container' }," +
         "    }, " +
-        "}); ";
+        "}); " +
+        "if ('default' !== 'default') {" +
+            "MathJax.Hub.Register.StartupHook('HTML-CSS Jax Ready',function () {" +
+                "var VARIANT = MathJax.OutputJax['HTML-CSS'].FONTDATA.VARIANT;" +
+                "VARIANT['normal'].fonts.unshift('MathJax_default');" +
+                "VARIANT['bold'].fonts.unshift('MathJax_default-bold');" +
+                "VARIANT['italic'].fonts.unshift('MathJax_default-italic');" +
+                "VARIANT['-tex-mathit'].fonts.unshift('MathJax_default-italic');" +
+            "});" +
+            "MathJax.Hub.Register.StartupHook('SVG Jax Ready',function () {" +
+                "var VARIANT = MathJax.OutputJax.SVG.FONTDATA.VARIANT;" +
+                "VARIANT['normal'].fonts.unshift('MathJax_default');" +
+                "VARIANT['bold'].fonts.unshift('MathJax_default-bold');" +
+                "VARIANT['italic'].fonts.unshift('MathJax_default-italic');" +
+                "VARIANT['-tex-mathit'].fonts.unshift('MathJax_default-italic');" +
+            "});" +
+        "}";
     (document.body || document.getElementsByTagName('head')[0]).appendChild(mathjaxscript);
 }
 &lt;/script&gt;</description><dc:creator xmlns:dc="http://purl.org/dc/elements/1.1/">清风未明</dc:creator><pubDate>Wed, 15 Apr 2015 16:05:55 +0800</pubDate><guid>tag:ghdawn.me,2015-04-15:2015-04-15-logistic_regression.html</guid><category>机器学习</category><category>Codes</category></item><item><title>记录写论文时用到的一些工具</title><link>http://ghdawn.me/2014-07-24-toolsforpaper.html</link><description>&lt;p&gt;前一段时间，针对之前做过的关于目标跟踪的工作，我整理了一篇论文。论文中会需要一些实验图和数据曲线等，需要从算法的结果数据中生成，于是做了一些简单的小工具来批量生成数据，这里做个备忘，别以后忘掉了。主要用了一点ffmpeg，python和python的PIL库。&lt;/p&gt;
@@ -417,7 +457,23 @@ $$&lt;/div&gt;
         "        styles: { '.MathJax_Display, .MathJax .mo, .MathJax .mi, .MathJax .mn': {color: 'inherit ! important'} }," +
         "        linebreaks: { automatic: "+ linebreak +", width: '90% container' }," +
         "    }, " +
-        "}); ";
+        "}); " +
+        "if ('default' !== 'default') {" +
+            "MathJax.Hub.Register.StartupHook('HTML-CSS Jax Ready',function () {" +
+                "var VARIANT = MathJax.OutputJax['HTML-CSS'].FONTDATA.VARIANT;" +
+                "VARIANT['normal'].fonts.unshift('MathJax_default');" +
+                "VARIANT['bold'].fonts.unshift('MathJax_default-bold');" +
+                "VARIANT['italic'].fonts.unshift('MathJax_default-italic');" +
+                "VARIANT['-tex-mathit'].fonts.unshift('MathJax_default-italic');" +
+            "});" +
+            "MathJax.Hub.Register.StartupHook('SVG Jax Ready',function () {" +
+                "var VARIANT = MathJax.OutputJax.SVG.FONTDATA.VARIANT;" +
+                "VARIANT['normal'].fonts.unshift('MathJax_default');" +
+                "VARIANT['bold'].fonts.unshift('MathJax_default-bold');" +
+                "VARIANT['italic'].fonts.unshift('MathJax_default-italic');" +
+                "VARIANT['-tex-mathit'].fonts.unshift('MathJax_default-italic');" +
+            "});" +
+        "}";
     (document.body || document.getElementsByTagName('head')[0]).appendChild(mathjaxscript);
 }
 &lt;/script&gt;</description><dc:creator xmlns:dc="http://purl.org/dc/elements/1.1/">清风未明</dc:creator><pubDate>Sat, 01 Feb 2014 21:47:04 +0800</pubDate><guid>tag:ghdawn.me,2014-02-01:2014-02-01-select-feature.html</guid><category>计算机视觉</category></item><item><title>使用光流法跟踪图像中的点</title><link>http://ghdawn.me/2014-01-27-optical-flow-tracking.html</link><description>&lt;p&gt;在计算机视觉的研究中，经常会出现以下问题：&lt;/p&gt;
@@ -681,7 +737,23 @@ $$&lt;/div&gt;
         "        styles: { '.MathJax_Display, .MathJax .mo, .MathJax .mi, .MathJax .mn': {color: 'inherit ! important'} }," +
         "        linebreaks: { automatic: "+ linebreak +", width: '90% container' }," +
         "    }, " +
-        "}); ";
+        "}); " +
+        "if ('default' !== 'default') {" +
+            "MathJax.Hub.Register.StartupHook('HTML-CSS Jax Ready',function () {" +
+                "var VARIANT = MathJax.OutputJax['HTML-CSS'].FONTDATA.VARIANT;" +
+                "VARIANT['normal'].fonts.unshift('MathJax_default');" +
+                "VARIANT['bold'].fonts.unshift('MathJax_default-bold');" +
+                "VARIANT['italic'].fonts.unshift('MathJax_default-italic');" +
+                "VARIANT['-tex-mathit'].fonts.unshift('MathJax_default-italic');" +
+            "});" +
+            "MathJax.Hub.Register.StartupHook('SVG Jax Ready',function () {" +
+                "var VARIANT = MathJax.OutputJax.SVG.FONTDATA.VARIANT;" +
+                "VARIANT['normal'].fonts.unshift('MathJax_default');" +
+                "VARIANT['bold'].fonts.unshift('MathJax_default-bold');" +
+                "VARIANT['italic'].fonts.unshift('MathJax_default-italic');" +
+                "VARIANT['-tex-mathit'].fonts.unshift('MathJax_default-italic');" +
+            "});" +
+        "}";
     (document.body || document.getElementsByTagName('head')[0]).appendChild(mathjaxscript);
 }
 &lt;/script&gt;</description><dc:creator xmlns:dc="http://purl.org/dc/elements/1.1/">清风未明</dc:creator><pubDate>Mon, 27 Jan 2014 18:51:02 +0800</pubDate><guid>tag:ghdawn.me,2014-01-27:2014-01-27-optical-flow-tracking.html</guid><category>计算机视觉</category></item><item><title>更换了博客生成系统</title><link>http://ghdawn.me/2014-01-26-new-blog.html</link><description>&lt;p&gt;如果不是GoDaddy给我发邮件提醒续费，我都忘了我还有这么一个域名，以及这么一个博客。最早决定写博客是看到好多人都说记录一些事情是个好习惯，无论对于生活还是学习都是。另外当我发现我的写作能力实在差的太厉害，太需要锻炼锻炼。当时看到Octopress那么有趣，我就做了这么一个博客。&lt;/p&gt;
@@ -949,7 +1021,23 @@ $$&lt;/div&gt;
         "        styles: { '.MathJax_Display, .MathJax .mo, .MathJax .mi, .MathJax .mn': {color: 'inherit ! important'} }," +
         "        linebreaks: { automatic: "+ linebreak +", width: '90% container' }," +
         "    }, " +
-        "}); ";
+        "}); " +
+        "if ('default' !== 'default') {" +
+            "MathJax.Hub.Register.StartupHook('HTML-CSS Jax Ready',function () {" +
+                "var VARIANT = MathJax.OutputJax['HTML-CSS'].FONTDATA.VARIANT;" +
+                "VARIANT['normal'].fonts.unshift('MathJax_default');" +
+                "VARIANT['bold'].fonts.unshift('MathJax_default-bold');" +
+                "VARIANT['italic'].fonts.unshift('MathJax_default-italic');" +
+                "VARIANT['-tex-mathit'].fonts.unshift('MathJax_default-italic');" +
+            "});" +
+            "MathJax.Hub.Register.StartupHook('SVG Jax Ready',function () {" +
+                "var VARIANT = MathJax.OutputJax.SVG.FONTDATA.VARIANT;" +
+                "VARIANT['normal'].fonts.unshift('MathJax_default');" +
+                "VARIANT['bold'].fonts.unshift('MathJax_default-bold');" +
+                "VARIANT['italic'].fonts.unshift('MathJax_default-italic');" +
+                "VARIANT['-tex-mathit'].fonts.unshift('MathJax_default-italic');" +
+            "});" +
+        "}";
     (document.body || document.getElementsByTagName('head')[0]).appendChild(mathjaxscript);
 }
 &lt;/script&gt;</description><dc:creator xmlns:dc="http://purl.org/dc/elements/1.1/">清风未明</dc:creator><pubDate>Sun, 02 Dec 2012 20:22:00 +0800</pubDate><guid>tag:ghdawn.me,2012-12-02:2012-12-02-ml-pca.html</guid><category>机器学习</category><category>Codes</category></item><item><title>"为ARM平台交叉编译GDB"</title><link>http://ghdawn.me/2012-07-30-crossgdb.html</link><description>&lt;p&gt;为了方便调试嵌入式程序，需要移植一份&lt;em&gt;GDB&lt;/em&gt;到ARM平台。&lt;/p&gt;
@@ -1988,7 +2076,23 @@ $$&lt;/div&gt;
         "        styles: { '.MathJax_Display, .MathJax .mo, .MathJax .mi, .MathJax .mn': {color: 'inherit ! important'} }," +
         "        linebreaks: { automatic: "+ linebreak +", width: '90% container' }," +
         "    }, " +
-        "}); ";
+        "}); " +
+        "if ('default' !== 'default') {" +
+            "MathJax.Hub.Register.StartupHook('HTML-CSS Jax Ready',function () {" +
+                "var VARIANT = MathJax.OutputJax['HTML-CSS'].FONTDATA.VARIANT;" +
+                "VARIANT['normal'].fonts.unshift('MathJax_default');" +
+                "VARIANT['bold'].fonts.unshift('MathJax_default-bold');" +
+                "VARIANT['italic'].fonts.unshift('MathJax_default-italic');" +
+                "VARIANT['-tex-mathit'].fonts.unshift('MathJax_default-italic');" +
+            "});" +
+            "MathJax.Hub.Register.StartupHook('SVG Jax Ready',function () {" +
+                "var VARIANT = MathJax.OutputJax.SVG.FONTDATA.VARIANT;" +
+                "VARIANT['normal'].fonts.unshift('MathJax_default');" +
+                "VARIANT['bold'].fonts.unshift('MathJax_default-bold');" +
+                "VARIANT['italic'].fonts.unshift('MathJax_default-italic');" +
+                "VARIANT['-tex-mathit'].fonts.unshift('MathJax_default-italic');" +
+            "});" +
+        "}";
     (document.body || document.getElementsByTagName('head')[0]).appendChild(mathjaxscript);
 }
 &lt;/script&gt;</description><dc:creator xmlns:dc="http://purl.org/dc/elements/1.1/">清风未明</dc:creator><pubDate>Fri, 17 Feb 2012 17:20:00 +0800</pubDate><guid>tag:ghdawn.me,2012-02-17:2012-02-17-matlab-study1.html</guid><category>matlab</category><category>automatic</category></item><item><title>"为OMAP4430安装Linux/Android系统"</title><link>http://ghdawn.me/2012-02-13-install-linux.html</link><description>&lt;p&gt;这块开发板没有板载flash，所以操作系统从SD卡引导。这样，我们的操作系统就需要安装在SD卡上。&lt;/p&gt;

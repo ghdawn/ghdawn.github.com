@@ -2,7 +2,7 @@
 <html lang="en">
   <head>
     <meta charset="utf-8">
-    <title>记录 - OpenCV</title>
+    <title>About Me</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="">
     <meta name="author" content="清风未明">
@@ -64,6 +64,7 @@
           <a class="brand" href="../index.html">记录 </a>
           <div class="nav-collapse">
             <ul class="nav">
+                <li><a href="../pages/2014-01-29-about-me.html">About Me</a></li>
                           <li class="divider-vertical"></li>
                   <li >
                     <a href="../category/life.html">
@@ -90,67 +91,41 @@
     <div class="container-fluid">
       <div class="row">
         <div class="span9" id="content">
-        <div class="article">
-                <h1><a href="../2012-03-18-study-cv-1.html">"学习机器视觉1--检测圆心"</a></h1>
-                <div class="well small"><footer class="post-info">
-<span class="label">Date</span>
-<abbr class="published" title="2012-03-18T16:12:00+08:00">
-        <i class="icon-calendar"></i>日 18 三月 2012
-</abbr>
-<span class="label">By</span>
-<a href="../author/qing-feng-wei-ming.html"><i class="icon-user"></i>清风未明</a>
-<span class="label">Category</span>
-<a href="../category/study.html"><i class="icon-folder-open"></i>Study</a>.
-
-
-<span class="label">Tags</span>
-	<a href="../tag/codes.html"><i class="icon-tag"></i>Codes</a>
-	<a href="../tag/opencv.html"><i class="icon-tag"></i>OpenCV</a>
-	<a href="../tag/linux.html"><i class="icon-tag"></i>Linux</a>
-</footer><!-- /.post-info --></div>
-                <div class="summary"><h3>任务描述及环境</h3>
-<p>打开摄像头，识别出画面中的圆，并标出圆心，输出圆心的像空间坐标。<br />
-Intel(R) Core(TM)2 Duo CPU     T8100  @ 2.10GHz / 2GB<br />
-Linux Mint 12 （64bit）<br />
-OpenCV 2.3.1<br />
-Code Blocks 10.05  </p>
-<h3>用OpenCV从摄像头获取视频流</h3>
-<p>后来版本的OpenCV可以用C++的语法，从而去掉了指针，使用起来十分方便。</p>
-<p>所有视频流的操作都是通过<em>VideoCapture</em>类完成。可以通过给它的构造函数，或<em>open</em>函数传递参数完成打开视频的操作。其中如果参数为整数i，则打开第i个摄像头（如果存在的话）。如果参数是字符串，则认为是视频文件的路径。</p>
-<p><em>VideoCapture</em>重载了<em>&gt;&gt;</em>操作符，所以可以直接当输入流来用。或者使用 ...</p>
-                        <a class="btn primary xsmall" href="../2012-03-18-study-cv-1.html">more ...</a>
-                </div>
-        </div>
-        <hr />
-        <div class="article">
-                <h1><a href="../2012-02-25-64-open-cv.html">"关于在64位Linux上编译安装OpenCV的问题"</a></h1>
-                <div class="well small"><footer class="post-info">
-<span class="label">Date</span>
-<abbr class="published" title="2012-02-25T15:04:00+08:00">
-        <i class="icon-calendar"></i>六 25 二月 2012
-</abbr>
-<span class="label">By</span>
-<a href="../author/qing-feng-wei-ming.html"><i class="icon-user"></i>清风未明</a>
-<span class="label">Category</span>
-<a href="../category/study.html"><i class="icon-folder-open"></i>Study</a>.
-
-
-<span class="label">Tags</span>
-	<a href="../tag/codes.html"><i class="icon-tag"></i>Codes</a>
-	<a href="../tag/opencv.html"><i class="icon-tag"></i>OpenCV</a>
-	<a href="../tag/linux.html"><i class="icon-tag"></i>Linux</a>
-</footer><!-- /.post-info --></div>
-                <div class="summary"><p>出于某些需要，我想装个OpenCV做一下图像相关的试验，于是我在<a href="http://sourceforge.net/projects/opencvlibrary/">SourceForge</a>中下载了最新的OpenCV2.3.1，并找到这个非常详细的<a href="http://www.ozbotz.org/opencv-installation/">安装教程</a>编译安装。但是这里出了两个问题。</p>
-<h3>第一个问题</h3>
-<p>OpenCV2.3.1要求ffmpeg0.8的版本，这个版本高了或者低了我都出现了编译错误。OpenCV2.3和以前的则需要低一点，系统自带的版本是低版本，需要卸载老版本，重新编译安装x264和ffmpeg。网上总是有很多坑爹的完全一样的安装指导，可惜都不能用。  </p>
-<h3>第二个问题</h3>
-<p>这个是64位的问题（我的计算机是Linux Mint12 64bit，如果有人用64位系统，可能也会出类似问题）。我的方法和大家的安装方法都一样，但是我做的时候在很多地方编译不通过，各种编译错误。错误提示大概就是我是x86_64的平台，链接库的时候会出问题。不过还好，在刚才教程底下大家的讨论里我找到了解决方案：</p>
-<p>其他的不变，按照教程输入命令即可，只是在安装x264和ffmpeg的时候，第一步<em>configure</em>中加入<strong>--enable-pic</strong>和<strong>--enable-shared</strong>（两个减号）,然后编译安装x264和ffmpeg。在前两个都安装好之后 ...</p>
-                        <a class="btn primary xsmall" href="../2012-02-25-64-open-cv.html">more ...</a>
-                </div>
-        </div>
-        <hr />
-
+<section id="content" class="body">
+        <h1 class="entry-title">About Me</h1>
+        <h2>高涵</h2>
+<p>北京航空航天大学-机器人技术-硕士研究生(男,1990.02.14)</p>
+<p>手机：15652928129</p>
+<p>邮箱：ghdawn31@gmail.com</p>
+<h3>教育背景</h3>
+<ul>
+<li>
+<p>2012 -2015  机器人研究所（研究方向：视觉目标跟踪与相关机器学习技术)</p>
+<ul>
+<li>硕士研究生</li>
+<li>北京航空航天大学</li>
+</ul>
+</li>
+<li>
+<p>2008 - 2012 飞行器制造工程</p>
+<ul>
+<li>本科</li>
+<li>机械学院</li>
+<li>北京航空航天大学</li>
+</ul>
+</li>
+<li>
+<p>2009 - 2012 应用数学</p>
+<ul>
+<li>本科第二学位</li>
+<li>数学与系统工程学院</li>
+<li>北京航空航天大学</li>
+</ul>
+</li>
+</ul>
+<h3>项目实践</h3>
+<p>2013 至今 <strong>小型无人直升机视觉目标跟踪</strong> 第一作者</p>
+</section>
         </div><!--/span-->
 
                 <div class="span3 well sidebar-nav" id="sidebar">
@@ -179,19 +154,19 @@ Code Blocks 10.05  </p>
 </li>
 
 <li class="nav-header"><h4><i class="icon-tags icon-large"></i>Tags</h4></li>
-<li class="tag-3">
-    <a href="../tag/opencv.html">
-        <i class="icon-tag icon-large"></i>OpenCV
+<li class="tag-4">
+    <a href="../tag/automatic.html">
+        <i class="icon-tag icon-large"></i>automatic
+    </a>
+</li>
+<li class="tag-1">
+    <a href="../tag/linux.html">
+        <i class="icon-tag icon-large"></i>Linux
     </a>
 </li>
 <li class="tag-2">
-    <a href="../tag/qian-ru-shi.html">
-        <i class="icon-tag icon-large"></i>嵌入式
-    </a>
-</li>
-<li class="tag-3">
-    <a href="../tag/ji-qi-xue-xi.html">
-        <i class="icon-tag icon-large"></i>机器学习
+    <a href="../tag/android.html">
+        <i class="icon-tag icon-large"></i>Android
     </a>
 </li>
 <li class="tag-3">
@@ -199,34 +174,9 @@ Code Blocks 10.05  </p>
         <i class="icon-tag icon-large"></i>life
     </a>
 </li>
-<li class="tag-1">
-    <a href="../tag/codes.html">
-        <i class="icon-tag icon-large"></i>Codes
-    </a>
-</li>
-<li class="tag-4">
-    <a href="../tag/automatic.html">
-        <i class="icon-tag icon-large"></i>automatic
-    </a>
-</li>
-<li class="tag-2">
-    <a href="../tag/boring.html">
-        <i class="icon-tag icon-large"></i>Boring
-    </a>
-</li>
 <li class="tag-3">
-    <a href="../tag/kao-yan.html">
-        <i class="icon-tag icon-large"></i>考研
-    </a>
-</li>
-<li class="tag-2">
-    <a href="../tag/blog.html">
-        <i class="icon-tag icon-large"></i>blog
-    </a>
-</li>
-<li class="tag-2">
-    <a href="../tag/ji-suan-ji-shi-jue.html">
-        <i class="icon-tag icon-large"></i>计算机视觉
+    <a href="../tag/opencv.html">
+        <i class="icon-tag icon-large"></i>OpenCV
     </a>
 </li>
 <li class="tag-4">
@@ -235,13 +185,38 @@ Code Blocks 10.05  </p>
     </a>
 </li>
 <li class="tag-2">
-    <a href="../tag/android.html">
-        <i class="icon-tag icon-large"></i>Android
+    <a href="../tag/blog.html">
+        <i class="icon-tag icon-large"></i>blog
     </a>
 </li>
 <li class="tag-1">
-    <a href="../tag/linux.html">
-        <i class="icon-tag icon-large"></i>Linux
+    <a href="../tag/codes.html">
+        <i class="icon-tag icon-large"></i>Codes
+    </a>
+</li>
+<li class="tag-2">
+    <a href="../tag/qian-ru-shi.html">
+        <i class="icon-tag icon-large"></i>嵌入式
+    </a>
+</li>
+<li class="tag-2">
+    <a href="../tag/ji-suan-ji-shi-jue.html">
+        <i class="icon-tag icon-large"></i>计算机视觉
+    </a>
+</li>
+<li class="tag-3">
+    <a href="../tag/kao-yan.html">
+        <i class="icon-tag icon-large"></i>考研
+    </a>
+</li>
+<li class="tag-2">
+    <a href="../tag/boring.html">
+        <i class="icon-tag icon-large"></i>Boring
+    </a>
+</li>
+<li class="tag-3">
+    <a href="../tag/ji-qi-xue-xi.html">
+        <i class="icon-tag icon-large"></i>机器学习
     </a>
 </li>
 <li class="tag-3">

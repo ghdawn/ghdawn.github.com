@@ -105,7 +105,7 @@
                 <div class="well">
 <footer class="post-info">
 <span class="label">Date</span>
-<abbr class="published" title="2015-04-15T16:05:55">
+<abbr class="published" title="2015-04-15T16:05:55+08:00">
         <i class="icon-calendar"></i>三 15 四月 2015
 </abbr>
 <span class="label">By</span>
@@ -119,7 +119,7 @@
 	<a href="./tag/codes.html"><i class="icon-tag"></i>Codes</a>
 </footer><!-- /.post-info -->                </div>
                 <h3>基本概念</h3>
-<p>逻辑回归是一种线性分类的方法，通过给定一些样本空间中的样本点，训练出一条直线（超平面)，使得样本点能被较好的分隔开。
+<p>逻辑回归是一种线性分类的方法，通过给定一些样本空间中的样本点，训练出一条直线（超平面)，使得样本点能被较好的分隔开。由于它训练的结果也是一条直线，因此被称为回归(属于线性回归)，只是线性回归得到的直线用来拟合样本点，而逻辑回归得到的直线用来分隔样本点。
 设<span class="math">\(\theta=[\theta_1 \theta_2 \cdots \theta_n]^T\)</span>为分类面参数，<span class="math">\(x=[x_1 x_2 \cdots x_n]^T\)</span>，则有：
 </p>
 <div class="math">$$
@@ -130,14 +130,19 @@ h_\theta(x)=
 \end{cases}
 $$</div>
 <p>
-通过这样拟合直线的方式就可以得到一组参数，将样本分为两类。</p>
-<p>引入S函数(也称作Logistic函数)：
+通过这样拟合直线的方式就可以得到一组参数，直接将样本分为两类。上式方程相当于引入了阶跃函数:
 </p>
-<div class="math">$$sigmoid(x)=\frac{1}{1+e^{-x}}$$</div>
+<div class="math">$$
+h_\theta(x)=step_0(\theta^T \cdot x)
+$$</div>
 <p>
-函数图像如下图所示，它可以将自变量映射在(0,1)的区间内，则把0/1分类的结果转化为样本点属于某个类的概率。</p>
+由于阶跃函数并非处处可导，使得导函数成为分段函数，不利于后续的分析，因此引入了一类S函数(也称作Logistic函数)：
+</p>
+<div class="math">$$sigmoid(x)=\frac{1}{1+e^{-\alpha x}}$$</div>
+<p>
+当<span class="math">\(\alpha=1\)</span>时，函数图像如下图所示，它可以将自变量映射在(0,1)的区间内，则把0/1分类的结果转化为样本点属于某个类的概率。阶跃函数可以看作S函数的一个特例。</p>
 <p><img alt="sigmoid函数" src="/image/sigmoid.png" /></p>
-<p>这样可以写成
+<p>这样判别函数可以写成
 </p>
 <div class="math">$$ h_\theta(x)=sigmoid(\theta^T \cdot x)$$</div>
 <p>。
@@ -158,7 +163,10 @@ $$</div>
 <div class="math">$$p(\vec y | X;\theta)=\prod_{i=1}^m p(y^{(i)}|x^{(i)};\theta)=\prod_{i=1}^mh_\theta(x^{(i)})^{y^{(i)}}(1-h_\theta(x^{(i)}))^{1-y^{(i)}}$$</div>
 <p>用极大似然估计的想法来进行参数<span class="math">\(\theta\)</span>的估计，则使得上式达到最大值的<span class="math">\(\theta\)</span>就是最终求解的目标。在这里，我们使用梯度下降的方法来求这个最大值。取对数似然概率,并对<span class="math">\(\theta_j\)</span>求导可得：
 </p>
-<div class="math">$$ L=ln(p(\vec y | X;\theta))=\sum_{i=1}^m \{( y^{(i)}ln(h_\theta(x^{(i)})) + (1-y^{(i)}ln((1-h_\theta(x^{(i)}))\}$$</div>
+<div class="math">\begin{equation}
+\label{e:L}
+ L=ln(p(\vec y | X;\theta))=\sum_{i=1}^m \{( y^{(i)}ln(h_\theta(x^{(i)})) + (1-y^{(i)}ln((1-h_\theta(x^{(i)}))\}
+\end{equation}</div>
 <div class="math">$$ \frac{\partial L}{\partial \theta_j} = \sum_{i=1}^m\{\frac{y^{(i)}}{h_\theta(x^{(i)})}\cdot h_\theta^,(x^{(i)}) -
 \frac{1-y^{(i)}}{1-h_\theta(x^{(i)})}\cdot h_\theta^,(x^{(i)})\}
 $$</div>
@@ -200,6 +208,7 @@ $$</div>
 \alpha = \frac{1}{\sqrt{t}}
 $$</div>
 <h3>一些改进</h3>
+<h4>随机梯度下降</h4>
 <p>上面描述的梯度下降方法，每一次更新时考虑了全部样本的梯度。这样的方法在数据量很大的时候，会导致每一次更新的时间很长，总收敛时间长到无法忍受。因此有人提出了<a href="http://en.wikipedia.org/wiki/Stochastic_gradient_descent">随机梯度下降(SGD)</a>,它在每次更新时，只考虑当前样本，即更新方程变为：
 </p>
 <div class="math">$$
@@ -207,6 +216,21 @@ $$</div>
 $$</div>
 <p>
 这样的更新方式比原先快了很多，代价是会引入一定的噪声。用这个方程进行更新，总的误差曲线并不是一直降低，而是类似随机跳动的方式，但是总体还是向着最优解的方向移动。而且在数据量很大的时候，只需要少量的样本就可以让参数更新的足够好了。因此这种方法得到了较多的应用。</p>
+<h4>正则化</h4>
+<p>在不断训练的过程中，参数数值可能会变得很大，容易出现过拟合的现象，使得训练结果在测试集的效果变差，因此实际应用中经常会引入一个正则项，对参数的数值进行一些惩罚，以控制参数不要变得太大。
+在极大似然估计时，希望公式\ref{e:L}的值尽可能大，这样正确训练的概率越来越高。可以将公式\ref{e:L}改写为:
+</p>
+<div class="math">\begin{equation}
+J = -L = \sum_{i=1}^m \{( -y^{(i)}ln(h_\theta(x^{(i)})) - (1-y^{(i)}ln((1-h_\theta(x^{(i)}))\}
+\end{equation}</div>
+<p>
+则<span class="math">\(J\)</span>就是代价函数，和线性回归类似,可以用梯度下降的方式进行优化，在其中再加入正则项，得到:
+</p>
+<div class="math">\begin{equation}
+J = -L = \sum_{i=1}^m \{( -y^{(i)}ln(h_\theta(x^{(i)})) - (1-y^{(i)}ln((1-h_\theta(x^{(i)}))\} + \lambda ||\theta||
+\end{equation}</div>
+<p> 
+在优化代价函数的同时，也就控制了参数的大小。</p>
 <script type="text/javascript">if (!document.getElementById('mathjaxscript_pelican_#%@#$@#')) {
     var align = "center",
         indent = "0em",
@@ -241,7 +265,23 @@ $$</div>
         "        styles: { '.MathJax_Display, .MathJax .mo, .MathJax .mi, .MathJax .mn': {color: 'inherit ! important'} }," +
         "        linebreaks: { automatic: "+ linebreak +", width: '90% container' }," +
         "    }, " +
-        "}); ";
+        "}); " +
+        "if ('default' !== 'default') {" +
+            "MathJax.Hub.Register.StartupHook('HTML-CSS Jax Ready',function () {" +
+                "var VARIANT = MathJax.OutputJax['HTML-CSS'].FONTDATA.VARIANT;" +
+                "VARIANT['normal'].fonts.unshift('MathJax_default');" +
+                "VARIANT['bold'].fonts.unshift('MathJax_default-bold');" +
+                "VARIANT['italic'].fonts.unshift('MathJax_default-italic');" +
+                "VARIANT['-tex-mathit'].fonts.unshift('MathJax_default-italic');" +
+            "});" +
+            "MathJax.Hub.Register.StartupHook('SVG Jax Ready',function () {" +
+                "var VARIANT = MathJax.OutputJax.SVG.FONTDATA.VARIANT;" +
+                "VARIANT['normal'].fonts.unshift('MathJax_default');" +
+                "VARIANT['bold'].fonts.unshift('MathJax_default-bold');" +
+                "VARIANT['italic'].fonts.unshift('MathJax_default-italic');" +
+                "VARIANT['-tex-mathit'].fonts.unshift('MathJax_default-italic');" +
+            "});" +
+        "}";
     (document.body || document.getElementsByTagName('head')[0]).appendChild(mathjaxscript);
 }
 </script>
@@ -290,14 +330,19 @@ $$</div>
 </li>
 
 <li class="nav-header"><h4><i class="icon-tags icon-large"></i>Tags</h4></li>
-<li class="tag-1">
-    <a href="./tag/codes.html">
-        <i class="icon-tag icon-large"></i>Codes
+<li class="tag-3">
+    <a href="./tag/opencv.html">
+        <i class="icon-tag icon-large"></i>OpenCV
     </a>
 </li>
 <li class="tag-2">
-    <a href="./tag/ji-suan-ji-shi-jue.html">
-        <i class="icon-tag icon-large"></i>计算机视觉
+    <a href="./tag/qian-ru-shi.html">
+        <i class="icon-tag icon-large"></i>嵌入式
+    </a>
+</li>
+<li class="tag-3">
+    <a href="./tag/ji-qi-xue-xi.html">
+        <i class="icon-tag icon-large"></i>机器学习
     </a>
 </li>
 <li class="tag-3">
@@ -305,9 +350,34 @@ $$</div>
         <i class="icon-tag icon-large"></i>life
     </a>
 </li>
+<li class="tag-1">
+    <a href="./tag/codes.html">
+        <i class="icon-tag icon-large"></i>Codes
+    </a>
+</li>
+<li class="tag-4">
+    <a href="./tag/automatic.html">
+        <i class="icon-tag icon-large"></i>automatic
+    </a>
+</li>
+<li class="tag-2">
+    <a href="./tag/boring.html">
+        <i class="icon-tag icon-large"></i>Boring
+    </a>
+</li>
 <li class="tag-3">
-    <a href="./tag/ji-qi-xue-xi.html">
-        <i class="icon-tag icon-large"></i>机器学习
+    <a href="./tag/kao-yan.html">
+        <i class="icon-tag icon-large"></i>考研
+    </a>
+</li>
+<li class="tag-2">
+    <a href="./tag/blog.html">
+        <i class="icon-tag icon-large"></i>blog
+    </a>
+</li>
+<li class="tag-2">
+    <a href="./tag/ji-suan-ji-shi-jue.html">
+        <i class="icon-tag icon-large"></i>计算机视觉
     </a>
 </li>
 <li class="tag-4">
@@ -316,38 +386,8 @@ $$</div>
     </a>
 </li>
 <li class="tag-2">
-    <a href="./tag/qian-ru-shi.html">
-        <i class="icon-tag icon-large"></i>嵌入式
-    </a>
-</li>
-<li class="tag-2">
-    <a href="./tag/boring.html">
-        <i class="icon-tag icon-large"></i>Boring
-    </a>
-</li>
-<li class="tag-2">
     <a href="./tag/android.html">
         <i class="icon-tag icon-large"></i>Android
-    </a>
-</li>
-<li class="tag-2">
-    <a href="./tag/blog.html">
-        <i class="icon-tag icon-large"></i>blog
-    </a>
-</li>
-<li class="tag-3">
-    <a href="./tag/python.html">
-        <i class="icon-tag icon-large"></i>Python
-    </a>
-</li>
-<li class="tag-3">
-    <a href="./tag/opencv.html">
-        <i class="icon-tag icon-large"></i>OpenCV
-    </a>
-</li>
-<li class="tag-4">
-    <a href="./tag/automatic.html">
-        <i class="icon-tag icon-large"></i>automatic
     </a>
 </li>
 <li class="tag-1">
@@ -356,8 +396,8 @@ $$</div>
     </a>
 </li>
 <li class="tag-3">
-    <a href="./tag/kao-yan.html">
-        <i class="icon-tag icon-large"></i>考研
+    <a href="./tag/python.html">
+        <i class="icon-tag icon-large"></i>Python
     </a>
 </li>
 

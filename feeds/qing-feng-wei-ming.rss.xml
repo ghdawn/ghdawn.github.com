@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>记录</title><link>http://ghdawn.me/</link><description></description><atom:link href="http://ghdawn.me/feeds/study.rss.xml" rel="self"></atom:link><lastBuildDate>Wed, 15 Apr 2015 16:05:55 +0800</lastBuildDate><item><title>机器学习笔记——逻辑回归(LogisticRegression)</title><link>http://ghdawn.me/2015-04-15-logistic_regression.html</link><description>&lt;h3&gt;基本概念&lt;/h3&gt;
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>记录</title><link>http://ghdawn.me/</link><description></description><atom:link href="http://ghdawn.me/feeds/qing-feng-wei-ming.rss.xml" rel="self"></atom:link><lastBuildDate>Wed, 15 Apr 2015 16:05:55 +0800</lastBuildDate><item><title>机器学习笔记——逻辑回归(LogisticRegression)</title><link>http://ghdawn.me/2015-04-15-logistic_regression.html</link><description>&lt;h3&gt;基本概念&lt;/h3&gt;
 &lt;p&gt;逻辑回归是一种线性分类的方法，通过给定一些样本空间中的样本点，训练出一条直线（超平面)，使得样本点能被较好的分隔开。由于它训练的结果也是一条直线，因此被称为回归(属于线性回归)，只是线性回归得到的直线用来拟合样本点，而逻辑回归得到的直线用来分隔样本点。
 设&lt;span class="math"&gt;\(\theta=[\theta_1 \theta_2 \cdots \theta_n]^T\)&lt;/span&gt;为分类面参数，&lt;span class="math"&gt;\(x=[x_1 x_2 \cdots x_n]^T\)&lt;/span&gt;，则有：
 &lt;/p&gt;
@@ -756,7 +756,34 @@ $$&lt;/div&gt;
         "}";
     (document.body || document.getElementsByTagName('head')[0]).appendChild(mathjaxscript);
 }
-&lt;/script&gt;</description><dc:creator xmlns:dc="http://purl.org/dc/elements/1.1/">清风未明</dc:creator><pubDate>Mon, 27 Jan 2014 18:51:02 +0800</pubDate><guid>tag:ghdawn.me,2014-01-27:2014-01-27-optical-flow-tracking.html</guid><category>计算机视觉</category></item><item><title>"又是octopress博客的问题"</title><link>http://ghdawn.me/2012-12-02-octopress-pro.html</link><description>&lt;p&gt;假期换了电脑，在新电脑上写了博客，但是怎么也提交不上去，一直提示：&lt;/p&gt;
+&lt;/script&gt;</description><dc:creator xmlns:dc="http://purl.org/dc/elements/1.1/">清风未明</dc:creator><pubDate>Mon, 27 Jan 2014 18:51:02 +0800</pubDate><guid>tag:ghdawn.me,2014-01-27:2014-01-27-optical-flow-tracking.html</guid><category>计算机视觉</category></item><item><title>更换了博客生成系统</title><link>http://ghdawn.me/2014-01-26-new-blog.html</link><description>&lt;p&gt;如果不是GoDaddy给我发邮件提醒续费，我都忘了我还有这么一个域名，以及这么一个博客。最早决定写博客是看到好多人都说记录一些事情是个好习惯，无论对于生活还是学习都是。另外当我发现我的写作能力实在差的太厉害，太需要锻炼锻炼。当时看到Octopress那么有趣，我就做了这么一个博客。&lt;/p&gt;
+&lt;p&gt;但问题是，那个ruby环境实在太难配置了，我的电脑上总会出现这样或者那样的问题，对ruby版本号有要求，对组件版本号有要求，每次配个环境都费死劲了。所以当我换电脑后，配环境未遂，就只好作罢了。&lt;/p&gt;
+&lt;p&gt;一次上网随便看东西，发现了Pelican这么一个基于Python的博客系统，突然觉得很喜欢，一个是不需要什么环境配置，系统自带的Python就可以，另外它很简单，使用起来没什么特殊的难点，也是管理静态页面的方法。我就又决定要开始记录学习的过程了！！！&lt;/p&gt;
+&lt;p&gt;搭建过程我主要参考了&lt;a href="http://frantic1048.com/bo-ke-dan-sheng-ji-ji-yu-githubpelicanchuang-jian-bo-ke-de-zheng-ge-guo-cheng.html"&gt;它&lt;/a&gt;和&lt;a href="http://blog.csdn.net/buptgshengod/article/details/10228395"&gt;它&lt;/a&gt;&lt;/p&gt;</description><dc:creator xmlns:dc="http://purl.org/dc/elements/1.1/">清风未明</dc:creator><pubDate>Sun, 26 Jan 2014 15:59:15 +0800</pubDate><guid>tag:ghdawn.me,2014-01-26:2014-01-26-new-blog.html</guid><category>Python</category><category>blog</category></item><item><title>我的2013回顾</title><link>http://ghdawn.me/2014-01-26-review-2013.html</link><description>&lt;p&gt;转眼又到了新的一年，我的研究生也读了一年半了。从很久以前我就打算经常写写总结，但总是一懒就不动笔了，这算是我第一次对一年做一个流水账式的总结。&lt;/p&gt;
+&lt;p&gt;总体评价，今年是我上大学以来过的最丰富的一年。所谓丰富，应该是指有很多事情可以做，而且是各种各样的有意思的事情。相比而言，本科的生活只能说是充实，除了在实验室的工作和学习，就是参加学校的冯如杯比赛。虽然每天很忙，做的很多项目中收获也很大，但是现在回想起来，特别有意思的事情却不多，这个皮影戏倒是能算一个。我现在来机器人研究所读研究生，和这个项目也有很大的关系。它让我第一次从软件走到了硬件，通过机电结合的方式实现了这个比赛，也让我对程序和电路，机械有了新的认识。&lt;/p&gt;
+&lt;p&gt;&lt;embed src="http://player.youku.com/player.php/sid/XNjY2MzQyODQw/v.swf" allowFullScreen="true" quality="high" width="480" height="400" align="middle" allowScriptAccess="always" type="application/x-shockwave-flash"&gt;&lt;/embed&gt;&lt;/p&gt;
+&lt;h3&gt;年初：论文被录用&lt;/h3&gt;
+&lt;p&gt;不说本科了，2013年最早的一个好消息，应该是年初的时候收到了论文被录用的消息。这篇论文的前身是我冯如杯比赛的作品，当时花了很多时间和心血。在研究生第一学期的时候，我把当时的作品资料整理起来，写了这样&lt;a href="http://ieeexplore.ieee.org/xpl/login.jsp?tp=&amp;amp;arnumber=6566387&amp;amp;url=http%3A%2F%2Fieeexplore.ieee.org%2Fxpls%2Fabs_all.jsp%3Farnumber%3D6566387"&gt;一篇论文&lt;/a&gt;。写论文的过程中，明显能感觉到当时有很多想法还不清晰，一些问题没有想明白。当我一笔一笔的写论文的时候，所有的这些问题都汇总在我的脑子里，和搜集的资料，看的论文一起，慢慢的就都想明白了。这时候我也真正理解到，为什么那么多人都说总结是学习的最好方式。写论文就是对自己工作的一个完整总结，同时为了能够发布，不仅要完整还要清晰明了。我总是以为一个项目是自己做出来的，那么自己就应该会对每个细节都非常了解。事实上，脑子里思考的东西都是非常模糊的没有细节的东西，当写下来每一个步骤的时候，就会发现自己思维的遗漏。所以这种分享式的记录也变得重要起来。下面是比赛时的做的视频，还是很有意思的：&lt;/p&gt;
+&lt;p&gt;&lt;embed src="http://player.youku.com/player.php/sid/XNjY2MzQ1NTY4/v.swf" allowFullScreen="true" quality="high" width="480" height="400" align="middle" allowScriptAccess="always" type="application/x-shockwave-flash"&gt;&lt;/embed&gt;&lt;/p&gt;
+&lt;h3&gt;清明前后：香港+欧洲&lt;/h3&gt;
+&lt;p&gt;感谢学校的课程都很水，我在研究生第一学期的时候，已经把需要的学分几乎修够了。第二学期只有必修的政治课和一门实验课，也多亏了第二学期没什么课。为了扩展学校学生的视野，让更多的学生能够和世界其他国家的学生一起交流，北航的校长提出了一个UPS计划，从大学，到教授，再到学生，全方位的交流。计划实施的第一步，是校长带队，让一些老师和学生组成访问团去欧洲的几个学校进行交流和访问，以便洽谈日后的交流合作问题。我很荣幸的，成为了学校十名学生代表之一，带着我们的机器鱼跟随校长去欧洲进行&lt;a href="http://i.buaa.edu.cn/space.php?uid=19673&amp;amp;do=blog&amp;amp;id=18291"&gt;交流&lt;/a&gt;。这是非常有收获的一次交流，我见识了国外的学校，学生还有普通人。&lt;/p&gt;
+&lt;p&gt;在准备出国签证的那段时间，刚好赶上了清明节，我还抽空去香港玩了一圈。这是我第一次和女朋友一起旅游，当然还有我的好朋友和他的女朋友。。。香港是个神奇的地方，就好像把北京的几条街全都挤到一起，就是香港的一条街。最好玩的还是迪士尼乐园，我们去的那天已经过完节（这就是学生的优势，不用请假可以多在外面呆几天），园里大部分都是外国人。几乎不需要排队，任何游乐设施过去就能玩。我们一天把所有能玩的地方都玩了个遍，像过山车什么的平时人特别多的，我们玩了好几遍。最终，一天的游乐以迪士尼美丽的烟花告终，可以没有一个能拍出美丽烟花的相机，分享不了。&lt;/p&gt;
+&lt;h3&gt;生日礼物&lt;/h3&gt;
+&lt;p&gt;女朋友的生日是很重要的。我一般情况下会送一些奇奇怪怪的东西，比如旋转LED,自己&lt;a href="http://ghdawn.me/wo-de-mu-wan-zhong-de-yu-zhou.html"&gt;画的小宇宙&lt;/a&gt;。
+今年一个巧合，惊讶的发现学校的冯如创新中心居然提供了激光切割机，我就决定用它做个小型摩天轮，插上电就可以转动。虽然我总是自称程序员，可毕竟是机械学院的，于是我画了工程图，利用木板加工了一个类似工艺品的架子，可以拼装在一起，最后用502紧固一下。其他材料我去了中发电子城，买了两个LED灯，一个面包板，一些导线和一个减速电机。虽然叫减速电机，但是它的转速对我来说还是很快，还好我选择了USB供电，而它的额定电压高于5V，所以在电压不足的情况下，转速就可以足够慢了。拼装好了的样子大概是下面这样的，可惜我设计功底太差，做完了看着像个风车，而不是摩天轮
+&lt;embed src="http://player.youku.com/player.php/sid/XNjY2MzQ0MDg4/v.swf" allowFullScreen="true" quality="high" width="480" height="400" align="middle" allowScriptAccess="always" type="application/x-shockwave-flash"&gt;&lt;/embed&gt;&lt;/p&gt;
+&lt;h3&gt;暑假：四川&lt;/h3&gt;
+&lt;p&gt;暑假刚开始时，实验室的四个男同胞决定一起去四川旅游，爬峨眉山，游九寨沟。到了我们临走的那段时间，每天成都都会有大雨，暴雨等各种新闻和预警，听的我们胆战心惊，但最终还是决定去碰碰运气。我们都到了火车上，听到的都是暴雨红色，橙色预警，峨眉山封山，九寨沟滞留等消息，只能说我们淡淡的有些愁。不过幸运的是，在我们计划中去峨眉山的前一天晚上7点钟，四川新闻里报道了峨眉山开始迎接旅客的消息。这样的结果就是，第二天我们在爬山的过程中，一路都看不到几个游客。我们的游览路线是从山脚下一路爬山到金顶，全程需要两天多的时间。路上我们背着所有的干粮，巧克力，还有洗漱用品和换洗衣服。都说成都一年见不到几天太阳，我们在山脚下还是阴天，爬到下午的时候就看到了太阳，往下看则什么也看不到，说明我们爬到了一片云的上面了。峨眉山的猴子远近闻名，刚开始爬山的时候大家还在讨论能不能看到猴子。中途有一个旅游景点，就是专门看猴子的，有工作人员喂猴子，游客拍照。从这个旅游景点，我们对猴子的美好印象彻底没了。我们走着走着，就有一只猴子过来抢我的背包，当然它没抢走，只是撕烂了我的包，然后把一瓶可口可乐拿走喝掉了。我的拿剪刀都不那么好弄破的背包，就这么被它轻松的撕了个大口子。再往前走，路上都没什么游客了，就听着上面有人大叫。走进一看，又一个人的包被猴子抢走了。几只猴子挡在路中间，把他包里的东西都翻了出来，拿着方便面什么的就开始吃。包里的手机，衣服什么的散落了一地。猴子们看我们一群人在一起，就又叫了点猴子来把我们围了起来。多亏我们中的一个游客带了个高级的手电，可以放电，噼里啪啦的吓走了猴子们。之后的行程中，总能看到一只两只的猴子来路上盯着我们。根据工作人员讲，它们对男的不会太敢下手，一般见到女的就会去抢了。到第一天结束的时候，我们感觉腿都要断了，肩膀也快折了，还好路上看到了一家寺庙，就进去借宿了一宿。虽然是夏天，但是山上非常冷，尤其住进一个漏风的禅房里，我不得不把带的衣服全都穿上才能睡着。一直爬到第二天晚上我们才接近了山顶，住在了太子坪的寺庙。路上又起雾了，空气湿度达到了100%,都可以看到雨滴在眼前形成，从眼前开始下雨。这个庙里的住持人很好，还叫我们有兴趣的一起去做功课，一大群人一起念经很有意思，我还和住持聊了一会儿天，感觉很好。&lt;/p&gt;
+&lt;p&gt;第三天要登金顶看日出，5点我们就出发了，一路上黑的伸手不见五指。等6点多天蒙蒙亮，我就发现，雾大的伸手不见五指。于是看日出的美好愿望就泡汤了。峨眉山之旅以2天海拔3千米，山路70公里告一段落。
+回到成都以后，九寨沟依然封路不能进，而我们已经爬山爬废了，不可能再去青城山走一圈，地图找来找去就决定去康定玩一玩。草原很美，不过一路只是观景没什么特别的事情。&lt;/p&gt;
+&lt;p&gt;&lt;img alt="师兄和漏风的禅房" src="/image/2013review/1.JPG" /&gt;
+&lt;img alt="走着走着天晴了" src="/image/2013review/2.JPG" /&gt;
+&lt;img alt="师兄和第二天更惨的禅房" src="/image/2013review/3.JPG" /&gt;
+&lt;img alt="能看到那个大佛吗" src="/image/2013review/4.JPG" /&gt;
+&lt;img alt="草原很美" src="/image/2013review/5.JPG" /&gt;&lt;/p&gt;
+&lt;h3&gt;第二学期&lt;/h3&gt;
+&lt;p&gt;第二学期就无聊一些了，刚开始的大部分时间在读论文，准备硕士开题，我的毕设主要是做视觉目标跟踪。好日子两个月就结束了。从11月开始，我的大老板和小老板不加沟通的一起给我安排了好多任务。小老板要我突击给一个项目做软件，其实做的软件并不复杂，只是时间太紧了，突击的很痛苦。同时大老板要求做一个用于机电控制课程的教学工具，初期是一个通过摄像头自主巡线的小车，要求通过手机来采集数据并输出控制量，第二阶段是把小车换成四旋翼，简单的通过视觉跟踪地面上的一个简单的目标。这两件事情外加开题答辩的事情，让我焦头烂额，最后还去上海出了差。这期间我还评选上了优秀研究生，有种痛并快乐着的感觉。&lt;/p&gt;
+&lt;p&gt;总体来说，今年很有意思，干了好多好多的事情。而且现在女朋友加我的师兄弟们一起打dota成了项目组的娱乐活动，每天生活还是很开心的。&lt;/p&gt;</description><dc:creator xmlns:dc="http://purl.org/dc/elements/1.1/">清风未明</dc:creator><pubDate>Sun, 26 Jan 2014 13:54:36 +0800</pubDate><guid>tag:ghdawn.me,2014-01-26:2014-01-26-review-2013.html</guid><category>life</category></item><item><title>"又是octopress博客的问题"</title><link>http://ghdawn.me/2012-12-02-octopress-pro.html</link><description>&lt;p&gt;假期换了电脑，在新电脑上写了博客，但是怎么也提交不上去，一直提示：&lt;/p&gt;
 &lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="cp"&gt;## Pushing generated _deploy website&lt;/span&gt;
 &lt;span class="n"&gt;Everything&lt;/span&gt; &lt;span class="n"&gt;up&lt;/span&gt;&lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="n"&gt;to&lt;/span&gt;&lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="n"&gt;date&lt;/span&gt;
 &lt;/pre&gt;&lt;/div&gt;
@@ -1059,7 +1086,33 @@ make install
 &lt;/ol&gt;
 &lt;p&gt;经过这几步以后，就会在&lt;em&gt;release/bin&lt;/em&gt;文件夹下生成所需要的&lt;em&gt;gdb&lt;/em&gt;文件，把这个文件复制到开发板上就可以运行了。&lt;/p&gt;
 &lt;h3&gt;注意&lt;/h3&gt;
-&lt;p&gt;交叉编译的时候会出现这样一个问题：交叉编译器使用的&lt;em&gt;GLIBC&lt;/em&gt;版本高于嵌入式Linux里的版本，这会导致可执行文件在开发板里无法运行。而给开发板里更新&lt;em&gt;GLIBC&lt;/em&gt;是一个十分困难的事情，目前我没有找到相关的资料，所以最好还是选择和开发板匹配的交叉编译器。&lt;/p&gt;</description><dc:creator xmlns:dc="http://purl.org/dc/elements/1.1/">清风未明</dc:creator><pubDate>Mon, 30 Jul 2012 20:53:00 +0800</pubDate><guid>tag:ghdawn.me,2012-07-30:2012-07-30-crossgdb.html</guid><category>嵌入式</category><category>Linux</category></item><item><title>"使用单片机Arduino(AVR)与Android设备通讯"</title><link>http://ghdawn.me/2012-05-04-android-arduino.html</link><description>&lt;h3&gt;简述需求&lt;/h3&gt;
+&lt;p&gt;交叉编译的时候会出现这样一个问题：交叉编译器使用的&lt;em&gt;GLIBC&lt;/em&gt;版本高于嵌入式Linux里的版本，这会导致可执行文件在开发板里无法运行。而给开发板里更新&lt;em&gt;GLIBC&lt;/em&gt;是一个十分困难的事情，目前我没有找到相关的资料，所以最好还是选择和开发板匹配的交叉编译器。&lt;/p&gt;</description><dc:creator xmlns:dc="http://purl.org/dc/elements/1.1/">清风未明</dc:creator><pubDate>Mon, 30 Jul 2012 20:53:00 +0800</pubDate><guid>tag:ghdawn.me,2012-07-30:2012-07-30-crossgdb.html</guid><category>嵌入式</category><category>Linux</category></item><item><title>"我的木碗中的宇宙"</title><link>http://ghdawn.me/2012-06-26-drawing.html</link><description>&lt;p&gt;某天上网，突然看到豆瓣的推荐里有&lt;a href="http://www.douban.com/group/topic/28764390/"&gt;这样&lt;/a&gt;一篇文章，讲了在碗里画一个很好看的宇宙的方法。我感觉很好看，就想做一个给女朋友。&lt;/p&gt;
+&lt;p&gt;先在淘宝上买一些设备：&lt;a href="http://trade.taobao.com/trade/detail/tradeSnap.htm?tradeID=169551961541722"&gt;木碗&lt;/a&gt;，&lt;a href="http://trade.taobao.com/trade/detail/tradeSnap.htm?tradeID=133675131561722"&gt;颜料&lt;/a&gt;,会送颜料盘和画笔,和&lt;a href="http://trade.taobao.com/trade/detail/tradeSnap.htm?tradeID=169545961751722"&gt;水晶滴胶&lt;/a&gt;,会送量杯。&lt;/p&gt;
+&lt;p&gt;我是参照网上的一副银河系想象图来画的：
+&lt;img alt="银河系图" src="http://scitech.people.com.cn/mediafile/200901/08/F200901080855162169116821.jpg" /&gt;&lt;/p&gt;
+&lt;h3&gt;涂背景层&lt;/h3&gt;
+&lt;p&gt;首先用黑色的颜料涂满碗内部，作为宇宙的背景，然后用牙签点着白色的颜料来画星星。这里最好用水稀释一点儿，一点就够了。直接图颜料会变得和山一样，不好看，多了以后颜色会太稀。等颜料完全干了就可以灌水晶胶了。&lt;/p&gt;
+&lt;p&gt;水晶胶可以滴的厚一点，这样后面的立体感才会强。但是太厚的话在胶变干的时候会产生很大的热量，据商家说会对颜料有损坏，所以说不能滴的太厚。这个自己斟酌。
+大约二十小时左右胶会干透，变硬。效果如图：
+&lt;img alt="背景层" src="/image/WP_000194.jpg" /&gt;&lt;/p&gt;
+&lt;h3&gt;底色&lt;/h3&gt;
+&lt;p&gt;首先选择银核的位置，用白色-黄色-肉色的顺序向外渐变的画。白色是主要的颜色，黄色的作用是让银核变得非常亮，肉色只是为了让边沿变暗，以和紫色相接。&lt;br /&gt;
+涂好银核后，从边界开始向外刷底色紫。我的涂法是在画笔的一边涂上紫色，中间沾一点白色，然后一圈一圈的涂，让颜色尽量淡一点。这样底层的星星就变成有紫色有白色的了。&lt;/p&gt;
+&lt;p&gt;最后还是等颜色干了上胶。&lt;/p&gt;
+&lt;p&gt;&lt;img alt="第二层的效果" src="/image/WP_000200.jpg" /&gt;&lt;/p&gt;
+&lt;h3&gt;主颜色层&lt;/h3&gt;
+&lt;p&gt;主颜色层由蓝色，紫色组成。不过还是先涂一下白色的银核，可以淡一点，透过这一层还能看到下一层的银核。&lt;/p&gt;
+&lt;p&gt;画好后，还是从中心向外涂色。先在画笔的一边上沾一些紫色，涂几圈。这时候不用洗掉，在灵另一边直接涂上蓝色，让笔上同时有两种颜色，接着涂几圈。最后以蓝色为主收场。不过颜色只要一点就好，让水多一些。颜料太浓会很难看，比如： &lt;br /&gt;
+&lt;img alt="颜色浓了点" src="/image/WP_000211.jpg" /&gt;&lt;/p&gt;
+&lt;p&gt;这样涂好了以后，在画笔上沾很多水，从中心用水涂出去，把颜色混合起来，这样就会产生渐变色的效果。同时颜色变淡以后，就可以看到下一次的星星有很多的颜色。&lt;/p&gt;
+&lt;p&gt;然后上胶覆盖了。&lt;/p&gt;
+&lt;h5&gt;注意！&lt;/h5&gt;
+&lt;p&gt;渐变色是需要混合的，但是不能用水把两中颜色调和在一起，这样只会产生一种新的颜色，而不是两个颜色的渐变。渐变色就需要在画笔上同时涂一些颜色，然后混合在一起，反复刷上去。&lt;/p&gt;
+&lt;p&gt;&lt;img alt="半成品" src="/image/WP_000220.jpg" /&gt;&lt;/p&gt;
+&lt;h3&gt;最后一次上色&lt;/h3&gt;
+&lt;p&gt;这样的颜色还是有一些浓，所以最后一层上用非常非常淡的紫色和蓝色加一个虚无缥缈的雾层，当然要把银核的位置空过去。然后用牙签点上白色的旋转的旋臂，从小到大的旋转起来。&lt;/p&gt;
+&lt;p&gt;&lt;img alt="最后一层" src="/image/WP_000226.jpg" /&gt;&lt;/p&gt;
+&lt;p&gt;我没有加夜光层，因为我买来的夜光涂料颜色一点也不好看，涂上只会让效果变差。&lt;/p&gt;</description><dc:creator xmlns:dc="http://purl.org/dc/elements/1.1/">清风未明</dc:creator><pubDate>Tue, 26 Jun 2012 12:57:00 +0800</pubDate><guid>tag:ghdawn.me,2012-06-26:2012-06-26-drawing.html</guid><category>life</category></item><item><title>"使用单片机Arduino(AVR)与Android设备通讯"</title><link>http://ghdawn.me/2012-05-04-android-arduino.html</link><description>&lt;h3&gt;简述需求&lt;/h3&gt;
 &lt;p&gt;现在的Android设备，像手机，平板等，有很多的资源，比如照相机，音箱等,同时CPU已经很好，运算能力很强。功能十分丰富，但是必须得人手操控才能使用。这么丰富的资源，如果能自动做点事情，或者作为一个控制核心控制其它的东西就更好了，所以Google官方提供了一种方法，将Android设备按附件模式与一个有&lt;a href="http://baike.baidu.com/view/1402520.htm?fromTaglist"&gt;USB Host&lt;/a&gt;的设备相连，两者通过USB接口相连传输数据，从而实现通过单片机操控手机。（&lt;a href="http://zh.wikipedia.org/zh-cn/USB"&gt;USB&lt;/a&gt;是主从结构的总线，这里要求Android设备作为从机，单片机作为主机，而一般的开发板附带的usb口都是client，如果需要做这个实验，则需要买&lt;a href="http://item.taobao.com/item.htm?id=12892248805"&gt;有USB Host的开发板&lt;/a&gt;，或者买专门的 USB host shield模块放在开发板上。）&lt;/p&gt;
 &lt;p&gt;在这里，Google要求Android平台的版本至少为2.3.3，单片机要求实现了&lt;em&gt;Android Accessory Protocol&lt;/em&gt;协议。其中Google官方支持了一个开源硬件平台&lt;a href="http://www.arduino.cc/"&gt;Arduino&lt;/a&gt;。现阶段，Android只能支持一个USB设备，不过能满足大部分需求了。&lt;/p&gt;
 &lt;p&gt;Google官方提供了一个简洁的教程（&lt;a href="http://developer.android.com/guide/topics/usb/adk.html"&gt;Arduino&lt;/a&gt;部分，与&lt;a href="http://developer.android.com/guide/topics/usb/accessory.html"&gt;Android&lt;/a&gt;部分，以及一份代码示例（包括Android与Arduino部分，在对应的网页里下）。但是教程过于简洁而示例过于复杂：直接按照教程做，很多地方无从下手。按照代码改，代码结构又过于复杂，依然不好下手。于是我在这里耽误了一天多的时间。&lt;/p&gt;
@@ -1780,7 +1833,33 @@ OpenCV的函数如下，前两个参数和高斯滤波一样，第3，4个参数
 &lt;/pre&gt;&lt;/div&gt;
 
 
-&lt;p&gt;对于直线等其他的图形，也是同样的解析方式，只要把所有图形存下来就可以绘制了~~&lt;/p&gt;</description><dc:creator xmlns:dc="http://purl.org/dc/elements/1.1/">清风未明</dc:creator><pubDate>Thu, 15 Mar 2012 18:57:00 +0800</pubDate><guid>tag:ghdawn.me,2012-03-15:2012-03-15-study-android-1.html</guid><category>Codes</category><category>Android</category><category>Linux</category></item><item><title>"关于在64位Linux上编译安装OpenCV的问题"</title><link>http://ghdawn.me/2012-02-25-64-open-cv.html</link><description>&lt;p&gt;出于某些需要，我想装个OpenCV做一下图像相关的试验，于是我在&lt;a href="http://sourceforge.net/projects/opencvlibrary/"&gt;SourceForge&lt;/a&gt;中下载了最新的OpenCV2.3.1，并找到这个非常详细的&lt;a href="http://www.ozbotz.org/opencv-installation/"&gt;安装教程&lt;/a&gt;编译安装。但是这里出了两个问题。&lt;/p&gt;
+&lt;p&gt;对于直线等其他的图形，也是同样的解析方式，只要把所有图形存下来就可以绘制了~~&lt;/p&gt;</description><dc:creator xmlns:dc="http://purl.org/dc/elements/1.1/">清风未明</dc:creator><pubDate>Thu, 15 Mar 2012 18:57:00 +0800</pubDate><guid>tag:ghdawn.me,2012-03-15:2012-03-15-study-android-1.html</guid><category>Codes</category><category>Android</category><category>Linux</category></item><item><title>"我关于考研的一点经验"</title><link>http://ghdawn.me/2012-02-28-kao-yan-jing-yan.html</link><description>&lt;p&gt;从昨天下午开始查分起，身边就不断爆出各种400+的分数，最高有430+，本班也有420+。我的分数是398，其中政治57，英语66，数学145，专业课130。不知道在总体排名怎么样，但是对我来说这是一个很让我满意的分数。我也不怕丢人，就抛砖引玉说一点我的考研经验，望后人能有所借鉴。&lt;/p&gt;
+&lt;h3&gt;关于时间安排&lt;/h3&gt;
+&lt;p&gt;我是从8月底开始准备的，但是很不认真，一直到10月开始真正非常认真的做准备。虽然时间倒是够了，我心态也还可以，但是凭心而论，这个时间太紧了。在十月十一月的时候，我每天时间安排的非常满，生怕到考前还复习不完。这样的感觉很不舒服，要不是我对数学和专业课比较感兴趣，恐怕没法保持这么好的心态。毕竟身子后面一个大石头追着的感觉不好。建议大家从8月就开始认真点儿的准备。&lt;/p&gt;
+&lt;p&gt;我的同学有复习到很晚，早上起的很早的。我不认真的时候每天10点回宿舍，早上10点出发，中午要睡觉。认真的时候早上9点出发，中午还要睡一会儿，晚上11点半回宿舍。其区别不在时间长短，而在学习的状态。我个人感觉睡觉是很重要的，十分不建议大家晚上太晚，十二点多也就够了，可别熬着过，太痛苦了。中午我也要睡一会儿，图书馆很多中午不会宿舍的同学，但是他们也会撑不住，趴在桌子上睡觉。所以还是回宿舍睡觉比较舒服。&lt;/p&gt;
+&lt;h3&gt;关于辅导班&lt;/h3&gt;
+&lt;p&gt;我很重视这个考试，上了不少辅导班：海天政治强化，海天政治冲刺，新东方英语强化，和新东方英语强化班附赠的 政治，数学，英语串讲班。我的政治非常差，所以上完海天政治班，我从一点不知道变成知道了一些，感觉还有所收获，就又报了海天的政治冲刺。但是海天的教学环境，无法让人感觉是一个正规的教育机构，课都是几千人在大礼堂，在体育馆上的。后来听了上了新东方送的政治课，我感觉新东方还是略胜一筹，老师讲课有板书，上课有桌子，这样的感觉才是在上课，才像一个正规的教育机构。
+所以我的感想是，新东方真的是教育机构，且不说老师的情况，新东方是在上课，有桌子有凳子，让你感觉是在学习。海天则像个骗子，把学生放到大礼堂，体育馆，好几千号人坐着听大喇叭里传出来的声音：这个划一下，这个是重点……所以我极其不推荐大家报海天，那感觉，真心差&lt;/p&gt;
+&lt;h3&gt;关于政治&lt;/h3&gt;
+&lt;p&gt;我比较差才57，大家千万好好学习啊！要好好背，至于上什么辅导班买什么书，其实都一样，内容就那些，关键是买回来了要背，反复背。。。我就是不好好背的前车之鉴&lt;/p&gt;
+&lt;h3&gt;关于数学&lt;/h3&gt;
+&lt;p&gt;这个才是重点，要知道得数学专业课者得天下，这是豆瓣经验帖里我看来的。我的复习过程是：看课本-&amp;gt; 做复习全书 -&amp;gt;做真题专项 -&amp;gt; 做真题卷。我感觉最重要的步骤就是做全书和真题卷。我在第一步复习的时候走了误区，课本看的太细，甚至借了几本外文教材细扣线性代数，看了一些群、环论的东西。但是后来发现，准备考试不能这样，就做了李永乐的&lt;a href="http://book.douban.com/subject/4398150/"&gt;数学复习全书&lt;/a&gt;，这个书很厚，做起来很痛苦，刚做也有点难度，因为里边不少真题，和真题的改编版。但是希望大家能认真做一遍，确实有效果。至于看网上人说的做好几遍，我觉得没有必要了，这个书还是以学习为主，而不是巩固。而且时间不允许，除非从2，3月份开始复习。第三步，我借的是一本西交大出的&lt;a href="http://book.douban.com/subject/6394719/"&gt;历年真题分类解析&lt;/a&gt;。其实我感觉是这样，如果不愿意做那么厚的复习全书，完全可以通过这一步来代替。先看一遍课本相关的部分，然后开始做一个分类，这里收录了从84开始的历年数学真题，绝对有实战价值。我因为做了全书，在做这个就不那么痛苦了，也就再没看课本，直接刷题。到12月左右就做完了高数和线代，概率实在做不下去了，就停止了。&lt;/p&gt;
+&lt;p&gt;这期间我找过我的数学老师lhy，她绝对是一个非常好的老师，很热情的给我讲了一些题，并给我提出了一个高效率的复习方法，就是我最后一步，分享给大家：就是反复做真题卷，成套的做。历年的真题卷叠加在一起，正好就是考研的重点内容的合辑。很容易可以知道那里是重点，那里掌握的不好。一遍又一遍的做。刚开始可能每天只能做一份，分析，查错，然后改错，学习。后来每天就能三五份，再就10多份，反正就轮着来，一遍又一遍，让所有方法，定理，概念，公式烂熟于心。而且考研的时候，最大的问题并不是不会做，而是根本做不完。要知道考研数学基础题占近130分，这些都是不那么难，但是需要计算量的题目。根据我的亲身经历，考研数学结束的时候，很多同学都还没有做完卷子，而最后的几道概率题全是典型题，丢了太可惜。所以反复做真题，熟悉卷子结构，也了解自己的速度，这样在考场上就能把握好时间，不至于做不完卷子。今年考试的时候，我就提前了近一个小时做完第一遍，有充分的时间再检查几遍。所以数学才能考145的成绩，我个人十分满意。&lt;/p&gt;
+&lt;h3&gt;关于英语&lt;/h3&gt;
+&lt;p&gt;每年都有同学英语单科不过线，从而饮恨。用新东方老师的话说，考研英语的目的就是刷人，没别的，所以题目很恶心。这个一定要重视起来，最好能很早开始背单词。我就是因为时间不够，没有背单词，词汇表才背了3个list，所以很吃亏。英语的一切都可以归结为翻译，无论是完形，阅读，还是写作，都是英汉互译的过程，所以可以通过翻译来练。我用的新东方唐静的&lt;a href="http://book.douban.com/subject/5991129/"&gt;考研英语拆分与组合翻译法:2012&lt;/a&gt;，保证每天至少练一句，积少成多，从96年到11年的翻译题我全都做了 一遍，这对我做阅读和写作都很有帮助，因为翻译的句子都是长难句。建议大家先看看语法书，然后练习练习拆分句子结构，对英语考试很有帮助。只要每天坚持做翻译，这10分大部分都能到手。阅读也必须每天做，随便找一本真题，就开始做把，先读一遍，然后做题，做完不对答案，直接开始翻译文章，查字典，顺便记几个单词。不管读的时候看懂了没有，翻译过后应该都能懂了，再做一遍，看看有没有不一样，然后再对答案。这样读一段时间以后，阅读也会提高的。可惜我复习的时间太短了，达不到我其他同学的水平。但是对自己来说，从平均错10个到后来的5个，后来的3个，已经让我很满意了。至于写作，我不建议大家背模版，根本就是扯淡，我建议大家找一些优秀真题作文，去翻译他们的作文，然后看着译文再翻译成英文，这样来几篇，自己的思路就会出现了。然后可以开始写作，每周坚持至少一篇应该够了。&lt;/p&gt;
+&lt;h3&gt;关于专业课&lt;/h3&gt;
+&lt;p&gt;专业课都是我比较喜欢的课，我就翻来覆去看书，做真题卷子，不断往现实项目里对比，很快就搞定了。重点就在真题卷子，不管考哪个学校，想办法要到真题卷和对应的课本，出题必在其中，多做几套就很清楚了。&lt;/p&gt;
+&lt;p&gt;愿大家都考研成功，最后给大家一句话：秦人不暇自哀，而后人哀之。后人哀之而不鉴之，亦使后人而复哀后人也。&lt;/p&gt;</description><dc:creator xmlns:dc="http://purl.org/dc/elements/1.1/">清风未明</dc:creator><pubDate>Tue, 28 Feb 2012 15:42:00 +0800</pubDate><guid>tag:ghdawn.me,2012-02-28:2012-02-28-kao-yan-jing-yan.html</guid><category>考研</category></item><item><title>"考研一学期的感想"</title><link>http://ghdawn.me/2012-02-28-kao-yan-gan-xiang.html</link><description>&lt;p&gt;我从一开始就希望上研究生，但是又不愿意三年的时间全部花在课本之上去争取保研资格，而学校的冯如杯又不是那么靠谱，那么考研就是我唯一的方式了。从大四开学以后到昨天下午查分，我终于经历了一次完整的大考历程。&lt;/p&gt;
+&lt;p&gt;刚开始准备考研的时候，总听说考自己学校容易，开学了再准备也来得及，于是我从8月底开始，很悠闲的度过了考研的第一个月。开学了我也不着急，每天按时上课，按时写作业，和保研了的女朋友一起自习，时不时再打会儿游戏。每周的生活节奏真是不错，唯一能看出来我是准备考研的，就是周末我需要去上新东方的英语强化班。&lt;/p&gt;
+&lt;p&gt;这样的情况持续到了十一，我的政治差到无极限，我很害怕政治单科不过线，所以慕名报了海天酱油的政治班。这期间我才开始感受到了考研的气氛，因为其政治班是在社院大礼堂内，足足坐了一千多号人，过道里都挤满了人。我才反应过来，考研的人很多，不是我想想的那么没有竞争~~连续7天每天从早上到下午的政治课，让我都快吐血了，我开始觉得考研不是那么容易了。回学校以后我找了学长，和一起考研的同学们聊天，我才知道反应过来：&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;我认识的学长们，没有考上的研究生。因为要么他们是保送的，要么是考研没考上。考自己的学校，还没有一个考上的。而具学长透漏，每年考上我们院的学生中，有三分之一北航的同学，就是多的了。我不禁觉得有点恐怖了，这可怕的事情。&lt;/li&gt;
+&lt;li&gt;我找到了机器人所的招生信息，去年的分数线是355，而最后一名考上的则是360+。换句话说考不上370就很悬。而且每年的招生名额不到30人，还包括已经保送的十几个同学。&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;我这才反应过来，难怪其他同学都那么刻苦，我每天10点多回宿舍，他们都还在自习。我一贯自习的三号楼二楼只开到10点，然后我就和女朋友回宿舍了。而我的同学都在11点半关门的新主楼，和通宵的三号楼三楼自习，和考研的人一起自习，互相监督。我当时就觉得，这样下去我必然是考不上的。还好我亲爱的女朋友给了我很大的支持，她说之后这段时间不需要我陪她，让我去和考研的人一起，自己安排时间，不等她，不陪她。于是那天起，我开始第一轮认真复习。几天后，由于数学已经大概过了一遍课本，自我感觉还不错，我做了一套2001年的数学真题。结果却是，只会做六十多分的题，还没全做对。我不敢说我是忘了，我知道我从一开始就没学好。&lt;/p&gt;
+&lt;p&gt;之后每天我去图书馆自习，开始做&lt;a href="http://book.douban.com/subject/4398150/"&gt;数学复习全书&lt;/a&gt;，个人感觉这个书还不错，就是太厚了，做的人很痛苦。另外根据新东方老师的建议，专门拿一个本子每天做真题翻译，每周做真题阅读的翻译。还好我个人对数学比较有好感，这段时间并没有像其他人说的那么痛苦，倒是不断的发现数学很有意思，并且自省当初为何不认真学数学。周边的同学大都是考研的，有的人很认真一直在看书做题，有的人则经常玩手机，一玩就是一上午一下午。我就尽量挑印象里很认真的同学，想办法坐到他们旁边，因为我一向容易思想跑毛，希望这样来互相监督。实在不想学习了，我就去借一本计算机的书看看~~~有个兴趣爱好真不错。不过到后来，座位渐渐很难找到了。图书馆的座位一向紧张，我一直以为只是因为人多。但是经过我的观察，很多同学一个人要占两个座位，并不是给同学，而是方便自己放书，衣服，包。我观察到很多同学这里有个座位，坐着学习，过一会儿去旁边的一个堆满了书的座位换个书，再回来。更有甚者，只是为了防止下午太阳太晒，就占两个座位，有太阳了可以方便离开。实在太过分了！&lt;/p&gt;
+&lt;p&gt;到了十一十二月，我听从老师的建议开始刷数学真题，一遍一遍做，把课本的所有知识点全部过了几遍。同时开始准备专业课。我的专业课是动力学，自动控制和微机原理，都是很实用的课，我学的时候感觉也很好，反复看几遍书都觉得很有意思。唯一不好的就是政治，怎么也记不住。后来同学推荐，我买了一个海天出的小册子，没事就拿出来背一背，倒是还有些用处。起码不太担心过不了线了。再加上其他的几课也看的腻歪了，考前半个月就有点不想看的感觉。我就每天在宿舍打一盘dota，或者看会儿电影，放松一下心情。&lt;/p&gt;
+&lt;p&gt;其实考研的整个过程，除了政治学的比较痛苦，其他的感觉还可以，我也没有太紧张，我的爸妈女朋友也都在安慰我，再加上自我感觉复习的还不错，我心态保持的很好。由于每天刚开始过的太悠闲，中间看上去貌似悠闲（没有太早起，中午照常睡觉），加上后来玩游戏，我的舍友说我要是能考上，那就是个奇迹~~看来，还不错！&lt;/p&gt;</description><dc:creator xmlns:dc="http://purl.org/dc/elements/1.1/">清风未明</dc:creator><pubDate>Tue, 28 Feb 2012 14:40:00 +0800</pubDate><guid>tag:ghdawn.me,2012-02-28:2012-02-28-kao-yan-gan-xiang.html</guid><category>考研</category></item><item><title>"关于在64位Linux上编译安装OpenCV的问题"</title><link>http://ghdawn.me/2012-02-25-64-open-cv.html</link><description>&lt;p&gt;出于某些需要，我想装个OpenCV做一下图像相关的试验，于是我在&lt;a href="http://sourceforge.net/projects/opencvlibrary/"&gt;SourceForge&lt;/a&gt;中下载了最新的OpenCV2.3.1，并找到这个非常详细的&lt;a href="http://www.ozbotz.org/opencv-installation/"&gt;安装教程&lt;/a&gt;编译安装。但是这里出了两个问题。&lt;/p&gt;
 &lt;h3&gt;第一个问题&lt;/h3&gt;
 &lt;p&gt;OpenCV2.3.1要求ffmpeg0.8的版本，这个版本高了或者低了我都出现了编译错误。OpenCV2.3和以前的则需要低一点，系统自带的版本是低版本，需要卸载老版本，重新编译安装x264和ffmpeg。网上总是有很多坑爹的完全一样的安装指导，可惜都不能用。  &lt;/p&gt;
 &lt;h3&gt;第二个问题&lt;/h3&gt;

@@ -94,7 +94,7 @@
                 <h1><a href="./2015-04-15-logistic_regression.html">机器学习笔记——逻辑回归(LogisticRegression)</a></h1>
                 <div class="well small"><footer class="post-info">
 <span class="label">Date</span>
-<abbr class="published" title="2015-04-15T16:05:55">
+<abbr class="published" title="2015-04-15T16:05:55+08:00">
         <i class="icon-calendar"></i>三 15 四月 2015
 </abbr>
 <span class="label">By</span>
@@ -108,7 +108,7 @@
 	<a href="./tag/codes.html"><i class="icon-tag"></i>Codes</a>
 </footer><!-- /.post-info --></div>
                 <div class="summary"><h3>基本概念</h3>
-<p>逻辑回归是一种线性分类的方法，通过给定一些样本空间中的样本点，训练出一条直线（超平面)，使得样本点能被较好的分隔开。
+<p>逻辑回归是一种线性分类的方法，通过给定一些样本空间中的样本点，训练出一条直线（超平面)，使得样本点能被较好的分隔开。由于它训练的结果也是一条直线，因此被称为回归(属于线性回归)，只是线性回归得到的直线用来拟合样本点，而逻辑回归得到的直线用来分隔样本点。
 设<span class="math">\(\theta=[\theta_1 \theta_2 \cdots \theta_n]^T\)</span>为分类面参数，<span class="math">\(x=[x_1 x_2 \cdots x_n]^T\)</span>，则有：
 </p>
 <div class="math">$$
@@ -119,10 +119,64 @@ h_\theta(x)=
 \end{cases}
 $$</div>
 <p>
-通过这样拟合直线的方式就可以得到一组参数，将样本分为两类。</p>
-<p>引入S函数(也称作Logistic函数)：
+通过这样拟合直线的方式就可以得到一组参数，直接将样本分为两类。上式方程相当于引入了阶跃函数:
 </p>
-<div class="math">$$sigmoid(x)=\frac{1}{1 ...</div>
+<div class="math">$$
+h_\theta(x)=step_0(\theta^T \cdot x)
+$$ ...</div><script type='text/javascript'>if (!document.getElementById('mathjaxscript_pelican_#%@#$@#')) {
+    var align = "center",
+        indent = "0em",
+        linebreak = "false";
+
+    if (false) {
+        align = (screen.width < 768) ? "left" : align;
+        indent = (screen.width < 768) ? "0em" : indent;
+        linebreak = (screen.width < 768) ? 'true' : linebreak;
+    }
+    
+    var mathjaxscript = document.createElement('script');
+    mathjaxscript.id = 'mathjaxscript_pelican_#%@#$@#';
+    mathjaxscript.type = 'text/javascript';
+    mathjaxscript.src = '//cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML';
+    mathjaxscript[(window.opera ? "innerHTML" : "text")] =
+        "MathJax.Hub.Config({" +
+        "    config: ['MMLorHTML.js']," +
+        "    TeX: { extensions: ['AMSmath.js','AMSsymbols.js','noErrors.js','noUndefined.js'], equationNumbers: { autoNumber: 'AMS' } }," +
+        "    jax: ['input/TeX','input/MathML','output/HTML-CSS']," +
+        "    extensions: ['tex2jax.js','mml2jax.js','MathMenu.js','MathZoom.js']," +
+        "    displayAlign: '"+ align +"'," +
+        "    displayIndent: '"+ indent +"'," +
+        "    showMathMenu: true," +
+        "    tex2jax: { " +
+        "        inlineMath: [ ['\\\\(','\\\\)'] ], " +
+        "        displayMath: [ ['$$','$$'] ]," +
+        "        processEscapes: true," +
+        "        preview: 'TeX'," +
+        "    }, " +
+        "    'HTML-CSS': { " +
+        "        styles: { '.MathJax_Display, .MathJax .mo, .MathJax .mi, .MathJax .mn': {color: 'inherit ! important'} }," +
+        "        linebreaks: { automatic: "+ linebreak +", width: '90% container' }," +
+        "    }, " +
+        "}); " +
+        "if ('default' !== 'default') {" +
+            "MathJax.Hub.Register.StartupHook('HTML-CSS Jax Ready',function () {" +
+                "var VARIANT = MathJax.OutputJax['HTML-CSS'].FONTDATA.VARIANT;" +
+                "VARIANT['normal'].fonts.unshift('MathJax_default');" +
+                "VARIANT['bold'].fonts.unshift('MathJax_default-bold');" +
+                "VARIANT['italic'].fonts.unshift('MathJax_default-italic');" +
+                "VARIANT['-tex-mathit'].fonts.unshift('MathJax_default-italic');" +
+            "});" +
+            "MathJax.Hub.Register.StartupHook('SVG Jax Ready',function () {" +
+                "var VARIANT = MathJax.OutputJax.SVG.FONTDATA.VARIANT;" +
+                "VARIANT['normal'].fonts.unshift('MathJax_default');" +
+                "VARIANT['bold'].fonts.unshift('MathJax_default-bold');" +
+                "VARIANT['italic'].fonts.unshift('MathJax_default-italic');" +
+                "VARIANT['-tex-mathit'].fonts.unshift('MathJax_default-italic');" +
+            "});" +
+        "}";
+    (document.body || document.getElementsByTagName('head')[0]).appendChild(mathjaxscript);
+}
+</script>
                         <a class="btn primary xsmall" href="./2015-04-15-logistic_regression.html">more ...</a>
                 </div>
         </div>
@@ -131,7 +185,7 @@ $$</div>
                 <h1><a href="./2014-07-24-toolsforpaper.html">记录写论文时用到的一些工具</a></h1>
                 <div class="well small"><footer class="post-info">
 <span class="label">Date</span>
-<abbr class="published" title="2014-07-24T17:35:07">
+<abbr class="published" title="2014-07-24T17:35:07+08:00">
         <i class="icon-calendar"></i>四 24 七月 2014
 </abbr>
 <span class="label">By</span>
@@ -163,7 +217,7 @@ $$</div>
                 <h1><a href="./2014-03-31-about-ardrone.html">关于ArDrone四旋翼 二次开发的一些记录</a></h1>
                 <div class="well small"><footer class="post-info">
 <span class="label">Date</span>
-<abbr class="published" title="2014-03-31T13:51:23">
+<abbr class="published" title="2014-03-31T13:51:23+08:00">
         <i class="icon-calendar"></i>一 31 三月 2014
 </abbr>
 <span class="label">By</span>
@@ -194,7 +248,7 @@ $$</div>
                 <h1><a href="./2014-02-01-select-feature.html">选择适合跟踪的特征点</a></h1>
                 <div class="well small"><footer class="post-info">
 <span class="label">Date</span>
-<abbr class="published" title="2014-02-01T21:47:04">
+<abbr class="published" title="2014-02-01T21:47:04+08:00">
         <i class="icon-calendar"></i>六 01 二月 2014
 </abbr>
 <span class="label">By</span>
@@ -230,7 +284,60 @@ b=\sum\sum
 \end{array}\right]
 $$</div>
 <p>
-从方程可以看出，当一个点周围的内容都一眼的话，<span class="math">\(I_x ...</span></p>
+从方程可以看出，当一个点周围的内容都一眼的话，<span class="math">\(I_x\) ...</span></p><script type='text/javascript'>if (!document.getElementById('mathjaxscript_pelican_#%@#$@#')) {
+    var align = "center",
+        indent = "0em",
+        linebreak = "false";
+
+    if (false) {
+        align = (screen.width < 768) ? "left" : align;
+        indent = (screen.width < 768) ? "0em" : indent;
+        linebreak = (screen.width < 768) ? 'true' : linebreak;
+    }
+    
+    var mathjaxscript = document.createElement('script');
+    mathjaxscript.id = 'mathjaxscript_pelican_#%@#$@#';
+    mathjaxscript.type = 'text/javascript';
+    mathjaxscript.src = '//cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML';
+    mathjaxscript[(window.opera ? "innerHTML" : "text")] =
+        "MathJax.Hub.Config({" +
+        "    config: ['MMLorHTML.js']," +
+        "    TeX: { extensions: ['AMSmath.js','AMSsymbols.js','noErrors.js','noUndefined.js'], equationNumbers: { autoNumber: 'AMS' } }," +
+        "    jax: ['input/TeX','input/MathML','output/HTML-CSS']," +
+        "    extensions: ['tex2jax.js','mml2jax.js','MathMenu.js','MathZoom.js']," +
+        "    displayAlign: '"+ align +"'," +
+        "    displayIndent: '"+ indent +"'," +
+        "    showMathMenu: true," +
+        "    tex2jax: { " +
+        "        inlineMath: [ ['\\\\(','\\\\)'] ], " +
+        "        displayMath: [ ['$$','$$'] ]," +
+        "        processEscapes: true," +
+        "        preview: 'TeX'," +
+        "    }, " +
+        "    'HTML-CSS': { " +
+        "        styles: { '.MathJax_Display, .MathJax .mo, .MathJax .mi, .MathJax .mn': {color: 'inherit ! important'} }," +
+        "        linebreaks: { automatic: "+ linebreak +", width: '90% container' }," +
+        "    }, " +
+        "}); " +
+        "if ('default' !== 'default') {" +
+            "MathJax.Hub.Register.StartupHook('HTML-CSS Jax Ready',function () {" +
+                "var VARIANT = MathJax.OutputJax['HTML-CSS'].FONTDATA.VARIANT;" +
+                "VARIANT['normal'].fonts.unshift('MathJax_default');" +
+                "VARIANT['bold'].fonts.unshift('MathJax_default-bold');" +
+                "VARIANT['italic'].fonts.unshift('MathJax_default-italic');" +
+                "VARIANT['-tex-mathit'].fonts.unshift('MathJax_default-italic');" +
+            "});" +
+            "MathJax.Hub.Register.StartupHook('SVG Jax Ready',function () {" +
+                "var VARIANT = MathJax.OutputJax.SVG.FONTDATA.VARIANT;" +
+                "VARIANT['normal'].fonts.unshift('MathJax_default');" +
+                "VARIANT['bold'].fonts.unshift('MathJax_default-bold');" +
+                "VARIANT['italic'].fonts.unshift('MathJax_default-italic');" +
+                "VARIANT['-tex-mathit'].fonts.unshift('MathJax_default-italic');" +
+            "});" +
+        "}";
+    (document.body || document.getElementsByTagName('head')[0]).appendChild(mathjaxscript);
+}
+</script>
                         <a class="btn primary xsmall" href="./2014-02-01-select-feature.html">more ...</a>
                 </div>
         </div>
@@ -239,7 +346,7 @@ $$</div>
                 <h1><a href="./2014-01-27-optical-flow-tracking.html">使用光流法跟踪图像中的点</a></h1>
                 <div class="well small"><footer class="post-info">
 <span class="label">Date</span>
-<abbr class="published" title="2014-01-27T18:51:02">
+<abbr class="published" title="2014-01-27T18:51:02+08:00">
         <i class="icon-calendar"></i>一 27 一月 2014
 </abbr>
 <span class="label">By</span>
@@ -269,7 +376,7 @@ $$</div>
                 <h1><a href="./2014-01-26-new-blog.html">更换了博客生成系统</a></h1>
                 <div class="well small"><footer class="post-info">
 <span class="label">Date</span>
-<abbr class="published" title="2014-01-26T15:59:15">
+<abbr class="published" title="2014-01-26T15:59:15+08:00">
         <i class="icon-calendar"></i>日 26 一月 2014
 </abbr>
 <span class="label">By</span>
@@ -294,7 +401,7 @@ $$</div>
                 <h1><a href="./2014-01-26-review-2013.html">我的2013回顾</a></h1>
                 <div class="well small"><footer class="post-info">
 <span class="label">Date</span>
-<abbr class="published" title="2014-01-26T13:54:36">
+<abbr class="published" title="2014-01-26T13:54:36+08:00">
         <i class="icon-calendar"></i>日 26 一月 2014
 </abbr>
 <span class="label">By</span>
@@ -355,14 +462,19 @@ $$</div>
 </li>
 
 <li class="nav-header"><h4><i class="icon-tags icon-large"></i>Tags</h4></li>
-<li class="tag-1">
-    <a href="./tag/codes.html">
-        <i class="icon-tag icon-large"></i>Codes
+<li class="tag-3">
+    <a href="./tag/opencv.html">
+        <i class="icon-tag icon-large"></i>OpenCV
     </a>
 </li>
 <li class="tag-2">
-    <a href="./tag/ji-suan-ji-shi-jue.html">
-        <i class="icon-tag icon-large"></i>计算机视觉
+    <a href="./tag/qian-ru-shi.html">
+        <i class="icon-tag icon-large"></i>嵌入式
+    </a>
+</li>
+<li class="tag-3">
+    <a href="./tag/ji-qi-xue-xi.html">
+        <i class="icon-tag icon-large"></i>机器学习
     </a>
 </li>
 <li class="tag-3">
@@ -370,9 +482,34 @@ $$</div>
         <i class="icon-tag icon-large"></i>life
     </a>
 </li>
+<li class="tag-1">
+    <a href="./tag/codes.html">
+        <i class="icon-tag icon-large"></i>Codes
+    </a>
+</li>
+<li class="tag-4">
+    <a href="./tag/automatic.html">
+        <i class="icon-tag icon-large"></i>automatic
+    </a>
+</li>
+<li class="tag-2">
+    <a href="./tag/boring.html">
+        <i class="icon-tag icon-large"></i>Boring
+    </a>
+</li>
 <li class="tag-3">
-    <a href="./tag/ji-qi-xue-xi.html">
-        <i class="icon-tag icon-large"></i>机器学习
+    <a href="./tag/kao-yan.html">
+        <i class="icon-tag icon-large"></i>考研
+    </a>
+</li>
+<li class="tag-2">
+    <a href="./tag/blog.html">
+        <i class="icon-tag icon-large"></i>blog
+    </a>
+</li>
+<li class="tag-2">
+    <a href="./tag/ji-suan-ji-shi-jue.html">
+        <i class="icon-tag icon-large"></i>计算机视觉
     </a>
 </li>
 <li class="tag-4">
@@ -381,38 +518,8 @@ $$</div>
     </a>
 </li>
 <li class="tag-2">
-    <a href="./tag/qian-ru-shi.html">
-        <i class="icon-tag icon-large"></i>嵌入式
-    </a>
-</li>
-<li class="tag-2">
-    <a href="./tag/boring.html">
-        <i class="icon-tag icon-large"></i>Boring
-    </a>
-</li>
-<li class="tag-2">
     <a href="./tag/android.html">
         <i class="icon-tag icon-large"></i>Android
-    </a>
-</li>
-<li class="tag-2">
-    <a href="./tag/blog.html">
-        <i class="icon-tag icon-large"></i>blog
-    </a>
-</li>
-<li class="tag-3">
-    <a href="./tag/python.html">
-        <i class="icon-tag icon-large"></i>Python
-    </a>
-</li>
-<li class="tag-3">
-    <a href="./tag/opencv.html">
-        <i class="icon-tag icon-large"></i>OpenCV
-    </a>
-</li>
-<li class="tag-4">
-    <a href="./tag/automatic.html">
-        <i class="icon-tag icon-large"></i>automatic
     </a>
 </li>
 <li class="tag-1">
@@ -421,8 +528,8 @@ $$</div>
     </a>
 </li>
 <li class="tag-3">
-    <a href="./tag/kao-yan.html">
-        <i class="icon-tag icon-large"></i>考研
+    <a href="./tag/python.html">
+        <i class="icon-tag icon-large"></i>Python
     </a>
 </li>
 
